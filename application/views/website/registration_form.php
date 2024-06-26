@@ -85,14 +85,20 @@
                     <div class="bs-stepper-content  py-3 px-lg-4 mx-lg-4">
                         <div id="scholarship-grant-information" class="content" role="tabpanel"
                             aria-labelledby="scholarship-grant-information-trigger">
-                            <h1 class="form-title">Scholarhip/Study Grant Information</h1>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <h1 class="form-title">Scholarhip/Study Grant Information</h1>
+                                <div class="d-flex gap-2">
+                                    <div>Deadline for filling:</div>
+                                    <div class="fw-bold text-primary">June 30, 2024</div>
+                                </div>
+                            </div>
                             <div class="py-3 ">
                                 <div class="mb-4">
                                     <div class="form-group">
-                                        <input type="text" id="scholarship-grant-information-input" class="input"
+                                        <input type="text" id="scholarship-grant-information-input" class="input input-first-step"
                                             required>
                                         <label for="scholarship-grant-information-input" class="label">Scholarship/Study
-                                            Grant being applied for</label>
+                                            Grant being applied for<span class="text-danger">*</span></label>
                                     </div>
                                 </div>
                                 <div class="d-flex justify-content-end">
@@ -109,29 +115,41 @@
                                     <div class="row row-cols-lg-3 gy-4 row-cols-1 mb-4">
                                         <div class="col">
                                             <div class="form-group">
-                                                <input type="text" id="name_of_applicant" class="input" required>
-                                                <label for="name_of_applicant" class="label">Name of applicant</label>
+                                                <input type="text" id="first_name" class="input input-second-step" required>
+                                                <label for="first_name" class="label">First Name<span class="text-danger">*</span></label>
                                             </div>
                                         </div>
                                         <div class="col">
                                             <div class="form-group">
-                                                <input type="text" id="course" class="input" required>
-                                                <label for="course" class="label">Course</label>
+                                                <input type="text" id="middle_name" class="input" required>
+                                                <label for="middle_name" class="label">Middle Name</label>
                                             </div>
                                         </div>
                                         <div class="col">
                                             <div class="form-group">
-                                                <input type="text" id="year_level" class="input" required>
-                                                <label for="year_level" class="label">Year Level</label>
+                                                <input type="text" id="last_name" class="input input-second-step" required>
+                                                <label for="last_name" class="label">Last Name<span class="text-danger">*</span></label>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="row mb-4">
+                                    <div class="row row-cols-lg-3 gy-4 row-cols-1 mb-4">
                                         <div class="col">
                                             <div class="form-group">
-                                                <input type="number" id="student_no" class="input" required>
+                                                <input type="text" id="student_no" class="input" required>
                                                 <label for="student_no" class="label">Student No.</label>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <input type="text" id="course" class="input input-second-step" required>
+                                                <label for="course" class="label">Course<span class="text-danger">*</span></label>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <input type="text" id="year_level" class="input input-second-step" required>
+                                                <label for="year_level" class="label">Year Level<span class="text-danger">*</span></label>
                                             </div>
                                         </div>
                                     </div>
@@ -141,25 +159,29 @@
                                     <div class="row row-cols-lg-4 row-cols-1 gy-4 mb-4">
                                         <div class="col">
                                             <div class="form-group">
-                                                <input type="text" id="place_of_birth" class="input" required>
-                                                <label for="place_of_birth" class="label">Place of Birth</label>
+                                                <input type="text" id="place_of_birth" class="input input-second-step" required>
+                                                <label for="place_of_birth" class="label">Place of Birth<span class="text-danger">*</span></label>
                                             </div>
                                         </div>
                                         <div class="col">
                                             <div class="form-group">
-                                                <input type="date" id="date_of_birth" class="input" required>
+                                                <input type="date" id="date_of_birth" class="input input-second-step" required>
                                             </div>
                                         </div>
                                         <div class="col">
                                             <div class="form-group">
-                                                <input type="text" id="citizenship" class="input" required>
-                                                <label for="citizenship" class="label">Citizenship</label>
+                                                <select id="citizenship" class="input input-second-step">
+                                                    <option value="">Select Citizenship<span class="text-danger">*</span></option>
+                                                    <option value="Filipino">Filipino</option>
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="col">
                                             <div class="form-group">
-                                                <input type="text" id="civil_status" class="input" required>
-                                                <label for="civil_status" class="label">Civil Status</label>
+                                                <select id="civil_status" class="input input-second-step">
+                                                    <option value="">Select Civil Status<span class="text-danger">*</span></option>
+                                                    <option value="Single">Single</option>
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
@@ -170,14 +192,14 @@
                                     <div class="row row-cols-lg-3 row-cols-1 gy-4 mb-4">
                                         <div class="col">
                                             <div class="form-group">
-                                                <input type="text" id="permanent_address" class="input" required>
-                                                <label for="permanent_address" class="label">Permanent Address</label>
+                                                <input type="text" id="permanent_address" class="input input-second-step" required>
+                                                <label for="permanent_address" class="label">Permanent Address<span class="text-danger">*</span></label>
                                             </div>
                                         </div>
                                         <div class="col">
                                             <div class="form-group">
-                                                <input type="text" id="zip_code" class="input" required>
-                                                <label for="zip_code" class="label">Zip Code</label>
+                                                <input type="text" id="zip_code" class="input input-second-step" required>
+                                                <label for="zip_code" class="label">Zip Code<span class="text-danger">*</span></label>
                                             </div>
                                         </div>
                                         <div class="col">
@@ -212,8 +234,8 @@
                                     <div class="row row-cols-lg-3 row-cols-1 gy-4 mb-4">
                                         <div class="col">
                                             <div class="form-group">
-                                                <input type="text" id="address_campus" class="input" required>
-                                                <label for="address_campus" class="label">Address on Campus</label>
+                                                <input type="text" id="address_campus" class="input input-second-step" required>
+                                                <label for="address_campus" class="label">Address on Campus<span class="text-danger">*</span></label>
                                             </div>
                                         </div>
                                         <div class="col">
@@ -251,8 +273,8 @@
                                     <div class="row row-cols-lg-3 row-cols-1 gy-4 mb-4">
                                         <div class="col">
                                             <div class="form-group">
-                                                <input type="text" id="father" class="input" required>
-                                                <label for="father" class="label">Father</label>
+                                                <input type="text" id="father" class="input input-third-step" required>
+                                                <label for="father" class="label">Father<span class="text-danger">*</span></label>
                                             </div>
                                         </div>
                                         <div class="col">
@@ -263,7 +285,7 @@
                                         </div>
                                         <div class="col">
                                             <div class="form-group">
-                                                <input type="text" id="father_salary" class="input" required>
+                                                <input type="text" id="father_salary" class="input number-input amount-input" required>
                                                 <label for="father_salary" class="label">Salary</label>
                                             </div>
                                         </div>
@@ -272,8 +294,8 @@
                                     <div class="row row-cols-lg-3 row-cols-1 gy-4 mb-4">
                                         <div class="col">
                                             <div class="form-group">
-                                                <input type="text" id="mother" class="input" required>
-                                                <label for="mother" class="label">Mother</label>
+                                                <input type="text" id="mother" class="input input-third-step" required>
+                                                <label for="mother" class="label">Mother<span class="text-danger">*</span></label>
                                             </div>
                                         </div>
                                         <div class="col">
@@ -284,7 +306,7 @@
                                         </div>
                                         <div class="col">
                                             <div class="form-group">
-                                                <input type="text" id="father_salary" class="input" required>
+                                                <input type="text" id="father_salary" class="input number-input amount-input" required>
                                                 <label for="father_salary" class="label">Salary</label>
                                             </div>
                                         </div>
@@ -302,7 +324,7 @@
                                         </div>
                                         <div class="col-12 col-lg-4">
                                             <div class="form-group">
-                                                <input type="number" id="state_reason_amount" class="input" required>
+                                                <input type="text" id="state_reason_amount" class="input number-input amount-input" required>
                                                 <label for="state_reason_amount" class="label">Amount</label>
                                             </div>
                                         </div>
@@ -330,7 +352,7 @@
                                         </div>
                                         <div class="col">
                                             <div class="form-group">
-                                                <input type="number" id="earning_per_year" class="input" required>
+                                                <input type="number" id="earning_per_year" class="input number-input amount-input" required>
                                                 <label for="earning_per_year" class="label">Earning Per Year</label>
                                             </div>
                                         </div>
@@ -351,7 +373,7 @@
                                         </div>
                                         <div class="col">
                                             <div class="form-group">
-                                                <input type="text" id="guardian_salary" class="input" required>
+                                                <input type="text" id="guardian_salary" class="input number-input amount-input" required>
                                                 <label for="guardian_salary" class="label">Salary</label>
                                             </div>
                                         </div>
@@ -383,49 +405,49 @@
                                     <div class="form-group">
                                         <h6>Please answer:</h6>
                                         <div class=" gap-2  mt-2">
-
                                             <!-- Question #1 -->
-
                                             <div>1. Are you enjoying any scholarship, financial assistance, or other
                                                 privileges in the University?</div>
                                             <div class="d-flex align-items-center gap-2 ms-3 ">
                                                 <div class="form-check">
                                                     <input class="form-check-input" type="radio"
-                                                        name="scholarshipQuestion" id="scholarshipYes">
+                                                        name="scholarshipQuestion" id="scholarshipYes" value="Yes">
                                                     <label class="form-check-label" for="scholarshipYes">
                                                         Yes
                                                     </label>
                                                 </div>
                                                 <div class="form-check">
                                                     <input class="form-check-input" type="radio"
-                                                        name="scholarshipQuestion" id="scholarshipNo" checked>
+                                                        name="scholarshipQuestion" id="scholarshipNo" value="No">
                                                     <label class="form-check-label" for="scholarshipNo">
-                                                        No.
+                                                        No
                                                     </label>
                                                 </div>
                                             </div>
-                                            <div class="ms-3">Outside the University?</div>
+                                            <div class="error-message" id="scholarshipQuestionError" style="display:none;">Please select an option.</div>
+                                            <div class="ms-3 hide-university">Outside the University?</div>
                                             <div class="d-flex align-items-center gap-2 ms-3">
-                                                <div class="form-check">
+                                                <div class="form-check hide-university">
                                                     <input class="form-check-input" type="radio"
-                                                        name="outsideUniversity" id="outside-university-yes">
+                                                        name="outsideUniversity" id="outside-university-yes" value="Yes">
                                                     <label class="form-check-label" for="outside-university-yes">
                                                         Yes
                                                     </label>
                                                 </div>
-                                                <div class="form-check">
+                                                <div class="form-check hide-university">
                                                     <input class="form-check-input" type="radio"
-                                                        name="outsideUniversity" id="outside-university-no" checked>
+                                                        name="outsideUniversity" id="outside-university-no" value="No">
                                                     <label class="form-check-label" for="outside-university-no">
                                                         No
                                                     </label>
                                                 </div>
                                             </div>
+                                            <div class="error-message" id="outsideUniversityError" style="display:none;">Please select an option.</div>
                                         </div>
-                                        <div class="gap-2 ms-3">
+                                        <div class="gap-2 ms-3 hide-university-answer">
                                             <div>If the answer is “yes” to either or both, specify name, nature and
                                                 amount of grant or scholarship:</div>
-                                            <input type="number" class="amount-of-scholarship">
+                                            <input type="text" class="amount-of-scholarship normal-input">
                                         </div>
 
                                         <!-- Question #2 -->
@@ -435,35 +457,36 @@
                                                 <div class="d-flex gap-2 ms-3">
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="radio"
-                                                            name="scholarshipQuestion2" id="scholarshipYes">
-                                                        <label class="form-check-label" for="scholarshipYes">
+                                                            name="scholarshipQuestion2" id="realPropertiesYes" value="Yes">
+                                                        <label class="form-check-label" for="realPropertiesYes">
                                                             Yes
                                                         </label>
                                                     </div>
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="radio"
-                                                            name="scholarshipQuestion2" id="scholarshipNo" checked>
-                                                        <label class="form-check-label" for="scholarshipNo">
-                                                            No.
+                                                            name="scholarshipQuestion2" id="realPropertiesNo" value="No">
+                                                        <label class="form-check-label" for="realPropertiesNo">
+                                                            No
                                                         </label>
                                                     </div>
                                                 </div>
+                                                <div class="error-message" id="scholarshipQuestion2Error" style="display:none;">Please select an option.</div>
                                             </div>
 
-                                            <div class="mt-1">
+                                            <div class="mt-1 real-property">
                                                 <div class=" gap-2 ms-3">
                                                     <div>If yes, specify:</div>
-                                                    <input type="text" id="propertiesName">
+                                                    <input type="text" id="propertiesName" class="normal-input properties">
                                                 </div>
                                                 <div class=" gap-2 ms-3 mt-2">
                                                     <div>Market value:</div>
-                                                    <input type="number" id="propertiesNameMarketValue">
+                                                    <input type="text" id="propertiesNameMarketValue" class="normal-input number-input amount-input properties">
                                                 </div>
                                             </div>
 
-                                            <div class="gap-2 ms-3 mt-1">
+                                            <div class="gap-2 ms-3 mt-1 real-property">
                                                 <div>Others: (ex. Cars, stocks, etc.) Market value</div>
-                                                <input type="number" id="OtherMarketValue ">
+                                                <input type="text" id="OtherMarketValue" class="normal-input properties">
                                             </div>
                                         </div>
 
@@ -471,7 +494,7 @@
                                         <div class="mt-3  gap-2">
                                             <div>3. If applicant’s parents are separated, state support being given by
                                                 father/mother:</div>
-                                            <input class="ms-3" type="text" id="parents-own-real-properties">
+                                            <input class="ms-3 normal-input" type="text" id="parents-own-real-properties">
                                         </div>
 
                                         <!-- Question #4 -->
@@ -480,11 +503,11 @@
                                             <div class=" align-items-center mt-1">
                                                 <div class=" gap-2 ms-3">
                                                     <div>State if husband/wife giving support:</div>
-                                                    <input type="text" id="support-status">
+                                                    <input type="text" id="support-status" class="normal-input">
                                                 </div>
                                                 <div class=" gap-2 ms-3">
                                                     <div>Amount:</div>
-                                                    <input type="number" id="support-amount">
+                                                    <input type="text" id="support-amount" class="normal-input number-input amount-input">
                                                 </div>
                                             </div>
                                         </div>
@@ -496,18 +519,13 @@
 
                                         <hr />
 
-                                        <div class="d-flex flex-column flex-lg-row gap-4">
+                                        <!-- <div class="d-flex flex-column flex-lg-row gap-4">
                                             <div class="d-flex flex-column gap-2">
                                                 <label for="signature-of-applicant"
                                                     class="file-input-label text-primary">Signature of Applicant</label>
                                                 <input type="file" id="signature-of-applicant" class="file-input-img">
                                             </div>
-                                            <div class="d-flex flex-column gap-2">
-                                                <label for="name-in-print" class="file-input-label text-primary">Name in
-                                                    Print</label>
-                                                <input type="file" id="name-in-print" class="file-input-img">
-                                            </div>
-                                        </div>
+                                        </div> -->
 
                                     </div>
                                 </div>
@@ -528,67 +546,78 @@
                             <h1 class="form-title">Required Attachments</h1>
                             <div class="py-3 ">
                                 <div class="mb-4">
-                                    <div class="d-flex flex-column gap-1">
-                                        <div class="d-flex gap-2">
-                                            <div>Deadline for filling:</div>
-                                            <div class="fw-bold text-primary">June 30, 2024</div>
-                                        </div>
-                                        <div class="d-flex gap-2">
-                                            <div>Date of Application:</div>
-                                            <div class="fw-bold text-primary">June 30, 2024</div>
-                                        </div>
-                                    </div>
-
-                                    <div class="py-4 fw-bold">Please attach the following</div>
+                                    <div class="fw-bold">Please attach the following</div>
                                     <div class="d-flex flex-column gap-4">
                                         <div>
                                             <label for="photo2x2" class="file-input-label text-primary">1. Upload 2x2"
-                                                Photo</label>
+                                                Photo<span class="text-danger">*</span><span class="sub-label">(Image File Only)</span></label>
                                             <input type="file" id="photo2x2" name="photo2x2" accept="image/*"
-                                                class="file-input-img" required>
+                                                class="file-input-img input-fifth-step" required>
                                         </div>
 
                                         <div>
                                             <div class="file-input-label text-primary">2. For applicants already
-                                                enrolled in the University, please submit also the following:</div>
-                                            <div class="row gap-2">
-                                                <div class="col">
-                                                    <div class="d-flex flex-column gap-2">
-                                                        <label for="form-5" class="text-primary">(a) Form 5 (previous
-                                                            semester/s)</label>
-                                                        <input type="file" id="form-5" name="form-5" accept="image/*"
-                                                            class="file-input-img" required>
-                                                    </div>
+                                                enrolled in the University, please submit also the following:
+                                            </div>
+                                            <div class="ms-3">Are you already enrolled in the university?<span class="text-danger">*</span></div>
+                                            <div class="d-flex gap-2 ms-3">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio"
+                                                        name="enrolledUniversity" id="enrolledUniversityYes" value="Yes">
+                                                    <label class="form-check-label" for="enrolledUniversityYes">
+                                                        Yes
+                                                    </label>
                                                 </div>
-                                                <div class="col">
-                                                    <div class="d-flex flex-column gap-2">
-                                                        <label for="copy-of-grade" class="text-primary">(b) True copy of
-                                                            grade (previous semester)</label>
-                                                        <input type="file" id="copy-of-grade" name="copy-of-grade"
-                                                            accept="image/*" class="file-input-img" required>
-                                                    </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio"
+                                                        name="enrolledUniversity" id="enrolledUniversityNo" value="No">
+                                                    <label class="form-check-label" for="enrolledUniversityNo">
+                                                        No
+                                                    </label>
                                                 </div>
                                             </div>
-
-                                            <div class="row mt-3 gap-2">
-                                                <div class="col">
-                                                    <div class="d-flex flex-column gap-2">
-                                                        <label for="certification-of-year-level"
-                                                            class="text-primary">(c) Certification of year level
-                                                            standing(i.e. 1st year, etc.)</label>
-                                                        <input type="file" id="certification-of-year-level"
-                                                            name="certification-of-year-level" accept="image/*"
-                                                            class="file-input-img" required>
+                                            <div class="error-message" id="enrolledUniversityError" style="display:none;">Please select an option.</div>
+                                            
+                                            <div class="enroll_university">
+                                                <div class="row gap-2 mt-3">
+                                                    <div class="col">
+                                                        <div class="d-flex flex-column gap-2">
+                                                            <label for="form-5" class="text-primary fs-sm">(a) Form 5 (previous
+                                                                semester/s)<span class="text-danger">*</span><span class="sub-label">(PDF File Only)</span></label>
+                                                            <input type="file" id="form-5" name="form-5" accept="application/pdf"
+                                                                class="file-input-img enrolled-input" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="d-flex flex-column gap-2">
+                                                            <label for="copy-of-grade" class="text-primary fs-sm">(b) True copy of
+                                                                grade (previous semester)<span class="text-danger">*</span><span class="sub-label">(PDF File Only)</span></label>
+                                                            <input type="file" id="copy-of-grade" name="copy-of-grade"
+                                                                accept="application/pdf" class="file-input-img enrolled-input" required>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="col">
-                                                    <div class="d-flex flex-column gap-2">
-                                                        <label for="transcript-of-academic-records"
-                                                            class="text-primary">(d) For Graduate Students: transcript
-                                                            of academic records, program of study</label>
-                                                        <input type="file" id="transcript-of-academic-records"
-                                                            name="transcript-of-academic-records" accept="image/*"
-                                                            class="file-input-img" required>
+
+                                                <div class="row mt-3 gap-2">
+                                                    <div class="col">
+                                                        <div class="d-flex flex-column gap-2">
+                                                            <label for="certification-of-year-level"
+                                                                class="text-primary fs-sm">(c) Certification of year level
+                                                                standing(i.e. 1st year, etc.)<span class="text-danger">*</span><span class="sub-label">(PDF File Only)</span></label>
+                                                            <input type="file" id="certification-of-year-level"
+                                                                name="certification-of-year-level" accept="application/pdf"
+                                                                class="file-input-img enrolled-input" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="d-flex flex-column gap-2">
+                                                            <label for="transcript-of-academic-records"
+                                                                class="text-primary fs-sm">(d) For Graduate Students: transcript
+                                                                of academic records, program of study<span class="text-danger">*</span><span class="sub-label">(PDF File Only)</span></label>
+                                                            <input type="file" id="transcript-of-academic-records"
+                                                                name="transcript-of-academic-records" accept="application/pdf"
+                                                                class="file-input-img enrolled-input" required>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -598,28 +627,28 @@
                                         <div>
                                             <label for="certification-of-good-moral"
                                                 class="file-input-label text-primary">3. Certification of good moral
-                                                character. (From former school if incoming freshman)</label>
+                                                character. (From former school if incoming freshman)<span class="text-danger">*</span><span class="sub-label">(PDF File Only)</span></label>
                                             <input type="file" id="certification-of-good-moral"
-                                                name="certification-of-good-moral" accept="image/*"
-                                                class="file-input-img" required>
+                                                name="certification-of-good-moral" accept="application/pdf"
+                                                class="file-input-img input-fifth-step" required>
                                         </div>
 
                                         <div>
                                             <label for="birth-certificate" class="file-input-label text-primary">4.
-                                                Birth Certificate.
+                                                Birth Certificate<span class="text-danger">*</span><span class="sub-label">(PDF File Only)</span>
                                             </label>
                                             <input type="file" id="birth-certificate" name="birth-certificate"
-                                                accept="image/*" class="file-input-img" required>
+                                                accept="application/pdf" class="file-input-img input-fifth-step" required>
                                         </div>
 
                                         <div>
                                             <label for="letter-of-recommedation-from-plmr"
                                                 class="file-input-label text-primary">5. Letter of recommendation from
-                                                the PLMAR.
+                                                the PLMAR<span class="text-danger">*</span><span class="sub-label">(PDF File Only)</span>
                                             </label>
                                             <input type="file" id="letter-of-recommedation-from-plmr"
-                                                name="letter-of-recommedation-from-plmr" accept="image/*"
-                                                class="file-input-img" required>
+                                                name="letter-of-recommedation-from-plmr" accept="application/pdf"
+                                                class="file-input-img input-fifth-step" required>
                                         </div>
 
 
@@ -648,7 +677,7 @@
                             <div class="py-3 ">
                                 <div class="mb-4">
                                     <div>
-                                        <h6>The undersigned, one of the applicants/grantees of the ,---------
+                                        <h6>The undersigned, one of the applicants/grantees of the <span id="school_name" style="text-decoration:underline;">______</span>,
                                             has given permission to the CLCC staff, in charge of the
                                             scholarship/financial assistance in the collection, lawful use, and
                                             disclosure of any personal information which may include may student number,
@@ -712,7 +741,7 @@
                                         </div>
 
                                         <hr />
-                                        <div class="d-flex flex-column flex-lg-row gap-4 mt-5">
+                                        <!-- <div class="d-flex flex-column flex-lg-row gap-4 mt-5">
                                             <div>
                                                 <label for="signature-over-printed-name-student"
                                                     class="file-input-label text-primary">Signature over printed name of
@@ -732,7 +761,7 @@
                                                     name="signature-over-printed-name-parent" class="file-input-img"
                                                     required>
                                             </div>
-                                        </div>
+                                        </div> -->
 
                                     </div>
 
@@ -748,7 +777,7 @@
                             </div>
                         </div>
                     </div>
-            </div>
+                </div>
 
             </form>
 

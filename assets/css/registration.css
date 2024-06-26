@@ -327,10 +327,39 @@ html {
   .label{
     font-size:16px;
   }
-  
-  
 }
 
+.input-error {
+  background: rgba(252, 140, 162, 0.8);
+}
+
+.normal-input {
+  border:none;
+  border-bottom: 2px solid #2d3436;
+  outline: none;
+}
+
+.hide-university,
+.enroll_university,
+.hide-university-answer,
+.real-property {
+  display: none;
+}
+
+.error-message {
+  color: #EA2027;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.fs-sm {
+  font-size: 14px;
+}
+
+.sub-label {
+  font-size: 10px;
+  color: #EA2027;
+}
 
 
 
