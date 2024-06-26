@@ -12,7 +12,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
  *
  */
 
-class Main extends MY_Controller
+class Registration_form extends MY_Controller
 {
     public function __construct()
     {
@@ -30,24 +30,21 @@ class Main extends MY_Controller
 
     public function index()
     {
-        $data['title'] = 'Change Life Christian Church';
+        $data['title'] = 'CLCC | Scholarship Form';
+        $data['header_contents'] = array(
+            '<link rel="stylesheet" type="text/css" href="'.base_url('assets/css/registration.css').'">',
+            '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bs-stepper/dist/css/bs-stepper.min.css">',
+            '<script src="https://cdn.jsdelivr.net/npm/bs-stepper/dist/js/bs-stepper.min.js"></script>',
+            '<script>
+                var csrf_token_name = "'.$this->security->get_csrf_token_name().'";
+                var csrf_token_value = "'.$this->security->get_csrf_hash().'";
+            </script>'
+        );
 
         $this->load->view('website/partial/_header', $data);
-        $this->load->view('website/home', $data);
+        $this->load->view('website/registration_form', $data);
         $this->load->view('website/partial/_footer', $data);
-    }
 
-    // Error 404 redirect
-	public function page404()
-	{
-		$this->load->view('error404');
-	}
-
-    public function csrf()
-    {
-        $data["csrf_hash"] = $this->security->get_csrf_hash(TRUE); // Set $regenerate to TRUE to generate a new hash
-        echo json_encode($data);
     }
 
 }
-//End CI_Controller
