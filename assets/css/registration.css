@@ -45,6 +45,7 @@ html {
   body {
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
+		height:100%;
   }
   /*
     5. Improve media defaults
@@ -87,6 +88,7 @@ html {
 
 
 
+
   /* Font */
   .roboto-regular {
     font-family: "Roboto", sans-serif;
@@ -121,6 +123,16 @@ html {
   }
 
 
+	.wrapper {
+		display: flex;
+		flex-direction: column;
+		min-height: 100vh;
+	}
+	.content {
+		flex: 1;
+	}
+
+
   .navbar__logo{
     width:72px;
     height:72px;
@@ -150,12 +162,6 @@ html {
     font-weight:900;
     font-size:20px;
 }
-
-
-
-
-
-
 
 :root {
     --clr-primary: #434875;    
@@ -216,6 +222,16 @@ html {
   font-size: 16px;
   pointer-events: none;
   transition: var(--transition);
+
+}
+.date_of_birth-label{
+  top: calc(var(--spacing-top) * var(--spacing-top-offset));
+  left: calc(var(--spacing-left) * var(--spacing-left-offset));
+  font-size: 15px;
+  background-color: #fff;
+  color: var(--clr-primary);
+  padding-inline: 4px;
+	display:block;
 }
 
 .input:focus ~ label,
@@ -257,7 +273,6 @@ html {
   border-radius:8px;
   background: #ffffff;
   color:#434875;
-
   font-weight:bold;
   
 }
@@ -269,6 +284,7 @@ html {
   display: block;
   margin-bottom: 10px;
 }
+
 .file-input-img {
   padding: 10px;
   border: 1px solid #ccc;
@@ -289,6 +305,16 @@ html {
   padding:20px 4px !important;
 }
 
+.contact__email-address{
+	color:#434875;
+	position:absolute;
+	top:16px;
+	right:16px;
+	border:none;
+	background-color:transparent;
+	cursor:pointer;
+	
+}
 
 
 

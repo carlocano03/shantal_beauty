@@ -176,6 +176,30 @@ body {
 	width: 100%;
 	position: relative;
 }
+
+.hero-page__scholarship-btn{
+	border:none;
+	font-size:18px;
+	font-weight:bold;
+	background: linear-gradient(to right, #434875, #b18647) !important;
+	padding:16px 24px;
+	color:#ffffff;
+	border-radius:8px;
+	box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.hero-page__inquire-btn{
+	border:none;
+	font-size:18px;
+	font-weight:bold;
+	border: 1px solid linear-gradient(to right, #434875, #b18647) !important;
+	padding:16px 24px;
+	color:white;
+	background-color:transparent;
+	border-radius:8px;
+	box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
 .hero-page__video {
 	height: 415px;
 }
@@ -211,7 +235,7 @@ body {
 
 .hero-page__paragraph {
 	color: #faf9f7;
-	font-size: 24px;
+	font-size: 20px;
 	line-height: 1.7;
 	margin-top: 12px;
 }
@@ -230,9 +254,45 @@ body {
 .hero-page__row {
 	padding: 96px 0;
 }
+.hero-page__video{
+	height:340px;
+	border: none; 
+	overflow: hidden;
+}
+
+/* Schedule */
+
+.schedule__address{
+	color:#3a352d;
+}
+.schedule__title{
+    background: linear-gradient(to right, #434875, #b18647);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+	font-weight:bold;
+	font-size:36px;
+
+}
+.schedule__day{
+	color:#F9E811;
+	font-size:24px;
+	font-weight:bold;
+
+}
+.schedule__time{
+	color:#ffffff;
+	font-weight:bold;
+
+}
+
+.schedule__border-right{
+	border-right:1px solid #ffffff;
+}
 
 .title-section {
-	background: #434875;
+	background: #b18647;
 	color: #ffffff;
 	font-size: 36px;
 	font-weight: 900;
@@ -327,7 +387,7 @@ body {
 		font-size: 48px;
 	}
 	.hero-page__paragraph {
-		font-size: 20px;
+		font-size: 18px;
 	}
 	.navbar__logo {
 		width: 64px;
@@ -363,7 +423,7 @@ body {
 		font-size: 42px;
 	}
 	.hero-page__paragraph {
-		font-size: 20px;
+		font-size: 18px;
 	}
 
 	.navbar__logo {
@@ -423,5 +483,20 @@ body {
 	.title-section {
 		font-size: 24px;
 		padding: 12px 42px 12px 42px;
+	}
+
+	.schedule__title{
+
+		font-size:24px;
+	
+	}
+	.schedule__day{
+		color:#F9E811;
+		font-size:16px;
+		font-weight:bold;
+	
+	}
+	.hero-page__video{
+		height:240px;
 	}
 }
