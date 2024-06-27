@@ -94,43 +94,44 @@
                         consectetur laborum assumenda alias ullam consequuntur, nihil in
                         qui totam veritatis nisi quo? Fugiat.
                     </p>
+                    <div class="mt-5">
+                        <button class="hero-page__scholarship-btn"
+                            onclick="location.href='<?= base_url('scholarship/registration-form') ?>'">
+                            Apply for Scholarship
+                        </button>
+                    </div>
+
                 </div>
                 <div class="col">
                     <div
                         class="bg-white d-flex align-items-center justify-content-center p-2 shadow animate__animated animate__fadeInRight">
                         <iframe
                             src="https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2F100086204217430%2Fvideos%2F978531797214852%2F&show_text=false&width=560&t=0"
-                            width="100%" height="340" style="border: none; overflow: hidden" scrolling="no"
-                            frameborder="0" allowfullscreen="true"
+                            width="100%" class="hero-page__video" scrolling="no" frameborder="0" allowfullscreen="true"
                             allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
                             allowfullscreen="true"></iframe>
                     </div>
                 </div>
             </div>
 
-            <!-- Inquiries -->
-            <div class="card position-absolute overflow-hidden top-100 start-50 translate-middle inqueries"
-                style="z-index: 999; background-color: #faf9f7">
-                <div class="row">
-                    <div class="col border py-2 pt-3 bg-white text-black d-flex flex-column gap-2">
-                        <div class="d-flex justify-content-center">
-                            <i class="fa-sharp fa-solid text-title fa-newspaper fs-5 fs-lg-2"></i>
-                        </div>
-                        <a href="<?= base_url('scholarship/registration-form')?>" target="_blank" class="link_text">
-                            <h5 class="text-center text-title inqueries__text">
-                                Apply for Scholarship
-                            </h5>
-                        </a>
+            <!-- Schedule -->
+            <div class="card text-center shadow-sm position-absolute overflow-hidden top-100 start-50 translate-middle inqueries"
+                style="z-index: 999; background-color: #ffffff">
+                <div>
+                    <div class="schedule__address pt-2">15 Red Cedar, San Roque, Marikina City</div>
+                    <div class=" fw-bold">
+                        <h1 class="schedule__title">Workship Service Schedule</h1>
                     </div>
-                    <div class="col py-2 pt-3 border bg-white text-black d-flex flex-column gap-2">
-                        <div class="d-flex justify-content-center">
-                            <i class="fa-solid fa-phone fs-5 fs-lg-2 text-title"></i>
+                    <div class="row py-2" style="background-color:#434875;">
+                        <div class="col text-center schedule__border-right">
+                            <h1 class="schedule__day m-1">Thursday</h1>
+                            <div class="schedule__time">5:00 PM - 7:00 PM</div>
                         </div>
-                        <h5 class="text-center fw-bold text-title inqueries__text">
-                            Inquire
-                        </h5>
+                        <div class="col text-center">
+                            <h1 class="schedule__day m-1">Sunday</h1>
+                            <div class="schedule__time">3:00 PM - 5:00 PM</div>
+                        </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -424,39 +425,39 @@
 
 
 <script>
-    const historyBtn = document.querySelector('.about-us__history-btn');
-    const missionBtn = document.querySelector('.about-us__mission-btn');
-    const visionBtn = document.querySelector('.about-us__vision-btn');
+const historyBtn = document.querySelector('.about-us__history-btn');
+const missionBtn = document.querySelector('.about-us__mission-btn');
+const visionBtn = document.querySelector('.about-us__vision-btn');
 
-    const history = document.querySelector('.about-us__history');
-    const vision = document.querySelector('.about-us__vision');
-    const mission = document.querySelector('.about-us__mission');
-
-
-    function showSection(element) {
-        const aboutToggle = [history, vision, mission];
-
-        aboutToggle.forEach(item => {
-            if (item === element)
-                item.classList.remove('about-us__text-hidden');
-            else
-                item.classList.add('about-us__text-hidden');
-        })
-
-    }
+const history = document.querySelector('.about-us__history');
+const vision = document.querySelector('.about-us__vision');
+const mission = document.querySelector('.about-us__mission');
 
 
-    historyBtn.addEventListener('click', () => {
-        showSection(history);
-    });
+function showSection(element) {
+    const aboutToggle = [history, vision, mission];
 
-    visionBtn.addEventListener('click', () => {
-        showSection(vision);
-    });
+    aboutToggle.forEach(item => {
+        if (item === element)
+            item.classList.remove('about-us__text-hidden');
+        else
+            item.classList.add('about-us__text-hidden');
+    })
 
-    missionBtn.addEventListener('click', () => {
-        showSection(mission);
-    });
+}
+
+
+historyBtn.addEventListener('click', () => {
+    showSection(history);
+});
+
+visionBtn.addEventListener('click', () => {
+    showSection(vision);
+});
+
+missionBtn.addEventListener('click', () => {
+    showSection(mission);
+});
 </script>
 </body>
 
