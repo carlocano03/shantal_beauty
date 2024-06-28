@@ -51,6 +51,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 
 $route['scholarship/registration-form'] = 'website/registration_form/index';
+$route['scholarship/registration-form/success-registration'] = 'website/registration_form/success_registration';
+
 
 $route['admin/portal'] = 'portal/admin_portal/main/index';
 
