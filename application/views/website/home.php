@@ -79,7 +79,7 @@
 <main>
     <section class="hero-page">
         <div class="overlay"></div>
-        <img class="hero-image" src="<?php echo base_url('assets/images/home/clcc-bg.jpg'); ?>"
+        <img class="hero-image" src="<?php echo base_url('assets/images/home/c-hero-img.webp'); ?>"
             alt="Background Image" />
         <div class="container-xxl">
             <div class="row row-cols-1 row-cols-lg-2 hero-page__row gx-0 gx-lg-4 gy-5 gy-lg-0"
