@@ -172,7 +172,6 @@ body {
 }
 
 .hero-page {
-	height: 75vh;
 	width: 100%;
 	position: relative;
 }
@@ -211,19 +210,20 @@ body {
 	right: 0;
 	bottom: 0;
 	opacity: 1;
-	background: linear-gradient(to right, #27241d, transparent);
+	background: linear-gradient(to right, rgba(67, 72, 117, .8), rgba(177, 134, 71, 0.2));
 	z-index: 10;
 }
 
 .hero-image {
 	object-fit: cover;
-	height: inherit;
+	height: 100%;
 	width: 100%;
 	position: absolute;
 	top: 0;
 	left: 0;
 	right: 0;
 	bottom: 0;
+
 }
 
 .hero-page__title {
@@ -252,7 +252,7 @@ body {
 	box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 .hero-page__row {
-	padding: 96px 0;
+	padding: 10rem 0;
 }
 .hero-page__video{
 	height:340px;
@@ -394,9 +394,7 @@ body {
 		height: 64px;
 	}
 
-	.hero-page__row {
-		padding: 80px 0;
-	}
+
 
 	.hero-page {
 		height: 100%;
@@ -484,20 +482,27 @@ body {
 		font-size: 24px;
 		padding: 12px 42px 12px 42px;
 	}
-
-	.schedule__title{
-
-		font-size:24px;
 	
-	}
-	.schedule__day{
-		color:#F9E811;
-		font-size:16px;
-		font-weight:bold;
-	
-	}
 	.hero-page__video{
 		height:240px;
+	}
+
+	.hero-page__row {
+		padding: 6rem 0;
+	}
+	.schedule__address{
+		font-size:12px;
+	}
+	.schedule__title{
+		font-size:18px;
+	}
+
+	.schedule__day{
+		font-size:14px;
+	
+	}
+	.schedule__time{
+		font-size:12px;
 	}
 }
 
