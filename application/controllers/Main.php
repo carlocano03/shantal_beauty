@@ -36,6 +36,13 @@ class Main extends MY_Controller
         $this->load->view('website/home', $data);
         $this->load->view('website/partial/_footer', $data);
     }
+	
+	public function login()
+    {
+		$data['title'] = 'Login'; 
+        $this->load->view('auth/partial/_header', $data);
+        $this->load->view('auth/login', $data);
+    }
 
     // Error 404 redirect
 	public function page404()

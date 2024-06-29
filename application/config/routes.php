@@ -50,8 +50,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |		my-controller/my-method	-> my_controller/my_method
 */
 
+$route['login'] = 'main/login';
 $route['scholarship/registration-form'] = 'website/registration_form/index';
-
 $route['admin/portal'] = 'portal/admin_portal/main/index';
 
 $route['default_controller'] = 'main';
