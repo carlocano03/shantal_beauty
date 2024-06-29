@@ -284,3 +284,17 @@ body{
 }
 
 }
+
+.modal-header {
+	background: linear-gradient(to right, #434875, #b18647) !important;
+	color: #fff;
+}
+
+.btn-primary {
+	background: linear-gradient(to right, #434875, #b18647) !important;
+	border: none !important;
+}
+
+.btn {
+	border: none !important;
+}

@@ -67,9 +67,11 @@
                         <a class="nav-link" href="#">News</a>
                     </li>
                     <li class="mt-2 mt-lg-0">
-                        <button class="btn bg-primary text-white fw-bolder shadow-sm">
-                            My Portal <i class="fa-solid fa-right-to-bracket"></i>
-                        </button>
+                        <a href="<?= base_url('login');?>">
+                            <button class="btn bg-primary text-white fw-bolder shadow-sm">
+                                My Portal <i class="fa-solid fa-right-to-bracket"></i>
+                            </button>
+                        </a>
                     </li>
                 </ul>
             </div>

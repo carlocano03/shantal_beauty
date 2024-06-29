@@ -26,6 +26,8 @@ class Main extends MY_Controller
         $this->output->set_header("X-Robots-Tag: noindex");
         $this->output->set_header('Cache-Control: no-store, no-cache');
         
+        //Check Session
+        $this->check_session('adminIn', 'login');
     } //End __construct
 
     public function index()
