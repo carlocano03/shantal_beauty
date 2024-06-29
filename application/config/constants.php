@@ -2,6 +2,10 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 define('TIMEZONE', 'Asia/Manila');
 
+//counter
+define("SCHOLARSHIP_APP", 1);
+
+
 /*
 |--------------------------------------------------------------------------
 | Display Debug backtrace
