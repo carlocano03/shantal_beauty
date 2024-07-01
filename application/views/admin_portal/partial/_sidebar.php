@@ -1,22 +1,9 @@
 <?php
     $dashboard = FALSE;
-    $subscriptions = FALSE;
-    $inventory_management = FALSE;
-    $support_center = FALSE;
-	$purchase_request = FALSE;
-
 
     if ($active_page == 'dashboard_page') {
         $dashboard = TRUE;
-    }elseif($active_page == 'subscriptions_page') {
-        $subscriptions = TRUE;
-    }elseif ($active_page == 'inventory_management_page') {
-        $inventory_management = TRUE;
-    }elseif ($active_page == 'support_center_page') {
-        $support_center = TRUE;
-    }elseif($active_page == "purchase_request_page"){
-		$purchase_request = TRUE;
-	}
+    }
 
 ?>
 <style>
@@ -79,40 +66,6 @@
                         class="<?= ($dashboard) ? 'menu-link-active' : '';?> menu-link">
                         <i class="menu-icon tf-icons bx bxs-dashboard"></i>
                         <div data-i18n="Analytics">Dashboard</div>
-                    </a>
-                </li>
-
-
-
-                <li class="menu-item ">
-                    <a href="<?= base_url('client/subscription');?>"
-                        class="menu-link <?= ($subscriptions) ? 'menu-link-active' : '';?>">
-                        <i class="menu-icon tf-icons bi bi-credit-card-2-front-fill"></i>
-                        <div data-i18n="Analytics">Subscriptions</div>
-                    </a>
-                </li>
-
-                <li class="menu-item ">
-                    <a href="<?= base_url('client/purchase-request');?>"
-                        class="menu-link <?= ($purchase_request) ? 'menu-link-active' : '';?>">
-                        <i class="menu-icon tf-icons bi bi-clipboard-check-fill"></i>
-                        <div data-i18n="Analytics">Purchase Request <span class="badge bg-danger purchaseRequest"></span></div>
-                    </a>
-                </li>
-
-                <li class="menu-item ">
-                    <a href="<?= base_url('client/crm-inventory_management');?>"
-                        class="menu-link <?= ($inventory_management) ? 'menu-link-active' : '';?>">
-                        <i class="menu-icon tf-icons bi bi-box-fill"></i>
-                        <div data-i18n="Analytics">Inventory Management</div>
-                    </a>
-                </li>
-
-                <li class="menu-item">
-                    <a href="<?= base_url('client/crm-support_center');?>"
-                        class="menu-link <?= ($support_center) ? 'menu-link-active' : '';?>">
-                        <i class="menu-icon tf-icons bi bi-question-circle-fill"></i>
-                        <div data-i18n="Analytics">Support Center</div>
                     </a>
                 </li>
 
