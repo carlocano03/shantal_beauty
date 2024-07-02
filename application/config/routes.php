@@ -54,6 +54,9 @@ $route['login'] = 'main/login';
 $route['scholarship/registration-form'] = 'website/registration_form/index';
 $route['scholarship/registration-form/success-registration'] = 'website/registration_form/success_registration';
 $route['admin/dashboard'] = 'portal/admin_portal/main/index';
+$route['admin/scholarship-approval'] = 'portal/admin_portal/scholar_request/index';
+$route['admin/scholarship-approval/scholar-information'] = 'portal/admin_portal/scholar_request/scholar_information';
+
 
 $route['default_controller'] = 'main';
 $route['404_override'] = 'main/page404';

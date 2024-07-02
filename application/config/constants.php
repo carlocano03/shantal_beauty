@@ -4,6 +4,7 @@ define('TIMEZONE', 'Asia/Manila');
 
 //counter
 define("SCHOLARSHIP_APP", 1);
+define("SCHOLAR_MEMBER", 2);
 
 //User Type
 define("ADMINISTRATOR", 1);
