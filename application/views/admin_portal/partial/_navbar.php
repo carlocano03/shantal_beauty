@@ -21,8 +21,7 @@
 
         <div class="d-flex align-items-center">
             <img src="<?= base_url('assets/images/client/school.png');?>" alt class="w-px-40 h-auto " />
-            <h5 class="m-0 ms-2 fw-bold text-nowrap">
-                Sample School Name
+            <h5 class="m-0 ms-2 fw-bold text-nowrap header-title">School Unity Portal System</h5>
         </div>
 
         <div class="container d-flex justify-content-end">
@@ -44,9 +43,9 @@
                             </div>
                             <div class="flex-grow-1">
                                 <span
-                                    class="fw-semibold d-block">Sample School Name</span>
+                                    class="fw-semibold d-block">Sample Name</span>
                                 <small
-                                    class="text-muted"><i>carlocano03@gmail.com</small>
+                                    class="text-muted"><i>sample@gmail.com</i></small>
                             </div>
                         </div>
                     </a>
@@ -72,15 +71,4 @@
             </ul>
         </div>
     </nav>
-
-
-
-
-
-
-
-
-
-
-
     <!-- / Navbar -->

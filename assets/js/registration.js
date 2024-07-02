@@ -32,15 +32,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	//Scholarhip/Study Grant Information
 	firstFormNext.addEventListener('click', () => {
-		var input = $('#scholarship-grant-information-input');
-		if (input.val().trim() === '') {
-			input.addClass('input-error');
-		} else {
-			input.removeClass('input-error');
-			stepper.next();
-			$('.step-2').removeClass('disabled');
-		}
-		//stepper.next();
+		// var input = $('#scholarship-grant-information-input');
+		// if (input.val().trim() === '') {
+		// 	input.addClass('input-error');
+		// } else {
+		// 	input.removeClass('input-error');
+		// 	stepper.next();
+		// 	$('.step-2').removeClass('disabled');
+		// }
+		stepper.next();
 	})
 
 	$(document).on('input', '.input-first-step', function () {
@@ -55,28 +55,28 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	//Personal Information
 	secondFormNext.addEventListener('click', () => {
-		var allValid = true;
-		$('.input-second-step').each(function () {
-			var input = $(this);
-			if (input.val().trim() === '') {
-				input.addClass('input-error');
-				allValid = false;
-			} else {
-				input.removeClass('input-error');
-			}
-		});
+		// var allValid = true;
+		// $('.input-second-step').each(function () {
+		// 	var input = $(this);
+		// 	if (input.val().trim() === '') {
+		// 		input.addClass('input-error');
+		// 		allValid = false;
+		// 	} else {
+		// 		input.removeClass('input-error');
+		// 	}
+		// });
 
-        if(verifyOTP == false) {
-            var errorMessage = $('#email_address').next('.error-message');
-            errorMessage.text('Please verify your email address.');
-            allValid = false;
-        }
+        // if(verifyOTP == false) {
+        //     var errorMessage = $('#email_address').next('.error-message');
+        //     errorMessage.text('Please verify your email address.');
+        //     allValid = false;
+        // }
 
-		if (allValid) {
-			stepper.next();
-			$('.step-3').removeClass('disabled');
-		}
-		//stepper.next();
+		// if (allValid) {
+		// 	stepper.next();
+		// 	$('.step-3').removeClass('disabled');
+		// }
+		stepper.next();
 	})
 	$(document).on('input', '.input-second-step', function () {
 		var input = $(this);
@@ -90,21 +90,21 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	//Family Information
 	thirdFormNext.addEventListener('click', () => {
-		var allValid = true;
-		$('.input-third-step').each(function () {
-			var input = $(this);
-			if (input.val().trim() === '') {
-				input.addClass('input-error');
-				allValid = false;
-			} else {
-				input.removeClass('input-error');
-			}
-		});
-		if (allValid) {
-			stepper.next();
-			$('.step-4').removeClass('disabled');
-		}
-		//stepper.next();
+		// var allValid = true;
+		// $('.input-third-step').each(function () {
+		// 	var input = $(this);
+		// 	if (input.val().trim() === '') {
+		// 		input.addClass('input-error');
+		// 		allValid = false;
+		// 	} else {
+		// 		input.removeClass('input-error');
+		// 	}
+		// });
+		// if (allValid) {
+		// 	stepper.next();
+		// 	$('.step-4').removeClass('disabled');
+		// }
+		stepper.next();
 	})
 	$(document).on('input', '.input-third-step', function () {
 		var input = $(this);
@@ -118,59 +118,59 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	//Other Information
 	fourthFormNext.addEventListener('click', () => {
-		var allValid = true;
+		// var allValid = true;
 
-		if (!$('input[name="scholarshipQuestion"]:checked').val()) {
-			$('#scholarshipQuestionError').fadeIn(200);
-			allValid = false;
-		} else {
-			$('#scholarshipQuestionError').hide();
-		}
+		// if (!$('input[name="scholarshipQuestion"]:checked').val()) {
+		// 	$('#scholarshipQuestionError').fadeIn(200);
+		// 	allValid = false;
+		// } else {
+		// 	$('#scholarshipQuestionError').hide();
+		// }
 
-		// Validate the second radio button group
-		if (!$('input[name="scholarshipQuestion2"]:checked').val()) {
-			$('#scholarshipQuestion2Error').fadeIn(200);
-			allValid = false;
-		} else {
-			$('#scholarshipQuestion2Error').hide();
-		}
+		// // Validate the second radio button group
+		// if (!$('input[name="scholarshipQuestion2"]:checked').val()) {
+		// 	$('#scholarshipQuestion2Error').fadeIn(200);
+		// 	allValid = false;
+		// } else {
+		// 	$('#scholarshipQuestion2Error').hide();
+		// }
 
-		if (universityRequired == true) {
-			if (!$('input[name="outsideUniversity"]:checked').val()) {
-				$('#outsideUniversityError').fadeIn(200);
-				allValid = false;
-			} else {
-				$('#outsideUniversityError').hide();
-			}
-		}
+		// if (universityRequired == true) {
+		// 	if (!$('input[name="outsideUniversity"]:checked').val()) {
+		// 		$('#outsideUniversityError').fadeIn(200);
+		// 		allValid = false;
+		// 	} else {
+		// 		$('#outsideUniversityError').hide();
+		// 	}
+		// }
 
-		if (universityAnswer == true) {
-			var input = $('.amount-of-scholarship');
-			if (input.val().trim() === '') {
-				input.addClass('input-error');
-				allValid = false;
-			} else {
-				input.removeClass('input-error');
-			}
-		}
+		// if (universityAnswer == true) {
+		// 	var input = $('.amount-of-scholarship');
+		// 	if (input.val().trim() === '') {
+		// 		input.addClass('input-error');
+		// 		allValid = false;
+		// 	} else {
+		// 		input.removeClass('input-error');
+		// 	}
+		// }
 
-		if (realProperties == true) {
-			$('.properties').each(function () {
-				var input = $(this);
-				if (input.val().trim() === '') {
-					input.addClass('input-error');
-					allValid = false;
-				} else {
-					input.removeClass('input-error');
-				}
-			});
-		}
+		// if (realProperties == true) {
+		// 	$('.properties').each(function () {
+		// 		var input = $(this);
+		// 		if (input.val().trim() === '') {
+		// 			input.addClass('input-error');
+		// 			allValid = false;
+		// 		} else {
+		// 			input.removeClass('input-error');
+		// 		}
+		// 	});
+		// }
 
-		if (allValid) {
-			stepper.next();
-			$('.step-5').removeClass('disabled');
-		}
-		//stepper.next();
+		// if (allValid) {
+		// 	stepper.next();
+		// 	$('.step-5').removeClass('disabled');
+		// }
+		stepper.next();
 	})
 	$(document).on('click', 'input[name="scholarshipQuestion"]', function () {
 		var answer = $('input[name="scholarshipQuestion"]:checked').val();
@@ -230,41 +230,41 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	//Required Attachments
 	fifthFormNext.addEventListener('click', () => {
-		var allValid = true;
-		$('.input-fifth-step').each(function () {
-			var input = $(this);
-			if (input.val().trim() === '') {
-				input.addClass('input-error');
-				allValid = false;
-			} else {
-				input.removeClass('input-error');
-			}
-		});
+		// var allValid = true;
+		// $('.input-fifth-step').each(function () {
+		// 	var input = $(this);
+		// 	if (input.val().trim() === '') {
+		// 		input.addClass('input-error');
+		// 		allValid = false;
+		// 	} else {
+		// 		input.removeClass('input-error');
+		// 	}
+		// });
 
-		if (!$('input[name="enrolledUniversity"]:checked').val()) {
-			$('#enrolledUniversityError').fadeIn(200);
-			allValid = false;
-		} else {
-			$('#enrolledUniversityError').hide();
-		}
+		// if (!$('input[name="enrolledUniversity"]:checked').val()) {
+		// 	$('#enrolledUniversityError').fadeIn(200);
+		// 	allValid = false;
+		// } else {
+		// 	$('#enrolledUniversityError').hide();
+		// }
 
-		if (enrolledUniversity == true) {
-			$('.enrolled-input').each(function () {
-				var input = $(this);
-				if (input.val().trim() === '') {
-					input.addClass('input-error');
-					allValid = false;
-				} else {
-					input.removeClass('input-error');
-				}
-			});
-		}
+		// if (enrolledUniversity == true) {
+		// 	$('.enrolled-input').each(function () {
+		// 		var input = $(this);
+		// 		if (input.val().trim() === '') {
+		// 			input.addClass('input-error');
+		// 			allValid = false;
+		// 		} else {
+		// 			input.removeClass('input-error');
+		// 		}
+		// 	});
+		// }
 
-		if (allValid) {
-			stepper.next();
-			$('.step-6').removeClass('disabled');
-		}
-		//stepper.next();
+		// if (allValid) {
+		// 	stepper.next();
+		// 	$('.step-6').removeClass('disabled');
+		// }
+		stepper.next();
 	})
 
     $(document).on('click', 'input[name="enrolledUniversity"]', function() {

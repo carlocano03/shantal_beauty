@@ -1,8 +1,11 @@
 <?php
     $dashboard = FALSE;
+    $scholarship_request = FALSE;
 
     if ($active_page == 'dashboard_page') {
         $dashboard = TRUE;
+    } elseif ($active_page == 'scholarship_page') {
+        $scholarship_request = TRUE;
     }
 
 ?>
@@ -45,9 +48,9 @@
             <div class="app-brand demo">
                 <a href="<?= base_url('client/crm-dashboard');?>" class="app-brand-link">
                     <span class="app-brand-logo demo">
-                        <img src="<?= base_url('assets/images/logo-sm.png');?>">
+                        <img src="<?= base_url('assets/images/clc.png');?>">
                     </span>
-                    <span class="app-brand-text demo menu-text fw-bold ms-2 side-bar-title fs-5">ADMIN CONSOLE</span>
+                    <span class="app-brand-text demo menu-text fw-bold ms-2 side-bar-title fs-4 header-title">CLCC PORTAL</span>
                 </a>
 
                 <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
@@ -62,17 +65,24 @@
 
 
                 <li class="menu-item ">
-                    <a href="<?= base_url('client/crm-dashboard');?>"
+                    <a href="<?= base_url('admin/dashboard');?>"
                         class="<?= ($dashboard) ? 'menu-link-active' : '';?> menu-link">
                         <i class="menu-icon tf-icons bx bxs-dashboard"></i>
                         <div data-i18n="Analytics">Dashboard</div>
                     </a>
                 </li>
 
+                <li class="menu-item ">
+                    <a href="<?= base_url('admin/scholarship-approval');?>"
+                        class="<?= ($scholarship_request) ? 'menu-link-active' : '';?> menu-link">
+                        <i class="menu-icon tf-icons bi bi-person-vcard"></i>
+                        <div data-i18n="Analytics">Scholarship Request</div>
+                    </a>
+                </li>
+
 
             </ul>
         </aside>
-
 
 
         <!-- / Menu -->

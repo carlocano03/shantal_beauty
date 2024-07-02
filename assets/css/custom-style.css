@@ -157,12 +157,7 @@
 }
 
 table thead {
-  background: #00c6ff;
-  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to top, #0072ff, #00c6ff);
-  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to top, #0072ff, #00c6ff);
-  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to right, #434875, #b18647);
   color: #fff !important;
 }
 
@@ -194,16 +189,11 @@ table td {
 .page-item.active .page-link {
   z-index: 3;
   color: #fff;
-  background: #00c6ff;
-  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to top, #0072ff, #00c6ff);
-  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to top, #0072ff, #00c6ff);
-  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to right, #434875, #b18647);
 }
 
 .table tbody tr:last-child td {
-  border-bottom: 2px solid #0072ff;
+  border-bottom: 2px solid #434875;
 }
 
 .dataTables_info {
@@ -333,4 +323,21 @@ input[type=number] {
 }
 .open_link:hover {
   text-decoration: underline;
+}
+
+.header-title {
+  background: linear-gradient(to right, #434875, #b18647);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+}
+
+.card-header {
+  background: linear-gradient(to right, #434875, #b18647);
+  border-bottom: 2px solid #434875 !important;
+}
+
+.card-header h5 {
+  color: #fff;
 }
