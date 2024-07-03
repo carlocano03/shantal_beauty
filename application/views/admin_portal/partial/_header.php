@@ -70,6 +70,169 @@
         }
     ?>
 
+    <style>
+    /* For WebKit browsers */
+    ::-webkit-scrollbar {
+        width: 12px;
+        /* Width of the scrollbar */
+    }
+
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        /* Background of the scrollbar track */
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #888;
+        /* Color of the scrollbar thumb */
+        border-radius: 10px;
+        /* Rounded corners */
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+        /* Color of the scrollbar thumb when hovered */
+    }
+
+    /* For Firefox */
+    html {
+        scrollbar-width: thin;
+        /* 'auto' or 'thin' */
+        scrollbar-color: #888 #f1f1f1;
+        /* thumb color, track color */
+    }
+
+    /* CSS Reset */
+    /*
+	1. Use a more-intuitive box-sizing model.
+  */
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+    }
+
+    /*
+	  2. Remove default margin
+	*/
+    * {
+        margin: 0;
+    }
+
+    /*
+	  Typographic tweaks!
+	  3. Add accessible line-height
+	  4. Improve text rendering
+	*/
+    body {
+        line-height: 1.5;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    /*
+	  5. Improve media defaults
+	*/
+    img,
+    picture,
+    video,
+    canvas,
+    svg {
+        display: block;
+        max-width: 100%;
+    }
+
+    /*
+	  6. Remove built-in form typography styles
+	*/
+    input,
+    button,
+    textarea,
+    select {
+        font: inherit;
+    }
+
+    /*
+	  7. Avoid text overflows
+	*/
+    p,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        overflow-wrap: break-word;
+    }
+
+    p {
+        margin: 0;
+    }
+
+    /*
+	  8. Create a root stacking context
+	*/
+
+    #root,
+    #__next {
+        isolation: isolate;
+    }
+
+    ul {
+        list-style-type: none;
+    }
+
+    li {
+        cursor: pointer;
+    }
+
+    /* Font */
+    .roboto-regular {
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+    }
+
+    .roboto-medium {
+        font-family: "Roboto", sans-serif;
+        font-weight: 500;
+        font-style: normal;
+    }
+
+    .roboto-bold {
+        font-family: "Roboto", sans-serif;
+        font-weight: 700;
+        font-style: normal;
+    }
+
+    .roboto-black {
+        font-family: "Roboto", sans-serif;
+        font-weight: 900;
+        font-style: normal;
+    }
+
+    body {
+        font-family: "Roboto", sans-serif;
+    }
+
+
+    .bg-primary {
+        background: linear-gradient(to right, #434875, #b18647) !important;
+    }
+
+    .text-title {
+        color: #3a352d;
+    }
+
+    .text-paragraph {
+        color: #585249;
+    }
+
+
+    .bg-light {
+        background-color: #f9f8f6;
+    }
+    </style>
+
 
 </head>
 
