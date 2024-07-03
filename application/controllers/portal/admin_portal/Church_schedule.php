@@ -12,7 +12,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
  *
  */
 
-class Main extends MY_Controller
+class Church_schedule extends MY_Controller
 {
     public function __construct()
     {
@@ -22,6 +22,8 @@ class Main extends MY_Controller
         $this->load->library('form_validation');
         $this->load->helper('language');
         $this->lang->load('common','english');
+        $this->load->library('cipher');
+        $this->load->model('portal/admin_portal/account_management_model');
 
         $this->output->set_header("X-Robots-Tag: noindex");
         $this->output->set_header('Cache-Control: no-store, no-cache');
@@ -34,19 +36,18 @@ class Main extends MY_Controller
     {
         $data['role_permissions'] = $this->role_permissions();
         $data['home_url'] = base_url('admin/portal');
-        $data['active_page'] = 'dashboard_page';
-        $data['card_title'] = 'Dashboard';
-        $data['icon'] = 'bi bi-speedometer2';
+        $data['active_page'] = 'church_settings_page';
+        $data['card_title'] = 'Church Schedule Settings';
+        $data['icon'] = 'bi bi-calendar-week-fill';
+        $data['header_contents'] = array(
+            '<script>
+                var csrf_token_name = "'.$this->security->get_csrf_token_name().'";
+                var csrf_token_value = "'.$this->security->get_csrf_hash().'";
+            </script>'
+        );
         $this->load->view('admin_portal/partial/_header', $data);
-        $this->load->view('admin_portal/dashboard', $data);
+        $this->load->view('admin_portal/church_schedule', $data);
         $this->load->view('admin_portal/partial/_footer', $data);
     }
 
-    // Error 404 redirect
-	public function page404()
-	{
-		$this->load->view('error404');
-	}
-
 }
-//End CI_Controller

@@ -56,7 +56,11 @@ $route['scholarship/registration-form/success-registration'] = 'website/registra
 $route['admin/dashboard'] = 'portal/admin_portal/main/index';
 $route['admin/scholarship-approval'] = 'portal/admin_portal/scholar_request/index';
 $route['admin/scholarship-approval/scholar-information'] = 'portal/admin_portal/scholar_request/scholar_information';
-
+$route['admin/student-record'] = 'portal/admin_portal/student_record/index';
+$route['admin/student-record/details'] = 'portal/admin_portal/student_record/student_information';
+$route['admin/account-management'] = 'portal/admin_portal/account_management/index';
+$route['admin/account-management/account-list'] = 'portal/admin_portal/account_management/account_list';
+$route['admin/church-schedule'] = 'portal/admin_portal/church_schedule/index';
 
 $route['default_controller'] = 'main';
 $route['404_override'] = 'main/page404';

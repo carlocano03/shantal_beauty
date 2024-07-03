@@ -11,7 +11,12 @@ define("ADMINISTRATOR", 1);
 define("ADMIN_STAFF", 2);
 define("STUDENT", 3);
 
-
+//Permission
+define('DASHBOARD', 1);
+define('SCHOLAR_APPLICATION', 2);
+define('STUDENT_RECORD', 3);
+define('ACCOUNT_MANAGEMENT', 4);
+define('CHURCH_SCHEDULE', 4);
 /*
 |--------------------------------------------------------------------------
 | Display Debug backtrace

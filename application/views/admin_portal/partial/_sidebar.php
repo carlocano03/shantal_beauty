@@ -1,15 +1,24 @@
 <?php
     $dashboard = FALSE;
     $scholarship_request = FALSE;
-    $sample_request = FALSE;
+    $student_record = FALSE;
+    $settings = FALSE;
+    $account_management = FALSE;
+    $church_settings = FALSE;
 
 
     if ($active_page == 'dashboard_page') {
         $dashboard = TRUE;
     } elseif ($active_page == 'scholarship_page') {
         $scholarship_request = TRUE;
-    }elseif ($active_page == 'sample_page') {
-        $sample_request = TRUE;
+    } elseif ($active_page == 'student_record_page') {
+        $student_record = TRUE;
+    } elseif ($active_page == 'account_page') {
+        $settings = TRUE;
+        $account_management = TRUE;
+    } elseif ($active_page == 'church_settings_page') {
+        $settings = TRUE;
+        $church_settings = TRUE;
     }
 
 ?>
@@ -95,8 +104,6 @@
 }
 
 
-
-
 .menu-link-active-2 {
     background-color: rgba(255, 255, 255, 0.8);
     border-radius: 8px;
@@ -170,59 +177,137 @@
 
             <ul class="menu-inner py-1">
 
+                <?php if ($this->session->userdata('adminIn')['user_type_id'] == ADMINISTRATOR) : ?>
+                    <li class="menu-item ">
+                        <a href="<?= base_url('admin/dashboard');?>"
+                            class="<?= ($dashboard) ? 'menu-link-active' : '';?> menu-link">
+                            <i class="menu-icon tf-icons bx bxs-dashboard"></i>
+                            <div data-i18n="Analytics">Dashboard</div>
+                        </a>
+                    </li>
 
-                <li class="menu-item ">
-                    <a href="<?= base_url('admin/dashboard');?>"
-                        class="<?= ($dashboard) ? 'menu-link-active' : '';?> menu-link">
-                        <i class="menu-icon tf-icons bx bxs-dashboard"></i>
-                        <div data-i18n="Analytics">Dashboard</div>
-                    </a>
-                </li>
+                    <li class="menu-item ">
+                        <a href="<?= base_url('admin/scholarship-approval');?>"
+                            class="<?= ($scholarship_request) ? 'menu-link-active' : '';?> menu-link">
+                            <i class="menu-icon tf-icons bi bi-person-vcard"></i>
+                            <div data-i18n="Analytics">Scholarship Application</div>
+                        </a>
+                    </li>
 
-                <li class="menu-item ">
-                    <a href="<?= base_url('admin/scholarship-approval');?>"
-                        class="<?= ($scholarship_request) ? 'menu-link-active' : '';?> menu-link">
-                        <i class="menu-icon tf-icons bi bi-person-vcard"></i>
-                        <div data-i18n="Analytics">Scholarship Request</div>
-                    </a>
-                </li>
+                    <li class="menu-item ">
+                        <a href="<?= base_url('admin/student-record');?>"
+                            class="<?= ($student_record) ? 'menu-link-active' : '';?> menu-link">
+                            <i class="menu-icon tf-icons bi bi-person-lines-fill"></i>
+                            <div data-i18n="Analytics">Student Record</div>
+                        </a>
+                    </li>
 
-                <!-- Subscriptions -->
-                <li class="menu-header  btn btn-toggle" data-bs-toggle="collapse" data-bs-target="#sample"
-                    aria-expanded="<?= ($sample_request) ? 'true' : '';?>">
-                    <div class="d-flex justify-content-between align-items-center ">
-                        <div class="d-flex align-items-center">
-                            <i class="menu-icon tf-icons bx bxs-dashboard" style="color:#ffffff;"></i>
-                            <div class="menu-header-text">Subscriptions <span
-                                    class="badge bg-danger subscriptionCount"></span></div>
+                    <!-- Subscriptions -->
+                    <li class="menu-header  btn btn-toggle" data-bs-toggle="collapse" data-bs-target="#sample"
+                        aria-expanded="<?= ($settings) ? 'true' : '';?>">
+                        <div class="d-flex justify-content-between align-items-center ">
+                            <div class="d-flex align-items-center">
+                                <i class="menu-icon tf-icons bi bi-gear" style="color:#ffffff;"></i>
+                                <div class="menu-header-text">Settings</div>
+                            </div>
+                            <div class="icon-chevron"></div>
                         </div>
-                        <div class="icon-chevron"></div>
-                    </div>
-                </li>
+                    </li>
 
-                <div>
-                    <div class="collapse <?= ($dashboard) ? 'show' : '';?>" id="sample" style="">
-                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small sidebar-menu">
-                            <li class="menu-item sidebar-menu-item <?= ($dashboard) ? 'active' : '';?>">
-                                <a href="<?= base_url('admin/dashboard');?>"
-                                    class="<?= ($dashboard) ? 'menu-link-active-2' : '';?> menu-link">
-                                    <div data-i18n="Account">Sample 1</div>
-                                </a>
-                            </li>
-                            <li class="menu-item sidebar-menu-item <?= ($sample_request) ? 'active' : '';?>">
-                                <a href="<?= base_url('admin/sample-2');?>" class="menu-link">
-                                    <div data-i18n="Analytics">Sample 2 <span class="badge bg-danger "></span></div>
-                                </a>
-                            </li>
-                            <li class="menu-item sidebar-menu-item <?= ($sample_request) ? 'active' : '';?>">
-                                <a href="<?= base_url('admin/sample-3');?>" class="menu-link">
-                                    <div data-i18n="Analytics">Sample 3 <span class="badge bg-danger "></span></div>
-                                </a>
-                            </li>
-                        </ul>
+                    <div>
+                        <div class="collapse <?= ($settings) ? 'show' : '';?>" id="sample" style="">
+                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small sidebar-menu">
+                                <li class="menu-item sidebar-menu-item <?= ($account_management) ? 'active' : '';?>">
+                                    <a href="<?= base_url('admin/account-management');?>"
+                                        class="<?= ($account_management) ? 'menu-link-active-2' : '';?> menu-link">
+                                        <div data-i18n="Account">Account Management</div>
+                                    </a>
+                                </li>
+
+                                <li class="menu-item sidebar-menu-item <?= ($church_settings) ? 'active' : '';?>">
+                                    <a href="<?= base_url('admin/church-schedule');?>"
+                                        class="<?= ($church_settings) ? 'menu-link-active-2' : '';?> menu-link">
+                                        <div data-i18n="Account">Church Schedule</div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
-                <!-- End -->
+                    <!-- End -->
+
+                <?php else : ?>
+
+                    <?php if (in_array(DASHBOARD, $role_permissions)): ?>
+                        <li class="menu-item ">
+                            <a href="<?= base_url('admin/dashboard');?>"
+                                class="<?= ($dashboard) ? 'menu-link-active' : '';?> menu-link">
+                                <i class="menu-icon tf-icons bx bxs-dashboard"></i>
+                                <div data-i18n="Analytics">Dashboard</div>
+                            </a>
+                        </li>
+                    <?php endif; ?>
+
+                    <?php if (in_array(SCHOLAR_APPLICATION, $role_permissions)): ?>
+                        <li class="menu-item ">
+                            <a href="<?= base_url('admin/scholarship-approval');?>"
+                                class="<?= ($scholarship_request) ? 'menu-link-active' : '';?> menu-link">
+                                <i class="menu-icon tf-icons bi bi-person-vcard"></i>
+                                <div data-i18n="Analytics">Scholarship Application</div>
+                            </a>
+                        </li>
+                    <?php endif; ?>
+
+                    <?php if (in_array(STUDENT_RECORD, $role_permissions)): ?>
+                        <li class="menu-item ">
+                            <a href="<?= base_url('admin/student-record');?>"
+                                class="<?= ($student_record) ? 'menu-link-active' : '';?> menu-link">
+                                <i class="menu-icon tf-icons bi bi-person-lines-fill"></i>
+                                <div data-i18n="Analytics">Student Record</div>
+                            </a>
+                        </li>
+                    <?php endif; ?>
+
+                    <!-- Settings -->
+                    <?php if (array_intersect([ACCOUNT_MANAGEMENT, CHURCH_SCHEDULE], $role_permissions)): ?>
+                        <li class="menu-header  btn btn-toggle" data-bs-toggle="collapse" data-bs-target="#sample"
+                            aria-expanded="<?= ($settings) ? 'true' : '';?>">
+                            <div class="d-flex justify-content-between align-items-center ">
+                                <div class="d-flex align-items-center">
+                                    <i class="menu-icon tf-icons bi bi-gear" style="color:#ffffff;"></i>
+                                    <div class="menu-header-text">Settings</div>
+                                </div>
+                                <div class="icon-chevron"></div>
+                            </div>
+                        </li>
+
+                        <div>
+                            <div class="collapse <?= ($settings) ? 'show' : '';?>" id="sample" style="">
+                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small sidebar-menu">
+                                    <?php if (in_array(ACCOUNT_MANAGEMENT, $role_permissions)): ?>
+                                        <li class="menu-item sidebar-menu-item <?= ($account_management) ? 'active' : '';?>">
+                                            <a href="<?= base_url('admin/account-management');?>"
+                                                class="<?= ($account_management) ? 'menu-link-active-2' : '';?> menu-link">
+                                                <div data-i18n="Account">Account Management</div>
+                                            </a>
+                                        </li>
+                                    <?php endif; ?>
+
+                                    <?php if (in_array(CHURCH_SCHEDULE, $role_permissions)): ?>
+                                        <li class="menu-item sidebar-menu-item <?= ($church_settings) ? 'active' : '';?>">
+                                            <a href="<?= base_url('admin/church-schedule');?>"
+                                                class="<?= ($church_settings) ? 'menu-link-active-2' : '';?> menu-link">
+                                                <div data-i18n="Account">Church Schedule</div>
+                                            </a>
+                                        </li>
+                                    <?php endif; ?>
+                                </ul>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+                    <!-- End -->
+
+                <?php endif; ?>
+                
 
 
             </ul>

@@ -46,12 +46,14 @@ class Scholar_request_model extends MY_Model
     public function count_all()
     {
         $this->db->from($this->scholar);
+        $this->db->where('application_status', 'For Approval');
         return $this->db->count_all_results();
     }
 
     private function _get_scholar_list_query()
     {
         $this->db->from($this->scholar);
+        $this->db->where('application_status', 'For Approval');
         $i = 0;
         foreach ($this->scholar_search as $item) // loop column 
         {
