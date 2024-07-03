@@ -74,7 +74,7 @@ class MY_Controller extends CI_Controller {
 
     function role_permissions()
     {
-        $this->load->model('admin_crm/role_permission_model');
+        $this->load->model('role_permission_model');
         $user_id = $this->session->userdata('adminIn')['user_id'];
 
         $user_permissions = $this->role_permission_model->getUserPermissions($user_id);

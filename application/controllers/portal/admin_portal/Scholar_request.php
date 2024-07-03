@@ -36,6 +36,7 @@ class Scholar_request extends MY_Controller
 
     public function index()
     {
+        $data['role_permissions'] = $this->role_permissions();
         $data['home_url'] = base_url('admin/portal');
         $data['active_page'] = 'scholarship_page';
         $data['card_title'] = 'Scholarship Approval';
@@ -56,6 +57,7 @@ class Scholar_request extends MY_Controller
 
     public function scholar_information()
     {
+        $data['role_permissions'] = $this->role_permissions();
         $application_id = $this->cipher->decrypt($this->input->get('application'));
         
         $data['application'] = $this->scholar_request_model->get_row('scholarship_application', array('application_id' => $application_id));
@@ -207,7 +209,7 @@ class Scholar_request extends MY_Controller
                     'birth_certificate'			=> $data['birth_certificate'],
                     'letter_recommendation'		=> $data['letter_recommendation'],
                     'date_created'			    => date('Y-m-d H:i:s'),
-                    'member_status'		        => 'For Approval',
+                    'member_status'		        => 'Member',
                 );
 
                 $member_id = $this->scholar_request_model->insert_member_details($insert_member);
