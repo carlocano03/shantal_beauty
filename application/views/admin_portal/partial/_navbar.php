@@ -20,7 +20,6 @@
 
 
         <div class="d-flex align-items-center">
-            <img src="<?= base_url('assets/images/client/school.png');?>" alt class="w-px-40 h-auto " />
             <h5 class="m-0 ms-2 fw-bold text-nowrap header-title">School Unity Portal System</h5>
         </div>
 
@@ -42,10 +41,8 @@
                                 </div>
                             </div>
                             <div class="flex-grow-1">
-                                <span
-                                    class="fw-semibold d-block">Sample Name</span>
-                                <small
-                                    class="text-muted"><i>sample@gmail.com</i></small>
+                                <span class="fw-semibold d-block">Sample Name</span>
+                                <small class="text-muted"><i>sample@gmail.com</i></small>
                             </div>
                         </div>
                     </a>
