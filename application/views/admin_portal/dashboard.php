@@ -323,8 +323,8 @@
     font-size: 12px;
     padding: 4px 10px;
     font-weight: bold;
-    background: rgba(76, 175, 80, .2);
-    color: #4caf50;
+    background: rgba(129, 199, 132, .2);
+    color: #388e3c;
     border-radius: 6px;
 }
 
@@ -332,8 +332,8 @@
     font-size: 12px;
     padding: 4px 10px;
     font-weight: bold;
-    background: rgba(244, 67, 54, .2);
-    color: #f44336;
+    background: rgba(239, 83, 80, .2);
+    color: #d32f2f;
     border-radius: 6px;
 }
 
@@ -344,6 +344,12 @@
     background: rgba(255, 235, 59, .2);
     color: #fbc02d;
     border-radius: 6px;
+}
+
+.overview-card__icon {
+    width: 2rem;
+    height: 2rem;
+    object-fit: cover;
 }
 </style>
 <!-- Content wrapper -->
@@ -383,7 +389,7 @@
                                 <div class="flex flex-column">
                                     <div class="custom-card__title ">209</div>
                                     <div class="custom-card__sub-text">
-                                        Approved Students
+                                        Total Registered Students
                                     </div>
                                 </div>
                             </div>
@@ -508,7 +514,12 @@
                     <div class="col">
                         <div class="overview-card">
                             <div class="d-flex justify-content-between align-items-center">
-                                <h1 class="overview-card__title mb-0">Attendance Summary</h1>
+                                <div class="d-flex align-items-center gap-2">
+                                    <img class="overview-card__icon"
+                                        src="<?php echo base_url('assets/images/dashboard/attendance.png'); ?>" alt="
+										Attendance">
+                                    <h1 class="overview-card__title mb-0">Attendance Summary</h1>
+                                </div>
                                 <div class="custom-date-input">
                                     <input type="date" id="dateInput" class="form-control">
                                 </div>
@@ -535,7 +546,12 @@
                     <div class="col">
                         <div class="overview-card">
                             <div class="d-flex align-items-center justify-content-between">
-                                <h1 class="overview-card__title mb-0">Scholarship Registration Metrics</h1>
+                                <div class="d-flex align-items-center gap-2">
+                                    <img class="overview-card__icon"
+                                        src="<?php echo base_url('assets/images/dashboard/registration.png'); ?>" alt="
+										Registration">
+                                    <h1 class="overview-card__title mb-0">Scholarship Registration Metrics</h1>
+                                </div>
                                 <div class="custom-date-input">
                                     <input type="date" id="dateInput" class="form-control">
                                 </div>
@@ -568,6 +584,11 @@
                     <div class="col">
                         <div class="overview-card">
                             <div class="d-flex align-items-center justify-content-between">
+                                <div class="d-flex align-items-center gap-2">
+                                    <img class="overview-card__icon"
+                                        src="<?php echo base_url('assets/images/dashboard/upcoming.png'); ?>" alt="
+										Registration">
+                                </div>
                                 <h1 class="overview-card__title mb-0">Upcoming Schedule</h1>
                                 <button class="upcoming-sched__create-btn"><i class="fa-solid fa-plus"></i>
                                     Create</button>
@@ -606,10 +627,14 @@
                 <div class="row mt-4">
                     <div class="col">
                         <div class="overview-card">
-                            <h1 class="overview-card__title py-2">Recent Activities</h1>
+                            <div class="d-flex align-items-center gap-2 py-2">
+                                <img class="overview-card__icon"
+                                    src="<?php echo base_url('assets/images/dashboard/recent.png'); ?>" alt="Recent">
+                                <h1 class="overview-card__title mb-0">Recent Activities</h1>
+                            </div>
 
 
-                            <div>
+                            <div class="mt-3">
                                 <ul class="p-0">
                                     <li class="d-flex li-recent-system-updates">
                                         <div class="activity-dot"
@@ -773,6 +798,7 @@ new Chart(registration, {
             },
 
         }
+
     },
 
 
