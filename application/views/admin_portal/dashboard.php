@@ -232,6 +232,10 @@
     color: #4caf50;
 }
 
+.custom-test-primary {
+    color: #434875;
+}
+
 .custom-text-danger {
     color: #f44336;
 }
@@ -248,6 +252,98 @@
     padding: 6px 15px;
     border-radius: 5px;
     outline: none;
+}
+
+.bg-polygon {
+    position: relative;
+    width: 52px;
+    height: 52px;
+    clip-path: polygon(40% 7.67949%, 43.1596% 6.20615%, 46.52704% 5.30384%, 50% 5%, 53.47296% 5.30384%, 56.8404% 6.20615%, 60% 7.67949%, 81.65064% 20.17949%, 84.50639% 22.17911%, 86.97152% 24.64425%, 88.97114% 27.5%, 90.44449% 30.6596%, 91.34679% 34.02704%, 91.65064% 37.5%, 91.65064% 62.5%, 91.34679% 65.97296%, 90.44449% 69.3404%, 88.97114% 72.5%, 86.97152% 75.35575%, 84.50639% 77.82089%, 81.65064% 79.82051%, 60% 92.32051%, 56.8404% 93.79385%, 53.47296% 94.69616%, 50% 95%, 46.52704% 94.69616%, 43.1596% 93.79385%, 40% 92.32051%, 18.34936% 79.82051%, 15.49361% 77.82089%, 13.02848% 75.35575%, 11.02886% 72.5%, 9.55551% 69.3404%, 8.65321% 65.97296%, 8.34936% 62.5%, 8.34936% 37.5%, 8.65321% 34.02704%, 9.55551% 30.6596%, 11.02886% 27.5%, 13.02848% 24.64425%, 15.49361% 22.17911%, 18.34936% 20.17949%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.card {
+    border-radius: 15px;
+    height: 100%;
+}
+
+.li-recent-system-updates {
+    position: relative;
+    padding-bottom: 20px;
+}
+
+.li-recent-system-updates::before {
+    position: absolute;
+    content: "";
+    border: 1px dashed #52526c;
+    opacity: 0.3;
+    top: 12px;
+    left: 2px;
+    height: calc(100% - 12px);
+
+}
+
+.activity-dot {
+    min-width: 6px;
+    height: 6px;
+    border-radius: 100%;
+    position: relative;
+    z-index: 2;
+    margin-top: 8px;
+    animation: round 1.3s ease-in-out infinite;
+
+}
+
+.recent-activity__date {
+    background: rgba(82, 82, 108, .1);
+    border-radius: 8px;
+    padding: 6px 16px;
+    display: inline-block;
+}
+
+@keyframes round {
+
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1.4);
+    }
+}
+
+.recent-activity__badge--success {
+    font-size: 12px;
+    padding: 4px 10px;
+    font-weight: bold;
+    background: rgba(76, 175, 80, .2);
+    color: #4caf50;
+    border-radius: 6px;
+}
+
+.recent-activity__badge--danger {
+    font-size: 12px;
+    padding: 4px 10px;
+    font-weight: bold;
+    background: rgba(244, 67, 54, .2);
+    color: #f44336;
+    border-radius: 6px;
+}
+
+.recent-activity__badge--warning {
+    font-size: 12px;
+    padding: 4px 10px;
+    font-weight: bold;
+    background: rgba(255, 235, 59, .2);
+    color: #fbc02d;
+    border-radius: 6px;
 }
 </style>
 <!-- Content wrapper -->
@@ -482,7 +578,7 @@
                                     <h1 class="upcoming-sched__weekday">Thursday</h1>
                                     <div class="d-flex align-items-center justify-content-between">
                                         <div class="upcoming-sched__date"><i
-                                                class="fa-solid fa-calendar custom-text-success me-1"></i> July 2,
+                                                class="fa-solid fa-calendar custom-text-primary me-1"></i> July 2,
                                             2024</div>
                                         <div class="upcoming-sched__time"><i
                                                 class="fa-solid fa-clock custom-text-danger me-1"></i> 09:00 AM -
@@ -494,7 +590,7 @@
                                     <h1 class="upcoming-sched__weekday">Sunday</h1>
                                     <div class="d-flex align-items-center justify-content-between">
                                         <div class="upcoming-sched__date"><i
-                                                class="fa-solid fa-calendar custom-text-success me-1"></i> July 2,
+                                                class="fa-solid fa-calendar custom-text-primary me-1"></i> July 2,
                                             2024</div>
                                         <div class="upcoming-sched__time"><i
                                                 class="fa-solid fa-clock custom-text-danger me-1"></i> 09:00 AM -
@@ -510,40 +606,85 @@
                 <div class="row mt-4">
                     <div class="col">
                         <div class="overview-card">
-                            <div class="d-flex align-items-center justify-content-between">
-                                <h1 class="overview-card__title mb-0">Recently Approved</h1>
-                                <button class="upcoming-sched__create-btn"><i class="fa-solid fa-plus"></i>
-                                    Create</button>
-                            </div>
+                            <h1 class="overview-card__title py-2">Recent Activities</h1>
 
-                            <div class="mt-4">
-                                <div class="upcoming-sched__date-container-1">
-                                    <h1 class="upcoming-sched__weekday">Thursday</h1>
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <div class="upcoming-sched__date"><i
-                                                class="fa-solid fa-calendar custom-text-success me-1"></i> July 2,
-                                            2024</div>
-                                        <div class="upcoming-sched__time"><i
-                                                class="fa-solid fa-clock custom-text-danger me-1"></i> 09:00 AM -
-                                            12:00 AM</div>
-                                    </div>
-                                </div>
 
-                                <div class="upcoming-sched__date-container-2 mt-3">
-                                    <h1 class="upcoming-sched__weekday">Sunday</h1>
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <div class="upcoming-sched__date"><i
-                                                class="fa-solid fa-calendar custom-text-success me-1"></i> July 2,
-                                            2024</div>
-                                        <div class="upcoming-sched__time"><i
-                                                class="fa-solid fa-clock custom-text-danger me-1"></i> 09:00 AM -
-                                            12:00 AM</div>
-                                    </div>
-                                </div>
+                            <div>
+                                <ul class="p-0">
+                                    <li class="d-flex li-recent-system-updates">
+                                        <div class="activity-dot"
+                                            style="background-color: #7366FF;outline: 5px solid rgba(115, 102, 255, 0.25);">
+                                        </div>
+                                        <div class="ms-3">
+                                            <div class=" mb-2 recent-activity__date"><span>July 5, 2024, 2:45
+                                                    PM</span></div>
+                                            <div class="mt-1">
+                                                <h6 class="mb-0 fw-bold" style="color:#434875">Jake Castor submitted an
+                                                    excuse letter.
+                                                </h6>
+                                                <p class="mt-2" style="font-size:14px;color:#9AA5B1">
+                                                    jakecastor1010@gmail.com</p>
+                                                <p style="font-size:14px;color:#9AA5B1">
+                                                    BSIT - 2nd Year</p>
+                                                <div class="d-flex align-items-center gap-2 mt-3">
+                                                    <p class="m-0" style="font-size:14px;color:#9AA5B1">Status:
+                                                    </p>
+                                                    <div class="recent-activity__badge--warning">Pending</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="d-flex li-recent-system-updates">
+                                        <div class="activity-dot"
+                                            style="background-color: #54BA4A;outline: 5px solid rgba(84, 186, 74, 0.25);">
+                                        </div>
+                                        <div class="ms-3">
+                                            <div class=" mb-2 recent-activity__date"><span>July 5, 2024, 2:45
+                                                    PM</span></div>
+                                            <div class="mt-1">
+                                                <h6 class="mb-0 fw-bold" style="color:#434875">Admin B approved the
+                                                    registration of Scholar C.
+                                                </h6>
+
+                                                <p class="mt-2" style="font-size:14px;color:#9AA5B1">
+                                                    jakecastor1010@gmail.com</p>
+                                                <p style="font-size:14px;color:#9AA5B1">
+                                                    BSIT - 2nd Year</p>
+
+                                                <div class="d-flex align-items-center gap-2 mt-3">
+                                                    <p class="m-0" style="font-size:14px;color:#9AA5B1">Approval Status:
+                                                    </p>
+                                                    <div class="recent-activity__badge--success">Approved</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="d-flex li-recent-system-updates">
+                                        <div class="activity-dot"
+                                            style="background-color: #FF3364;outline: 5px solid rgba(255, 51, 100, 0.25)">
+                                        </div>
+                                        <div class="ms-3">
+                                            <div class=" mb-2 recent-activity__date"><span>July 5, 2024, 2:45
+                                                    PM</span></div>
+                                            <div class="mt-1">
+                                                <h6 class="mb-0 fw-bold" style="color:#434875">Schedule for Sunday
+                                                    service updated.
+                                                </h6>
+                                                <p class="mt-1" style="font-size:14px;color:#9AA5B1">Admin B / 5 min
+                                                    ago
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </li>
+
+
+                                </ul>
                             </div>
                         </div>
                     </div>
+
                 </div>
+
             </div>
         </div>
 
@@ -633,6 +774,7 @@ new Chart(registration, {
 
         }
     },
+
 
 })
 </script>
