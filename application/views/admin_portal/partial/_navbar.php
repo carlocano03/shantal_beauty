@@ -19,8 +19,10 @@
         </div>
 
 
-        <div class="d-flex align-items-center">
-            <h5 class="m-0 ms-2 fw-bold text-nowrap header-title">School Unity Portal System</h5>
+        <div class="d-flex align-items-center gap-2">
+            <img src="<?php echo base_url('assets/images/dashboard/system.png'); ?>" alt="" style="width:32px" />
+            <h5 class="m-0 ms-2 fw-bold text-nowrap header-title">
+                School Unity Portal System</h5>
         </div>
 
         <div class="container d-flex justify-content-end">
