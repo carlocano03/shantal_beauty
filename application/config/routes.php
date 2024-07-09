@@ -62,6 +62,11 @@ $route['admin/account-management'] = 'portal/admin_portal/account_management/ind
 $route['admin/account-management/account-list'] = 'portal/admin_portal/account_management/account_list';
 $route['admin/church-schedule'] = 'portal/admin_portal/church_schedule/index';
 
+// Student Portal
+$route['student/dashboard'] = 'portal/student_portal/main/index';
+
+
+
 $route['default_controller'] = 'main';
 $route['404_override'] = 'main/page404';
 $route['(:any)'] = 'main/index/$1';
