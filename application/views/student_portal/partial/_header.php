@@ -31,6 +31,8 @@
     <link rel="stylesheet" href="<?= base_url('assets/vendor/css/theme-default.css');?>"
         class="template-customizer-theme-css" />
     <link rel="stylesheet" href="<?= base_url('assets/css/custom-style.css');?>" />
+    <link rel="stylesheet" href="<?= base_url('assets/css/student-portal/dashboard.css');?>" />
+
     <link rel="stylesheet" href="<?= base_url('assets/css/jquery.toast.css');?>" />
 
     <!-- Vendors CSS -->

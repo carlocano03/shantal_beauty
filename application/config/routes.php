@@ -64,6 +64,8 @@ $route['admin/church-schedule'] = 'portal/admin_portal/church_schedule/index';
 
 // Student Portal
 $route['student/dashboard'] = 'portal/student_portal/main/index';
+$route['student/my-profile'] = 'portal/student_portal/main/myProfile';
+
 
 
 
