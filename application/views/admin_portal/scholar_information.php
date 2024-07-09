@@ -25,7 +25,7 @@
                     <?php if(isset($application['application_status']) && $application['application_status'] == 'For Approval') : ?>
                         <div class="text-end">
                             <button class="btn btn-primary btn-sm approve_request"><i class="bi bi-box-arrow-right me-2"></i>Approve Request</button>
-                            <button class="btn btn-outline-danger btn-sm"><i class="bi bi-x-square-fill me-2"></i>Decline Request</button>
+                            <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#declineModal"><i class="bi bi-x-square-fill me-2"></i>Decline Request</button>
                         </div>
                     <?php else :?>
                         <div class="text-end">
@@ -45,6 +45,7 @@
         </div>
     </div>
     <!-- / Content -->
+<?php $this->load->view('admin_portal/modal/decline_modal')?>
 
 <script>
     var application_id = '<?= $application_id?>';
@@ -111,7 +112,6 @@
 					},
                     error: function() {
 						$('.loading-screen').hide();
-						console.error("AJAX request failed:", textStatus, errorThrown);
 						Swal.fire({
 							icon: 'error',
 							title: 'Ooops...',
@@ -121,5 +121,73 @@
                 });
             }
         });
+    });
+
+    $(document).on('click', '#decline_request', function() {
+        var comment = $('#comment').val();
+
+        if (comment != '') {
+            Swal.fire({
+                title: 'Are you sure..',
+                text: "You want to activate this account?",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, continue',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "<?= base_url('portal/admin_portal/scholar_request/approve_request')?>",
+                        method: "POST",
+                        data: {
+                            application_id: application_id,
+                            comment: comment,
+                            action: 'Declined',
+                            '_token': csrf_token_value,
+                        },
+                        dataType: "json",
+                        beforeSend: function() {
+                            $('.loading-screen').show();
+                        },
+                        success: function(data) {
+                            if (data.error != '') {
+                                Swal.fire({
+                                    icon: 'warning',
+                                    title: 'Oops...',
+                                    text: data.error,
+                                }); 
+                            } else {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Thank you!',
+                                    text: data.success,
+                                });
+                                setTimeout(() => {
+                                    window.location.href = '<?= base_url('admin/scholarship-approval')?>';
+                                }, 1000);
+                            }
+                        },
+                        complete: function() {
+                            $('.loading-screen').hide();
+                        },
+                        error: function() {
+                            $('.loading-screen').hide();
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Ooops...',
+                                text: 'An error occurred while processing the request.',
+                            });
+                        }
+                    });
+                }
+            });
+        } else {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Oops...',
+                text: 'Please provide a valid comment.',
+            }); 
+        }
     });
 </script>

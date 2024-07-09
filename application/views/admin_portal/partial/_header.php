@@ -7,7 +7,7 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>Origami | Client-CRM</title>
+    <title>School Unity Portal</title>
 
     <meta name="description" content="" />
 
@@ -59,6 +59,7 @@
     <script src="<?= base_url('assets/js/jquery.toast.js');?>"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/1.7.1/countUp.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!--   CSRF Token   -->
     <script src="<?php echo base_url('assets/js/csrf_generator.js'); ?>"></script>
     <script>

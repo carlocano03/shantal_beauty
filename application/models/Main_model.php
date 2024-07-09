@@ -73,5 +73,22 @@ class Main_model extends MY_Model
         return $query->row_array();
     }
 
+    function insert_activity_logs($logs)
+    {
+        return $this->db->insert('recent_activities', $logs);
+    }
+
+    function getRecentActivities()
+    {
+        $this->db->select('RA.*, AU.active_email');
+        $this->db->select("CONCAT(AU.first_name,' ',AU.last_name) as user_name");
+        $this->db->from('recent_activities RA');
+        $this->db->join('admin_user_details AU', 'RA.user_id = AU.user_id', 'left');
+        $this->db->limit(5);
+        $this->db->order_by('logs_id', 'DESC');
+        $query = $this->db->get();
+        return $query;
+    }
+
 
 }
