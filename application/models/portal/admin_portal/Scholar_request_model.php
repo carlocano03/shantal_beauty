@@ -122,4 +122,11 @@ class Scholar_request_model extends MY_Model
         return $this->db->update('scholarship_member', array('user_id' => $user_id));
     }
 
+    function decline_application($decline_application, $application_id)
+    {
+        $this->db->where('application_id', $application_id);
+        $update = $this->db->update('scholarship_application', $decline_application);
+        return $update?TRUE:FALSE;
+    }
+
 }

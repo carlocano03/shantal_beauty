@@ -83,11 +83,12 @@ class Student_record extends MY_Controller
             $row = array();
 
             $img = base_url()."assets/images/avatar-default-0.png";
-            if(!empty($list->image_file)){
-                if(file_exists('./assets/personal_photo/'.$list->personal_photo)){
-                    $img = base_url()."assets/personal_photo/".$list->personal_photo;
+            if(!empty($list->personal_photo)){
+                if(file_exists('./assets/uploaded_attachment/personal_photo/'.$list->personal_photo)){
+                    $img = base_url()."assets/uploaded_attachment/personal_photo/".$list->personal_photo;
                 }
             }
+
             $member_id = $this->cipher->encrypt($list->member_id);
             $row[] = '<img class="img-profile" src="' . $img . '" alt="Profile-Picture">';
             $row[] = $list->scholarship_no;

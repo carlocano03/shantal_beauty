@@ -56,15 +56,20 @@ $route['scholarship/registration-form/success-registration'] = 'website/registra
 $route['admin/dashboard'] = 'portal/admin_portal/main/index';
 $route['admin/scholarship-approval'] = 'portal/admin_portal/scholar_request/index';
 $route['admin/scholarship-approval/scholar-information'] = 'portal/admin_portal/scholar_request/scholar_information';
-$route['admin/student-record'] = 'portal/admin_portal/student_record/index';
+$route['admin/scholars-record'] = 'portal/admin_portal/student_record/index';
 $route['admin/student-record/details'] = 'portal/admin_portal/student_record/student_information';
 $route['admin/account-management'] = 'portal/admin_portal/account_management/index';
 $route['admin/account-management/account-list'] = 'portal/admin_portal/account_management/account_list';
 $route['admin/church-schedule'] = 'portal/admin_portal/church_schedule/index';
+$route['admin/late-rules-setup'] = 'portal/admin_portal/late_rules/index';
+$route['admin/attendance-record'] = 'portal/admin_portal/attendance_record/index';
+$route['admin/attendance-record/manage-record'] = 'portal/admin_portal/attendance_record/manage_attendance';
+
+
 
 // Student Portal
 $route['student/dashboard'] = 'portal/student_portal/main/index';
-
+$route['student/attendance'] = 'portal/student_portal/student_attendance/index';
 
 
 $route['default_controller'] = 'main';

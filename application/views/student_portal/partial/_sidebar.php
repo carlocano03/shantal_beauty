@@ -1,9 +1,11 @@
 <?php
     $dashboard = FALSE;
-
+    $attendance = FALSE;
     if ($active_page == 'dashboard_page') {
         $dashboard = TRUE;
-    } 
+    } elseif ($active_page == 'attendance_page') {
+        $attendance = TRUE;
+    }
 
 ?>
 <style>
@@ -164,8 +166,16 @@
                 <li class="menu-item ">
                     <a href="<?= base_url('student/dashboard');?>"
                         class="<?= ($dashboard) ? 'menu-link-active' : '';?> menu-link">
-                        <i class="menu-icon tf-icons bx bxs-dashboard"></i>
+                        <i class="menu-icon tf-icons bi bi-speedometer2"></i>
                         <div data-i18n="Analytics">Dashboard</div>
+                    </a>
+                </li>
+
+                <li class="menu-item ">
+                    <a href="<?= base_url('student/attendance');?>"
+                        class="<?= ($attendance) ? 'menu-link-active' : '';?> menu-link">
+                        <i class="menu-icon tf-icons bi bi-calendar-week-fill"></i>
+                        <div data-i18n="Analytics">Attendance Record</div>
                     </a>
                 </li>
             </ul>

@@ -81,6 +81,12 @@ class MY_Controller extends CI_Controller {
         return $user_permissions;
     }
 
+    function insert_activity_logs($logs)
+    {
+        $this->load->model('main_model');
+        $this->main_model->insert_activity_logs($logs);
+    }
+
     // function send_email_html($data) 
     // {
     //     $this->config->load('email');

@@ -256,6 +256,14 @@ class Scholar_request extends MY_Controller
                         // 	'mail_data'     => $mail_data,
                         // ]);
                     }
+                    $logs = array(
+                        'user_id'       => $this->session->userdata('adminIn')['user_id'],
+                        'user_type_id'  => $this->session->userdata('adminIn')['user_type_id'],
+                        'transaction'   => 'Approve the scholarship application.',
+                        'remarks'       => 'Approved',
+                        'email_use'     => $this->session->userdata('adminIn')['email_add'],
+                    );
+                    $this->insert_activity_logs($logs);
                     $success = 'Application successfully approved.';
                 } else {
                     $error = 'Failed to update the data.';
@@ -263,8 +271,10 @@ class Scholar_request extends MY_Controller
             }
         } else {
             //Declined
+            $comment = $this->input->post('comment', true);
             $decline_application = array(
                 'application_status' => 'Declined',
+                'decline_comment' => $comment,
             );
 
             $result = $this->scholar_request_model->decline_application($decline_application, $application_id);
@@ -281,6 +291,15 @@ class Scholar_request extends MY_Controller
                 // 	'template_path' => 'email_template/application_declined',
                 // 	'mail_data'     => $mail_data,
                 // ]);
+
+                $logs = array(
+                    'user_id'       => $this->session->userdata('adminIn')['user_id'],
+                    'user_type_id'  => $this->session->userdata('adminIn')['user_type_id'],
+                    'transaction'   => 'Declined the scholarship application.',
+                    'remarks'       => 'Declined',
+                    'email_use'     => $this->session->userdata('adminIn')['email_add'],
+                );
+                $this->insert_activity_logs($logs);
                 $success = 'Application successfully declined.';
             } else {
                 $error = 'Failed to update the data.';
