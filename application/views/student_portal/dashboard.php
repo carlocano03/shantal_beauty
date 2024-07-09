@@ -410,11 +410,11 @@
                                     <div class="d-flex align-items-center justify-content-between mt-4 ">
                                         <div class="d-flex flex-column gap-1">
                                             <div class="recent-attendance__time-title">Check In Time</div>
-                                            <div class="recent-attendance__time">2:00 PM</div>
+                                            <div class="recent-attendance__time">---------------</div>
                                         </div>
                                         <div class="d-flex flex-column gap-1">
                                             <div class="recent-attendance__time-title">Check Out Time</div>
-                                            <div class="recent-attendance__time">6:00 PM</div>
+                                            <div class="recent-attendance__time">---------------</div>
                                         </div>
                                     </div>
                                 </div>
@@ -430,7 +430,7 @@
                                     <div class="d-flex align-items-center justify-content-between mt-4 ">
                                         <div class="d-flex flex-column gap-1">
                                             <div class="recent-attendance__time-title">Check In Time</div>
-                                            <div class="recent-attendance__time">2:00 PM</div>
+                                            <div class="recent-attendance__time">2:01 PM</div>
                                         </div>
                                         <div class="d-flex flex-column gap-1">
                                             <div class="recent-attendance__time-title">Check Out Time</div>
