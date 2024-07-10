@@ -5,7 +5,8 @@
     $settings = FALSE;
     $account_management = FALSE;
     $church_settings = FALSE;
-
+    $late_rules = FALSE;
+    $attendance = FALSE;
 
     if ($active_page == 'dashboard_page') {
         $dashboard = TRUE;
@@ -19,6 +20,11 @@
     } elseif ($active_page == 'church_settings_page') {
         $settings = TRUE;
         $church_settings = TRUE;
+    } elseif ($active_page == 'late_rules_page') {
+        $settings = TRUE;
+        $late_rules = TRUE;
+    } elseif ($active_page == 'attendance_page') {
+        $attendance = TRUE;
     }
 
 ?>
@@ -190,25 +196,33 @@
                         <a href="<?= base_url('admin/scholarship-approval');?>"
                             class="<?= ($scholarship_request) ? 'menu-link-active' : '';?> menu-link">
                             <i class="menu-icon tf-icons bi bi-person-vcard"></i>
-                            <div data-i18n="Analytics">Scholarship Application</div>
+                            <div data-i18n="Analytics">Scholarship Request</div>
                         </a>
                     </li>
 
                     <li class="menu-item ">
-                        <a href="<?= base_url('admin/student-record');?>"
+                        <a href="<?= base_url('admin/scholars-record');?>"
                             class="<?= ($student_record) ? 'menu-link-active' : '';?> menu-link">
                             <i class="menu-icon tf-icons bi bi-person-lines-fill"></i>
-                            <div data-i18n="Analytics">Student Record</div>
+                            <div data-i18n="Analytics">Scholar List</div>
                         </a>
                     </li>
 
-                    <!-- Subscriptions -->
+                    <li class="menu-item ">
+                        <a href="<?= base_url('admin/attendance-record');?>"
+                            class="<?= ($attendance) ? 'menu-link-active' : '';?> menu-link">
+                            <i class="menu-icon tf-icons bi bi-calendar-week-fill"></i>
+                            <div data-i18n="Analytics">Attendance Record</div>
+                        </a>
+                    </li>
+
+                    <!-- Settings -->
                     <li class="menu-header  btn btn-toggle" data-bs-toggle="collapse" data-bs-target="#sample"
                         aria-expanded="<?= ($settings) ? 'true' : '';?>">
                         <div class="d-flex justify-content-between align-items-center ">
                             <div class="d-flex align-items-center">
                                 <i class="menu-icon tf-icons bi bi-gear" style="color:#ffffff;"></i>
-                                <div class="menu-header-text">Settings</div>
+                                <div class="menu-header-text">Manage Settings</div>
                             </div>
                             <div class="icon-chevron"></div>
                         </div>
@@ -228,6 +242,13 @@
                                     <a href="<?= base_url('admin/church-schedule');?>"
                                         class="<?= ($church_settings) ? 'menu-link-active-2' : '';?> menu-link">
                                         <div data-i18n="Account">Church Schedule</div>
+                                    </a>
+                                </li>
+
+                                <li class="menu-item sidebar-menu-item <?= ($late_rules) ? 'active' : '';?>">
+                                    <a href="<?= base_url('admin/late-rules-setup');?>"
+                                        class="<?= ($late_rules) ? 'menu-link-active-2' : '';?> menu-link">
+                                        <div data-i18n="Account">Total Late Rules</div>
                                     </a>
                                 </li>
                             </ul>
@@ -252,29 +273,39 @@
                             <a href="<?= base_url('admin/scholarship-approval');?>"
                                 class="<?= ($scholarship_request) ? 'menu-link-active' : '';?> menu-link">
                                 <i class="menu-icon tf-icons bi bi-person-vcard"></i>
-                                <div data-i18n="Analytics">Scholarship Application</div>
+                                <div data-i18n="Analytics">Scholarship Request</div>
                             </a>
                         </li>
                     <?php endif; ?>
 
                     <?php if (in_array(STUDENT_RECORD, $role_permissions)): ?>
                         <li class="menu-item ">
-                            <a href="<?= base_url('admin/student-record');?>"
+                            <a href="<?= base_url('admin/scholars-record');?>"
                                 class="<?= ($student_record) ? 'menu-link-active' : '';?> menu-link">
                                 <i class="menu-icon tf-icons bi bi-person-lines-fill"></i>
-                                <div data-i18n="Analytics">Student Record</div>
+                                <div data-i18n="Analytics">Scholar List</div>
+                            </a>
+                        </li>
+                    <?php endif; ?>
+
+                    <?php if (in_array(ATTENDANCE, $role_permissions)): ?>
+                        <li class="menu-item ">
+                            <a href="<?= base_url('admin/attendance-record');?>"
+                                class="<?= ($attendance) ? 'menu-link-active' : '';?> menu-link">
+                                <i class="menu-icon tf-icons bi bi-calendar-week-fill"></i>
+                                <div data-i18n="Analytics">Attendance Record</div>
                             </a>
                         </li>
                     <?php endif; ?>
 
                     <!-- Settings -->
-                    <?php if (array_intersect([ACCOUNT_MANAGEMENT, CHURCH_SCHEDULE], $role_permissions)): ?>
+                    <?php if (array_intersect([ACCOUNT_MANAGEMENT, CHURCH_SCHEDULE, LATE_RULES], $role_permissions)): ?>
                         <li class="menu-header  btn btn-toggle" data-bs-toggle="collapse" data-bs-target="#sample"
                             aria-expanded="<?= ($settings) ? 'true' : '';?>">
                             <div class="d-flex justify-content-between align-items-center ">
                                 <div class="d-flex align-items-center">
                                     <i class="menu-icon tf-icons bi bi-gear" style="color:#ffffff;"></i>
-                                    <div class="menu-header-text">Settings</div>
+                                    <div class="menu-header-text">Manage Settings</div>
                                 </div>
                                 <div class="icon-chevron"></div>
                             </div>
@@ -297,6 +328,15 @@
                                             <a href="<?= base_url('admin/church-schedule');?>"
                                                 class="<?= ($church_settings) ? 'menu-link-active-2' : '';?> menu-link">
                                                 <div data-i18n="Account">Church Schedule</div>
+                                            </a>
+                                        </li>
+                                    <?php endif; ?>
+
+                                    <?php if (in_array(LATE_RULES, $role_permissions)): ?>
+                                        <li class="menu-item sidebar-menu-item <?= ($late_rules) ? 'active' : '';?>">
+                                            <a href="<?= base_url('admin/late-rules-setup');?>"
+                                                class="<?= ($late_rules) ? 'menu-link-active-2' : '';?> menu-link">
+                                                <div data-i18n="Account">Total Late Rules</div>
                                             </a>
                                         </li>
                                     <?php endif; ?>

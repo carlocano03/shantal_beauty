@@ -354,7 +354,6 @@
                             },
                             error: function() {
                                 $('.loading-screen').hide();
-                                console.error("AJAX request failed:", textStatus, errorThrown);
                                 Swal.fire({
                                     icon: 'error',
                                     title: 'Ooops...',
@@ -430,7 +429,6 @@
                             },
                             error: function() {
                                 $('.loading-screen').hide();
-                                console.error("AJAX request failed:", textStatus, errorThrown);
                                 Swal.fire({
                                     icon: 'error',
                                     title: 'Ooops...',

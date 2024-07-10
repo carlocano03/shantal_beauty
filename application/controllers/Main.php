@@ -86,16 +86,27 @@ class Main extends MY_Controller
                         );
                         $this->session->set_userdata('adminIn', $sess_array);
 
+                        if ($session['user_type_id'] == ADMIN_STAFF) {
+                            $logs = array(
+                                'user_id'       => $user_details['user_id'],
+                                'user_type_id'  => ADMIN_STAFF,
+                                'transaction'   => 'Login to School Unity Portal.',
+                                'remarks'       => 'Log-In',
+                                'email_use'     => $user_details['active_email'],
+                            );
+                            $this->insert_activity_logs($logs);
+                        }
                         $main_url = base_url('admin/dashboard');
                     } else {
                         //Scholars Member
                         $sess_array = array(
                             'user_id'           => $user_details['user_id'],
                             'user_type_id'      => $session['user_type_id'],
+                            'member_id'         => $user_details['member_id'],
                             'scholarship_no'    => $user_details['scholarship_no'],
                             'school_name'       => $user_details['school_name'],
                             'fullname'          => $user_details['student_first_name'] .' '. $user_details['student_last_name'],
-                            'email_add'         => $user_details['active_email'],
+                            'email_add'         => $user_details['email_address'],
                         );
                         $this->session->set_userdata('scholarIn', $sess_array);
 
@@ -120,8 +131,81 @@ class Main extends MY_Controller
 
     public function logout($session)
     {
+        $user_type_id = $this->session->userdata('adminIn')['user_type_id'];
+        if ($session['user_type_id'] == ADMINISTRATOR || $session['user_type_id'] == ADMIN_STAFF) {
+            $logs = array(
+                'user_id'       => $this->session->userdata('adminIn')['user_id'],
+                'user_type_id'  => $this->session->userdata('adminIn')['user_type_id'],
+                'transaction'   => 'Logout to School Unity Portal.',
+                'remarks'       => 'Log-Out',
+                'email_use'     => $this->session->userdata('adminIn')['email_add'],
+            );
+        } else {
+            $logs = array(
+                'user_id'       => $this->session->userdata('scholarIn')['user_id'],
+                'user_type_id'  => $this->session->userdata('scholarIn')['user_type_id'],
+                'transaction'   => 'Logout to School Unity Portal.',
+                'remarks'       => 'Log-Out',
+                'email_use'     => $this->session->userdata('scholarIn')['email_add'],
+            );
+        }
+        
+        $this->insert_activity_logs($logs);
+
         $this->session->unset_userdata($session); // Unset the adminIn session variable
         redirect('login'); // Redirect to the 'user' controller or route
+    }
+
+    public function getRecentActivities()
+    {
+        $output = '';
+
+        $logs = $this->main_model->getRecentActivities();
+        if ($logs->num_rows() > 0) {
+            foreach($logs->result() as $list) {
+                if ($list->user_id == $this->session->userdata('adminIn')['user_id']) {
+                    $user = 'You';
+                } else {
+                    $user = ucwords($list->user_name);
+                }
+
+                if ($list->user_id != 0) {
+                    $transaction = $user.', '.$list->transaction;
+                } else {
+                    $transaction = $list->transaction;
+                }
+
+                if ($list->remarks == 'Declined') {
+                    $bg_color = 'background-color: #FF3364;outline: 5px solid rgba(255, 51, 100, 0.25);';
+                } else {
+                    $bg_color = 'background-color: #7366FF;outline: 5px solid rgba(115, 102, 255, 0.25);';
+                }
+
+                $output .= '
+                    <li class="d-flex li-recent-system-updates">
+                        <div class="activity-dot"
+                            style="'.$bg_color.'">
+                        </div>
+                        <div class="ms-3">
+                            <div class=" mb-2 recent-activity__date"><span>'.date('D M j, Y h:i A', strtotime($list->date_transaction)).'</span></div>
+                            <div class="mt-1">
+                                <h6 class="mb-0 fw-bold" style="color:#434875; font-size:14px;">
+                                    '.$transaction.'
+                                </h6>
+                                <p class="mt-2" style="font-size:14px;color:#9AA5B1">'.$list->email_use.'</p>
+                            </div>
+                        </div>
+                    </li>
+                ';
+            }
+        } else {
+            $output .= '<div class="alert alert-danger"><i class="bi bi-info-circle-fill me-2"></i>No recent activity found.</div>';
+        }
+
+        $data = array(
+            'recent_activities' => $output,
+        );
+        echo json_encode($data);
     }
 
 }

@@ -10,25 +10,32 @@
             <div class="col-lg-8 col-12 ">
                 <div class="overview-card">
                     <div class="d-flex flex-column flex-lg-row align-items-center gap-4">
-                        <img class="student__avatar" src="<?php echo base_url('assets/images/dashboard/boy.png'); ?>"
+                        <?php
+                            $img = base_url()."assets/images/student_dashboard/student-profile.png";
+                            if(!empty($student_info['personal_photo'])){
+                                if(file_exists('./assets/uploaded_attachment/personal_photo/'.$student_info['personal_photo'])){
+                                    $img = base_url()."assets/uploaded_attachment/personal_photo/".$student_info['personal_photo'];
+                                }
+                            }
+                        ?>
+                        <img class="student__avatar" src="<?= $img;?>"
                             alt="applicant">
                         <div class="w-100 d-flex flex-column  pt-2 ">
-                            <div class="student__name text-lg-start text-center">Jake Castor</div>
+                            <div class="student__name text-lg-start text-center"><?= $this->session->userdata('scholarIn')['fullname']?><?= isset($student_info['scholarship_no']) ? ' - '.$student_info['scholarship_no'] : '';?></div>
                             <div
                                 class="d-flex gap-lg-5 gap-4 align-items-center justify-content-lg-start justify-content-center mt-3 py-3 py-lg-0">
                                 <div>
-                                    <div class="student__info--title">Grade</div>
-                                    <div class="student__info">12</div>
+                                    <div class="student__info--title">Year Level</div>
+                                    <div class="student__info"><?= isset($student_info['year_level']) ? $student_info['year_level'] : '';?></div>
                                 </div>
                                 <div>
                                     <div class="student__info--title">Email Address</div>
-                                    <div class="student__info">jakecastor09@gmail.com</div>
+                                    <div class="student__info"><?= isset($student_info['email_address']) ? $student_info['email_address'] : '';?></div>
                                 </div>
                                 <div>
                                     <div class="student__info--title">Phone Number</div>
-                                    <div class="student__info">+6391785673</div>
+                                    <div class="student__info"><?= isset($student_info['mobile_no']) ? $student_info['mobile_no'] : '';?></div>
                                 </div>
-
                             </div>
                         </div>
 
@@ -175,62 +182,92 @@
             </div>
             <div class="col-lg-4 col-12">
                 <div class="overview-card">
-                    <div class="d-flex align-items-center gap-2">
+                    <div class="d-flex align-items-center gap-2 mb-3">
                         <div class="d-flex align-items-center gap-2">
                             <img class="overview-card__icon"
                                 src="<?php echo base_url('assets/images/dashboard/upcoming.png'); ?>" alt="
 										Registration">
                         </div>
-                        <h1 class="overview-card__title mb-0">Upcoming Schedule</h1>
+                        <h1 class="overview-card__title mb-0">Select Church Schedules</h1>
                     </div>
-
-                    <div class="mt-4">
-                        <div class="upcoming-sched__date-container-1 selected-date">
-                            <div class="d-flex align-items-center justify-content-between mb-3">
-                                <h1 class="upcoming-sched__weekday mb-0">Thursday</h1>
-                                <div class="upcoming-sched__selected">Selected</div>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-between ">
-                                <div class="upcoming-sched__date"><i
-                                        class="fa-solid fa-calendar custom-text-primary me-1"></i> July 2,
-                                    2024</div>
-                                <div class="upcoming-sched__time"><i
-                                        class="fa-solid fa-clock custom-text-danger me-1"></i> 09:00 AM -
-                                    12:00 AM</div>
-                            </div>
-                        </div>
-
-                        <div class="upcoming-sched__date-container-2 mt-3">
-                            <div class="d-flex align-items-center justify-content-between mb-3">
-                                <h1 class="upcoming-sched__weekday mb-0">Sunday</h1>
-
-                            </div>
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div class="upcoming-sched__date"><i
-                                        class="fa-solid fa-calendar custom-text-primary me-1"></i> July 2,
-                                    2024</div>
-                                <div class="upcoming-sched__time"><i
-                                        class="fa-solid fa-clock custom-text-danger me-1"></i> 09:00 AM -
-                                    12:00 AM</div>
-                            </div>
-                        </div>
+                    
+                    <div class="error-message"></div>
+                    <div id="available_sched">
+                        <!-- AJAX REQUEST -->
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    function getAvailableSched()
+    {
+        $.ajax({
+            url: "<?= base_url('portal/student_portal/main/getAvailableSched')?>",
+            method: "GET",
+            dataType: "json",
+            success: function(data) {
+                $('#available_sched').html(data.available_sched);
+                if (data.error != '') {
+                    $('.error-message').html(data.error);
+                } else {
+                    $('.error-message').html('');
+                }
+            }
+        });
+    }
 
+    $(document).ready(function() {
+        getAvailableSched();
 
+        $(document).on('click', '#save_schedule', function() {
+            var sched_id = $(this).data('id');
 
-
-
-
-
-
-
-
-
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/1.7.1/countUp.min.js"></script>
+            Swal.fire({
+                title: 'Are you sure..',
+                text: "You want to select this schedule for this month?",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, continue',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "<?= base_url('portal/student_portal/main/save_schedule')?>",
+                        method: "POST",
+                        data: {
+                            sched_id: sched_id,
+                            '_token': csrf_token_value,
+                        },
+                        dataType: "json",
+                        success: function(data) {
+                            if (data.error != '') {
+                                Swal.fire({
+                                    icon: 'warning',
+                                    title: 'Ooops...',
+                                    text: data.error,
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Thank You!',
+                                    text: data.success,
+                                });
+                                getAvailableSched();
+                            }
+                        },
+                        error: function() {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Ooops...',
+                                text: 'An error occurred while processing the request.',
+                            });
+                        }
+                    });
+                }
+            });
+        });
+    });
+</script>

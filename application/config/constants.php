@@ -16,7 +16,9 @@ define('DASHBOARD', 1);
 define('SCHOLAR_APPLICATION', 2);
 define('STUDENT_RECORD', 3);
 define('ACCOUNT_MANAGEMENT', 4);
-define('CHURCH_SCHEDULE', 4);
+define('CHURCH_SCHEDULE', 5);
+define('LATE_RULES', 6);
+define('ATTENDANCE', 7);
 /*
 |--------------------------------------------------------------------------
 | Display Debug backtrace
