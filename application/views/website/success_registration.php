@@ -8,13 +8,14 @@
                             <img src="<?= base_url('assets/images/checked.png')?>" alt="" width="74" height="74" />
                         </div>
                         <div class="card-body">
-                            <h4 class="text-center my-2 pb-2 fw-bold form-title">Congratulations! Your registration was successful.</h4>
+                            <h4 class="text-center my-2 pb-2 fw-bold form-title">Congratulations! Your registration was
+                                successful.</h4>
                             <hr>
                             <div class="text-center">
                                 <a href="<?= base_url();?>" class="btn btn-outline-success px-5 rounded-5">Continue</a>
                             </div>
                         </div>
-                    </div> 
+                    </div>
                 </div>
             </div>
         </div>
@@ -37,9 +38,9 @@
 
 
 <script>
-    $(document).ready(function() {
-        setTimeout(() => {
-            window.location.href = "<?= base_url()?>";
-        }, 3000);
-    });
+$(document).ready(function() {
+    setTimeout(() => {
+        window.location.href = "<?= base_url()?>";
+    }, 3000);
+});
 </script>

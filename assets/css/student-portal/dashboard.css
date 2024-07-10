@@ -268,3 +268,57 @@
     font-weight: bold;
     font-size: 14px;
 }
+
+
+/* My Profile */
+
+.my_profile__page-title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.border-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 15px;
+
+}
+
+.my_profile__card-title {
+    font-size: 18px;
+    font-weight: bold;
+    padding-left: 12px;
+    background: linear-gradient(to right, #434875, #b18647);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+    position: relative;
+    display: inline-block;
+
+}
+
+.my_profile__card-title::before {
+    content: '';
+    width: 2px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    background-color: #b18647;
+    height: 90%;
+    transform: translateY(1px);
+    border-radius: 8px;
+}
+
+.my_profile__label {
+    color: rgba(67, 72, 117, .6);
+    font-size: 14px;
+}
+
+.my_profile__value {
+    color: rgba(67, 72, 117, 0.8);
+    font-weight: 600;
+    padding: 6px 0;
+    font-size: 16px;
+
+}
