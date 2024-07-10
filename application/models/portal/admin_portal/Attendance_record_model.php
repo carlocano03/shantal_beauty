@@ -152,4 +152,36 @@ class Attendance_record_model extends MY_Model
         return $query;
     }
 
+    function get_attendance_record($member_id, $schedule_date)
+    {
+        $this->db->where('member_id', $member_id);
+        $this->db->where('attendance_date', $schedule_date);
+        $query = $this->db->get('attendance_record');
+        return $query;
+    }
+
+    function get_attendance($member_id, $schedule_date, $remarks)
+    {
+        $this->db->where('member_id', $member_id);
+        $this->db->where('attendance_date', $schedule_date);
+        $this->db->where('remarks', $remarks);
+
+        if ($remarks == 'Time-In') {
+            $this->db->order_by('attendance_id', 'ASC');
+        } else {
+            $this->db->order_by('attendance_id', 'DESC');
+        }
+        
+        $query = $this->db->get('attendance_record');
+        return $query->row_array();
+    }
+
+    function get_excuse_letter($member_id, $schedule_date)
+    {
+        $this->db->where('member_id', 2);
+        $this->db->where('attendance_date', $schedule_date);
+        $query = $this->db->get('excuse_letter');
+        return $query;
+    }
+
 }

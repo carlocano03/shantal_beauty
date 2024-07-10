@@ -46,7 +46,8 @@ class Student_attendance extends MY_Controller
     {
         $output = '';
         $date_sched = '';
-        $check_sched = $this->student_attendance_model->check_schedule();
+        $month = $this->input->post('month', true);
+        $check_sched = $this->student_attendance_model->check_schedule($month);
         if ($check_sched->num_rows() > 0) {
             $date_sched = 'Church Schedule for the month of '.date('F Y');
             $output .= '<table class="tbl_schedule">';
@@ -80,7 +81,7 @@ class Student_attendance extends MY_Controller
 
             $output .= '<tbody">';
 
-            $schedule = $this->student_attendance_model->get_student_schedule_list();
+            $schedule = $this->student_attendance_model->get_student_schedule_list($month);
             $total_tardiness_hours = 0;
             $total_tardiness_minutes = 0;
 
@@ -111,6 +112,10 @@ class Student_attendance extends MY_Controller
                 //Attendance Data
                 $attendance = $this->student_attendance_model->get_attendance_record($list['member_id'], $list['schedule_date']);
                 $attendance_row = $attendance->row_array();
+
+                $timeIn = $this->student_attendance_model->get_attendance($list['member_id'], $list['schedule_date'], 'Time-In');
+                $timeOut = $this->student_attendance_model->get_attendance($list['member_id'], $list['schedule_date'], 'Time-Out');
+
                 $time_in = '';
                 $time_out = '';
                 $present = '';
@@ -120,15 +125,35 @@ class Student_attendance extends MY_Controller
                 //Uploaded excuse letter
                 $letter = $this->student_attendance_model->get_excuse_letter($list['member_id'], $list['schedule_date']);
                 $letter_row = $letter->row_array();
-
                 if ($attendance->num_rows() > 0) {
                     if (is_array($attendance_row) && !empty($attendance_row)) {
-                        $time_in_arrival = strtotime($attendance_row['time_in_arrival']);
-                        $time_out_departure = strtotime($attendance_row['time_out_departure']);
+                        $time_in_arrival = isset($timeIn['time_transaction']) ? strtotime($timeIn['time_transaction']) : 0;
+                        $time_out_departure = isset($timeOut['time_transaction']) ? strtotime($timeOut['time_transaction']) : 0;
+
                         $time_from = strtotime($list['time_from']);
 
-                        $time_in = '<span class="time_attendance">'.date('h:i A', strtotime($attendance_row['time_in_arrival'])).'</span>';
-                        $time_out = '<span class="time_attendance">'.date('h:i A', strtotime($attendance_row['time_out_departure'])).'</span>';
+                        if (isset($timeIn['time_transaction'])) {
+                            $time_Arr = date('h:i A', strtotime($timeIn['time_transaction']));
+                            if ($time_in_arrival > $time_from) {
+                                $bgColorIn = 'bg-warning'; // Change to your desired color for late
+                            } else {
+                                $bgColorIn = ''; // No special background color if not late
+                            }
+                        } else {
+                            $time_Arr = 'No Time-In';
+                            $bgColorIn = 'bg-danger';
+                        }
+
+                        if (isset($timeOut['time_transaction'])) {
+                            $time_Dep = date('h:i A', strtotime($timeOut['time_transaction']));
+                            $bgColorOut = '';
+                        } else {
+                            $time_Dep = 'No Time-Out';
+                            $bgColorOut = 'bg-danger';
+                        }
+
+                        $time_in = '<span class="time_attendance '.$bgColorIn.'">'.$time_Arr.'</span>';
+                        $time_out = '<span class="time_attendance '.$bgColorOut.'">'.$time_Dep.'</span>';
                         $present = '<i class="bi bi-check-circle-fill text-success"></i>';
                         $total_present++;
 
@@ -142,8 +167,8 @@ class Student_attendance extends MY_Controller
                             $late_hours = 0;
                             $late_minutes = 0;
                         }
-
-                        if ($late_hours != 0 || $late_minutes) {
+                        
+                        if ($late_hours != 0 || $late_minutes != 0) {
                             $late = '<i class="bi bi-check-circle-fill text-warning"></i>';
 
                             if ($letter->num_rows() > 0) {
@@ -171,8 +196,8 @@ class Student_attendance extends MY_Controller
                             $late = '';
                         }
 
-                         // Calculate total time in hours and minutes
-                        if ($time_out_departure > $time_in_arrival) {
+                        // Calculate total time in hours and minutes
+                        if ($time_in_arrival > 0 && $time_out_departure > $time_in_arrival) {
                             $total_seconds = $time_out_departure - $time_in_arrival;
                             $total_hours = floor($total_seconds / 3600);
                             $total_minutes = floor(($total_seconds % 3600) / 60);

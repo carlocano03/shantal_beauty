@@ -69,11 +69,13 @@ $route['admin/attendance-record/manage-record'] = 'portal/admin_portal/attendanc
 
 // Student Portal
 $route['student/dashboard'] = 'portal/student_portal/main/index';
+$route['student/my-profile'] = 'portal/student_portal/main/myProfile';
 $route['student/attendance'] = 'portal/student_portal/student_attendance/index';
 
 
 // Scholarship Closed
 $route['scholarship-closed'] = 'main/scholarship_closed';
+
 
 
 $route['default_controller'] = 'main';

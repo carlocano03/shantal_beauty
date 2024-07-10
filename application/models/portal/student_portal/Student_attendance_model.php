@@ -22,10 +22,10 @@ class Student_attendance_model extends MY_Model
         $this->load->database();
     }
 
-    function check_schedule()
+    function check_schedule($month)
     {
-        $start_dt = date('Y-m-01');
-        $end_date_obj = date('Y-m-t');
+        $start_dt = date('Y-m-01', strtotime($month));
+        $end_date_obj = date('Y-m-t', strtotime($month));
 
         $this->db->where('member_id', $this->session->userdata('scholarIn')['member_id']);
         $this->db->where('DATE(date_from) >=', $start_dt);  // Adjust the year as needed
@@ -34,10 +34,10 @@ class Student_attendance_model extends MY_Model
         return $query;
     }
 
-    function get_student_schedule_list()
+    function get_student_schedule_list($month)
     {
-        $start_dt = date('Y-m-01');
-        $end_date_obj = date('Y-m-t');
+        $start_dt = date('Y-m-01', strtotime($month));
+        $end_date_obj = date('Y-m-t', strtotime($month));
 
         $this->db->where('member_id', $this->session->userdata('scholarIn')['member_id']);
         $this->db->where('DATE(schedule_date) >=', $start_dt);  // Adjust the year as needed
@@ -67,6 +67,22 @@ class Student_attendance_model extends MY_Model
         $this->db->where('attendance_date', $schedule_date);
         $query = $this->db->get('attendance_record');
         return $query;
+    }
+
+    function get_attendance($member_id, $schedule_date, $remarks)
+    {
+        $this->db->where('member_id', $member_id);
+        $this->db->where('attendance_date', $schedule_date);
+        $this->db->where('remarks', $remarks);
+
+        if ($remarks == 'Time-In') {
+            $this->db->order_by('attendance_id', 'ASC');
+        } else {
+            $this->db->order_by('attendance_id', 'DESC');
+        }
+        
+        $query = $this->db->get('attendance_record');
+        return $query->row_array();
     }
 
     function save_excuse_letter($upload_letter)
