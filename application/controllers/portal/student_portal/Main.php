@@ -43,11 +43,24 @@ class Main extends MY_Controller
         $this->load->view('student_portal/partial/_footer', $data);
     }
 
+
+	public function myProfile(){
+		$data['role_permissions'] = $this->role_permissions();
+        $data['home_url'] = base_url('student/portal');
+        $data['active_page'] = 'my_profile_page';
+        $data['card_title'] = 'My Profile';
+        $data['icon'] = 'bi bi-speedometer2';
+        $this->load->view('student_portal/partial/_header', $data);
+        $this->load->view('student_portal/my_profile', $data);
+        $this->load->view('student_portal/partial/_footer', $data);
+	}
+
     // Error 404 redirect
 	public function page404()
 	{
 		$this->load->view('error404');
 	}
+
 
     public function getAvailableSched()
     {
