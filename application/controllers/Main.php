@@ -208,5 +208,9 @@ class Main extends MY_Controller
         echo json_encode($data);
     }
 
+	public function scholarship_closed(){
+        $this->load->view('website/scholarship_closed');
+	}
+
 }
 //End CI_Controller
