@@ -51,10 +51,16 @@
                 </div>
             </div>
             <div class="card-body">
-                <div class="text-end mb-3">
-                    <button class="btn btn-danger btn-sm"><i class="bi bi-printer me-2"></i>Print Record</button>
-                    <button class="btn btn-success btn-sm"><i class="bi bi-file-earmark-excel me-2"></i>Excel</button>
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="col-3">
+                        <input type="month" class="form-control" id="month" value="<?= date('Y-m');?>">
+                    </div>
+                    <div class="text-end">
+                        <button class="btn btn-danger"><i class="bi bi-printer me-2"></i>Print Record</button>
+                        <button class="btn btn-success"><i class="bi bi-file-earmark-excel me-2"></i>Excel</button>
+                    </div>
                 </div>
+                <hr>
                 <div class="attendance-info">
                     <!-- AJAX REQUEST -->
                 </div>
@@ -84,11 +90,27 @@
         });
     }
 
-    function getAttendanceRecord()
+    // function getAttendanceRecord()
+    // {
+    //     $.ajax({
+    //         url: "<?= base_url('portal/student_portal/student_attendance/getAttendanceRecord')?>",
+    //         method: "GET",
+    //         dataType: "json",
+    //         success: function(data) {
+    //             $('.attendance-info').html(data.attendance);
+    //             $('#date_sched').text(data.date_sched);
+    //         }
+    //     })
+    // }
+    function getAttendanceRecord(month)
     {
         $.ajax({
             url: "<?= base_url('portal/student_portal/student_attendance/getAttendanceRecord')?>",
-            method: "GET",
+            method: "POST",
+            data: {
+                month: month,
+                '_token': csrf_token_value,
+            },
             dataType: "json",
             success: function(data) {
                 $('.attendance-info').html(data.attendance);
@@ -98,14 +120,22 @@
     }
 
     $(document).ready(function() {
+        
         var selected_sched_id = 0;
         var schedule_id = 0;
         var action = '';
         var date = '';
         var member_id = 0;
 
-        getAttendanceRecord();
+        // getAttendanceRecord();
         getAvailableSched();
+
+        $(document).on('change', '#month', function() {
+            var month = $(this).val();
+            getAttendanceRecord(month);
+        });
+
+        $('#month').trigger('change');
 
         $(document).on('click', '#save_schedule', function() {
             var sched_id = $(this).data('id');

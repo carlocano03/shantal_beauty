@@ -37,6 +37,17 @@
         border-radius: 3px;
         font-weight: bold;
     }
+
+    .download_letter {
+        font-size: 9px;
+        font-weight: 600;
+        color: #0984e3;
+        cursor: pointer;
+        text-decoration: underline;
+    }
+    .download_letter:hover {
+        text-decoration: underline;
+    }
 </style>
 <?php
     $member_id = $this->cipher->decrypt($_GET['scholar']);
