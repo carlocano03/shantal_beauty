@@ -73,6 +73,10 @@ $route['student/my-profile'] = 'portal/student_portal/main/myProfile';
 $route['student/attendance'] = 'portal/student_portal/student_attendance/index';
 
 
+// Scholarship Closed
+$route['scholarship-closed'] = 'main/scholarship_closed';
+
+
 
 $route['default_controller'] = 'main';
 $route['404_override'] = 'main/page404';
