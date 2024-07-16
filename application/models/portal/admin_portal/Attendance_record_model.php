@@ -178,10 +178,41 @@ class Attendance_record_model extends MY_Model
 
     function get_excuse_letter($member_id, $schedule_date)
     {
-        $this->db->where('member_id', 2);
+        $this->db->where('member_id', $member_id);
         $this->db->where('attendance_date', $schedule_date);
         $query = $this->db->get('excuse_letter');
         return $query;
     }
 
+    function download_excuse_letter($member_id, $attendance_date, $action)
+    {
+        $this->db->select('attachment');
+        $this->db->from('excuse_letter');
+        $this->db->where('member_id', $member_id);
+        $this->db->where('attendance_date', $attendance_date);
+        $this->db->where('letter_for', $action);
+        $query = $this->db->get();
+        return $query->row_array();
+    }
+
+    function save_validation($update_letter, $remarks, $member_id, $schedule_date)
+    {
+        $this->db->where('member_id', $member_id);
+        $this->db->where('attendance_date', $schedule_date);
+        $this->db->where('letter_for', $remarks);
+        $update = $this->db->update('excuse_letter', $update_letter);
+        return $update?TRUE:FALSE;
+    }
+
+    function get_selected_schedule($member_id)
+    {
+        $start_dt = date('Y-m-01');
+        $end_date_obj = date('Y-m-t');
+
+        $this->db->where('member_id', $member_id);
+        $this->db->where('DATE(schedule_date) >=', $start_dt);  // Adjust the year as needed
+        $this->db->where('DATE(schedule_date) <=', $end_date_obj);
+        $query = $this->db->get('scholar_selected_schedule');
+        return $query->result();
+    }
 }

@@ -23,10 +23,20 @@
                     </div>
 
                     <?php if(isset($application['application_status']) && $application['application_status'] == 'For Approval') : ?>
-                        <div class="text-end">
-                            <button class="btn btn-primary btn-sm approve_request"><i class="bi bi-box-arrow-right me-2"></i>Approve Request</button>
-                            <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#declineModal"><i class="bi bi-x-square-fill me-2"></i>Decline Request</button>
-                        </div>
+                        <?php if ($this->session->userdata('adminIn')['user_type_id'] == ADMINISTRATOR) : ?>
+                            <div class="text-end">
+                                <button class="btn btn-primary btn-sm approve_request"><i class="bi bi-box-arrow-right me-2"></i>Approve Request</button>
+                                <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#declineModal"><i class="bi bi-x-square-fill me-2"></i>Decline Request</button>
+                            </div>
+                        <?php else: ?> 
+                            <?php if (in_array(APPROVAL_SCHOLAR, $role_permissions)): ?>
+                                <div class="text-end">
+                                    <button class="btn btn-primary btn-sm approve_request"><i class="bi bi-box-arrow-right me-2"></i>Approve Request</button>
+                                    <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#declineModal"><i class="bi bi-x-square-fill me-2"></i>Decline Request</button>
+                                </div>
+                            <?php endif; ?>
+                        <?php endif; ?>
+                        
                     <?php else :?>
                         <div class="text-end">
                             <?php if(isset($application['application_status']) && $application['application_status'] == 'Approved') : ?>

@@ -333,7 +333,8 @@ input[type=number] {
   text-fill-color: transparent;
 }
 
-.card-header {
+.card-header,
+.offcanvas-header {
   background: linear-gradient(to right, #434875, #b18647);
   border-bottom: 2px solid #434875 !important;
 }

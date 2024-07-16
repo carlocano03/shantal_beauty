@@ -17,7 +17,7 @@
             <div class="card-body">
                 <div class="d-flex align-items-center justify-content-between mb-3">
                     <div>
-                        <a href="<?= base_url('admin/student-record')?>" class="btn btn-outline-dark btn-sm"><i class="bi bi-backspace-fill me-2"></i>Back</a>
+                        <a href="<?= base_url('admin/scholars-record')?>" class="btn btn-outline-dark btn-sm"><i class="bi bi-backspace-fill me-2"></i>Back</a>
                     </div>
                 </div>
 

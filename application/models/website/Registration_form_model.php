@@ -81,4 +81,12 @@ class Registration_form_model extends MY_Model
         return $insert?TRUE:FALSE;
     }
 
+    function get_deadline_filling()
+    {
+        $this->db->where('status', 0);
+        $this->db->limit(1);
+        $query = $this->db->get('deadline_filling_scholarship');
+        return $query->row();
+    }
+
 }

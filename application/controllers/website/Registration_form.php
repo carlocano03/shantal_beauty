@@ -44,6 +44,7 @@ class Registration_form extends MY_Controller
             </script>'
         );
 
+		$data['deadline'] = $this->registration_form_model->get_deadline_filling();
         $this->load->view('website/partial/_header', $data);
         $this->load->view('website/registration_form', $data);
         $this->load->view('website/partial/_footer', $data);
