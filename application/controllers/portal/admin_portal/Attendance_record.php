@@ -307,14 +307,14 @@ class Attendance_record extends MY_Controller
                         if ($letter->num_rows() > 0) {
                             if (is_array($letter_row) && !empty($letter_row)) {
                                 if ($letter_row['remarks'] == 'For Validation') {
-                                    $action = '<button class="btn btn-outline-primary btn-xs"><i class="bi bi-check2-circle me-1"></i>Validate Letter</button>';
+                                    $action = '<button class="btn btn-outline-primary btn-xs validate_letter" data-action="Late" data-id="'.$list['member_id'].'" data-date="'.$list['schedule_date'].'"><i class="bi bi-check2-circle me-1"></i>Validate Letter</button>';
                                 } else {
                                     $color_mapping = [
                                         'Valid' => 'bg-success',
                                         'Invalid' => 'bg-danger',
                                     ];
                                     $badge_color = isset($color_mapping[$letter_row['remarks']]) ? $color_mapping[$letter_row['remarks']] : 'bg-primary';
-                                    $action = '<span class="badge ' . $badge_color . '">' . $letter_row['remarks'] . '</span>';
+                                    $action = '<span class="badge ' . $badge_color . ' px-2">' . $letter_row['remarks'] . ' Letter</span>';
                                 }
                             }
                         } else {
@@ -343,14 +343,14 @@ class Attendance_record extends MY_Controller
                         if ($letter->num_rows() > 0) {
                             if (is_array($letter_row) && !empty($letter_row)) {
                                 if ($letter_row['remarks'] == 'For Validation') {
-                                    $action = '<span class="badge bg-warning"><i class="bi bi-check2-square me-1"></i>With Uploaded Letter</span>';
+                                    $action = '<button class="btn btn-outline-primary btn-xs validate_letter" data-action="Absent" data-id="'.$list['member_id'].'" data-date="'.$list['schedule_date'].'"><i class="bi bi-check2-circle me-1"></i>Validate Letter</button>';
                                 } else {
                                     $color_mapping = [
                                         'Valid' => 'bg-success',
                                         'Invalid' => 'bg-danger',
                                     ];
                                     $badge_color = isset($color_mapping[$letter_row['remarks']]) ? $color_mapping[$letter_row['remarks']] : 'bg-primary';
-                                    $action = '<span class="badge ' . $badge_color . '">' . $letter_row['remarks'] . '</span>';
+                                    $action = '<span class="badge ' . $badge_color . ' px-2">' . $letter_row['remarks'] . ' Letter</span>';
                                 }
                             }
                         } else {
@@ -448,4 +448,125 @@ class Attendance_record extends MY_Controller
         echo json_encode($data);
     }
 
+    public function download_excuse_letter()
+    {
+        $this->load->helper('url');
+        $this->load->helper('download');
+
+        $action = $this->input->post('action', true);
+        $member_id = $this->input->post('member_id', true);
+        $attendance_date = $this->input->post('attendance_date', true);
+
+        $fileinfo = $this->attendance_record_model->download_excuse_letter($member_id, $attendance_date, $action); 
+        if (!$fileinfo) {
+            $this->output
+                ->set_status_header(404)
+                ->set_output(json_encode(array('error' => 'File not found')));
+            return;
+        }
+
+        $filename = $fileinfo['attachment'];
+        $file_path = FCPATH . 'assets/uploaded_attachment/excuse_letter/' . $filename;
+
+        if (file_exists($file_path)) {
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/pdf');
+            header('Content-Disposition: inline; filename=' . $filename);
+            header('Content-Transfer-Encoding: binary');
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate');
+            header('Pragma: public');
+            header('Content-Length: ' . filesize($file_path));
+            ob_clean();
+            flush();
+            readfile($file_path);
+            exit;
+        } else {
+            $this->output
+                ->set_status_header(404)
+                ->set_output(json_encode(array('error' => 'File not found')));
+        }
+    }
+
+    public function save_validation()
+    {
+        $success = '';
+        $error = '';
+        $remarks = $this->input->post('remarks', true);
+        $member_id = $this->input->post('member_id', true);
+        $schedule_date = $this->input->post('schedule_date', true);
+        $validation = $this->input->post('validation', true);
+
+        $update_letter = array(
+            'remarks' => $validation,
+            'date_updated' => date('Y-m-d H:i:s'),
+        );
+
+        $result = $this->attendance_record_model->save_validation($update_letter, $remarks, $member_id, $schedule_date);
+        if ($result == TRUE) {
+            $success = 'Excuse letter successfully validated.';
+        } else {
+            $error = 'Failed to validate the letter.';
+        }
+        $output = array(
+            'error' => $error,
+            'success' => $success
+        );
+        echo json_encode($output);
+    }
+
+    public function view_schedule()
+    {
+        $output = '';
+        $member_id = $this->input->post('member_id', true);
+
+        $scholar = $this->attendance_record_model->get_row('scholarship_member', array('member_id' => $member_id, 'status' => 0));
+        $scholar_name = $scholar['student_last_name'].', '.$scholar['student_first_name'].' '.$scholar['student_middle_name'];
+
+        $output .= '
+            <div class="d-flex align-items-center justify-content-between" style="font-size:13px;">
+                <div class="fw-bold">Scholarship No.:</div>
+                <div class="scholarship_no">'.$scholar['scholarship_no'].'</div>
+            </div>
+            <hr class="mt-2 mb-2">
+            <div class="d-flex align-items-center justify-content-between" style="font-size:13px;">
+                <div class="fw-bold">Scholar Name.:</div>
+                <div class="full_name">'.ucwords($scholar_name).'</div>
+            </div>
+            <hr class="mt-2 mb-2">
+        ';
+
+        $output .= '
+            <div class="alert alert-danger"><i class="bi bi-info-circle-fill me-2"></i>List of Schedules</div>
+            <table class="tbl_sched">
+                <tr>
+                    <th>Date</th>
+                    <th class="text-center">Time From</th>
+                    <th class="text-center">Time To</th>
+                    <th class="text-center">Day</th>
+                </tr>
+                <tbody>
+        ';
+
+        $schedule = $this->attendance_record_model->get_selected_schedule($member_id);
+        foreach($schedule as $list) {
+            $output .= '
+                    <tr>
+                        <td>'.date('F j, Y', strtotime($list->schedule_date)).'</td>
+                        <td class="text-center">'.date('h:i A', strtotime($list->time_from)).'</td>
+                        <td class="text-center">'.date('h:i A', strtotime($list->time_to)).'</td>
+                        <td class="text-center">'.$list->day_name.'</td>
+                    </tr>
+            ';
+        }
+        $output .= '
+                </tbody>
+            </table>
+        ';
+
+        $data = array(
+            'scholar_schedule' => $output,
+        );
+        echo json_encode($data);
+    }
 }

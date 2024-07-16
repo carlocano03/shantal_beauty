@@ -98,7 +98,7 @@
                     </p>
                     <div class="mt-5">
                         <button class="hero-page__scholarship-btn"
-                            onclick="location.href='<?= base_url('scholarship/registration-form') ?>'">
+                            onclick="location.href='<?= $link; ?>'">
                             Apply for Scholarship
                         </button>
                     </div>
@@ -125,14 +125,30 @@
                         <h1 class="schedule__title">Workship Service Schedule</h1>
                     </div>
                     <div class="row py-2" style="background-color:#434875;">
-                        <div class="col text-center schedule__border-right">
+                        <?php
+                            $no = 0;
+                            foreach($church_schedule as $list) : 
+                            $no++;
+
+                            if ($no == 1) {
+                                $addClass = 'schedule__border-right';
+                            } else {
+                                $addClass = '';
+                            }
+                        ?>
+                            <div class="col text-center <?= $addClass;?>">
+                                <h1 class="schedule__day m-1"><?= ucfirst($list->day_week);?></h1>
+                                <div class="schedule__time"><?= date('h:i A', strtotime($list->time_in))?> - <?= date('h:i A', strtotime($list->time_out))?></div>
+                            </div>
+                        <?php endforeach;?>
+                        <!-- <div class="col text-center schedule__border-right">
                             <h1 class="schedule__day m-1">Thursday</h1>
                             <div class="schedule__time">5:00 PM - 7:00 PM</div>
                         </div>
                         <div class="col text-center">
                             <h1 class="schedule__day m-1">Sunday</h1>
                             <div class="schedule__time">3:00 PM - 5:00 PM</div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>

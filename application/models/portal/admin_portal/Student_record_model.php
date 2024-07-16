@@ -80,4 +80,16 @@ class Student_record_model extends MY_Model
             $this->db->order_by(key($order), $order[key($order)]);
         }
     }
+
+    function delete_scholar($member_id, $user_id)
+    {
+        $this->db->where('member_id', $member_id);
+        $delete = $this->db->update('scholarship_member', array('status' => 1));
+        if ($delete) {
+            //Remove Account
+            $this->db->where('user_id', $user_id);
+            $this->db->update('user_acct', array('status' => 1));
+        }
+        return $delete?TRUE:FALSE;
+    }
 }

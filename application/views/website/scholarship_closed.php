@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Scholarship Closed</title>
+    <link rel="icon" type="image/png" href="<?= base_url('assets/images/clc.png')?>">    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet" />
@@ -81,7 +82,7 @@
         <p>We regret to inform you that the registration for the scholarship program is currently closed. We appreciate
             your interest and encourage you to check back for future opportunities.</p>
         <p>For any inquiries or further assistance, please contact <span
-                class="contact-info">jakecastor@gmail.com</span>.</p>
+                class="contact-info">cclc_sample@gmail.com</span>.</p>
         <p>Thank you for your understanding and support.</p>
         <div class="py-3">
             <a href="<?= base_url(); ?>" class="back-button">Go Back</a>
@@ -89,5 +90,13 @@
         </div>
     </div>
 </body>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(function() {
+            window.location.href = "<?= base_url()?>";
+        }, 3000);
+    });
+</script>
 
 </html>

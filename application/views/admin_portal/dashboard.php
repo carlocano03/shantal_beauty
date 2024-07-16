@@ -91,7 +91,13 @@
                         <div class="overview-card__no-bg">
                             <div class="d-flex align-items-center justify-content-between">
                                 <h1 class="overview-card__title m-0">Scholarship Request</h1>
-                                <a href="<?= base_url('admin/scholarship-approval')?>"><div class="scholarship-req__view-all">View All</div></a>
+                                <?php if ($this->session->userdata('adminIn')['user_type_id'] == ADMINISTRATOR) : ?>
+                                    <a href="<?= base_url('admin/scholarship-approval')?>"><div class="scholarship-req__view-all">View All</div></a>
+                                <?php else: ?> 
+                                    <?php if (in_array(SCHOLAR_APPLICATION, $role_permissions)): ?>
+                                        <a href="<?= base_url('admin/scholarship-approval')?>"><div class="scholarship-req__view-all">View All</div></a>
+                                    <?php endif; ?>
+                                <?php endif; ?>
                             </div>
                             <div class="row row-cols-lg-2 row-cols-1 gy-lg-0 gy-3 mt-lg-4 mt-2" id="request_list">
                                 <!-- AJAX REQUEST -->
@@ -158,16 +164,23 @@
                 </div>
             </div>
             <div class="col-lg-4 col-12 order-lg-2 order-1">
-                <div class="row">
+                <div class="row mb-4">
                     <div class="col">
                         <div class="overview-card">
-                            <div class="d-flex align-items-center">
+                            <div class="d-flex align-items-center justify-content-between">
                                 <div class="d-flex align-items-center gap-2">
                                     <img class="overview-card__icon"
                                         src="<?php echo base_url('assets/images/dashboard/upcoming.png'); ?>" alt="
 										Registration">
                                     <h1 class="overview-card__title mb-0">Church Schedules</h1>
                                 </div>
+                                <?php if ($this->session->userdata('adminIn')['user_type_id'] == ADMINISTRATOR) : ?>
+                                    <a href="<?= base_url('admin/church-schedule')?>"><button class="upcoming-sched__create-btn"><i class="fa-solid fa-plus me-1"></i>Create</button></a>
+                                <?php else: ?> 
+                                    <?php if (in_array(CHURCH_SCHEDULE, $role_permissions)): ?>
+                                        <a href="<?= base_url('admin/church-schedule')?>"><button class="upcoming-sched__create-btn"><i class="fa-solid fa-plus me-1"></i>Create</button></a>
+                                    <?php endif; ?>
+                                <?php endif; ?>
                             </div>
 
                             <div class="mt-4" id="available_sched">
@@ -177,8 +190,30 @@
                     </div>
                 </div>
 
+                <div class="row mb-4">
+                    <div class="col">
+                        <div class="overview-card">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div class="d-flex align-items-center gap-2">
+                                    <img class="overview-card__icon"
+                                        src="<?php echo base_url('assets/images/dashboard/deadline.png'); ?>" alt="
+										Registration">
+                                    <h1 class="overview-card__title mb-0">Deadline for Filling</h1>
+                                </div>
 
-                <div class="row mt-4">
+                                <button class="upcoming-sched__create-btn" data-bs-target="#deadlineModal" data-bs-toggle="modal"><i class="fa-solid fa-plus me-1"></i>Create</button>
+                            </div>
+
+                            <div class="mt-4" id="deadline_filling">
+                                <!-- AJAX Request -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="row">
                     <div class="col">
                         <div class="overview-card">
                             <div class="d-flex align-items-center gap-2 py-2">
@@ -186,56 +221,9 @@
                                     src="<?php echo base_url('assets/images/dashboard/recent.png'); ?>" alt="Recent">
                                 <h1 class="overview-card__title mb-0">Recent Activities</h1>
                             </div>
-
-
                             <div class="mt-3">
                                 <ul class="p-0" id="recent_activities">
-                                    
-                                    
-                                    <!-- <li class="d-flex li-recent-system-updates">
-                                        <div class="activity-dot"
-                                            style="background-color: #54BA4A;outline: 5px solid rgba(84, 186, 74, 0.25);">
-                                        </div>
-                                        <div class="ms-3">
-                                            <div class=" mb-2 recent-activity__date"><span>July 5, 2024, 2:45
-                                                    PM</span></div>
-                                            <div class="mt-1">
-                                                <h6 class="mb-0 fw-bold" style="color:#434875">Admin B approved the
-                                                    registration of Scholar C.
-                                                </h6>
-
-                                                <p class="mt-2" style="font-size:14px;color:#9AA5B1">
-                                                    jakecastor1010@gmail.com</p>
-                                                <p style="font-size:14px;color:#9AA5B1">
-                                                    BSIT - 2nd Year</p>
-
-                                                <div class="d-flex align-items-center gap-2 mt-3">
-                                                    <p class="m-0" style="font-size:14px;color:#9AA5B1">Approval Status:
-                                                    </p>
-                                                    <div class="recent-activity__badge--success">Approved</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="d-flex li-recent-system-updates">
-                                        <div class="activity-dot"
-                                            style="background-color: #FF3364;outline: 5px solid rgba(255, 51, 100, 0.25)">
-                                        </div>
-                                        <div class="ms-3">
-                                            <div class=" mb-2 recent-activity__date"><span>July 5, 2024, 2:45
-                                                    PM</span></div>
-                                            <div class="mt-1">
-                                                <h6 class="mb-0 fw-bold" style="color:#434875">Schedule for Sunday
-                                                    service updated.
-                                                </h6>
-                                                <p class="mt-1" style="font-size:14px;color:#9AA5B1">Admin B / 5 min
-                                                    ago
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </li> -->
-
-
+                                    <!-- AJAX Request -->
                                 </ul>
                             </div>
                         </div>
@@ -248,6 +236,8 @@
 
     </div>
 </div>
+
+<?php $this->load->view('admin_portal/modal/deadline_modal');?>
 
 <script>
     const ctx = document.getElementById('attendanceSummary');
@@ -477,12 +467,24 @@
         });
     }
 
+    function getDeadlineFilling()
+    {
+        $.ajax({
+            url: "<?= base_url('main/getDeadlineFilling')?>",
+            method: "GET",
+            dataType: "json",
+            success: function(data) {
+                $('#deadline_filling').html(data.deadline_filling);
+            }
+        });
+    }
     $(document).ready(function() {
         getCount();
         getScholarshipRequest();
         getAvailableSched();
         getApplicationChart();
         getRecentActivities();
+        getDeadlineFilling();
 
         setInterval(() => {
             getScholarshipRequest();
@@ -491,6 +493,62 @@
 
         $(document).on('change', '#filter_options', function() {
             getApplicationChart();
+        });
+
+        $(document).on('click', '#save_deadline', function() {
+            var deadline = $('#deadline').val();
+
+            if (deadline != '') {
+                Swal.fire({
+                    title: 'Are you sure..',
+                    text: "You want to continue this transaction?",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, continue',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: "<?= base_url('main/save_deadline')?>",
+                            method: "POST",
+                            data: {
+                                deadline: deadline,
+                                '_token': csrf_token_value,
+                            },
+                            dataType: "json",
+                            success: function(data) {
+                                if (data.error != '') {
+                                    $('.error-message').html(data.error);
+                                    setTimeout(() => {
+                                        $('.error-message').html('');
+                                    }, 2000);
+                                } else {
+                                    $('.error-message').html(data.success);
+                                    setTimeout(() => {
+                                        $('.error-message').html('');
+                                    }, 2000);
+                                    getDeadlineFilling();
+                                    $('#deadlineModal').modal('hide');
+                                }
+                            },
+                            error :function() {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: 'An error occurred while processing the request.',
+                                });
+                            }
+                        });
+                    }
+                });
+            } else {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Oops...',
+                    text: 'Please provide a valid deadline schedule.',
+                }); 
+            }
         });
     });
 

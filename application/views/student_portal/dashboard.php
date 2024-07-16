@@ -2,10 +2,6 @@
 <div class="content-wrapper">
     <!-- Content -->
     <div class="container-xxl flex-grow-1 container-p-y" style="max-width:100%">
-        <div class="alert alert-danger" role="alert">
-            <strong>Attention:</strong> Please submit an excuse letter for your absence on July 12, 2024.
-        </div>
-
         <div class="row gy-3 ">
             <div class="col-lg-8 col-12 ">
                 <div class="overview-card">
@@ -50,7 +46,7 @@
                                             alt="applicant">
                                     </div>
                                     <div>
-                                        <div class="student__info--card--no">24</div>
+                                        <div class="student__info--card--no" id="total_attendance"></div>
                                         <div class="student__info--card--text">Total Attendance</div>
                                     </div>
                                 </div>
@@ -67,7 +63,7 @@
                                     </div>
 
                                     <div>
-                                        <div class="student__info--card--no">2</div>
+                                        <div class="student__info--card--no" id="total_late"></div>
                                         <div class="student__info--card--text">Total Late</div>
                                     </div>
                                 </div>
@@ -83,7 +79,7 @@
                                             alt="applicant">
                                     </div>
                                     <div>
-                                        <div class="student__info--card--no">2</div>
+                                        <div class="student__info--card--no" id="total_absent"></div>
                                         <div class="student__info--card--text">Total Absent</div>
                                     </div>
                                 </div>
@@ -103,78 +99,16 @@
                         </div>
                         <div class="d-flex align-items-center justify-content-between w-100">
                             <h1 class="overview-card__title mb-0">Recent Attendance Logs</h1>
-                            <select class="form-select w-25" aria-label="sort-and-filter">
-                                <option selected disabled>Sort by</option>
-                                <option value="date-asc">Oldest to Newest</option>
-                                <option value="date-desc">Newest to Oldest</option>
-                                <option value="status-late">Late</option>
-                                <option value="status-on-time">On Time</option>
-                                <option value="status-absent">Absent</option>
-                            </select>
-
                         </div>
 
                     </div>
                     <div class="mt-4">
-                        <div class="row row-cols-lg-3 row-cols-1 gx-lg-2 gy-lg-2 gy-3">
-                            <div class="col">
-                                <div class="overview-card recent-attendance__card-container">
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <div class="recent-attendance__date">July 11, 2024</div>
-                                        <div class="recent-attendance__badge--success">On Time</div>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-between mt-4 ">
-                                        <div class="d-flex flex-column gap-1">
-                                            <div class="recent-attendance__time-title">Check In Time</div>
-                                            <div class="recent-attendance__time">2:00 PM</div>
-                                        </div>
-                                        <div class="d-flex flex-column gap-1">
-                                            <div class="recent-attendance__time-title">Check Out Time</div>
-                                            <div class="recent-attendance__time">6:00 PM</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="overview-card recent-attendance__card-container">
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <div class="recent-attendance__date">July 12, 2024</div>
-                                        <div class="recent-attendance__badge--danger">Absent</div>
-                                    </div>
-
-                                    <div class="d-flex align-items-center justify-content-between mt-4 ">
-                                        <div class="d-flex flex-column gap-1">
-                                            <div class="recent-attendance__time-title">Check In Time</div>
-                                            <div class="recent-attendance__time">---------------</div>
-                                        </div>
-                                        <div class="d-flex flex-column gap-1">
-                                            <div class="recent-attendance__time-title">Check Out Time</div>
-                                            <div class="recent-attendance__time">---------------</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col">
-
-                                <div class="overview-card recent-attendance__card-container">
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <div class="recent-attendance__date">July 13, 2024</div>
-                                        <div class="recent-attendance__badge--warning">Late</div>
-                                    </div>
-
-                                    <div class="d-flex align-items-center justify-content-between mt-4 ">
-                                        <div class="d-flex flex-column gap-1">
-                                            <div class="recent-attendance__time-title">Check In Time</div>
-                                            <div class="recent-attendance__time">2:01 PM</div>
-                                        </div>
-                                        <div class="d-flex flex-column gap-1">
-                                            <div class="recent-attendance__time-title">Check Out Time</div>
-                                            <div class="recent-attendance__time">6:00 PM</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
+                        <div class="row row-cols-lg-3 row-cols-1 gx-lg-2 gy-lg-2 gy-3 mb-3" id="attendance_logs">
+                            <!-- AJAX REQUEST -->
+                        </div>
+                        <div id="error"></div>
+                        <div id="pagination_links">
+                            <!-- Pagination links will be loaded here via AJAX -->
                         </div>
                     </div>
 
@@ -194,6 +128,54 @@
                     <div class="error-message"></div>
                     <div id="available_sched">
                         <!-- AJAX REQUEST -->
+                    </div>
+                </div>
+
+                <div class="overview-card mt-4">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <div class="d-flex align-items-center gap-2">
+                            <img class="overview-card__icon"
+                                src="<?php echo base_url('assets/images/dashboard/late_rules.png'); ?>" alt="
+										Registration">
+                        </div>
+                        <h1 class="overview-card__title mb-0">Active Late Rules</h1>
+                    </div>
+            
+                    <div id="active_rules">
+                        <?php if($late_rules->num_rows() > 0) : ?>
+                            <?php foreach($late_rules->result_array() as $list) : ?>
+                                <?php
+                                    if ($list['no_late'] > 1) {
+                                        $consecutive_late = $list['no_late'].' Consecutive Lates';
+                                    } else {
+                                        $consecutive_late = $list['no_late'].' Consecutive Late';
+                                    }
+                    
+                                    if ($list['no_days'] > 1) {
+                                        $day_range = $list['no_days'].' Days Range';
+                                    } else {
+                                        $day_range = $list['no_days'].' Day Range';
+                                    }
+                                ?>
+                                <input type="hidden" id="no_late" value="<?= $list['no_late'];?>">
+                                <input type="hidden" id="days_range" value="<?= $list['no_days'];?>">
+                                <div class="upcoming-sched__date-container-1 mb-3" style="cursor:pointer;">
+                                    <div class="d-flex align-items-center justify-content-between mb-3">
+                                        <h1 class="upcoming-sched__weekday mb-0"><?= ucwords($list['rule_name'])?></h1>
+                                        <div style="font-size:10px; color:red; font-weight:700;">Total Late: <span class="remaining_late"></span></div>
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div class="upcoming-sched__date"><i
+                                                class="fa-solid fa-calendar custom-text-primary me-2"></i><?= $consecutive_late;?></div>
+                                        <div class="upcoming-sched__time"><i
+                                                class="fa-solid fa-clock custom-text-danger me-2"></i><?= $day_range;?></div>
+                                    </div>
+                                </div>
+                            <?php endforeach;?>
+                        <?php else: ?>
+                            <div class="alert alert-danger"><i class="bi bi-info-circle-fill me-2"></i>No late rules found.</div>
+                        <?php endif; ?>
+                        
                     </div>
                 </div>
             </div>
@@ -218,8 +200,91 @@
         });
     }
 
+    function getTotalAttendance()
+    {
+        $.ajax({
+            url: "<?= base_url('portal/student_portal/main/getTotalAttendance')?>",
+            method: "GET",
+            dataType: "json",
+            success: function(data) {
+                computeRemainingLate(data.total_late)
+                const countUpConfigs = [{
+                        elementId: 'total_attendance',
+                        targetValue: data.total_attendance,
+
+                    },
+                    {
+                        elementId: 'total_late',
+                        targetValue: data.total_late,
+
+                    },
+                    {
+                        elementId: 'total_absent',
+                        targetValue: data.total_absent,
+
+                    }
+                ];
+
+                countUpConfigs.forEach((config) => {
+                    var countUp = new CountUp(config.elementId, 0, config.targetValue, 0,
+                        4, {
+                            duration: 2,
+                            useEasing: true,
+                            separator: ',',
+                        });
+
+                    if (!countUp.error) {
+                        countUp.start();
+                    } else {
+                        console.error("CountUp Error:", countUp.error);
+                    }
+                });
+            }
+        });
+    }
+
+    function getAttendanceLogs(page)
+    {
+        $.ajax({
+            url: "<?= base_url('portal/student_portal/main/getAttendanceLogs/'); ?>" + page,
+            type: "GET",
+            dataType: "json",
+            success: function(data) {
+                $('#attendance_logs').html(data.attendance_logs);
+                $('#pagination_links').html(data.links); 
+                if (data.error != '') {
+                    $('#error').html(data.error);
+                    $('#error').fadeIn(200);
+                    $('#pagination_links').hide(); 
+                } else {
+                    $('#error').hide();
+                    $('#pagination_links').fadeIn(200); 
+                }
+            }
+        });
+    }
+
+    function computeRemainingLate(total_late)
+    {
+        var no_late = $('#no_late').val();
+        var days_range = $('#days_range').val();
+
+
+        var remaining = total_late +'/'+ no_late;
+        $('.remaining_late').text(remaining);
+    }
+
     $(document).ready(function() {
         getAvailableSched();
+        getTotalAttendance();
+        getAttendanceLogs(0);
+        computeRemainingLate();
+
+        $(document).on('click', '.pagination a', function(event) {
+            event.preventDefault();
+            var page = $(this).attr('href').split('/').pop();
+            getAttendanceLogs(page);
+        });
 
         $(document).on('click', '#save_schedule', function() {
             var sched_id = $(this).data('id');

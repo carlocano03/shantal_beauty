@@ -101,7 +101,8 @@ class Student_record extends MY_Controller
                             Action
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a target="_blank" href="'.base_url('admin/student-record/details?id=').$member_id.'" class="dropdown-item link-cursor text-primary"><i class="bi bi-view-list me-2"></i>View Request</a></li>
+                            <li><a target="_blank" href="'.base_url('admin/student-record/details?id=').$member_id.'" class="dropdown-item link-cursor text-primary"><i class="bi bi-view-list me-2"></i>View Information</a></li>
+                            <li><a class="dropdown-item link-cursor text-danger delete_scholar" data-id="'.$list->member_id.'" data-user="'.$list->user_id.'"><i class="bi bi-trash3-fill me-2"></i>Remove Scholar</a></li>
                         </ul>
                     </div>';
 
@@ -115,6 +116,22 @@ class Student_record extends MY_Controller
             "csrf_token_value" => $this->security->get_csrf_hash(),
             "csrf_token_name" => $this->security->get_csrf_token_name(),
         );
+        echo json_encode($output);
+    }
+
+    public function delete_scholar()
+    {
+        $message = '';
+        $member_id = $this->input->post('member_id', true);
+        $user_id = $this->input->post('user_id', true);
+
+        $result = $this->student_record_model->delete_scholar($member_id, $user_id);
+        if ($result == TRUE) {
+            $message = 'Success';
+        } else {
+            $message = 'Error';
+        }
+        $output['message'] = $message;
         echo json_encode($output);
     }
 

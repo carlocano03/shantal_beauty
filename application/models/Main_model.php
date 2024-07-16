@@ -90,5 +90,40 @@ class Main_model extends MY_Model
         return $query;
     }
 
+    function get_student_info($user_id)
+    {
+        $this->db->select("CONCAT(student_first_name,' ',student_last_name) as user_name");
+        $this->db->from('scholarship_member');
+        $this->db->where('user_id', $user_id);
+        $query = $this->db->get();
+        return $query->row();
+    }
 
+    function getDeadlineFilling()
+    {
+        $this->db->where('status', 0);
+        $this->db->limit(1);
+        $query = $this->db->get('deadline_filling_scholarship');
+        return $query;
+    }
+
+    function save_deadline($insert_deadline)
+    {
+        $insert = $this->db->insert('deadline_filling_scholarship', $insert_deadline);
+        if ($insert) {
+            $deadline_id = $this->db->insert_id();
+            $this->db->where('deadline_id !=', $deadline_id);
+            $this->db->update('deadline_filling_scholarship', array('status' => 1));
+            return $deadline_id;
+        } else {
+            return '';
+        } 
+    }
+
+    function get_church_schedule()
+    {
+        $this->db->where('status', 0);
+        $query = $this->db->get('church_schedule');
+        return $query->result();
+    }
 }
