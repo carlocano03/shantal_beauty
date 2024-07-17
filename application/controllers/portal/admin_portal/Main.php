@@ -130,7 +130,7 @@ class Main extends MY_Controller
                         <div class="d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center gap-3">
                                 <img class="scholarship-req__avatar"
-                                    src="'.base_url('assets/images/dashboard/scholars.png').'"
+                                    src="'.base_url('assets/images/dashboard/student-req.png').'"
                                     alt="applicant">
                                 <div class="scholarship-req__name">'.ucwords($fullname).'</div>
                             </div>

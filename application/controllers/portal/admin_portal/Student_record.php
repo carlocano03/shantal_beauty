@@ -96,7 +96,13 @@ class Student_record extends MY_Controller
             $row[] = ucwords($list->school_name);
             $row[] = date('F j, Y', strtotime($list->birthday));
             $row[] = $list->civil_status;
-            $row[] = '<div class="btn-group">
+
+            $row[] = '
+            	<div class="d-block d-lg-none">
+				  	 <i data-bs-toggle="modal" data-bs-target="#viewStudentRecordDetails"
+                        class="fa-solid fa-circle-plus"></i>
+					</div>	
+            <div class="btn-group d-none d-lg-block">
                         <button type="button" class="btn btn-dark btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                             Action
                         </button>

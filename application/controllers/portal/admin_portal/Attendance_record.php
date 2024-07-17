@@ -108,7 +108,11 @@ class Attendance_record extends MY_Controller
 
             if($schedule_row_count > 0) {
                 $action = '
-                    <div class="btn-group">
+					<div class="d-block d-lg-none">
+				  	 <i data-bs-toggle="modal" data-bs-target="#viewAttendanceRecordTableDetails"
+                        class="fa-solid fa-circle-plus"></i>
+					</div>			
+                    <div class="btn-group d-none d-lg-block">
                         <button type="button" class="btn btn-dark btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                             Action
                         </button>
@@ -128,7 +132,7 @@ class Attendance_record extends MY_Controller
                 $church_schedule = '<span class="badge ' . $badge_color . '">' . $schedule_row['schedule_name'] . '</span>';
             } else {
                 $action = '
-                    <div class="btn-group">
+                    <div class="btn-group d-none d-lg-block">
                         <button type="button" class="btn btn-dark btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                             Action
                         </button>
@@ -448,6 +452,7 @@ class Attendance_record extends MY_Controller
         echo json_encode($data);
     }
 
+
     public function download_excuse_letter()
     {
         $this->load->helper('url');
@@ -570,3 +575,4 @@ class Attendance_record extends MY_Controller
         echo json_encode($data);
     }
 }
+

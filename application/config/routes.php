@@ -77,6 +77,10 @@ $route['student/attendance'] = 'portal/student_portal/student_attendance/index';
 $route['scholarship-closed'] = 'main/scholarship_closed';
 
 
+// Custom Table
+$route['custom-table'] = 'main/custom_table';
+
+
 
 $route['default_controller'] = 'main';
 $route['404_override'] = 'main/page404';

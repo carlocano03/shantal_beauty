@@ -79,6 +79,22 @@
     line-height: 1.125rem;
     font-weight: bold;
 }
+
+.table__title {
+    font-size: 20px;
+    font-weight: 500;
+    color: #434875 !important;
+    padding: 8px 0;
+    margin-bottom: 0;
+
+}
+
+.card {
+    background: #ffffff;
+    border-radius: 8px;
+    color: #434875;
+    box-shadow: 0 9px 20px rgba(46, 35, 94, .07);
+}
 </style>
 <!-- Content wrapper -->
 <div class="content-wrapper">
@@ -86,17 +102,20 @@
     <!-- Content -->
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="card">
-            <div class="card-header mb-3">
-                <h5><i class="<?= $icon?> me-2"></i><?= $card_title?></h5>
+            <div class="card-header mb-3 pb-3 d-flex align-items-center gap-2 ">
+                <img src="<?php echo base_url('assets/images/account_management.png'); ?>" width="36px"
+                    alt="Calendar" />
+                <h5 class="table__title"><?= $card_title?></h5>
             </div>
-            <div class="card-body">
-                <div class="row">
+            <div class="card-body mt-4">
+                <div class="row gy-3 gy-lg-0">
                     <div class="col-md-4">
-                        <a href="<?= base_url('admin/account-management/account-list?info='.$this->cipher->encrypt(ADMINISTRATOR))?>">
+                        <a
+                            href="<?= base_url('admin/account-management/account-list?info='.$this->cipher->encrypt(ADMINISTRATOR))?>">
                             <div class="overview-card">
                                 <div class="d-flex align-items-center gap-3 justify-content-between">
                                     <div class="dashboard__img-container">
-                                        <img class="dashboard__img"
+                                        <img width="72px"
                                             src="<?php echo base_url('assets/images/dashboard/administration.png'); ?>"
                                             alt="Scholars" />
                                     </div>
@@ -111,11 +130,12 @@
                         </a>
                     </div>
                     <div class="col-md-4">
-                        <a href="<?= base_url('admin/account-management/account-list?info='.$this->cipher->encrypt(ADMIN_STAFF))?>">
+                        <a
+                            href="<?= base_url('admin/account-management/account-list?info='.$this->cipher->encrypt(ADMIN_STAFF))?>">
                             <div class="overview-card">
                                 <div class="d-flex align-items-center gap-3 justify-content-between">
                                     <div class="dashboard__img-container">
-                                        <img class="dashboard__img"
+                                        <img width="72px"
                                             src="<?php echo base_url('assets/images/dashboard/verified-account.png'); ?>"
                                             alt="Scholars" />
                                     </div>
@@ -130,11 +150,12 @@
                         </a>
                     </div>
                     <div class="col-md-4">
-                        <a href="<?= base_url('admin/account-management/account-list?info='.$this->cipher->encrypt(STUDENT))?>">
+                        <a
+                            href="<?= base_url('admin/account-management/account-list?info='.$this->cipher->encrypt(STUDENT))?>">
                             <div class="overview-card">
                                 <div class="d-flex align-items-center gap-3 justify-content-between">
                                     <div class="dashboard__img-container">
-                                        <img class="dashboard__img"
+                                        <img width="72px"
                                             src="<?php echo base_url('assets/images/dashboard/scholars.png'); ?>"
                                             alt="Scholars" />
                                     </div>
@@ -155,7 +176,7 @@
     <!-- / Content -->
 
 
-<script>
+    <script>
     function getUserTotal() {
         $.ajax({
             url: "<?= base_url('portal/admin_portal/account_management/getUserTotal')?>",
@@ -200,4 +221,4 @@
     $(document).ready(function() {
         getUserTotal();
     });
-</script>
+    </script>

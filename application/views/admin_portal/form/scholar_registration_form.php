@@ -1,25 +1,28 @@
 <style>
-    .tbl_header {
-        border-collapse: collapse;
-        width: 100%;
-    }
-    .bg-header {
-        padding: 5px;
-        background: linear-gradient(to right, #434875, #b18647);
-        color: #fff;
-        border: 1px solid #2c3e50;
-        font-weight: bold;
-    }
-    .tbl_header td {
-        padding: 5px;
-        border: 1px solid #2c3e50;
-        vertical-align: middle;
-    }
+.tbl_header {
+    border-collapse: collapse;
+    width: 100%;
+}
 
-    .td-bg {
-        background: #95a5a6;
-        color: #fff;
-    }
+.bg-header {
+    padding: 18px 10px;
+    color: #3b4056;
+    background-color: #f5f5f7;
+    font-size: 12px;
+    text-transform: uppercase;
+    font-weight: 500
+}
+
+.tbl_header td {
+    padding: 5px;
+    border: 1px solid #2c3e50;
+    vertical-align: middle;
+}
+
+.td-bg {
+    background: #95a5a6;
+    color: #fff;
+}
 </style>
 <table class="tbl_header">
     <tr>
@@ -36,18 +39,22 @@
     </tr>
     <tr>
         <td class="fw-bold td-bg" style="width:10%;">First Name:</td>
-        <td style="width:20%;"><?= isset($application['student_first_name']) ? ucwords($application['student_first_name']) : '';?></td>
+        <td style="width:20%;">
+            <?= isset($application['student_first_name']) ? ucwords($application['student_first_name']) : '';?></td>
         <td class="fw-bold td-bg" style="width:10%;">Middle Name:</td>
-        <td style="width:20%;"><?= isset($application['student_middle_name']) ? ucwords($application['student_middle_name']) : '';?></td>
+        <td style="width:20%;">
+            <?= isset($application['student_middle_name']) ? ucwords($application['student_middle_name']) : '';?></td>
         <td class="fw-bold td-bg" style="width:10%;">Last Name:</td>
-        <td style="width:20%;"><?= isset($application['student_last_name']) ? ucwords($application['student_last_name']) : '';?></td>
+        <td style="width:20%;">
+            <?= isset($application['student_last_name']) ? ucwords($application['student_last_name']) : '';?></td>
     </tr>
     <tr>
         <td class="fw-bold td-bg" style="width:10%;">Place of Birth:</td>
         <td colspan="3"><?= isset($application['birth_place']) ? ucwords($application['birth_place']) : '';?></td>
         <td class="fw-bold td-bg" style="width:10%;">Birthday:</td>
         <td>
-            <?= isset($application['birthday']) ? date('F j, Y', strtotime($application['birthday'])) : ''?> <span class="badge bg-danger">Age: <?= isset($application['age']) ? $application['age'] : '';?></span>
+            <?= isset($application['birthday']) ? date('F j, Y', strtotime($application['birthday'])) : ''?> <span
+                class="badge bg-danger">Age: <?= isset($application['age']) ? $application['age'] : '';?></span>
         </td>
     </tr>
     <tr>
@@ -69,7 +76,8 @@
     <tr>
         <td class="fw-bold td-bg" style="width:10%;">City Address:</td>
         <td colspan="3">
-            <?= isset($application['city_address']) ? ucwords($application['city_address']) : '';?> <?= isset($application['city_zipcode']) ? ','.$application['city_zipcode'] : '';?>
+            <?= isset($application['city_address']) ? ucwords($application['city_address']) : '';?>
+            <?= isset($application['city_zipcode']) ? ','.$application['city_zipcode'] : '';?>
         </td>
         <td class="fw-bold td-bg" style="width:10%;">Telephone No.:</td>
         <td>
@@ -124,7 +132,8 @@
         </td>
     </tr>
     <tr>
-        <td colspan="3" class="fw-bold td-bg" style="width:10%;">If both parents are unemployed, state reason/s (e.g. retired, old age, health, etc. source of livelihood):</td>
+        <td colspan="3" class="fw-bold td-bg" style="width:10%;">If both parents are unemployed, state reason/s (e.g.
+            retired, old age, health, etc. source of livelihood):</td>
         <td>
             <?= isset($application['parents_unemployed']) ? ucwords($application['parents_unemployed']) : ''?>
         </td>
@@ -134,7 +143,8 @@
         </td>
     </tr>
     <tr>
-        <td colspan="3" class="fw-bold td-bg" style="width:10%;">(or contribution from other sources like relatives, etc.):</td>
+        <td colspan="3" class="fw-bold td-bg" style="width:10%;">(or contribution from other sources like relatives,
+            etc.):</td>
         <td colspan="3">
             <?= isset($application['other_sources']) ? $application['other_sources'] : ''?>
         </td>
@@ -171,17 +181,20 @@
         <td colspan="6" class="text-center text-uppercase bg-header">Other Information</td>
     </tr>
     <tr>
-        <td colspan="3" class="fw-bold td-bg" style="width:10%;">1. Are you enjoying any scholarship, financial assistance, or other privileges in the University?</td>
+        <td colspan="3" class="fw-bold td-bg" style="width:10%;">1. Are you enjoying any scholarship, financial
+            assistance, or other privileges in the University?</td>
         <td>
             <div class="d-flex align-items-center">
                 <div class="form-check me-4 mt-2">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDisabled" disabled <?= (isset($application['any_previleges_university']) && $application['any_previleges_university'] == 'Yes') ? 'checked' : '' ?>>
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDisabled" disabled
+                        <?= (isset($application['any_previleges_university']) && $application['any_previleges_university'] == 'Yes') ? 'checked' : '' ?>>
                     <label class="form-check-label" for="flexCheckDisabled">
                         YES
                     </label>
                 </div>
                 <div class="form-check me-4 mt-2">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDisabled" disabled <?= (isset($application['any_previleges_university']) && $application['any_previleges_university'] == 'No') ? 'checked' : '' ?>>
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDisabled" disabled
+                        <?= (isset($application['any_previleges_university']) && $application['any_previleges_university'] == 'No') ? 'checked' : '' ?>>
                     <label class="form-check-label" for="flexCheckDisabled">
                         NO
                     </label>
@@ -192,13 +205,15 @@
         <td>
             <div class="d-flex align-items-center">
                 <div class="form-check me-4 mt-2">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDisabled" disabled <?= (isset($application['outside_university']) && $application['outside_university'] == 'Yes') ? 'checked' : '' ?>>
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDisabled" disabled
+                        <?= (isset($application['outside_university']) && $application['outside_university'] == 'Yes') ? 'checked' : '' ?>>
                     <label class="form-check-label" for="flexCheckDisabled">
                         YES
                     </label>
                 </div>
                 <div class="form-check me-4 mt-2">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDisabled" disabled <?= (isset($application['outside_university']) && $application['outside_university'] == 'No') ? 'checked' : '' ?>>
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDisabled" disabled
+                        <?= (isset($application['outside_university']) && $application['outside_university'] == 'No') ? 'checked' : '' ?>>
                     <label class="form-check-label" for="flexCheckDisabled">
                         NO
                     </label>
@@ -207,7 +222,8 @@
         </td>
     </tr>
     <tr>
-        <td colspan="4" class="fw-bold td-bg" style="width:10%;">If the answer is “yes” to either or both, specify name, nature and amount of grant or scholarship:</td>
+        <td colspan="4" class="fw-bold td-bg" style="width:10%;">If the answer is “yes” to either or both, specify name,
+            nature and amount of grant or scholarship:</td>
         <td colspan="2">
             <?= isset($application['name_scholarship_amount']) ? $application['name_scholarship_amount'] : '';?>
         </td>
@@ -217,13 +233,15 @@
         <td colspan="2">
             <div class="d-flex align-items-center">
                 <div class="form-check me-4 mt-2">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDisabled" disabled <?= (isset($application['own_properties']) && $application['own_properties'] == 'Yes') ? 'checked' : '' ?>>
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDisabled" disabled
+                        <?= (isset($application['own_properties']) && $application['own_properties'] == 'Yes') ? 'checked' : '' ?>>
                     <label class="form-check-label" for="flexCheckDisabled">
                         YES
                     </label>
                 </div>
                 <div class="form-check me-4 mt-2">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDisabled" disabled <?= (isset($application['own_properties']) && $application['own_properties'] == 'No') ? 'checked' : '' ?>>
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDisabled" disabled
+                        <?= (isset($application['own_properties']) && $application['own_properties'] == 'No') ? 'checked' : '' ?>>
                     <label class="form-check-label" for="flexCheckDisabled">
                         NO
                     </label>
@@ -248,7 +266,8 @@
         </td>
     </tr>
     <tr>
-        <td colspan="3" class="fw-bold td-bg" style="width:10%;">3. If applicant’s parents are separated, state support being given by father/mother:</td>
+        <td colspan="3" class="fw-bold td-bg" style="width:10%;">3. If applicant’s parents are separated, state support
+            being given by father/mother:</td>
         <td colspan="3">
             <?= isset($application['parents_separated']) ? $application['parents_separated'] : '';?>
         </td>
@@ -272,7 +291,9 @@
     <tr>
         <td class="fw-bold td-bg">1. 2x2 Photo:</td>
         <td>
-            <button class="btn btn-warning btn-sm download" data-file="<?= isset($application['personal_photo']) ? $application['personal_photo'] : '';?>" data-folder="personal_photo"><i class="bi bi-download me-2"></i>Download</button>
+            <button class="btn btn-warning btn-sm download"
+                data-file="<?= isset($application['personal_photo']) ? $application['personal_photo'] : '';?>"
+                data-folder="personal_photo"><i class="bi bi-download me-2"></i>Download</button>
         </td>
         <td colspan="3" class="fw-bold td-bg">
             2. For applicants already enrolled in the University, please submit also the following: <br>
@@ -281,13 +302,15 @@
         <td>
             <div class="d-flex align-items-center">
                 <div class="form-check me-4 mt-2">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDisabled" disabled <?= (isset($application['already_enrolled']) && $application['already_enrolled'] == 'Yes') ? 'checked' : '' ?>>
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDisabled" disabled
+                        <?= (isset($application['already_enrolled']) && $application['already_enrolled'] == 'Yes') ? 'checked' : '' ?>>
                     <label class="form-check-label" for="flexCheckDisabled">
                         YES
                     </label>
                 </div>
                 <div class="form-check me-4 mt-2">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDisabled" disabled <?= (isset($application['already_enrolled']) && $application['already_enrolled'] == 'No') ? 'checked' : '' ?>>
+                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDisabled" disabled
+                        <?= (isset($application['already_enrolled']) && $application['already_enrolled'] == 'No') ? 'checked' : '' ?>>
                     <label class="form-check-label" for="flexCheckDisabled">
                         NO
                     </label>
@@ -300,51 +323,69 @@
     <tr>
         <td colspan="2" class="fw-bold td-bg">(a) Form 5 (previous semester/s)</td>
         <td>
-            <button class="btn btn-warning btn-sm download" data-file="<?= isset($application['form_five']) ? $application['form_five'] : '';?>"  data-folder="form_five"><i class="bi bi-download me-2"></i>Download</button>
+            <button class="btn btn-warning btn-sm download"
+                data-file="<?= isset($application['form_five']) ? $application['form_five'] : '';?>"
+                data-folder="form_five"><i class="bi bi-download me-2"></i>Download</button>
         </td>
         <td colspan="2" class="fw-bold td-bg">(b) True copy of grade (previous semester)</td>
         <td>
-            <button class="btn btn-warning btn-sm download" data-file="<?= isset($application['copy_of_grade']) ? $application['copy_of_grade'] : '';?>" data-folder="copy_grade"><i class="bi bi-download me-2"></i>Download</button>
+            <button class="btn btn-warning btn-sm download"
+                data-file="<?= isset($application['copy_of_grade']) ? $application['copy_of_grade'] : '';?>"
+                data-folder="copy_grade"><i class="bi bi-download me-2"></i>Download</button>
         </td>
     </tr>
     <tr>
         <td colspan="2" class="fw-bold td-bg">(c) Certification of year level standing(i.e. 1st year, etc.)</td>
         <td>
-            <button class="btn btn-warning btn-sm download" data-file="<?= isset($application['certification_year_level']) ? $application['certification_year_level'] : '';?>" data-folder="certification_year_level"><i class="bi bi-download me-2"></i>Download</button>
+            <button class="btn btn-warning btn-sm download"
+                data-file="<?= isset($application['certification_year_level']) ? $application['certification_year_level'] : '';?>"
+                data-folder="certification_year_level"><i class="bi bi-download me-2"></i>Download</button>
         </td>
-        <td colspan="2" class="fw-bold td-bg">(d) For Graduate Students: transcript of academic records, program of study</td>
+        <td colspan="2" class="fw-bold td-bg">(d) For Graduate Students: transcript of academic records, program of
+            study</td>
         <td>
-            <button class="btn btn-warning btn-sm download" data-file="<?= isset($application['transcript_of_record']) ? $application['transcript_of_record'] : '';?>" data-folder="tor"><i class="bi bi-download me-2"></i>Download</button>
+            <button class="btn btn-warning btn-sm download"
+                data-file="<?= isset($application['transcript_of_record']) ? $application['transcript_of_record'] : '';?>"
+                data-folder="tor"><i class="bi bi-download me-2"></i>Download</button>
         </td>
     </tr>
     <?php endif;?>
     <!-- End of enrolled -->
-     <tr>
-        <td colspan="3" class="fw-bold td-bg">3. Certification of good moral character. (From former school if incoming freshman)</td>
+    <tr>
+        <td colspan="3" class="fw-bold td-bg">3. Certification of good moral character. (From former school if incoming
+            freshman)</td>
         <td>
-            <button class="btn btn-warning btn-sm download" data-file="<?= isset($application['good_moral']) ? $application['good_moral'] : '';?>" data-folder="good_moral"><i class="bi bi-download me-2"></i>Download</button>
+            <button class="btn btn-warning btn-sm download"
+                data-file="<?= isset($application['good_moral']) ? $application['good_moral'] : '';?>"
+                data-folder="good_moral"><i class="bi bi-download me-2"></i>Download</button>
         </td>
         <td class="fw-bold td-bg">4. Birth Certificate</td>
         <td>
-            <button class="btn btn-warning btn-sm download" data-file="<?= isset($application['birth_certificate']) ? $application['birth_certificate'] : '';?>" data-folder="birth_certificate"><i class="bi bi-download me-2"></i>Download</button>
+            <button class="btn btn-warning btn-sm download"
+                data-file="<?= isset($application['birth_certificate']) ? $application['birth_certificate'] : '';?>"
+                data-folder="birth_certificate"><i class="bi bi-download me-2"></i>Download</button>
         </td>
-     </tr>
-     <tr>
+    </tr>
+    <tr>
         <td colspan="3" class="fw-bold td-bg">5. Letter of recommendation from the PLMAR</td>
         <td colspan="3">
-            <button class="btn btn-warning btn-sm download" data-file="<?= isset($application['letter_recommendation']) ? $application['letter_recommendation'] : '';?>" data-folder="letter_recommendation"><i class="bi bi-download me-2"></i>Download</button>
+            <button class="btn btn-warning btn-sm download"
+                data-file="<?= isset($application['letter_recommendation']) ? $application['letter_recommendation'] : '';?>"
+                data-folder="letter_recommendation"><i class="bi bi-download me-2"></i>Download</button>
         </td>
-     </tr>
+    </tr>
 </table>
 
-<a class="btn btn-dark mt-3" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+<a class="btn btn-dark mt-3" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
+    aria-controls="collapseExample">
     <i class="bi bi-shield-shaded me-2"></i>Data Privacy Consent Form
 </a>
 
 <div class="collapse" id="collapseExample">
     <div class="mt-2">
         <div style="text-align: justify;">
-            <h6>The undersigned, one of the applicants/grantees of the <span id="school_name" style="text-decoration:underline;"><?= isset($application['school_name']) ? ucwords($application['school_name']) : '';?></span>,
+            <h6>The undersigned, one of the applicants/grantees of the <span id="school_name"
+                    style="text-decoration:underline;"><?= isset($application['school_name']) ? ucwords($application['school_name']) : '';?></span>,
                 has given permission to the CLCC staff, in charge of the
                 scholarship/financial assistance in the collection, lawful use, and
                 disclosure of any personal information which may include may student

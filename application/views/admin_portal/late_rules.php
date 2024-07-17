@@ -1,16 +1,54 @@
 <style>
-    #tbl_rules th:nth-child(2),
-    #tbl_rules td:nth-child(2),
-    #tbl_rules th:nth-child(3),
+#tbl_rules th:nth-child(2),
+#tbl_rules td:nth-child(2),
+#tbl_rules th:nth-child(3),
+#tbl_rules td:nth-child(3),
+#tbl_rules th:nth-child(4),
+#tbl_rules td:nth-child(4),
+#tbl_rules th:nth-child(5),
+#tbl_rules td:nth-child(5),
+#tbl_rules th:nth-child(6),
+#tbl_rules td:nth-child(6) {
+    text-align: center;
+}
+
+#tbl_rules td:nth-child(3),
+#tbl_rules td:nth-child(5) {
+    display: none;
+
+}
+
+@media (min-width: 992px) {
+
     #tbl_rules td:nth-child(3),
-    #tbl_rules th:nth-child(4),
-    #tbl_rules td:nth-child(4),
-    #tbl_rules th:nth-child(5),
-    #tbl_rules td:nth-child(5),
-    #tbl_rules th:nth-child(6),
-    #tbl_rules td:nth-child(6) {
-        text-align: center;
+    #tbl_rules td:nth-child(5) {
+        display: table-cell;
+
     }
+}
+
+
+@media (min-width: 768px) {
+    #tbl_rules td:nth-child(1) {
+        display: table-cell;
+    }
+}
+
+.table__title {
+    font-size: 20px;
+    font-weight: 500;
+    color: #434875 !important;
+    padding: 8px 0;
+    margin-bottom: 0;
+
+}
+
+.card {
+    background: #ffffff;
+    border-radius: 8px;
+    color: #434875;
+    box-shadow: 0 9px 20px rgba(46, 35, 94, .07);
+}
 </style>
 
 <div class="loading-screen text-center" style="display: none;">
@@ -25,23 +63,24 @@
     <!-- Content -->
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="card">
-            <div class="card-header mb-3">
-                <h5><i class="<?= $icon?> me-2"></i><?= $card_title?></h5>
+            <div class="card-header mb-3 pb-3 d-flex align-items-center gap-2 ">
+                <img src="<?php echo base_url('assets/images/late_rules.png'); ?>" width="36px" alt="Rules" />
+                <h5 class="table__title"><?= $card_title?></h5>
             </div>
-            <div class="card-body">
+            <div class="card-body mt-4">
                 <table class="table" width="100%" id="tbl_rules">
                     <thead>
                         <tr>
                             <th>Rule Name</th>
                             <th>Consecutive Lates</th>
-                            <th>No. of Days</th>
+                            <th class="d-none d-lg-table-cell">No. of Days</th>
                             <th>Status</th>
-                            <th>Date Added</th>
+                            <th class="d-none d-lg-table-cell">Date Added</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        
+
                     </tbody>
                 </table>
             </div>
@@ -49,9 +88,11 @@
     </div>
     <!-- / Content -->
 
-<?php $this->load->view('admin_portal/modal/late_rules_modal');?>
+    <?php $this->load->view('admin_portal/modal/late_rules_modal');?>
+    <?php $this->load->view('/admin_portal/modal/late_rules_tbl_modal.php');?>
 
-<script>
+
+    <script>
     $(document).ready(function() {
         var tbl_rules = $('#tbl_rules').DataTable({
             language: {
@@ -69,7 +110,7 @@
             "ajax": {
                 "url": "<?= base_url('portal/admin_portal/late_rules/get_rule_list')?>",
                 "type": "POST",
-                "data": function (d) {
+                "data": function(d) {
                     d[csrf_token_name] = csrf_token_value;
                 },
                 "complete": function(res) {
@@ -251,10 +292,10 @@
                                         icon: 'warning',
                                         title: 'Oops...',
                                         text: 'Failed to activate the late rule.',
-                                    }); 
+                                    });
                                 }
                             },
-                            error :function() {
+                            error: function() {
                                 Swal.fire({
                                     icon: 'error',
                                     title: 'Oops...',
@@ -298,10 +339,10 @@
                                         icon: 'warning',
                                         title: 'Oops...',
                                         text: 'Failed to deactivated the late rule.',
-                                    }); 
+                                    });
                                 }
                             },
-                            error :function() {
+                            error: function() {
                                 Swal.fire({
                                     icon: 'error',
                                     title: 'Oops...',
@@ -349,10 +390,10 @@
                                     icon: 'warning',
                                     title: 'Oops...',
                                     text: 'Failed to delete the late rule.',
-                                }); 
+                                });
                             }
                         },
-                        error :function() {
+                        error: function() {
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Oops...',
@@ -364,4 +405,4 @@
             });
         });
     });
-</script>
+    </script>

@@ -284,5 +284,9 @@ class Main extends MY_Controller
         echo json_encode($output);
     }
 
+	public function custom_table(){
+        $this->load->view('components/custom_table');
+	}
+
 }
 //End CI_Controller
