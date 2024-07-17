@@ -19,6 +19,7 @@ define('ACCOUNT_MANAGEMENT', 4);
 define('CHURCH_SCHEDULE', 5);
 define('LATE_RULES', 6);
 define('ATTENDANCE', 7);
+define('APPROVAL_SCHOLAR', 8);
 /*
 |--------------------------------------------------------------------------
 | Display Debug backtrace

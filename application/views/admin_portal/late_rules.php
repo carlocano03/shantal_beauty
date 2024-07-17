@@ -177,8 +177,6 @@
                                 }
                             },
                             error: function() {
-                                console.error("AJAX request failed:", textStatus,
-                                    errorThrown);
                                 Swal.fire({
                                     icon: 'error',
                                     title: 'Ooops...',
@@ -245,8 +243,6 @@
                                 }
                             },
                             error: function() {
-                                console.error("AJAX request failed:", textStatus,
-                                    errorThrown);
                                 Swal.fire({
                                     icon: 'error',
                                     title: 'Ooops...',

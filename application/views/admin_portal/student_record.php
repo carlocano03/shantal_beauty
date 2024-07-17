@@ -114,5 +114,56 @@
                 }
             },
         });
+
+        $(document).on('click', '.delete_scholar', function() {
+            var member_id = $(this).data('id');
+            var user_id = $(this).data('user');
+
+            Swal.fire({
+                title: 'Are you sure..',
+                text: "You want to remove this scholar?",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, continue',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "<?= base_url('portal/admin_portal/student_record/delete_scholar')?>",
+                        method: "POST",
+                        data: {
+                            member_id: member_id,
+                            user_id: user_id,
+                            '_token': csrf_token_value,
+                        },
+                        dataType: "json",
+                        success: function(data) {
+                            if (data.message == 'Success') {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Thank You',
+                                    text: 'Scholar successfully deleted.',
+                                });
+                                tbl_student.draw();
+                            } else {
+                                Swal.fire({
+                                    icon: 'warning',
+                                    title: 'Oops...',
+                                    text: 'Failed to delete the record.',
+                                });
+                            }
+                        },
+                        error: function() {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'An error occurred while processing the request.',
+                            });
+                        }
+                    });
+                }
+            });
+        });
     });
     </script>

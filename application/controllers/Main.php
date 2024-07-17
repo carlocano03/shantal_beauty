@@ -32,7 +32,23 @@ class Main extends MY_Controller
     public function index()
     {
         $data['title'] = 'Change Life Christian Church';
+        $deadline = $this->main_model->getDeadlineFilling();
+        $deadline_row = $deadline->row_array();
+        $dateToday = date('Y-m-d');
 
+        if ($deadline->num_rows() > 0) {
+            if ($dateToday > $deadline_row['date_deadline']) {
+                $url = base_url('scholarship-closed');
+            } else {
+                $url = base_url('scholarship/registration-form');
+            }
+        } else {
+            $url = base_url('scholarship/registration-form');
+        }
+        
+
+        $data['link'] = $url;
+        $data['church_schedule'] = $this->main_model->get_church_schedule();
         $this->load->view('website/partial/_header', $data);
         $this->load->view('website/home', $data);
         $this->load->view('website/partial/_footer', $data);
@@ -44,6 +60,10 @@ class Main extends MY_Controller
         $this->load->view('auth/partial/_header', $data);
         $this->load->view('auth/login', $data);
     }
+
+    public function scholarship_closed(){
+        $this->load->view('website/scholarship_closed');
+	}
 
     // Error 404 redirect
 	public function page404()
@@ -163,12 +183,18 @@ class Main extends MY_Controller
         $logs = $this->main_model->getRecentActivities();
         if ($logs->num_rows() > 0) {
             foreach($logs->result() as $list) {
-                if ($list->user_id == $this->session->userdata('adminIn')['user_id']) {
-                    $user = 'You';
+                if($list->user_type_id == STUDENT) {
+                    $student = $this->main_model->get_student_info($list->user_id);
+                    $user = 'SCH-'.ucwords($student->user_name);
                 } else {
-                    $user = ucwords($list->user_name);
+                    if ($list->user_id == $this->session->userdata('adminIn')['user_id']) {
+                        $user = 'You';
+                    } else {
+                        $user = ucwords($list->user_name);
+                    }
                 }
 
+                
                 if ($list->user_id != 0) {
                     $transaction = $user.', '.$list->transaction;
                 } else {
@@ -189,10 +215,10 @@ class Main extends MY_Controller
                         <div class="ms-3">
                             <div class=" mb-2 recent-activity__date"><span>'.date('D M j, Y h:i A', strtotime($list->date_transaction)).'</span></div>
                             <div class="mt-1">
-                                <h6 class="mb-0 fw-bold" style="color:#434875; font-size:14px;">
+                                <h6 class="mb-0 fw-bold" style="color:#434875; font-size:12px;">
                                     '.$transaction.'
                                 </h6>
-                                <p class="mt-2" style="font-size:14px;color:#9AA5B1">'.$list->email_use.'</p>
+                                <p class="mt-2" style="font-size:11px;color:#9AA5B1">'.$list->email_use.'</p>
                             </div>
                         </div>
                     </li>
@@ -208,9 +234,55 @@ class Main extends MY_Controller
         echo json_encode($data);
     }
 
-	public function scholarship_closed(){
-        $this->load->view('website/scholarship_closed');
-	}
+	public function getDeadlineFilling()
+    {
+        $output = '';
+        $deadline = $this->main_model->getDeadlineFilling();
+
+        if ($deadline->num_rows() > 0) {
+            foreach($deadline->result() as $list) {
+                $output .= '
+                    <div class="upcoming-sched__date-container-1">
+                        <h1 class="upcoming-sched__weekday">'.date('l', strtotime($list->date_deadline)).'</h1>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="upcoming-sched__date"><i class="fa-solid fa-calendar custom-text-primary me-2"></i>'.date('F j, Y', strtotime($list->date_deadline)).'</div>
+                        </div>
+                    </div>
+                ';
+            }
+        } else {
+            $output .= '<div class="alert alert-danger"><i class="bi bi-info-circle-fill me-2"></i>No deadline schedule found.</div>';
+        }
+        $data = array(
+            'deadline_filling' => $output,
+        );
+        echo json_encode($data);
+    }
+
+    public function save_deadline()
+    {
+        $error = '';
+        $success = '';
+
+        $deadline = $this->input->post('deadline', true);
+
+        $insert_deadline = array(
+            'date_deadline' => $deadline,
+        );
+
+        $result = $this->main_model->save_deadline($insert_deadline);
+        if ($result != '') {
+            $success = '<div class="alert alert-success"><i class="bi bi-info-circle-fill me-2"></i>Deadline successfully saved.</div>';
+        } else {
+            $error = '<div class="alert alert-danger"><i class="bi bi-info-circle-fill me-2"></i>Failed to save the data.</div>';
+        }
+
+        $output = array(
+            'error' => $error,
+            'success' => $success,
+        );
+        echo json_encode($output);
+    }
 
 	public function custom_table(){
         $this->load->view('components/custom_table');

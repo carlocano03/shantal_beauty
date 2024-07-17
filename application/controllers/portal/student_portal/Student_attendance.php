@@ -105,7 +105,7 @@ class Student_attendance extends MY_Controller
                                 data-sched_id="'.$list['sched_id'].'"
                                ><i class="bi bi-calendar2-check-fill me-1"></i>Change Schedule</button>';
                 } else {
-                    $action = '<span class="badge bg-success px-3"><i class="bi bi-check2-square me-1"></i>Done</span>';
+                    $action = '<span class="badge bg-info px-2">Ongoing Schedule</span>';
                 }
 
 
@@ -181,7 +181,7 @@ class Student_attendance extends MY_Controller
                                             'Invalid' => 'bg-danger',
                                         ];
                                         $badge_color = isset($color_mapping[$letter_row['remarks']]) ? $color_mapping[$letter_row['remarks']] : 'bg-primary';
-                                        $action = '<span class="badge ' . $badge_color . '">' . $letter_row['remarks'] . '</span>';
+                                        $action = '<span class="badge ' . $badge_color . ' px-2">' . $letter_row['remarks'] . ' Letter</span>';
                                     }
                                 }
                             } else {
@@ -229,7 +229,7 @@ class Student_attendance extends MY_Controller
                                         'Invalid' => 'bg-danger',
                                     ];
                                     $badge_color = isset($color_mapping[$letter_row['remarks']]) ? $color_mapping[$letter_row['remarks']] : 'bg-primary';
-                                    $action = '<span class="badge ' . $badge_color . '">' . $letter_row['remarks'] . '</span>';
+                                    $action = '<span class="badge ' . $badge_color . ' px-2">' . $letter_row['remarks'] . ' Letter</span>';
                                 }
                             }
                         } else {

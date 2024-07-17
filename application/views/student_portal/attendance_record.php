@@ -172,7 +172,7 @@
                                     text: data.success,
                                 });
                                 $('#scheduleModal').modal('hide');
-                                getAttendanceRecord();
+                                $('#month').trigger('change');
                             }
                         },
                         error: function() {
@@ -245,7 +245,7 @@
                                     text: data.success,
                                 });
                                 $('#changeModal').modal('hide');
-                                getAttendanceRecord();
+                                $('#month').trigger('change');
                             }
                         },
                         error: function() {
@@ -319,7 +319,7 @@
                                     $('#attachmentModal').modal('hide');
                                     form.reset();
                                     form.classList.remove('was-validated');
-                                    getAttendanceRecord();
+                                    $('#month').trigger('change');
                                 }
                             },
                             error: function() {

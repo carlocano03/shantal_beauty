@@ -95,7 +95,7 @@
                                         <h1 class="form-title">Scholarhip/Study Grant Information</h1>
                                         <div class="d-flex gap-2">
                                             <div>Deadline for filling:</div>
-                                            <div class="fw-bold text-primary">June 30, 2024</div>
+                                            <div class="fw-bold text-primary"><?= isset($deadline->date_deadline) ? date('F j, Y', strtotime($deadline->date_deadline)) : date('F j, Y');?></div>
                                         </div>
                                     </div>
                                     <div class="py-3 ">

@@ -71,11 +71,59 @@ class Main extends MY_Controller
     {
         $output = '';
         $request = $this->main_model->getScholarshipRequest();
-        
+        $role_permissions = $this->role_permissions();
+        $action1 = '';
+        $action2 = '';
         foreach($request->result() as $list) {
             $fullname = $list->student_last_name.', '.$list->student_first_name.' '.$list->student_middle_name;
             $dayRequest = date('D', strtotime($list->date_application));
             $application_id = $this->cipher->encrypt($list->application_id);
+
+            if ($this->session->userdata('adminIn')['user_type_id'] == ADMINISTRATOR) {
+                $action1 = '
+                    <a href="'.base_url('admin/scholarship-approval/scholar-information?application=').$application_id.'">
+                        <div class="scholarship-req__view">
+                            <i class="scholarship-req__icon fa-solid fa-arrow-up-right-from-square text-white"></i>
+                        </div>
+                    </a>
+                ';
+
+                $action2 = '
+                    <a href="'.base_url('admin/scholarship-approval/scholar-information?application=').$application_id.'">
+                        <div class="scholarship-req__approve">
+                            <i class="fa-solid fa-check"></i>
+                        </div>
+                    </a>
+                    <a href="'.base_url('admin/scholarship-approval/scholar-information?application=').$application_id.'">
+                        <div class="scholarship-req__denied">
+                            <i class="fa-solid fa-xmark"></i>
+                        </div>
+                    </a>
+                ';
+            } else {
+                if (in_array(SCHOLAR_APPLICATION, $role_permissions)) {
+                    $action1 = '
+                        <a href="'.base_url('admin/scholarship-approval/scholar-information?application=').$application_id.'">
+                            <div class="scholarship-req__view">
+                                <i class="scholarship-req__icon fa-solid fa-arrow-up-right-from-square text-white"></i>
+                            </div>
+                        </a>
+                    ';
+
+                    $action2 = '
+                        <a href="'.base_url('admin/scholarship-approval/scholar-information?application=').$application_id.'">
+                            <div class="scholarship-req__approve">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                        </a>
+                        <a href="'.base_url('admin/scholarship-approval/scholar-information?application=').$application_id.'">
+                            <div class="scholarship-req__denied">
+                                <i class="fa-solid fa-xmark"></i>
+                            </div>
+                        </a>
+                    ';
+                }
+            }
             $output .= '
                 <div class="col">
                     <div class="overview-card">
@@ -86,11 +134,7 @@ class Main extends MY_Controller
                                     alt="applicant">
                                 <div class="scholarship-req__name">'.ucwords($fullname).'</div>
                             </div>
-                            <a href="'.base_url('admin/scholarship-approval/scholar-information?application=').$application_id.'">
-                                <div class="scholarship-req__view">
-                                    <i class="scholarship-req__icon fa-solid fa-arrow-up-right-from-square text-white"></i>
-                                </div>
-                            </a>
+                            '.$action1.'
                         </div>
                         <div class="d-flex justify-content-between">
                             <div>
@@ -98,16 +142,7 @@ class Main extends MY_Controller
                                 <div class="scholarship-req__time">'.date('h:i A', strtotime($list->date_application)).'</div>
                             </div>
                             <div class="d-flex align-items-center gap-2 pb-1 align-self-end">
-                                <a href="'.base_url('admin/scholarship-approval/scholar-information?application=').$application_id.'">
-                                    <div class="scholarship-req__approve">
-                                        <i class="fa-solid fa-check"></i>
-                                    </div>
-                                </a>
-                                <a href="'.base_url('admin/scholarship-approval/scholar-information?application=').$application_id.'">
-                                    <div class="scholarship-req__denied">
-                                        <i class="fa-solid fa-xmark"></i>
-                                    </div>
-                                </a>
+                                '.$action2.'
                             </div>
                         </div>
                     </div>

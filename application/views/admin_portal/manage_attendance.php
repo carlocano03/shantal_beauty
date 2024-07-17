@@ -121,6 +121,7 @@
     </div>
     <!-- / Content -->
 
+    <?php $this->load->view('admin_portal/modal/letter_approval_modal');?>
 <script>
     var member_id = '<?= $member_id;?>';
     var month = '<?= $month;?>';
@@ -146,11 +147,135 @@
     $(document).ready(function() {
         getAttendanceRecord();
 
+        var remarks = '';
+        var memberId = 0;
+        var scheduleDate = '';
+
         $(document).on('change', '#month_selected', function() {
             var month_selected = $(this).val();
             var url = "<?= base_url('admin/attendance-record/manage-record?scholar=')?>" + member_id_encrypted + '&month=' + month_selected;
 
             window.location.href = url;
         });
+
+        $(document).on('click', '.validate_letter', function() {
+            remarks = $(this).data('action');
+            memberId = $(this).data('id');
+            scheduleDate = $(this).data('date');
+
+            $('#updateModal').modal('show');
+        });
+
+        $(document).on('click', '.download_letter', function() {
+            var action = $(this).data('action');
+            var member_id = $(this).data('id');
+            var attendance_date = $(this).data('date');
+
+            $.ajax({
+                url: "<?= base_url('portal/admin_portal/attendance_record/download_excuse_letter')?>",
+                method: "POST",
+                data: {
+                    action: action,
+                    member_id: member_id,
+                    attendance_date: attendance_date,
+                    '_token': csrf_token_value,
+                },
+                xhrFields: {
+                    responseType: 'blob'
+                },
+                success: function(data, status, xhr) {
+                    if (xhr.status === 200) {
+                        var filename = xhr.getResponseHeader('Content-Disposition').split('filename=')[1].replace(/"/g, '');
+                        var blob = new Blob([data], { type: 'application/pdf' });
+                        var link = document.createElement('a');
+                        link.href = window.URL.createObjectURL(blob);
+                        link.download = filename;
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'No file found.'
+                        });
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'No file found.'
+                    });
+                }
+            });
+        });
+
+        $(document).on('click', '#save_validation', function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            var form = $('#updateForm')[0];
+            var formData = new FormData(form);
+            formData.append('remarks', remarks);
+            formData.append('member_id', memberId);
+            formData.append('schedule_date', scheduleDate);
+            formData.append('validation', $('#validation').val());
+            formData.append('_token', csrf_token_value);
+            form.classList.add('was-validated');
+            if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+            } else {
+                Swal.fire({
+                    title: 'Are you sure..',
+                    text: "You want to continue this transaction?",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, continue',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: "<?= base_url('portal/admin_portal/attendance_record/save_validation');?>",
+                            method: "POST",
+                            data: formData,
+                            contentType: false,
+                            processData: false,
+                            dataType: "json",
+                            success: function(data) {
+                                if (data.error != '') {
+                                    Swal.fire({
+                                        icon: 'warning',
+                                        title: 'Ooops...',
+                                        text: data.error,
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Thank You!',
+                                        text: data.success,
+                                    });
+                                    $('#updateModal').modal('hide');
+                                    form.reset();
+                                    form.classList.remove('was-validated');
+                                    getAttendanceRecord();
+                                }
+                            },
+                            error: function() {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Ooops...',
+                                    text: 'An error occurred while processing the request.',
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        });
     });
+
+    
 </script>

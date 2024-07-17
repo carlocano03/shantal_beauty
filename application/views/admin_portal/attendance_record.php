@@ -53,6 +53,26 @@
     color: #434875;
     box-shadow: 0 9px 20px rgba(46, 35, 94, .07);
 }
+
+
+    .tbl_sched {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .tbl_sched th {
+        border: 1px solid black;
+        font-size: 10px;
+        font-weight: 600;
+        background: #434875;
+        border-top-left-radius: 0px !important;
+        border-top-right-radius: 0px !important;
+    }
+
+    .tbl_sched td {
+        border: 1px solid black;
+        font-size: 10px;
+    }
+
 </style>
 <!-- Content wrapper -->
 <div class="content-wrapper">
@@ -112,9 +132,22 @@
         </div>
     </div>
 
+
     <?php $this->load->view('/admin_portal/modal/attendance_record_tbl_modal.php');?>
 
     <script>
+
+    <div class="offcanvas offcanvas-end" id="viewSchedule" aria-labelledby="offcanvasRightLabel">
+        <div class="offcanvas-header">
+            <h5 id="offcanvasRightLabel" style="color:#fff !important;"><i class="bi bi-calendar2-check-fill me-2"></i>Schedule of Scholars</h5>
+        </div>
+        <div class="offcanvas-body" id="scholar_schedule">
+            <!-- AJAX REQUEST -->
+        </div>
+    </div>
+
+<script>
+
     $(document).ready(function() {
         var tbl_student = $('#tbl_student').DataTable({
             language: {
@@ -192,7 +225,24 @@
                     text: 'Please provide a valid month.',
                 });
             }
+        });
 
+        $(document).on('click', '.view_schedule', function() {
+            var member_id = $(this).data('id');
+
+            $.ajax({
+                url: "<?= base_url('portal/admin_portal/attendance_record/view_schedule')?>",
+                method: "POST",
+                data: {
+                    member_id: member_id,
+                    '_token': csrf_token_value,
+                },
+                dataType: "json",
+                success: function(data) {
+                    $('#scholar_schedule').html(data.scholar_schedule);
+                    $('#viewSchedule').offcanvas('show')
+                }
+            });
         });
 
     });

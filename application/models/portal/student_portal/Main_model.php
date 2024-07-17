@@ -129,4 +129,88 @@ class Main_model extends MY_Model
         return $query;
     }
 
+    function get_student_schedule_list()
+    {
+        $this->db->where('member_id', $this->session->userdata('scholarIn')['member_id']);
+        $query = $this->db->get('scholar_selected_schedule');
+        return $query;
+    }
+
+    function get_attendance_record($schedule_date)
+    {
+        $this->db->where('member_id', $this->session->userdata('scholarIn')['member_id']);
+        $this->db->where('attendance_date', $schedule_date);
+        $query = $this->db->get('attendance_record');
+        return $query;
+    }
+
+    function get_attendance($schedule_date, $remarks)
+    {
+        $this->db->where('member_id', $this->session->userdata('scholarIn')['member_id']);
+        $this->db->where('attendance_date', $schedule_date);
+        $this->db->where('remarks', $remarks);
+
+        if ($remarks == 'Time-In') {
+            $this->db->order_by('attendance_id', 'ASC');
+        } else {
+            $this->db->order_by('attendance_id', 'DESC');
+        }
+        
+        $query = $this->db->get('attendance_record');
+        return $query->row_array();
+    }
+
+    //With Pagination
+    function get_student_schedule_record($limit, $start)
+    {
+        $member_id = $this->session->userdata('scholarIn')['member_id'];
+
+        // Subquery to get the first time-in
+        $subquery_in = $this->db->select('attendance_date, MIN(time_transaction) as time_in')
+                                ->from('attendance_record')
+                                ->where('remarks', 'Time-In')
+                                ->where('member_id', $member_id)
+                                ->group_by('attendance_date')
+                                ->get_compiled_select();
+
+        // Subquery to get the last time-out
+        $subquery_out = $this->db->select('attendance_date, MAX(time_transaction) as time_out')
+                                 ->from('attendance_record')
+                                 ->where('remarks', 'Time-Out')
+                                 ->where('member_id', $member_id)
+                                 ->group_by('attendance_date')
+                                 ->get_compiled_select();
+
+        $this->db->select('s.schedule_date, s.time_from, a.time_in, a2.time_out');
+        $this->db->from('scholar_selected_schedule s');
+        $this->db->join("($subquery_in) a", 's.schedule_date = a.attendance_date', 'left');
+        $this->db->join("($subquery_out) a2", 's.schedule_date = a2.attendance_date', 'left');
+        $this->db->where('s.member_id', $member_id);
+        $this->db->where('s.schedule_date <', date('Y-m-d')); // Exclude the present date
+        $this->db->limit($limit, $start);
+        $this->db->order_by('s.schedule_date', 'DESC');
+        
+        $query = $this->db->get();
+        return $query;
+    }
+
+    function get_attendance_count()
+    {
+        $member_id = $this->session->userdata('scholarIn')['member_id'];
+
+        $this->db->from('scholar_selected_schedule s');
+        $this->db->join('attendance_record a', 's.schedule_date = a.attendance_date AND a.member_id = s.member_id', 'left');
+        $this->db->where('s.member_id', $member_id);
+        $this->db->where('s.schedule_date <', date('Y-m-d')); // Exclude the present date
+        
+        return $this->db->count_all_results();
+    }
+
+    function getActiveRules()
+    {
+        $this->db->where('status', 0);
+        $this->db->limit(1);
+        $query = $this->db->get('late_rules');
+        return $query;
+    }
 }
