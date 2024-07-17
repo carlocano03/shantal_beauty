@@ -79,7 +79,7 @@
     $(document).on('click', '.approve_request', function() {
         Swal.fire({
             title: 'Are you sure..',
-            text: "You want to activate this account?",
+            text: "You want to continue this transaction?",
             icon: 'question',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',

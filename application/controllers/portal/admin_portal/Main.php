@@ -124,13 +124,21 @@ class Main extends MY_Controller
                     ';
                 }
             }
+
+            $img = base_url()."assets/images/avatar-default-0.png";
+            if(!empty($list->personal_photo)){
+                if(file_exists('./assets/uploaded_attachment/personal_photo/'.$list->personal_photo)){
+                    $img = base_url()."assets/uploaded_attachment/personal_photo/".$list->personal_photo;
+                }
+            }
+
             $output .= '
                 <div class="col">
                     <div class="overview-card">
                         <div class="d-flex align-items-center justify-content-between">
                             <div class="d-flex align-items-center gap-3">
                                 <img class="scholarship-req__avatar"
-                                    src="'.base_url('assets/images/dashboard/student-req.png').'"
+                                    src="'.$img.'"
                                     alt="applicant">
                                 <div class="scholarship-req__name">'.ucwords($fullname).'</div>
                             </div>

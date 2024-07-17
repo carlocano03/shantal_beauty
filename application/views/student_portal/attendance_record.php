@@ -20,6 +20,7 @@
         text-align: center;
         border-radius: 0px !important;
         line-height: 10px;
+        color: #fff !important;
     }
 
     .tbl_schedule td {

@@ -20,6 +20,7 @@
         text-align: center;
         border-radius: 0px !important;
         line-height: 10px;
+        color: #fff !important;
     }
 
     .tbl_schedule td {
@@ -108,8 +109,8 @@
                     </div>
                     <div class="col-md-4 mb-3">
                         <a href="<?= base_url('admin/attendance-record');?>" class="btn btn-outline-dark"><i class="bi bi-backspace-fill me-2"></i>Back</a>
-                        <button class="btn btn-danger"><i class="bi bi-printer me-2"></i>Print Record</button>
-                        <button class="btn btn-success"><i class="bi bi-file-earmark-excel me-2"></i>Excel</button>
+                        <button class="btn btn-danger print_attendance"><i class="bi bi-printer me-2"></i>Print Record</button>
+                        <a href="<?= base_url('admin/attendance-record/excel?scholar='.$member_id_encrypted.'&month='.$month)?>" class="btn btn-success"><i class="bi bi-file-earmark-excel me-2"></i>Excel</a>
                     </div>
                 </div>
                 <hr class="mt-0 mb-2">
@@ -274,6 +275,11 @@
                     }
                 });
             }
+        });
+
+        $(document).on('click', '.print_attendance', function() {
+            var url = "<?= base_url('admin/attendance-record/print?scholar=')?>" + member_id_encrypted + '&month=' + month;
+            window.open(url, 'targetWindow','resizable=yes,width=1000,height=1000');   
         });
     });
 
