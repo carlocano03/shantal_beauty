@@ -151,8 +151,12 @@ class Main extends MY_Controller
 
     public function logout($session)
     {
-        $user_type_id = $this->session->userdata('adminIn')['user_type_id'];
-        if ($session['user_type_id'] == ADMINISTRATOR || $session['user_type_id'] == ADMIN_STAFF) {
+        if ($session == 'adminIn') {
+            $user_type_id = $this->session->userdata('adminIn')['user_type_id'];
+        } else {
+            $user_type_id = '';
+        }
+        if ($user_type_id == ADMINISTRATOR || $user_type_id == ADMIN_STAFF) {
             $logs = array(
                 'user_id'       => $this->session->userdata('adminIn')['user_id'],
                 'user_type_id'  => $this->session->userdata('adminIn')['user_type_id'],
@@ -172,7 +176,7 @@ class Main extends MY_Controller
         
         $this->insert_activity_logs($logs);
 
-        $this->session->unset_userdata($session); // Unset the adminIn session variable
+        $this->session->unset_userdata($session); // Unset the adminIn and scholarIn session variable
         redirect('login'); // Redirect to the 'user' controller or route
     }
 

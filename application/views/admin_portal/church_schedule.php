@@ -220,13 +220,13 @@
                                         <label for="day_week" class="form-label">Day of the week</label>
                                         <select name="day_week" id="day_week" class="form-select" required>
                                             <option value="">Please choose from the following options</option>
-                                            <option value="Sunday">Sunday</option>
                                             <option value="Monday">Monday</option>
                                             <option value="Tuesday">Tuesday</option>
                                             <option value="Wednesday">Wednesday</option>
                                             <option value="Thursday">Thursday</option>
                                             <option value="Friday">Friday</option>
                                             <option value="Saturday">Saturday</option>
+                                            <option value="Sunday">Sunday</option>
                                         </select>
                                         <div class="invalid-feedback">
                                             Please provide a valid day of the week.
@@ -276,13 +276,44 @@
     </div>
     <!-- / Content -->
 
-    <script>
+<script>
+    const scheduleChart = new Chart(document.getElementById('church_schedule_chart'), {
+        type: 'pie',
+        data: {}, // Initialize with empty data
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Scholar Schedules'
+                }
+            }
+        }
+    });
+
     function loadSchedule() {
         $.ajax({
             url: "<?= base_url('portal/admin_portal/church_schedule/get_church_schedule');?>",
             method: "GET",
             dataType: "json",
             success: function(data) {
+                if(data.count > 0) {
+                    scheduleChart.data = data.chart;
+                    scheduleChart.update();
+                } else {
+                    scheduleChart.data = {
+                        datasets: [{
+                            data: [1], // Dummy data
+                            backgroundColor: ['rgba(0, 0, 0, 0)'], // Transparent color
+                            borderColor: ['rgba(0, 0, 0, 0)'] // Transparent color
+                        }],
+                        labels: ['No data found']
+                    };
+                    scheduleChart.update();
+                }
                 $('#sched_list').html(data.sched_list);
             }
         });
@@ -306,7 +337,7 @@
             formData.append('sched_name', $('#sched_name').val());
             formData.append('day_week', $('#day_week').val());
             formData.append('time_in', $('#time_in').val());
-            formData.append('time_out', $('#last_name').val());
+            formData.append('time_out', $('#time_out').val());
             formData.append('action', 'Update');
             formData.append('_token', csrf_token_value);
         } else {
@@ -374,7 +405,8 @@
         }
     });
 
-    $(document).on('click', '.schedule_activation', function() {
+    $(document).on('click', '.schedule_activation', function(event) {
+        event.stopPropagation();
         var sched_id = $(this).data('id');
 
         if ($(this).is(":checked")) {
@@ -474,39 +506,30 @@
             });
         }
     });
-    </script>
 
-
-    <script>
-    // Pie Chart
-    const ctx = document.getElementById('church_schedule_chart');
-
-    new Chart(ctx, {
-        type: 'pie',
-        data: {
-            labels: ['First Schedule', 'Second Schedule'],
-            datasets: [{
-                label: 'My First Dataset',
-                data: [300, 50, ],
-                backgroundColor: [
-                    'rgb(54, 162, 235)',
-                    'rgb(255, 99, 132)',
-
-                ],
-
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'top',
-                },
-                title: {
-                    display: true,
-                    text: 'Schedule'
-                }
+    $(document).on('click', '#open_action', function() {
+        var sched_id = $(this).data('id');
+        var name = $(this).data('name');
+        var day = $(this).data('day');
+        var timeIn = $(this).data('in');
+        var timeOut = $(this).data('out');
+        
+        Swal.fire({
+            icon: "question",
+            title: "Are you sure..",
+            text: "Do you want to update this schedule?",
+            showCancelButton: true,
+            confirmButtonText: "Update",
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                //Update Record
+                $('#sched_id').val(sched_id);
+                $('#sched_name').val(name);
+                $('#day_week').val(day).trigger('change');
+                $('#time_in').val(timeIn);
+                $('#time_out').val(timeOut);
             }
-        },
+        });
     });
-    </script>
+</script>

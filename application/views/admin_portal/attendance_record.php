@@ -55,23 +55,24 @@
 }
 
 
-    .tbl_sched {
-        width: 100%;
-        border-collapse: collapse;
-    }
-    .tbl_sched th {
-        border: 1px solid black;
-        font-size: 10px;
-        font-weight: 600;
-        background: #434875;
-        border-top-left-radius: 0px !important;
-        border-top-right-radius: 0px !important;
-    }
+.tbl_sched {
+    width: 100%;
+    border-collapse: collapse;
+}
+.tbl_sched th {
+    border: 1px solid black;
+    font-size: 10px;
+    font-weight: 600;
+    background: #434875;
+    border-top-left-radius: 0px !important;
+    border-top-right-radius: 0px !important;
+    color: #fff !important;
+}
 
-    .tbl_sched td {
-        border: 1px solid black;
-        font-size: 10px;
-    }
+.tbl_sched td {
+    border: 1px solid black;
+    font-size: 10px;
+}
 
 </style>
 <!-- Content wrapper -->
@@ -132,11 +133,6 @@
         </div>
     </div>
 
-
-    <?php $this->load->view('/admin_portal/modal/attendance_record_tbl_modal.php');?>
-
-    <script>
-
     <div class="offcanvas offcanvas-end" id="viewSchedule" aria-labelledby="offcanvasRightLabel">
         <div class="offcanvas-header">
             <h5 id="offcanvasRightLabel" style="color:#fff !important;"><i class="bi bi-calendar2-check-fill me-2"></i>Schedule of Scholars</h5>
@@ -145,9 +141,9 @@
             <!-- AJAX REQUEST -->
         </div>
     </div>
+    <?php $this->load->view('/admin_portal/modal/attendance_record_tbl_modal.php');?>
 
 <script>
-
     $(document).ready(function() {
         var tbl_student = $('#tbl_student').DataTable({
             language: {
@@ -246,4 +242,4 @@
         });
 
     });
-    </script>
+</script>

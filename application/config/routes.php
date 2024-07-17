@@ -64,8 +64,8 @@ $route['admin/church-schedule'] = 'portal/admin_portal/church_schedule/index';
 $route['admin/late-rules-setup'] = 'portal/admin_portal/late_rules/index';
 $route['admin/attendance-record'] = 'portal/admin_portal/attendance_record/index';
 $route['admin/attendance-record/manage-record'] = 'portal/admin_portal/attendance_record/manage_attendance';
-
-
+$route['admin/attendance-record/print'] = 'portal/admin_portal/attendance_record/print_attendance';
+$route['admin/attendance-record/excel'] = 'portal/admin_portal/attendance_record/excel_attendance';
 
 // Student Portal
 $route['student/dashboard'] = 'portal/student_portal/main/index';
