@@ -25,11 +25,6 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.overview-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 15px 25px rgba(46, 35, 94, .15);
-}
-
 .overview-card__title {
     color: #434875;
     letter-spacing: .025em;
@@ -80,6 +75,44 @@
     font-weight: bold;
     font-size: 0.80rem;
 }
+
+.table__title {
+    font-size: 20px;
+    font-weight: 500;
+    color: #434875 !important;
+    padding: 8px 0;
+    margin-bottom: 0;
+
+}
+
+.card {
+    background: #ffffff;
+    border-radius: 8px;
+    color: #434875;
+    box-shadow: 0 9px 20px rgba(46, 35, 94, .07);
+}
+
+#church_schedule_chart {
+    width: 450px !important;
+    height: 450px !important;
+
+}
+
+@media (max-width: 768px) {
+    #church_schedule_chart {
+        width: 350px !important;
+        height: 350px !important;
+
+    }
+}
+
+@media (max-width: 420px) {
+    #church_schedule_chart {
+        width: 250px !important;
+        height: 250px !important;
+
+    }
+}
 </style>
 <!-- Content wrapper -->
 <div class="content-wrapper">
@@ -87,11 +120,12 @@
     <!-- Content -->
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="card">
-            <div class="card-header mb-3">
-                <h5><i class="<?= $icon?> me-2"></i><?= $card_title?></h5>
+            <div class="card-header mb-3 pb-3 d-flex align-items-center gap-2 ">
+                <img src="<?php echo base_url('assets/images/church_schedule.png'); ?>" width="36px" alt="Calendar" />
+                <h5 class="table__title"><?= $card_title?></h5>
             </div>
-            <div class="card-body">
-                <div class="row">
+            <div class="card-body mt-4">
+                <div class="row gy-4 gy-lg-0">
                     <div class="col-md-7">
                         <div class="row" id="sched_list">
                             <!-- <div class="col-md-6 mb-3">
@@ -152,7 +186,12 @@
                             <div class="col-md-12">
                                 <div class="card">
                                     <div class="card-body">
-                                        Chart Data
+                                        <div class="overview-card__title">
+                                            Church Schedule Overview
+                                        </div>
+                                        <div class="mt-3 d-flex align-items-center justify-content-center">
+                                            <canvas id="church_schedule_chart"></canvas>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -162,15 +201,17 @@
                     <div class="col-md-5">
                         <div class="card">
                             <div class="card-header">
-                                <h5><i class="bi bi-ui-radios me-2"></i>Church Schedule Form</h5>
+                                <h5 class="table__title"><i class="bi bi-ui-radios me-2"></i>Church Schedule Form</h5>
                             </div>
-                            <div class="card-body">
-                                <div class="alert alert-danger mt-3"><i class="bi bi-info-circle-fill me-2"></i>Schedule Details</div>
+                            <div class="card-body mt-4">
+                                <div class="alert alert-danger mt-3"><i class="bi bi-info-circle-fill me-2"></i>Schedule
+                                    Details</div>
                                 <form id="addForm" class="needs-validation" novalidate>
                                     <input type="hidden" id="sched_id">
                                     <div class="form-group mb-3">
                                         <label for="sched_name" class="form-label">Schedule Name</label>
-                                        <input type="text" class="form-control" id="sched_name" autocomplete="off" required>
+                                        <input type="text" class="form-control" id="sched_name" autocomplete="off"
+                                            required>
                                         <div class="invalid-feedback">
                                             Please provide a valid schedule name.
                                         </div>
@@ -198,17 +239,19 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="time_in" class="form-label">Time In</label>
-                                                <input type="time" class="form-control" id="time_in" autocomplete="off" required>
+                                                <input type="time" class="form-control" id="time_in" autocomplete="off"
+                                                    required>
                                                 <div class="invalid-feedback">
                                                     Please provide a valid time.
                                                 </div>
                                             </div>
-                                            
+
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="time_out" class="form-label">Time Out</label>
-                                                <input type="time" class="form-control" id="time_out" autocomplete="off" required>
+                                                <input type="time" class="form-control" id="time_out" autocomplete="off"
+                                                    required>
                                                 <div class="invalid-feedback">
                                                     Please provide a valid time.
                                                 </div>
@@ -216,9 +259,12 @@
                                         </div>
                                     </div>
                                     <hr>
-                                    <div class="text-end">
-                                        <a href="" type="button" class="btn btn-secondary"><i class="bi bi-x-square me-2"></i>Cancel</a>
-                                        <button type="button" class="btn btn-primary" id="save_schedule"><i class="bi bi-floppy-fill me-2"></i>Save changes</button>
+                                    <div class="text-md-end d-flex d-md-block flex-column gap-2">
+                                        <button type="button" class="btn btn-primary" id="save_schedule"><i
+                                                class="bi bi-floppy-fill me-2"></i>Save changes</button>
+                                        <a href="" type="button" class="btn btn-secondary"><i
+                                                class="bi bi-x-square me-2"></i>Cancel</a>
+
                                     </div>
                                 </form>
                             </div>
@@ -230,7 +276,7 @@
     </div>
     <!-- / Content -->
 
-<script>
+    <script>
     function loadSchedule() {
         $.ajax({
             url: "<?= base_url('portal/admin_portal/church_schedule/get_church_schedule');?>",
@@ -273,7 +319,7 @@
             formData.append('_token', csrf_token_value);
         }
 
-        
+
         form.classList.add('was-validated');
         if (form.checkValidity() === false) {
             event.preventDefault();
@@ -365,10 +411,10 @@
                                     icon: 'warning',
                                     title: 'Oops...',
                                     text: 'Failed to activate the schedule.',
-                                }); 
+                                });
                             }
                         },
-                        error :function() {
+                        error: function() {
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Oops...',
@@ -412,19 +458,55 @@
                                     icon: 'warning',
                                     title: 'Oops...',
                                     text: 'Failed to deactivated the schedule.',
-                                }); 
+                                });
                             }
                         },
-                        error :function() {
+                        error: function() {
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Oops...',
                                 text: 'An error occurred while processing the request.',
                             });
+
                         }
                     });
                 }
             });
         }
     });
-</script>
+    </script>
+
+
+    <script>
+    // Pie Chart
+    const ctx = document.getElementById('church_schedule_chart');
+
+    new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['First Schedule', 'Second Schedule'],
+            datasets: [{
+                label: 'My First Dataset',
+                data: [300, 50, ],
+                backgroundColor: [
+                    'rgb(54, 162, 235)',
+                    'rgb(255, 99, 132)',
+
+                ],
+
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Schedule'
+                }
+            }
+        },
+    });
+    </script>

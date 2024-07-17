@@ -57,7 +57,7 @@
                                         alt="Scholars" />
                                 </div>
                                 <div class="flex flex-column">
-                                    <div class="custom-card__title"  id="total_approval">0</div>
+                                    <div class="custom-card__title" id="total_approval">0</div>
                                     <div class="custom-card__sub-text">
                                         Pending Approvals
                                     </div>
@@ -91,7 +91,9 @@
                         <div class="overview-card__no-bg">
                             <div class="d-flex align-items-center justify-content-between">
                                 <h1 class="overview-card__title m-0">Scholarship Request</h1>
-                                <a href="<?= base_url('admin/scholarship-approval')?>"><div class="scholarship-req__view-all">View All</div></a>
+                                <a href="<?= base_url('admin/scholarship-approval')?>">
+                                    <div class="scholarship-req__view-all">View All</div>
+                                </a>
                             </div>
                             <div class="row row-cols-lg-2 row-cols-1 gy-lg-0 gy-3 mt-lg-4 mt-2" id="request_list">
                                 <!-- AJAX REQUEST -->
@@ -190,8 +192,8 @@
 
                             <div class="mt-3">
                                 <ul class="p-0" id="recent_activities">
-                                    
-                                    
+
+
                                     <!-- <li class="d-flex li-recent-system-updates">
                                         <div class="activity-dot"
                                             style="background-color: #54BA4A;outline: 5px solid rgba(84, 186, 74, 0.25);">
@@ -250,248 +252,248 @@
 </div>
 
 <script>
-    const ctx = document.getElementById('attendanceSummary');
+const ctx = document.getElementById('attendanceSummary');
 
-    new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: [
-                'Tues, Jan 08',
-                'Wed, Jan 09',
-                'Tues, Jan 08',
-                'Wed, Jan 09',
-                'Tues, Jan 08',
-                'Wed, Jan 09',
-                'Wed, Jan 09',
-                'Wed, Jan 09'
-            ],
-            datasets: [{
-                    label: "Present",
-                    data: [65, 59, 80, 81, 56, 55, 40, 32],
-                    backgroundColor: [
-                        '#A8E6CF',
-                    ],
-                },
-                {
-                    label: "Absent",
-                    data: [8, 3, 1, 7, 2, 6, 9, 2],
-                    backgroundColor: [
-                        '#FF8B94',
-                    ],
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: [
+            'Tues, Jan 08',
+            'Wed, Jan 09',
+            'Tues, Jan 08',
+            'Wed, Jan 09',
+            'Tues, Jan 08',
+            'Wed, Jan 09',
+            'Wed, Jan 09',
+            'Wed, Jan 09'
+        ],
+        datasets: [{
+                label: "Present",
+                data: [65, 59, 80, 81, 56, 55, 40, 32],
+                backgroundColor: [
+                    '#A8E6CF',
+                ],
+            },
+            {
+                label: "Absent",
+                data: [8, 3, 1, 7, 2, 6, 9, 2],
+                backgroundColor: [
+                    '#FF8B94',
+                ],
 
-                }, {
-                    label: "Late",
-                    data: [5, 2, 3, 5, 8, 1, 2, 5],
-                    backgroundColor: [
-                        '#FFECB3',
-                    ],
-                }
-            ]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
+            }, {
+                label: "Late",
+                data: [5, 2, 3, 5, 8, 1, 2, 5],
+                backgroundColor: [
+                    '#FFECB3',
+                ],
+            }
+        ]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
             }
         }
-    });
-
+    }
+});
 </script>
 
 
 <script>
-    var applicationChartInstance;
+var applicationChartInstance;
 
-    function getCount() 
-    {
-        $.ajax({
-            url: "<?= base_url('portal/admin_portal/main/getCount')?>",
-            method: "GET",
-            dataType: "json",
-            success: function(data) {
-                const countUpConfigs = [{
-                        elementId: 'total_scholars',
-                        targetValue: data.total_scholars,
+function getCount() {
+    $.ajax({
+        url: "<?= base_url('portal/admin_portal/main/getCount')?>",
+        method: "GET",
+        dataType: "json",
+        success: function(data) {
+            const countUpConfigs = [{
+                    elementId: 'total_scholars',
+                    targetValue: data.total_scholars,
 
-                    },
-                    {
-                        elementId: 'total_application',
-                        targetValue: data.total_application,
+                },
+                {
+                    elementId: 'total_application',
+                    targetValue: data.total_application,
 
-                    },
-                    {
-                        elementId: 'total_approval',
-                        targetValue: data.total_approval,
+                },
+                {
+                    elementId: 'total_approval',
+                    targetValue: data.total_approval,
 
-                    },
-                    {
-                        elementId: 'total_denied',
-                        targetValue: data.total_denied,
+                },
+                {
+                    elementId: 'total_denied',
+                    targetValue: data.total_denied,
 
-                    }
-                ];
-                countUpConfigs.forEach((config) => {
-                    var countUp = new CountUp(config.elementId, 0, config.targetValue, 0,
-                        4, {
-                            duration: 2,
-                            useEasing: true,
-                            separator: ',',
-                        });
-
-                    if (!countUp.error) {
-                        countUp.start();
-                    } else {
-                        console.error("CountUp Error:", countUp.error);
-                    }
-                });
-            }
-        });
-    }
-
-    function getScholarshipRequest()
-    {
-        $.ajax({
-            url: "<?= base_url('portal/admin_portal/main/getScholarshipRequest')?>",
-            method: "GET",
-            dataType: "json",
-            success: function(data) {
-                if (data.request_count > 0) {
-                    $('#request-wrapper').fadeIn(200);
-                    $('#request_list').html(data.request_list);
-                } else {
-                    $('#request-wrapper').hide();
                 }
-            }
-        });
-    }
+            ];
+            countUpConfigs.forEach((config) => {
+                var countUp = new CountUp(config.elementId, 0, config.targetValue, 0,
+                    4, {
+                        duration: 2,
+                        useEasing: true,
+                        separator: ',',
+                    });
 
-    function getAvailableSched()
-    {
-        $.ajax({
-            url: "<?= base_url('portal/admin_portal/main/getAvailableSched')?>",
-            method: "GET",
-            dataType: "json",
-            success: function(data) {
-                $('#available_sched').html(data.available_sched);
-            }
-        });
-    }
-
-    function getApplicationChart()
-    {
-        var range = $('#filter_options').val();
-        var applicationData;
-        const registration = document.getElementById('registration-metrics');
-
-        if (applicationChartInstance) {
-            applicationChartInstance.destroy();
+                if (!countUp.error) {
+                    countUp.start();
+                } else {
+                    console.error("CountUp Error:", countUp.error);
+                }
+            });
         }
+    });
+}
 
-        $.ajax({
-            url: "<?= base_url('portal/admin_portal/main/applicationChart')?>",
-            method: "GET",
-            data: {
-                range: range
-            },
-            success: function(data) {
-                var labels = Object.keys(data[0]).filter(key => key !== 'application_status' && key !== 'total_count');
+function getScholarshipRequest() {
+    $.ajax({
+        url: "<?= base_url('portal/admin_portal/main/getScholarshipRequest')?>",
+        method: "GET",
+        dataType: "json",
+        success: function(data) {
+            if (data.request_count > 0) {
+                $('#request-wrapper').fadeIn(200);
+                $('#request_list').html(data.request_list);
+            } else {
+                $('#request-wrapper').hide();
+            }
+        }
+    });
+}
 
-                var formattedLabels = labels.map(date => {
-                    var options = { month: 'short', day: '2-digit', year: 'numeric' };
-                    var dateObj = new Date(date);
-                    return dateObj.toLocaleDateString('en-US', options);
-                });
+function getAvailableSched() {
+    $.ajax({
+        url: "<?= base_url('portal/admin_portal/main/getAvailableSched')?>",
+        method: "GET",
+        dataType: "json",
+        success: function(data) {
+            $('#available_sched').html(data.available_sched);
+        }
+    });
+}
 
-                var datasets = [];
-                var aggregatedData = {};
+function getApplicationChart() {
+    var range = $('#filter_options').val();
+    var applicationData;
+    const registration = document.getElementById('registration-metrics');
 
-                // Process response to aggregate data
-                data.forEach(function(user) {
-                    if (!aggregatedData[user.application_status]) {
-                        aggregatedData[user.application_status] = new Array(labels.length).fill(0);
-                    }
-                });
+    if (applicationChartInstance) {
+        applicationChartInstance.destroy();
+    }
 
-                // Aggregate data
-                data.forEach(function(user) {
-                    labels.forEach(function(date, index) {
-                        aggregatedData[user.application_status][index] += parseInt(user[date]);
-                    });
-                });
+    $.ajax({
+        url: "<?= base_url('portal/admin_portal/main/applicationChart')?>",
+        method: "GET",
+        data: {
+            range: range
+        },
+        success: function(data) {
+            var labels = Object.keys(data[0]).filter(key => key !== 'application_status' && key !==
+                'total_count');
 
-                // Convert aggregated data into datasets array format
-                Object.keys(aggregatedData).forEach(function(userType) {
-                    datasets.push({
-                        label: userType,
-                        data: aggregatedData[userType],
-                        fill: false,
-                        borderColor: userType === 'Total Application' ? '#32C7ED' : userType === 'Approved' ? '#7BDF4A' : '#ff3838', // Assign different colors based on user_type
-                        tension: 0.1
-                    });
-                });
-
-                // Construct applicationData
-                var applicationData = {
-                    labels: formattedLabels,
-                    datasets: datasets
+            var formattedLabels = labels.map(date => {
+                var options = {
+                    month: 'short',
+                    day: '2-digit',
+                    year: 'numeric'
                 };
+                var dateObj = new Date(date);
+                return dateObj.toLocaleDateString('en-US', options);
+            });
 
-                // Create the chart
-                applicationChartInstance = new Chart(registration, {
-                    type: 'line',
-                    data: applicationData,
-                    options: {
-                        responsive: true,
-                        plugins: {
-                            legend: {
-                                position: 'top'
-                            }
-                        },
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                ticks: {
-                                    min: 0
-                                }
+            var datasets = [];
+            var aggregatedData = {};
+
+            // Process response to aggregate data
+            data.forEach(function(user) {
+                if (!aggregatedData[user.application_status]) {
+                    aggregatedData[user.application_status] = new Array(labels.length).fill(0);
+                }
+            });
+
+            // Aggregate data
+            data.forEach(function(user) {
+                labels.forEach(function(date, index) {
+                    aggregatedData[user.application_status][index] += parseInt(user[date]);
+                });
+            });
+
+            // Convert aggregated data into datasets array format
+            Object.keys(aggregatedData).forEach(function(userType) {
+                datasets.push({
+                    label: userType,
+                    data: aggregatedData[userType],
+                    fill: false,
+                    borderColor: userType === 'Total Application' ? '#32C7ED' : userType ===
+                        'Approved' ? '#7BDF4A' :
+                        '#ff3838', // Assign different colors based on user_type
+                    tension: 0.1
+                });
+            });
+
+            // Construct applicationData
+            var applicationData = {
+                labels: formattedLabels,
+                datasets: datasets
+            };
+
+            // Create the chart
+            applicationChartInstance = new Chart(registration, {
+                type: 'line',
+                data: applicationData,
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                min: 0
                             }
                         }
                     }
-                });
-            },
-            error: function(error) {
-                console.error('Error fetching data:', error);
-            }
-        });
-    }
-    
-    function getRecentActivities()
-    {
-        $.ajax({
-            url: "<?= base_url('main/getRecentActivities')?>",
-            method: "GET",
-            dataType: "json",
-            success: function(data) {
-                $('#recent_activities').html(data.recent_activities);
-            }
-        });
-    }
-
-    $(document).ready(function() {
-        getCount();
-        getScholarshipRequest();
-        getAvailableSched();
-        getApplicationChart();
-        getRecentActivities();
-
-        setInterval(() => {
-            getScholarshipRequest();
-            getRecentActivities();
-        }, 5000);
-
-        $(document).on('change', '#filter_options', function() {
-            getApplicationChart();
-        });
+                }
+            });
+        },
+        error: function(error) {
+            console.error('Error fetching data:', error);
+        }
     });
+}
 
+function getRecentActivities() {
+    $.ajax({
+        url: "<?= base_url('main/getRecentActivities')?>",
+        method: "GET",
+        dataType: "json",
+        success: function(data) {
+            $('#recent_activities').html(data.recent_activities);
+        }
+    });
+}
+
+$(document).ready(function() {
+    getCount();
+    getScholarshipRequest();
+    getAvailableSched();
+    getApplicationChart();
+    getRecentActivities();
+
+    setInterval(() => {
+        getScholarshipRequest();
+        getRecentActivities();
+    }, 5000);
+
+    $(document).on('change', '#filter_options', function() {
+        getApplicationChart();
+    });
+});
 </script>

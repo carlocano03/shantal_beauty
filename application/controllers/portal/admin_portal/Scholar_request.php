@@ -101,7 +101,12 @@ class Scholar_request extends MY_Controller
             );
             $color = array_key_exists($list->application_status, $stageColors) ? $stageColors[$list->application_status] : 'bg-secondary';
             $row[] = '<div class="badge '.$color.'">'.$list->application_status.'</div>';
-            $row[] = '<div class="btn-group">
+            $row[] = '
+				<div class="d-block d-lg-none">
+				  	 <i data-bs-toggle="modal" data-bs-target="#viewScholarRequestTableDetails"
+                        class="fa-solid fa-circle-plus"></i>
+					</div>	
+			<div class="btn-group d-none d-lg-block">
                         <button type="button" class="btn btn-dark btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                             Action
                         </button>

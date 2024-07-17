@@ -212,5 +212,9 @@ class Main extends MY_Controller
         $this->load->view('website/scholarship_closed');
 	}
 
+	public function custom_table(){
+        $this->load->view('components/custom_table');
+	}
+
 }
 //End CI_Controller
