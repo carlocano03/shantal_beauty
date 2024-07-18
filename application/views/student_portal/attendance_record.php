@@ -15,15 +15,15 @@
     font-weight: bold;
 }
 
- .tbl_schedule th {
-        font-size: 10px;
-        border: 1px solid #c8d6e5;
-        padding: 3px !important;
-        text-align: center;
-        border-radius: 0px !important;
-        line-height: 10px;
-        color: #fff !important;
- }
+.tbl_schedule th {
+    font-size: 10px;
+    border: 1px solid #c8d6e5;
+    padding: 3px !important;
+    text-align: center;
+    border-radius: 0px !important;
+    line-height: 10px;
+    color: #fff !important;
+}
 
 
 .tbl_schedule th {
@@ -97,6 +97,42 @@
     scrollbar-width: thin;
     scrollbar-color: #888 #f1f1f1;
 }
+
+
+#prev-year-button,
+#next-year-button {
+    background-color: #434875;
+    border-color: #434875;
+    padding: 0 8px;
+}
+
+
+#month-year-container label {
+    border-radius: 0;
+}
+
+.btn-outline-primary {
+    border-color: #434875;
+    color: #434875;
+}
+
+.btn-check:checked+.btn-outline-primary,
+.btn-check:active+.btn-outline-primary,
+.btn-outline-primary:active,
+.btn-outline-primary.active,
+.btn-outline-primary.dropdown-toggle.show {
+    color: #fff;
+    background-color: #434875;
+    border-color: #434875;
+
+}
+
+.btn-outline-primary:hover {
+    background-color: #434875 !important;
+    border-color: #434875 !important;
+    box-shadow: 0 0.125rem 0.25rem 0 rgba(67, 72, 117, 0.4);
+
+}
 </style>
 <!-- Content wrapper -->
 <div class="content-wrapper">
@@ -114,16 +150,22 @@
                 <h6 class="me-3 mb-0" id="date_sched"></h6>
             </div>
             <div class="card-body">
-
-                <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                    <button id="prev-year-button" class="btn btn-primary group-btn"><i class="fa-solid fa-angles-left"></i></button>
-                        <div id="month-year-container" class="btn-group-toggle" data-toggle="buttons">
+                <div class="scrollable-table" style="overflow-x:auto">
+                    <div class="d-flex justify-content-center" style="min-width:980px">
+                        <div class="btn-group d-flex" role="group" aria-label="Basic radio toggle button group ">
+                            <button id="prev-year-button" class="btn btn-primary group-btn"><i
+                                    class="fa-solid fa-angles-left"></i></button>
+                            <div id="month-year-container" class="btn-group-toggle " data-toggle="buttons">
                                 <!-- Months will be dynamically generated here -->
+                            </div>
+                            <button id="next-year-button" class="btn btn-primary group-btn"><i
+                                    class=" fa-solid fa-angles-right"></i></button>
                         </div>
-                    <button id="next-year-button" class="btn btn-primary group-btn"><i class="fa-solid fa-angles-right"></i></button>
+                    </div>
                 </div>
 
-                <div class="d-flex align-items-center justify-content-between flex-column gap-3 flex-md-row gap-md-0">
+                <div
+                    class=" mt-3 d-flex align-items-center justify-content-between flex-column gap-3 flex-md-row gap-md-0">
                     <div class="col-md-3 col-12 ">
                         <input type="month" class="form-control" id="month" value="<?= date('Y-m');?>">
                     </div>
@@ -148,7 +190,7 @@
         $currentYear = date("Y");
     ?>
 
-<script>
+    <script>
     const monthYearContainer = document.getElementById('month-year-container');
     const prevYearButton = document.getElementById('prev-year-button');
     const nextYearButton = document.getElementById('next-year-button');
@@ -177,19 +219,20 @@
 
     function updateMonths() {
         monthYearContainer.innerHTML = '';
-        
+
         for (let month = 1; month <= 12; month++) {
-            const monthName = new Date(currentYear, month - 1, 1).toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
+            const monthName = new Date(currentYear, month - 1, 1).toLocaleDateString('en-US', {
+                month: 'short'
+            }).toUpperCase();
             const selectedMonth = (month).toString().padStart(2, '0');
             const id = currentYear + '-' + selectedMonth;
             const isActive = (month === currentMonth) ? 'checked' : '';
             const label = document.createElement('label');
-            label.className = 'btn btn-outline-primary';
+            label.className = 'btn btn-outline-primary p-0 col';
             label.innerHTML = `
-                <div id="btn-month">
+                <div id="btn-month" class="p-0" >
                     <input type="radio" class="btn-check" name="btnradio" id="btnradio1" id="${id}" autocomplete="off" ${isActive}>
-                    <label class="btn btn-outline-primary" for="${id}">${monthName}</label>
-                    <div class="month-year" style="font-size: 12px;">${currentYear}</div>
+                    <label class="btn btn-outline-primary" for="${id}">${monthName}  <div class="month-year" style="font-size: 12px;">${currentYear}</div></label>
                 <div>
             `;
             monthYearContainer.appendChild(label);
@@ -449,4 +492,4 @@
             }
         });
     });
-</script>
+    </script>
