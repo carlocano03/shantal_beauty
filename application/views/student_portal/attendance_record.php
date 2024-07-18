@@ -209,11 +209,19 @@
         updateMonths();
     });
 
+    // monthYearContainer.addEventListener('click', function(event) {
+    //     if (event.target.classList.contains('filter_month')) {
+    //         currentMonth = event.target.id;
+    //         monthToday = currentMonth;
+    //         // get_other_payables_total(null);
+    //     }
+    // });
+
     monthYearContainer.addEventListener('click', function(event) {
-        if (event.target.classList.contains('filter_month')) {
+        if (event.target.classList.contains('btn-check')) {
             currentMonth = event.target.id;
             monthToday = currentMonth;
-            // get_other_payables_total(null);
+            getAttendanceRecord(monthToday);
         }
     });
 
@@ -230,7 +238,7 @@
             const label = document.createElement('label');
             label.className = 'btn btn-outline-primary p-0 col';
             label.innerHTML = `
-                <div id="btn-month" class="p-0">
+                <div id="btn-month" class="p-0 ">
 					<input type="radio" class="btn-check" name="btnradio" id="${id}" autocomplete="off" ${isActive}>
 					<label class="btn btn-outline-primary" for="${id}">
 						${monthName}  
