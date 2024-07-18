@@ -230,10 +230,14 @@
             const label = document.createElement('label');
             label.className = 'btn btn-outline-primary p-0 col';
             label.innerHTML = `
-                <div id="btn-month" class="p-0" >
-                    <input type="radio" class="btn-check" name="btnradio" id="btnradio1" id="${id}" autocomplete="off" ${isActive}>
-                    <label class="btn btn-outline-primary" for="${id}">${monthName}  <div class="month-year" style="font-size: 12px;">${currentYear}</div></label>
-                <div>
+                <div id="btn-month" class="p-0">
+					<input type="radio" class="btn-check" name="btnradio" id="${id}" autocomplete="off" ${isActive}>
+					<label class="btn btn-outline-primary" for="${id}">
+						${monthName}  
+						<div class="month-year" style="font-size: 12px;">${currentYear}</div>
+					</label>
+				</div>
+
             `;
             monthYearContainer.appendChild(label);
         }
