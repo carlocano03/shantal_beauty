@@ -378,7 +378,7 @@ class Student_attendance extends MY_Controller
             $output .= '</div">';
 
         } else {
-            $output .= '<div class="alert alert-danger"><i class="bi bi-info-circle-fill me-2"></i>Schedule not selected. Please click <a href="#scheduleModal" data-bs-toggle="modal">here</a> to choose your preferred schedule.</div>';
+            $output .= '<div class="alert alert-danger mt-3"><i class="bi bi-info-circle-fill me-2"></i>Schedule not selected. Please click <a href="#scheduleModal" data-bs-toggle="modal">here</a> to choose your preferred schedule.</div>';
         }
 
         $data = array(
