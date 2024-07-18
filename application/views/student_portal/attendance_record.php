@@ -140,9 +140,8 @@
     <!-- Content -->
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="card">
-            <div
-                class="card-header mb-3 pb-3 d-flex align-items-center flex-column justify-content-between gap-3 gap-md-0 flex-md-row ">
-                <div class="d-flex  gap-2 align-items-center">
+            <div class="card-header mb-3 pb-3 d-flex align-items-center flex-column justify-content-between gap-3 gap-md-0 flex-md-row ">
+                <div class="d-flex gap-2 align-items-center">
                     <img src="<?php echo base_url('assets/images/student_dashboard/attendance-record.png'); ?>"
                         width="36px" alt="Calendar" />
                     <h5 class="table__title"><?= $card_title?></h5>
@@ -150,7 +149,14 @@
                 <h6 class="me-3 mb-0" id="date_sched"></h6>
             </div>
             <div class="card-body">
-                <div class="scrollable-table" style="overflow-x:auto">
+                <div class="d-flex align-items-center justify-content-end flex-column gap-3 flex-md-row gap-md-0">
+                    <div>
+                        <button class="btn btn-outline-info print_attendance"><i class="bi bi-printer me-2"></i>Print Record</button>
+                        <button class="btn btn-outline-success export_excel"><i class="bi bi-file-earmark-excel me-2"></i>Excel</button>
+                    </div>
+                </div>
+                <hr>
+                <div class="scrollable-table mb-2" style="overflow-x:auto">
                     <div class="d-flex justify-content-center" style="min-width:980px">
                         <div class="btn-group d-flex" role="group" aria-label="Basic radio toggle button group ">
                             <button id="prev-year-button" class="btn btn-primary group-btn"><i
@@ -163,19 +169,6 @@
                         </div>
                     </div>
                 </div>
-
-                <div
-                    class=" mt-3 d-flex align-items-center justify-content-between flex-column gap-3 flex-md-row gap-md-0">
-                    <div class="col-md-3 col-12 ">
-                        <input type="month" class="form-control" id="month" value="<?= date('Y-m');?>">
-                    </div>
-                    <div>
-                        <button class="btn btn-outline-info"><i class="bi bi-printer me-2"></i>Print Record</button>
-                        <button class="btn btn-outline-success"><i
-                                class="bi bi-file-earmark-excel me-2"></i>Excel</button>
-                    </div>
-                </div>
-                <hr>
                 <div class="attendance-info">
                     <!-- AJAX REQUEST -->
                 </div>
@@ -194,10 +187,10 @@
     const monthYearContainer = document.getElementById('month-year-container');
     const prevYearButton = document.getElementById('prev-year-button');
     const nextYearButton = document.getElementById('next-year-button');
-    let currentYear = <?php echo $currentYear; ?>;
+    let currentYear = "<?php echo $currentYear; ?>";
     let currentMonth = new Date().getMonth() + 1; // Get the current month (1 to 12)
     let table_payables;
-    var monthToday = <?= date('Y-m')?>;
+    var monthToday = "<?= date('Y-m')?>";
 
     prevYearButton.addEventListener('click', () => {
         currentYear--;
@@ -209,19 +202,12 @@
         updateMonths();
     });
 
-    // monthYearContainer.addEventListener('click', function(event) {
-    //     if (event.target.classList.contains('filter_month')) {
-    //         currentMonth = event.target.id;
-    //         monthToday = currentMonth;
-    //         // get_other_payables_total(null);
-    //     }
-    // });
-
     monthYearContainer.addEventListener('click', function(event) {
         if (event.target.classList.contains('btn-check')) {
             currentMonth = event.target.id;
             monthToday = currentMonth;
             getAttendanceRecord(monthToday);
+            getAvailableSched(monthToday);
         }
     });
 
@@ -253,10 +239,14 @@
 
     updateMonths();
 
-    function getAvailableSched() {
+    function getAvailableSched(monthToday) {
         $.ajax({
             url: "<?= base_url('portal/student_portal/main/getAvailableSched')?>",
-            method: "GET",
+            method: "POST",
+            data: {
+                monthToday: monthToday,
+                '_token': csrf_token_value,
+            },
             dataType: "json",
             success: function(data) {
                 $('#available_sched').html(data.available_sched);
@@ -280,7 +270,13 @@
             dataType: "json",
             success: function(data) {
                 $('.attendance-info').html(data.attendance);
-                $('#date_sched').text(data.date_sched);
+                if (data.date_sched != '') {
+                    $('#date_sched').text(data.date_sched);
+                    $('#date_sched').show();
+                } else {
+                    $('#date_sched').hide();
+                }
+                
             }
         })
     }
@@ -294,14 +290,8 @@
         var member_id = 0;
 
         // getAttendanceRecord();
-        getAvailableSched();
-
-        $(document).on('change', '#month', function() {
-            var month = $(this).val();
-            getAttendanceRecord(month);
-        });
-
-        $('#month').trigger('change');
+        getAvailableSched(monthToday);
+        getAttendanceRecord(monthToday);
 
         $(document).on('click', '#save_schedule', function() {
             var sched_id = $(this).data('id');
@@ -321,6 +311,7 @@
                         method: "POST",
                         data: {
                             sched_id: sched_id,
+                            monthToday: monthToday,
                             '_token': csrf_token_value,
                         },
                         dataType: "json",
@@ -338,7 +329,7 @@
                                     text: data.success,
                                 });
                                 $('#scheduleModal').modal('hide');
-                                $('#month').trigger('change');
+                                getAttendanceRecord(monthToday);
                             }
                         },
                         error: function() {
@@ -396,6 +387,7 @@
                         data: {
                             available_sched_id: available_sched_id,
                             selected_sched_id: selected_sched_id,
+                            monthToday: monthToday,
                             '_token': csrf_token_value,
                         },
                         dataType: "json",
@@ -413,7 +405,7 @@
                                     text: data.success,
                                 });
                                 $('#changeModal').modal('hide');
-                                $('#month').trigger('change');
+                                getAttendanceRecord(monthToday);
                             }
                         },
                         error: function() {
@@ -487,7 +479,7 @@
                                     $('#attachmentModal').modal('hide');
                                     form.reset();
                                     form.classList.remove('was-validated');
-                                    $('#month').trigger('change');
+                                    getAttendanceRecord(monthToday);
                                 }
                             },
                             error: function() {
@@ -503,5 +495,17 @@
                 });
             }
         });
+
+        $(document).on('click', '.print_attendance', function() {
+            var url = "<?= base_url('scholar/attendance-record/print?month=')?>" + monthToday;
+            window.open(url, 'targetWindow','resizable=yes,width=1000,height=1000');   
+        });
+
+        $(document).on('click', '.export_excel', function() {
+            var url = "<?= base_url('scholar/attendance-record/excel?month=')?>" + monthToday;
+            window.location.href = url;
+        });
+
+
     });
     </script>

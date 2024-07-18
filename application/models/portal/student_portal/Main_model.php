@@ -29,10 +29,10 @@ class Main_model extends MY_Model
         return $query;
     }
 
-    function check_schedule($member_id)
+    function check_schedule($month, $member_id)
     {
-        $start_dt = date('Y-m-01');
-        $end_date_obj = date('Y-m-t');
+        $start_dt = date('Y-m-01', strtotime($month));
+        $end_date_obj = date('Y-m-t', strtotime($month));
 
         $this->db->where('member_id', $member_id);
         $this->db->where('DATE(date_from) >=', $start_dt);  // Adjust the year as needed
@@ -116,10 +116,10 @@ class Main_model extends MY_Model
         return $dates;
     }
     
-    function check_selected_sched($sched_id)
+    function check_selected_sched($sched_id, $month)
     {
-        $start_dt = date('Y-m-01');
-        $end_date_obj = date('Y-m-t');
+        $start_dt = date('Y-m-01', strtotime($month));
+        $end_date_obj = date('Y-m-t', strtotime($month));
 
         $this->db->where('member_id', $this->session->userdata('scholarIn')['member_id']);
         $this->db->where('sched_id', $sched_id);

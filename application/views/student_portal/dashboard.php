@@ -183,11 +183,16 @@
     </div>
 
 <script>
-    function getAvailableSched()
+    var monthToday = "<?= date('Y-m')?>";
+    function getAvailableSched(monthToday)
     {
         $.ajax({
             url: "<?= base_url('portal/student_portal/main/getAvailableSched')?>",
-            method: "GET",
+            method: "POST",
+            data: {
+                monthToday: monthToday,
+                '_token': csrf_token_value,
+            },
             dataType: "json",
             success: function(data) {
                 $('#available_sched').html(data.available_sched);
@@ -275,7 +280,7 @@
     }
 
     $(document).ready(function() {
-        getAvailableSched();
+        getAvailableSched(monthToday);
         getTotalAttendance();
         getAttendanceLogs(0);
         computeRemainingLate();
@@ -304,6 +309,7 @@
                         method: "POST",
                         data: {
                             sched_id: sched_id,
+                            monthToday: monthToday,
                             '_token': csrf_token_value,
                         },
                         dataType: "json",
