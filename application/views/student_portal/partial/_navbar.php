@@ -3,6 +3,12 @@
     padding: 9px 0;
     border-right: 1px solid #E4E7EB;
 }
+
+@media (max-width: 768px) {
+    .navbar-title {
+        font-size: 14px;
+    }
+}
 </style>
 <!-- Layout container -->
 <div class="layout-page">
@@ -21,14 +27,15 @@
 
         <div class="d-flex align-items-center gap-2">
             <img src="<?php echo base_url('assets/images/dashboard/system.png'); ?>" alt="" style="width:32px" />
-            <h5 class="m-0 ms-2 fw-bold text-nowrap header-title">
+            <h5 class="m-0 ms-2 fw-bold text-nowrap header-title navbar-title">
                 Student Unity Portal System</h5>
         </div>
 
         <div class="container d-flex justify-content-end">
 
             <a class=" nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
-                <img src="<?= base_url('assets/images/software-engineer.png');?>" alt class="w-px-40 h-auto rounded-circle" />
+                <img src="<?= base_url('assets/images/software-engineer.png');?>" alt
+                    class="w-px-40 h-auto rounded-circle" />
             </a>
 
             <ul class="dropdown-menu dropdown-menu-end" style="position:absolute; z-index: 1050;">
@@ -42,8 +49,10 @@
                                 </div>
                             </div>
                             <div class="flex-grow-1">
-                                <span class="fw-semibold d-block"><?= $this->session->userdata('scholarIn')['fullname']?></span>
-                                <small class="text-muted"><i><?= $this->session->userdata('scholarIn')['email_add']?></i></small>
+                                <span
+                                    class="fw-semibold d-block"><?= $this->session->userdata('scholarIn')['fullname']?></span>
+                                <small
+                                    class="text-muted"><i><?= $this->session->userdata('scholarIn')['email_add']?></i></small>
                             </div>
                         </div>
                     </a>

@@ -1,3 +1,20 @@
+<style>
+.table__title {
+    font-size: 20px;
+    font-weight: 500;
+    color: #434875 !important;
+    padding: 8px 0;
+    margin-bottom: 0;
+
+}
+
+.card {
+    background: #ffffff;
+    border-radius: 8px;
+    color: #434875;
+    box-shadow: 0 9px 20px rgba(46, 35, 94, .07);
+}
+</style>
 <?php
     $application_id = $this->cipher->decrypt($this->input->get('application'));
 ?>
@@ -13,41 +30,54 @@
     <!-- Content -->
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="card">
-            <div class="card-header mb-3">
-                <h5><i class="<?= $icon?> me-2"></i><?= $card_title?></h5>
+            <div class="card-header mb-3 pb-3 d-flex align-items-center gap-2 ">
+                <img src="<?php echo base_url('assets/images/scholar-information.png'); ?>" width="36px"
+                    alt="Scholar" />
+                <h5 class="table__title"><?= $card_title?></h5>
             </div>
             <div class="card-body">
                 <div class="d-flex align-items-center justify-content-between mb-3">
                     <div>
-                        <a href="<?= base_url('admin/scholarship-approval')?>" class="btn btn-outline-dark btn-sm"><i class="bi bi-backspace-fill me-2"></i>Back</a>
+                        <a href="<?= base_url('admin/scholarship-approval')?>" class="btn btn-outline-dark btn-sm"><i
+                                class="bi bi-backspace-fill me-2"></i>Back</a>
                     </div>
 
                     <?php if(isset($application['application_status']) && $application['application_status'] == 'For Approval') : ?>
-                        <?php if ($this->session->userdata('adminIn')['user_type_id'] == ADMINISTRATOR) : ?>
-                            <div class="text-end">
-                                <button class="btn btn-primary btn-sm approve_request"><i class="bi bi-box-arrow-right me-2"></i>Approve Request</button>
-                                <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#declineModal"><i class="bi bi-x-square-fill me-2"></i>Decline Request</button>
-                            </div>
-                        <?php else: ?> 
-                            <?php if (in_array(APPROVAL_SCHOLAR, $role_permissions)): ?>
-                                <div class="text-end">
-                                    <button class="btn btn-primary btn-sm approve_request"><i class="bi bi-box-arrow-right me-2"></i>Approve Request</button>
-                                    <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#declineModal"><i class="bi bi-x-square-fill me-2"></i>Decline Request</button>
-                                </div>
-                            <?php endif; ?>
-                        <?php endif; ?>
-                        
-                    <?php else :?>
-                        <div class="text-end">
-                            <?php if(isset($application['application_status']) && $application['application_status'] == 'Approved') : ?>
-                                <div class="fw-bold">Application Status: <span class="badge bg-success"><i class="bi bi-check2-square me-1"></i><?= isset($application['application_status']) ? $application['application_status'] : '';?></span></div>
-                            <?php else : ?>
-                                <div class="fw-bold">Application Status: <span class="badge bg-danger"><i class="bi bi-x-circle me-1"></i><?= isset($application['application_status']) ? $application['application_status'] : '';?></span></div>
-                            <?php endif; ?>
-                            
-                        </div>
+                    <?php if ($this->session->userdata('adminIn')['user_type_id'] == ADMINISTRATOR) : ?>
+                    <div class="text-end">
+                        <button class="btn btn-primary btn-sm approve_request"><i
+                                class="bi bi-box-arrow-right me-2"></i>Approve Request</button>
+                        <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal"
+                            data-bs-target="#declineModal"><i class="bi bi-x-square-fill me-2"></i>Decline
+                            Request</button>
+                    </div>
+                    <?php else: ?>
+                    <?php if (in_array(APPROVAL_SCHOLAR, $role_permissions)): ?>
+                    <div class="text-end">
+                        <button class="btn btn-primary btn-sm approve_request"><i
+                                class="bi bi-box-arrow-right me-2"></i>Approve Request</button>
+                        <button class="btn btn-outline-danger btn-sm" data-bs-toggle="modal"
+                            data-bs-target="#declineModal"><i class="bi bi-x-square-fill me-2"></i>Decline
+                            Request</button>
+                    </div>
                     <?php endif; ?>
-                    
+                    <?php endif; ?>
+
+                    <?php else :?>
+                    <div class="text-end">
+                        <?php if(isset($application['application_status']) && $application['application_status'] == 'Approved') : ?>
+                        <div class="fw-bold">Application Status: <span class="badge bg-success"><i
+                                    class="bi bi-check2-square me-1"></i><?= isset($application['application_status']) ? $application['application_status'] : '';?></span>
+                        </div>
+                        <?php else : ?>
+                        <div class="fw-bold">Application Status: <span class="badge bg-danger"><i
+                                    class="bi bi-x-circle me-1"></i><?= isset($application['application_status']) ? $application['application_status'] : '';?></span>
+                        </div>
+                        <?php endif; ?>
+
+                    </div>
+                    <?php endif; ?>
+
                 </div>
 
                 <?php $this->load->view('admin_portal/form/scholar_registration_form')?>
@@ -55,9 +85,9 @@
         </div>
     </div>
     <!-- / Content -->
-<?php $this->load->view('admin_portal/modal/decline_modal')?>
+    <?php $this->load->view('admin_portal/modal/decline_modal')?>
 
-<script>
+    <script>
     var application_id = '<?= $application_id?>';
 
     $(document).on('click', '.download', function() {
@@ -65,7 +95,8 @@
         var folder = $(this).data('folder');
 
         if (filename != '') {
-            var url = "<?= base_url('portal/admin_portal/scholar_request/download_attachment?file=')?>" + filename + '&folder=' + folder;
+            var url = "<?= base_url('portal/admin_portal/scholar_request/download_attachment?file=')?>" +
+                filename + '&folder=' + folder;
             window.location.href = url;
         } else {
             Swal.fire({
@@ -97,15 +128,15 @@
                     },
                     dataType: "json",
                     beforeSend: function() {
-						$('.loading-screen').show();
-					},
+                        $('.loading-screen').show();
+                    },
                     success: function(data) {
                         if (data.error != '') {
                             Swal.fire({
                                 icon: 'warning',
                                 title: 'Oops...',
                                 text: data.error,
-                            }); 
+                            });
                         } else {
                             Swal.fire({
                                 icon: 'success',
@@ -113,21 +144,22 @@
                                 text: data.success,
                             });
                             setTimeout(() => {
-								window.location.href = '<?= base_url('admin/scholarship-approval')?>';
-							}, 1000);
+                                window.location.href =
+                                    '<?= base_url('admin/scholarship-approval')?>';
+                            }, 1000);
                         }
                     },
                     complete: function() {
-						$('.loading-screen').hide();
-					},
+                        $('.loading-screen').hide();
+                    },
                     error: function() {
-						$('.loading-screen').hide();
-						Swal.fire({
-							icon: 'error',
-							title: 'Ooops...',
-							text: 'An error occurred while processing the request.',
-						});
-					}
+                        $('.loading-screen').hide();
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Ooops...',
+                            text: 'An error occurred while processing the request.',
+                        });
+                    }
                 });
             }
         });
@@ -166,7 +198,7 @@
                                     icon: 'warning',
                                     title: 'Oops...',
                                     text: data.error,
-                                }); 
+                                });
                             } else {
                                 Swal.fire({
                                     icon: 'success',
@@ -174,7 +206,8 @@
                                     text: data.success,
                                 });
                                 setTimeout(() => {
-                                    window.location.href = '<?= base_url('admin/scholarship-approval')?>';
+                                    window.location.href =
+                                        '<?= base_url('admin/scholarship-approval')?>';
                                 }, 1000);
                             }
                         },
@@ -197,7 +230,7 @@
                 icon: 'warning',
                 title: 'Oops...',
                 text: 'Please provide a valid comment.',
-            }); 
+            });
         }
     });
-</script>
+    </script>

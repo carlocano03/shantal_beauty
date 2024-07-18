@@ -101,6 +101,7 @@
         /* Color of the scrollbar thumb when hovered */
     }
 
+
     /* For Firefox */
     html {
         scrollbar-width: thin;
@@ -108,6 +109,8 @@
         scrollbar-color: #888 #f1f1f1;
         /* thumb color, track color */
     }
+
+
 
     /* CSS Reset */
     /*
