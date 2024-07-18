@@ -253,7 +253,7 @@ class Student_attendance extends MY_Controller
                 }
 
                 $output .= '
-                             <tr>
+                            <tr>
                                 <td class="fw-bold">'.strtoupper(date('M-d', strtotime($list['schedule_date']))).'</td>
                                 <td class="fw-bold">'.strtoupper(date('D', strtotime($list['day_name']))).'</td>
                                 <td>'.$time_in.'</td>

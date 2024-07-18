@@ -10,9 +10,21 @@
     color: #fff;
 }
 
+
 .fw-bold {
     font-weight: bold;
 }
+
+ .tbl_schedule th {
+        font-size: 10px;
+        border: 1px solid #c8d6e5;
+        padding: 3px !important;
+        text-align: center;
+        border-radius: 0px !important;
+        line-height: 10px;
+        color: #fff !important;
+ }
+
 
 .tbl_schedule th {
     font-size: 10px;

@@ -18,7 +18,15 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 /vendor/
 
 # Assets
-/assets/upload_attachment/*
+/assets/uploaded_attachment/birth_certificate/*
+/assets/uploaded_attachment/certification_year_level/*
+/assets/uploaded_attachment/copy_grade/*
+/assets/uploaded_attachment/excuse_letter/*
+/assets/uploaded_attachment/form_five/*
+/assets/uploaded_attachment/good_moral/*
+/assets/uploaded_attachment/letter_recommendation/*
+/assets/uploaded_attachment/personal_photo/*
+/assets/uploaded_attachment/tor/*
 
 # IDE Files
 #-------------------------
@@ -42,5 +50,3 @@ assets/scan_me_qr/scan_me.png
 *.stTheme.cache
 *.sublime-workspace
 *.sublime-project
-
-/assets/subscription/proof_payment

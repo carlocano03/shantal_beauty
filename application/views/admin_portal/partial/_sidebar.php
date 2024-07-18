@@ -204,7 +204,7 @@
                         <a href="<?= base_url('admin/scholars-record');?>"
                             class="<?= ($student_record) ? 'menu-link-active' : '';?> menu-link">
                             <i class="menu-icon tf-icons bi bi-person-lines-fill"></i>
-                            <div data-i18n="Analytics">Scholar List</div>
+                            <div data-i18n="Analytics">Scholars Records</div>
                         </a>
                     </li>
 
@@ -283,7 +283,7 @@
                             <a href="<?= base_url('admin/scholars-record');?>"
                                 class="<?= ($student_record) ? 'menu-link-active' : '';?> menu-link">
                                 <i class="menu-icon tf-icons bi bi-person-lines-fill"></i>
-                                <div data-i18n="Analytics">Scholar List</div>
+                                <div data-i18n="Analytics">Scholars Records</div>
                             </a>
                         </li>
                     <?php endif; ?>

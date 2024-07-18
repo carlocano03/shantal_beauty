@@ -120,8 +120,14 @@ class Church_schedule extends MY_Controller
                     $opacity = 'opacity: 0.5;';
                 }
                 $output .= '
-                    <div class="col-md-6 mb-3" style="'.$opacity.'">
-                        <div class="overview-card">
+                    <div class="col-md-6 mb-3"  style="'.$opacity.'">
+                        <div class="overview-card" id="open_action"
+                            data-id="'.$list->sched_id.'"
+                            data-name="'.$list->schedule_name.'"
+                            data-day="'.$list->day_week.'"
+                            data-in="'.$list->time_in.'"
+                            data-out="'.$list->time_out.'"
+                        >
                             <div class="d-flex align-items-center gap-3 justify-content-between">
                                 <div class="dashboard__img-container">
                                     <img class="dashboard__img"
@@ -152,8 +158,32 @@ class Church_schedule extends MY_Controller
             $output .= '<div class="col-12 alert alert-danger"><i class="bi bi-info-circle-fill me-2"></i>No schedule found.</div>';
         }
 
+
+        //Chart Data
+        $schedData = $this->church_schedule_model->fetch_data_chart();
+        $labels = array();
+        $datasets = array(
+            'label' => 'Schedules',
+            'data' => array(),
+            'backgroundColor' => array("rgb(54, 162, 235)", "rgb(255, 99, 132)")
+        );
+
+        if($schedData->num_rows() > 0) {
+            foreach ($schedData->result() as $row) {
+                $labels[] = $row->schedule_name;
+                $datasets['data'][] = $row->sched_count;
+            }
+        }
+
+        $data = array(
+            'labels' => $labels,
+            'datasets' => array($datasets)
+        );
+
         $output = array(
             'sched_list' => $output,
+            'chart' => $data,
+            'count' => $schedData->num_rows(),
         );
         echo json_encode($output);
     }
