@@ -65,3 +65,29 @@
     </div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="monthlyModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel"><i class="bi bi-calendar-week-fill me-2"></i>Generate Monhtly Schedules</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <?php
+                    $dateToday = date('Y-m-d');
+                    $newDate = new DateTime($dateToday);
+                    $newDate->modify('+1 month');
+                    $dateEnd = $newDate->format('Y-m');
+                ?>
+                <label for="monthly" class="form-label">Schedule for the month of</label>
+                <input type="month" class="form-control text-uppercase" id="monthly">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="bi bi-x-square me-2"></i>Close</button>
+                <button type="button" class="btn btn-primary" id="save_monthly_schedule"><i class="bi bi-floppy-fill me-2"></i>Save Schedule</button>
+            </div>
+        </div>
+    </div>
+</div>
+

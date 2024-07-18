@@ -59,6 +59,7 @@ class Student_attendance extends MY_Controller
                                 <th class="fw-bold" style="padding:16px 0 !important; background: #222f3e; font-size:12px; color: #fff !important;" colspan="4">REGULAR TIME</th>
                                 <th class="fw-bold" style="padding:16px 0 !important; background: #222f3e; font-size:12px; color: #fff !important;" colspan="2">TOTAL TIME</th>
                                 <th class="fw-bold" style="padding:16px 0 !important; background: #222f3e; font-size:12px; color: #fff !important;"colspan="2">TARDINESS</th>
+                                <th class="fw-bold" style="padding:16px 0 !important; background: #222f3e; font-size:12px; color: #fff !important;"colspan="2">UNDERTIME</th>
                                 <th class="fw-bold" style="padding:16px 0 !important; background: #222f3e; font-size:12px; color: #fff !important;"rowspan="3">PRESENT</th>
                                 <th class="fw-bold" style="padding:16px 0 !important; background: #222f3e; font-size:12px; color: #fff !important;"rowspan="3">ABSENT</th>
                                 <th class="fw-bold" style="padding:16px 6px !important; background: #222f3e; font-size:12px; color: #fff !important;"rowspan="3">LATE</th>
@@ -68,6 +69,8 @@ class Student_attendance extends MY_Controller
                                 <th class="fw-bold" style="font-size:10px; padding:10px 0 !important; background: #4a5667; color: #fff !important;" colspan="2">Arrival</th>
                                 <th class="fw-bold" style="font-size:10px; padding:10px 0 !important; background: #4a5667; color: #fff !important;" colspan="2">Departure</th>
                                 <th class="fw-bold" style="font-size:10px; padding:10px 0 !important; background: #4a5667; color: #fff !important;" rowspan="2">Hours</th>
+                                <th class="fw-bold" style="font-size:10px; padding:10px 0 !important; background: #4a5667; color: #fff !important;"rowspan="2">Minutes</th>
+                                <th class="fw-bold" style="font-size:10px; padding:10px 0 !important; background: #4a5667; color: #fff !important;"rowspan="2">Hours</th>
                                 <th class="fw-bold" style="font-size:10px; padding:10px 0 !important; background: #4a5667; color: #fff !important;"rowspan="2">Minutes</th>
                                 <th class="fw-bold" style="font-size:10px; padding:10px 0 !important; background: #4a5667; color: #fff !important;"rowspan="2">Hours</th>
                                 <th class="fw-bold" style="font-size:10px; padding:10px 0 !important; background: #4a5667; color: #fff !important;"rowspan="2">Minutes</th>
@@ -90,10 +93,13 @@ class Student_attendance extends MY_Controller
             $total_work_minutes = 0;
             $tardiness_hours = 0;
             $tardiness_minutes = 0;
+            $underTime_hours = 0;
+            $underTime_minutes = 0;
 
             $total_present = 0;
             $total_absent = 0;
             $total_late = 0;
+            $total_undertime = 0;
             foreach($schedule->result_array() as $list) {
                 $schedule_date = strtotime($list['schedule_date']);
                 $current_date = strtotime(date('Y-m-d'));
@@ -168,8 +174,19 @@ class Student_attendance extends MY_Controller
                             $late_hours = 0;
                             $late_minutes = 0;
                         }
+
+                        // Calculate undertime hours and undertime minutes
+                        if ($time_out_departure < $time_to) {
+                            $undertime_seconds = $time_to - $time_out_departure;
+                            $undertime_hours = floor($undertime_seconds / 3600);
+                            $undertime_minutes = floor(($undertime_seconds % 3600) / 60);
+                            $total_undertime++;
+                        } else {
+                            $undertime_hours = 0;
+                            $undertime_minutes = 0;
+                        }
                         
-                        if ($late_hours != 0 || $late_minutes != 0) {
+                        if ($late_hours != 0 || $late_minutes != 0 || $undertime_hours != 0 || $undertime_minutes != 0) {
                             $late = '<i class="bi bi-check-circle-fill text-warning"></i>';
 
                             if ($letter->num_rows() > 0) {
@@ -206,6 +223,8 @@ class Student_attendance extends MY_Controller
                             $total_hours = 0;
                             $total_minutes = 0;
                         }
+
+
                     }
                 } else {
                     $dateToday = date('Y-m-d');
@@ -215,6 +234,8 @@ class Student_attendance extends MY_Controller
                         $absent = '<i class="bi bi-check-circle-fill text-danger"></i>';
                         $late_hours = '--';
                         $late_minutes = '--';
+                        $undertime_hours = '--';
+                        $undertime_minutes = '--';
                         $late = '';
                         $total_hours = '--';
                         $total_minutes = '--';
@@ -246,6 +267,8 @@ class Student_attendance extends MY_Controller
                         $time_out = '';
                         $late_hours = '';
                         $late_minutes = '';
+                        $undertime_hours = '';
+                        $undertime_minutes = '';
                         $late = '';
                         $total_hours = '';
                         $total_minutes = '';
@@ -264,6 +287,8 @@ class Student_attendance extends MY_Controller
                                 <td>'.$total_minutes.'</td>
                                 <td>'.$late_hours.'</td>
                                 <td>'.$late_minutes.'</td>
+                                <td>'.$undertime_hours.'</td>
+                                <td>'.$undertime_minutes.'</td>
                                 <td>'.$present.'</td>
                                 <td>'.$absent.'</td>
                                 <td>'.$late.'</td>
@@ -281,6 +306,12 @@ class Student_attendance extends MY_Controller
                     //Tardiness
                     $tardiness_hours += $late_hours;
                     $tardiness_minutes += $late_minutes;
+                }
+
+                if (is_numeric($undertime_hours) && is_numeric($undertime_minutes)) {
+                    //Tardiness
+                    $underTime_hours += $undertime_hours;
+                    $underTime_minutes += $undertime_minutes;
                 }
             
             }
@@ -304,12 +335,22 @@ class Student_attendance extends MY_Controller
             $remaining_late_minutes = $tardiness_minutes % 60; 
             $tardiness_time += (int)($remaining_late_hours);
 
+            //Undertime
+            $undertime_time = 0;
+            $remaining_undertime_hours = 0;
+            $remaining_undertime_minutes = 0;
+            $undertime_time += $underTime_hours;
+            $remaining_undertime_hours = $underTime_minutes / 60; 
+            $remaining_undertime_minutes = $underTime_minutes % 60; 
+            $undertime_time += (int)($remaining_undertime_hours);
+
             $output .= '
                         <tfoot>
                             <tr>
                                 <td colspan="6" style="background: #6f7c91; color: #fff;"></td>
                                 <td colspan="2" style="background: #4a5667; color: #fff; font-weight:bold;"><i class="bi bi-clock me-1"></i>'.$total_work_time.'h '.$remaining_minutes.'m</td>
                                 <td colspan="2" style="background: #4a5667; color: #fff; font-weight:bold;"><i class="bi bi-clock me-1"></i>'.$tardiness_time.'h '.$remaining_late_minutes.'m</td>
+                                <td colspan="2" style="background: #4a5667; color: #fff; font-weight:bold;"><i class="bi bi-clock me-1"></i>'.$undertime_time.'h '.$remaining_undertime_minutes.'m</td>
                                 <td style="background: #222f3e; color: #fff; font-weight:bold;">'.$total_present.'</td>
                                 <td style="background: #222f3e; color: #fff; font-weight:bold;">'.$total_absent.'</td>
                                 <td style="background: #222f3e; color: #fff; font-weight:bold;">'.$total_late.'</td>

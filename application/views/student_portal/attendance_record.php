@@ -114,6 +114,15 @@
                 <h6 class="me-3 mb-0" id="date_sched"></h6>
             </div>
             <div class="card-body">
+
+                <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                    <button id="prev-year-button" class="btn btn-primary group-btn"><i class="fa-solid fa-angles-left"></i></button>
+                        <div id="month-year-container" class="btn-group-toggle" data-toggle="buttons">
+                                <!-- Months will be dynamically generated here -->
+                        </div>
+                    <button id="next-year-button" class="btn btn-primary group-btn"><i class="fa-solid fa-angles-right"></i></button>
+                </div>
+
                 <div class="d-flex align-items-center justify-content-between flex-column gap-3 flex-md-row gap-md-0">
                     <div class="col-md-3 col-12 ">
                         <input type="month" class="form-control" id="month" value="<?= date('Y-m');?>">
@@ -135,8 +144,60 @@
 
     <?php $this->load->view('student_portal/modal/attendance_modal');?>
 
+    <?php
+        $currentYear = date("Y");
+    ?>
 
-    <script>
+<script>
+    const monthYearContainer = document.getElementById('month-year-container');
+    const prevYearButton = document.getElementById('prev-year-button');
+    const nextYearButton = document.getElementById('next-year-button');
+    let currentYear = <?php echo $currentYear; ?>;
+    let currentMonth = new Date().getMonth() + 1; // Get the current month (1 to 12)
+    let table_payables;
+    var monthToday = <?= date('Y-m')?>;
+
+    prevYearButton.addEventListener('click', () => {
+        currentYear--;
+        updateMonths();
+    });
+
+    nextYearButton.addEventListener('click', () => {
+        currentYear++;
+        updateMonths();
+    });
+
+    monthYearContainer.addEventListener('click', function(event) {
+        if (event.target.classList.contains('filter_month')) {
+            currentMonth = event.target.id;
+            monthToday = currentMonth;
+            // get_other_payables_total(null);
+        }
+    });
+
+    function updateMonths() {
+        monthYearContainer.innerHTML = '';
+        
+        for (let month = 1; month <= 12; month++) {
+            const monthName = new Date(currentYear, month - 1, 1).toLocaleDateString('en-US', { month: 'short' }).toUpperCase();
+            const selectedMonth = (month).toString().padStart(2, '0');
+            const id = currentYear + '-' + selectedMonth;
+            const isActive = (month === currentMonth) ? 'checked' : '';
+            const label = document.createElement('label');
+            label.className = 'btn btn-outline-primary';
+            label.innerHTML = `
+                <div id="btn-month">
+                    <input type="radio" class="btn-check" name="btnradio" id="btnradio1" id="${id}" autocomplete="off" ${isActive}>
+                    <label class="btn btn-outline-primary" for="${id}">${monthName}</label>
+                    <div class="month-year" style="font-size: 12px;">${currentYear}</div>
+                <div>
+            `;
+            monthYearContainer.appendChild(label);
+        }
+    }
+
+    updateMonths();
+
     function getAvailableSched() {
         $.ajax({
             url: "<?= base_url('portal/student_portal/main/getAvailableSched')?>",
@@ -153,18 +214,6 @@
         });
     }
 
-    // function getAttendanceRecord()
-    // {
-    //     $.ajax({
-    //         url: "<?= base_url('portal/student_portal/student_attendance/getAttendanceRecord')?>",
-    //         method: "GET",
-    //         dataType: "json",
-    //         success: function(data) {
-    //             $('.attendance-info').html(data.attendance);
-    //             $('#date_sched').text(data.date_sched);
-    //         }
-    //     })
-    // }
     function getAttendanceRecord(month) {
         $.ajax({
             url: "<?= base_url('portal/student_portal/student_attendance/getAttendanceRecord')?>",
@@ -400,4 +449,4 @@
             }
         });
     });
-    </script>
+</script>
