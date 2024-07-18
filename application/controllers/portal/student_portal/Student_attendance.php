@@ -104,9 +104,16 @@ class Student_attendance extends MY_Controller
                 $schedule_date = strtotime($list['schedule_date']);
                 $current_date = strtotime(date('Y-m-d'));
                 $can_change = $current_date < $schedule_date;
-                
+
+                $currentMonth = date('Y-m');
+                if ($month > $currentMonth) {
+                    $disabled = 'disabled';
+                } else {
+                    $disabled = '';
+                }
+
                 if ($can_change) {
-                    $action = '<button class="btn btn-outline-primary btn-xs change_schedule"
+                    $action = '<button class="btn btn-outline-primary btn-xs change_schedule" '.$disabled.'
                                 data-id="'.$list['selected_schedule_id'].'"
                                 data-sched_date="'.date('F j, Y', strtotime($list['schedule_date'])).'"
                                 data-sched_id="'.$list['sched_id'].'"
@@ -138,6 +145,7 @@ class Student_attendance extends MY_Controller
                         $time_out_departure = isset($timeOut['time_transaction']) ? strtotime($timeOut['time_transaction']) : 0;
 
                         $time_from = strtotime($list['time_from']);
+                        $time_to = strtotime($list['time_to']);
 
                         if (isset($timeIn['time_transaction'])) {
                             $time_Arr = date('h:i A', strtotime($timeIn['time_transaction']));
@@ -153,7 +161,11 @@ class Student_attendance extends MY_Controller
 
                         if (isset($timeOut['time_transaction'])) {
                             $time_Dep = date('h:i A', strtotime($timeOut['time_transaction']));
-                            $bgColorOut = '';
+                            if ($time_out_departure < $time_to) {
+                                $bgColorOut = 'bg-warning';
+                            } else {
+                                $bgColorOut = '';
+                            }
                         } else {
                             $time_Dep = 'No Time-Out';
                             $bgColorOut = 'bg-danger';
@@ -187,8 +199,6 @@ class Student_attendance extends MY_Controller
                         }
                         
                         if ($late_hours != 0 || $late_minutes != 0 || $undertime_hours != 0 || $undertime_minutes != 0) {
-                            $late = '<i class="bi bi-check-circle-fill text-warning"></i>';
-
                             if ($letter->num_rows() > 0) {
                                 if (is_array($letter_row) && !empty($letter_row)) {
                                     if ($letter_row['remarks'] == 'For Validation') {
@@ -210,6 +220,12 @@ class Student_attendance extends MY_Controller
                                             ><i class="bi bi-upload me-1"></i>Upload Letter</button>';
                             }
                             
+                        } else {
+                            $late = '';
+                        }
+
+                        if ($late_hours != 0 || $late_minutes != 0) {
+                            $late = '<i class="bi bi-check-circle-fill text-warning"></i>';
                         } else {
                             $late = '';
                         }
@@ -421,7 +437,7 @@ class Student_attendance extends MY_Controller
 
         if ($day_week_num !== false) {
             // Calculate the next occurrence of the specified day of the week
-            $next_date = $this->getNextDayOfWeekDate($day_week_num);
+            $next_date = $this->getNextDayOfWeekDate($existing_date, $day_week_num);
 
             //Update
             $update_sched = array(
@@ -458,15 +474,28 @@ class Student_attendance extends MY_Controller
         return isset($days[$day_week]) ? $days[$day_week] : false;
     }
 
-    private function getNextDayOfWeekDate($dayOfWeek) {
+    private function getNextDayOfWeekDate($existing_date, $dayOfWeek) {
+        $existing_timestamp = strtotime($existing_date);
+
         // Get the current day of the week
-        $currentDayOfWeek = date('N'); // 1 (Monday) through 7 (Sunday)
+        $currentDayOfWeek = date('N', $existing_timestamp); // 1 (Monday) through 7 (Sunday)
     
         // Calculate the offset to the next occurrence of $dayOfWeek
         $offset = ($dayOfWeek - $currentDayOfWeek + 7) % 7;
-    
+        
+        if ($offset == 0) {
+            $offset = 7;
+        }
+
         // Calculate the next date
-        $nextDate = strtotime("+$offset days");
+        $nextDate = strtotime("+$offset days", $existing_timestamp);
+
+        // Check if the next date is in the same month as the existing date
+        if (date('m', $nextDate) != date('m', $existing_timestamp)) {
+            // If not in the same month, calculate the previous occurrence of the day of the week
+            $previousDate = strtotime("-7 days", $nextDate);
+            $nextDate = $previousDate;
+        }
     
         // Format the next date as desired (e.g., YYYY-MM-DD)
         $formattedDate = date('Y-m-d', $nextDate);
@@ -522,6 +551,509 @@ class Student_attendance extends MY_Controller
             'success' => $success,
         );
         echo json_encode($output);
+    }
+
+    public function print_attendance()
+    {
+        require_once 'vendor/autoload.php';
+        $member_id = $this->session->userdata('scholarIn')['member_id'];
+        $month = $this->input->get('month');
+        $start_dt = date('Y-m-01', strtotime($month));
+        $end_date_obj = date('Y-m-t', strtotime($month));
+
+        $output = '';
+        $mpdf = new \Mpdf\Mpdf( [ 
+            'format' => 'A4-L',
+            'margin_top' => 5,
+            'margin_left' => 5,
+            'margin_right' => 2,
+            'margin_bottom' => 5,
+        ]);
+
+        $output .= '
+            <table class="tbl_schedule">
+                <tr>
+                    <th class="fw-bold" style="background: #222f3e; font-size:12px; color: #fff !important;" rowspan="3">DATE</th>
+                    <th class="fw-bold" style="background: #222f3e; font-size:12px; color: #fff !important;" rowspan="3">DAY</th>
+                    <th class="fw-bold" style="background: #222f3e; font-size:12px; color: #fff !important;" colspan="4">REGULAR TIME</th>
+                    <th class="fw-bold" style="background: #222f3e; font-size:12px; color: #fff !important;" colspan="2">TOTAL TIME</th>
+                    <th class="fw-bold" style="background: #222f3e; font-size:12px; color: #fff !important;"colspan="2">TARDINESS</th>
+                    <th class="fw-bold" style="background: #222f3e; font-size:12px; color: #fff !important;"colspan="2">UNDERTIME</th>
+                    <th class="fw-bold" style="background: #222f3e; font-size:12px; color: #fff !important;"rowspan="3">PRESENT</th>
+                    <th class="fw-bold" style="background: #222f3e; font-size:12px; color: #fff !important;"rowspan="3">ABSENT</th>
+                    <th class="fw-bold" style="background: #222f3e; font-size:12px; color: #fff !important;"rowspan="3">LATE</th>
+                    <th class="fw-bold" style="background: #222f3e; font-size:12px; color: #fff !important; width:13%" rowspan="3">REMARKS</th>
+                </tr>
+                <tr>
+                    <th class="fw-bold" style="font-size:10px; background: #4a5667; color: #fff !important;" colspan="2">Arrival</th>
+                    <th class="fw-bold" style="font-size:10px; background: #4a5667; color: #fff !important;" colspan="2">Departure</th>
+                    <th class="fw-bold" style="font-size:10px; background: #4a5667; color: #fff !important;" rowspan="2">Hours</th>
+                    <th class="fw-bold" style="font-size:10px; background: #4a5667; color: #fff !important;"rowspan="2">Minutes</th>
+                    <th class="fw-bold" style="font-size:10px; background: #4a5667; color: #fff !important;"rowspan="2">Hours</th>
+                    <th class="fw-bold" style="font-size:10px; background: #4a5667; color: #fff !important;"rowspan="2">Minutes</th>
+                    <th class="fw-bold" style="font-size:10px; background: #4a5667; color: #fff !important;"rowspan="2">Hours</th>
+                    <th class="fw-bold" style="font-size:10px; background: #4a5667; color: #fff !important;"rowspan="2">Minutes</th>
+                </tr>
+                <tr>
+                    <th style="font-size:9px; background: #6f7c91; color: #fff !important;">Time-In</th>
+                    <th style="font-size:9px; background: #6f7c91; color: #fff !important;">Schedule</th>
+                    <th style="font-size:9px; background: #6f7c91; color: #fff !important;">Time-Out</th>
+                    <th style="font-size:9px; background: #6f7c91; color: #fff !important;">Schedule</th>
+                </tr>
+        ';
+
+        $schedule = $this->student_attendance_model->get_student_schedule_list($month);
+        $total_tardiness_hours = 0;
+        $total_tardiness_minutes = 0;
+
+        $total_work_hours = 0;
+        $total_work_minutes = 0;
+        $tardiness_hours = 0;
+        $tardiness_minutes = 0;
+        $underTime_hours = 0;
+        $underTime_minutes = 0;
+
+        $total_present = 0;
+        $total_absent = 0;
+        $total_late = 0;
+        $total_undertime = 0;
+        foreach($schedule->result_array() as $list) {
+            //Attendance Data
+            $attendance = $this->student_attendance_model->get_attendance_record($list['member_id'], $list['schedule_date']);
+            $attendance_row = $attendance->row_array();
+
+            $timeIn = $this->student_attendance_model->get_attendance($list['member_id'], $list['schedule_date'], 'Time-In');
+            $timeOut = $this->student_attendance_model->get_attendance($list['member_id'], $list['schedule_date'], 'Time-Out');
+
+            $time_in = '';
+            $time_out = '';
+            $present = '';
+            $absent = '';
+            $late = '';
+
+            //Uploaded excuse letter
+            $letter = $this->student_attendance_model->get_excuse_letter($list['member_id'], $list['schedule_date']);
+            $letter_row = $letter->row_array();
+            $action = '';
+            if ($attendance->num_rows() > 0) {
+                if (is_array($attendance_row) && !empty($attendance_row)) {
+                    $time_in_arrival = isset($timeIn['time_transaction']) ? strtotime($timeIn['time_transaction']) : 0;
+                    $time_out_departure = isset($timeOut['time_transaction']) ? strtotime($timeOut['time_transaction']) : 0;
+
+                    $time_from = strtotime($list['time_from']);
+
+                    if (isset($timeIn['time_transaction'])) {
+                        $time_Arr = date('h:i A', strtotime($timeIn['time_transaction']));
+                        if ($time_in_arrival > $time_from) {
+                            $bgColorIn = 'text-warning'; // Change to your desired color for late
+                        } else {
+                            $bgColorIn = ''; // No special background color if not late
+                        }
+                    } else {
+                        $time_Arr = 'No Time-In';
+                        $bgColorIn = 'text-danger';
+                    }
+
+                    if (isset($timeOut['time_transaction'])) {
+                        $time_Dep = date('h:i A', strtotime($timeOut['time_transaction']));
+                        $bgColorOut = '';
+                    } else {
+                        $time_Dep = 'No Time-Out';
+                        $bgColorOut = 'text-danger';
+                    }
+
+                    $time_in = '<span class="'.$bgColorIn.'">'.$time_Arr.'</span>';
+                    $time_out = '<span class="'.$bgColorOut.'">'.$time_Dep.'</span>';
+                    $present = '/';
+                    $total_present++;
+
+                    // Calculate late hours and late minutes
+                    if ($time_in_arrival > $time_from) {
+                        $late_seconds = $time_in_arrival - $time_from;
+                        $late_hours = floor($late_seconds / 3600);
+                        $late_minutes = floor(($late_seconds % 3600) / 60);
+                        $total_late++;
+                    } else {
+                        $late_hours = 0;
+                        $late_minutes = 0;
+                    }
+
+                    // Calculate undertime hours and undertime minutes
+                    if ($time_out_departure < $time_to) {
+                        $undertime_seconds = $time_to - $time_out_departure;
+                        $undertime_hours = floor($undertime_seconds / 3600);
+                        $undertime_minutes = floor(($undertime_seconds % 3600) / 60);
+                        $total_undertime++;
+                    } else {
+                        $undertime_hours = 0;
+                        $undertime_minutes = 0;
+                    }
+                    
+                    if ($letter->num_rows() > 0) {
+                        if (is_array($letter_row) && !empty($letter_row)) {
+                            if ($letter_row['remarks'] == 'For Validation') {
+                                $action = 'For Validation';
+                            } else {
+                                $action = $letter_row['remarks']. ' Letter</span>';
+                            }
+                        }
+                    } else {
+                        $action = 'No Uploaded Letter';
+                    }
+
+                    if ($late_hours != 0 || $late_minutes != 0 || $undertime_hours != 0 || $undertime_minutes != 0) {
+                        $late = '/';
+                    } else {
+                        $late = '';
+                    }
+
+                    // Calculate total time in hours and minutes
+                    if ($time_in_arrival > 0 && $time_out_departure > $time_in_arrival) {
+                        $total_seconds = $time_out_departure - $time_in_arrival;
+                        $total_hours = floor($total_seconds / 3600);
+                        $total_minutes = floor(($total_seconds % 3600) / 60);
+                    } else {
+                        $total_hours = 0;
+                        $total_minutes = 0;
+                    }
+
+
+                }
+            } else {
+                $dateToday = date('Y-m-d');
+                if ($dateToday > $list['schedule_date']) {
+                    $time_in = '<span class="text-danger">--:--:--</span>';
+                    $time_out = '<span class="text-danger">--:--:--</span>';
+                    $absent = '/';
+                    $late_hours = '--';
+                    $late_minutes = '--';
+                    $undertime_hours = '--';
+                    $undertime_minutes = '--';
+                    $late = '';
+                    $total_hours = '--';
+                    $total_minutes = '--';
+                    $total_absent++;
+
+                    if ($letter->num_rows() > 0) {
+                        if (is_array($letter_row) && !empty($letter_row)) {
+                            if ($letter_row['remarks'] == 'For Validation') {
+                                $action = 'For Validation';
+                            } else {
+                                $action = $letter_row['remarks'] .' Letter';
+                            }
+                        }
+                    } else {
+                        $action = 'No Uploaded Letter';
+                    }
+                } else {
+                    $absent = '';
+                    $time_in = '';
+                    $time_out = '';
+                    $late_hours = '';
+                    $late_minutes = '';
+                    $undertime_hours = '';
+                    $undertime_minutes = '';
+                    $late = '';
+                    $total_hours = '';
+                    $total_minutes = '';
+                }
+            }
+
+            $output .= '
+                        <tr>
+                            <td class="fw-bold">'.strtoupper(date('M-d', strtotime($list['schedule_date']))).'</td>
+                            <td class="fw-bold">'.strtoupper(date('D', strtotime($list['day_name']))).'</td>
+                            <td>'.$time_in.'</td>
+                            <td class="fw-bold">'.date('h:i A', strtotime($list['time_from'])).'</td>
+                            <td>'.$time_out.'</td>
+                            <td class="fw-bold">'.date('h:i A', strtotime($list['time_to'])).'</td>
+                            <td>'.$total_hours.'</td>
+                            <td>'.$total_minutes.'</td>
+                            <td>'.$late_hours.'</td>
+                            <td>'.$late_minutes.'</td>
+                            <td>'.$undertime_hours.'</td>
+                            <td>'.$undertime_minutes.'</td>
+                            <td>'.$present.'</td>
+                            <td>'.$absent.'</td>
+                            <td>'.$late.'</td>
+                            <td>'.$action.'</td>
+                        </tr>
+            ';
+
+            if (is_numeric($total_hours) && is_numeric($total_minutes)) {
+                //Regular Sched
+                $total_work_hours += $total_hours;
+                $total_work_minutes += $total_minutes;
+            }
+
+            if (is_numeric($late_hours) && is_numeric($late_minutes)) {
+                //Tardiness
+                $tardiness_hours += $late_hours;
+                $tardiness_minutes += $late_minutes;
+            }
+
+            if (is_numeric($undertime_hours) && is_numeric($undertime_minutes)) {
+                //Tardiness
+                $underTime_hours += $undertime_hours;
+                $underTime_minutes += $undertime_minutes;
+            }
+        
+        }
+        
+        //Regular Work
+        $total_work_time = 0;
+        $remaining_hours = 0;
+        $remaining_minutes = 0;
+        $total_work_time += $total_work_hours;
+        $remaining_hours = $total_work_minutes / 60;
+        $remaining_minutes = $total_work_minutes % 60;
+        $total_work_time += (int)($remaining_hours);
+
+        //Tardiness
+        $tardiness_time = 0;
+        $remaining_late_hours = 0;
+        $remaining_late_minutes = 0;
+        $tardiness_time += $tardiness_hours;
+        $remaining_late_hours = $tardiness_minutes / 60; 
+        $remaining_late_minutes = $tardiness_minutes % 60; 
+        $tardiness_time += (int)($remaining_late_hours);
+
+        //Undertime
+        $undertime_time = 0;
+        $remaining_undertime_hours = 0;
+        $remaining_undertime_minutes = 0;
+        $undertime_time += $underTime_hours;
+        $remaining_undertime_hours = $underTime_minutes / 60; 
+        $remaining_undertime_minutes = $underTime_minutes % 60; 
+        $undertime_time += (int)($remaining_undertime_hours);
+
+        $output .= '
+                    <tr>
+                        <td colspan="6" style="background: #576574; color: #fff;"></td>
+                        <td colspan="2" style="background: #353b48; color: #fff; font-weight:bold;"><i class="bi bi-clock me-1"></i>'.$total_work_time.'h '.$remaining_minutes.'m</td>
+                        <td colspan="2" style="background: #353b48; color: #fff; font-weight:bold;"><i class="bi bi-clock me-1"></i>'.$tardiness_time.'h '.$remaining_late_minutes.'m</td>
+                        <td colspan="2" style="background: #4a5667; color: #fff; font-weight:bold;"><i class="bi bi-clock me-1"></i>'.$undertime_time.'h '.$remaining_undertime_minutes.'m</td>
+                        <td style="background: #222f3e; color: #fff; font-weight:bold;">'.$total_present.'</td>
+                        <td style="background: #222f3e; color: #fff; font-weight:bold;">'.$total_absent.'</td>
+                        <td style="background: #222f3e; color: #fff; font-weight:bold;">'.$total_late.'</td>
+                        <td style="background: #576574; color: #fff;"></td>
+                    </tr>
+                ';
+
+        $output .= '</table>';
+
+        $data['tbl_data'] = $output;
+        $data['attendance_month'] = 'Attendance record for the month of '.date('F Y', strtotime($month));
+        $mpdf->showImageErrors = true;
+        $mpdf->showWatermarkImage = true;
+        $html = $this->load->view( 'student_portal/pdf/attendance_record_pdf', $data, true);
+        $mpdf->WriteHTML( $html );
+        $mpdf->Output();
+    }
+
+    public function excel_attendance()
+    {
+        require_once 'vendor/autoload.php';
+        $month = $this->input->get('month');
+        $start_dt = date('Y-m-01', strtotime($month));
+        $end_date_obj = date('Y-m-t', strtotime($month));
+
+        $month_of = date('F Y', strtotime($month));
+
+        $objReader = IOFactory::createReader('Xlsx');
+        $fileName = 'New Attendance.xlsx';
+        $newfileName = 'Attendance for the month of '.$month_of.'.xlsx';
+
+        $spreadsheet = $objReader->load(FCPATH . '/assets/template/'. $fileName);
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->setCellValue('A2', 'Attendance for the month of '.$month_of);
+        $startRow = 7;
+        $currentRow = 7;
+
+
+        $schedule = $this->student_attendance_model->get_student_schedule_list($month);
+        $total_tardiness_hours = 0;
+        $total_tardiness_minutes = 0;
+
+        $total_work_hours = 0;
+        $total_work_minutes = 0;
+        $tardiness_hours = 0;
+        $tardiness_minutes = 0;
+        $underTime_hours = 0;
+        $underTime_minutes = 0;
+
+        $total_present = 0;
+        $total_absent = 0;
+        $total_late = 0;
+        $total_undertime = 0;
+        foreach($schedule->result_array() as $list) {
+            //Attendance Data
+            $attendance = $this->student_attendance_model->get_attendance_record($list['member_id'], $list['schedule_date']);
+            $attendance_row = $attendance->row_array();
+
+            $timeIn = $this->student_attendance_model->get_attendance($list['member_id'], $list['schedule_date'], 'Time-In');
+            $timeOut = $this->student_attendance_model->get_attendance($list['member_id'], $list['schedule_date'], 'Time-Out');
+
+            $time_in = '';
+            $time_out = '';
+            $present = '';
+            $absent = '';
+            $late = '';
+
+            //Uploaded excuse letter
+            $letter = $this->student_attendance_model->get_excuse_letter($list['member_id'], $list['schedule_date']);
+            $letter_row = $letter->row_array();
+            $action = '';
+            if ($attendance->num_rows() > 0) {
+                if (is_array($attendance_row) && !empty($attendance_row)) {
+                    $time_in_arrival = isset($timeIn['time_transaction']) ? strtotime($timeIn['time_transaction']) : 0;
+                    $time_out_departure = isset($timeOut['time_transaction']) ? strtotime($timeOut['time_transaction']) : 0;
+
+                    $time_from = strtotime($list['time_from']);
+
+                    if (isset($timeIn['time_transaction'])) {
+                        $time_Arr = date('h:i A', strtotime($timeIn['time_transaction']));
+                        if ($time_in_arrival > $time_from) {
+                            $bgColorIn = 'text-warning'; // Change to your desired color for late
+                        } else {
+                            $bgColorIn = ''; // No special background color if not late
+                        }
+                    } else {
+                        $time_Arr = 'No Time-In';
+                        $bgColorIn = 'text-danger';
+                    }
+
+                    if (isset($timeOut['time_transaction'])) {
+                        $time_Dep = date('h:i A', strtotime($timeOut['time_transaction']));
+                        $bgColorOut = '';
+                    } else {
+                        $time_Dep = 'No Time-Out';
+                        $bgColorOut = 'text-danger';
+                    }
+
+                    $time_in = '<span class="'.$bgColorIn.'">'.$time_Arr.'</span>';
+                    $time_out = '<span class="'.$bgColorOut.'">'.$time_Dep.'</span>';
+                    $present = '/';
+                    $total_present++;
+
+                    // Calculate late hours and late minutes
+                    if ($time_in_arrival > $time_from) {
+                        $late_seconds = $time_in_arrival - $time_from;
+                        $late_hours = floor($late_seconds / 3600);
+                        $late_minutes = floor(($late_seconds % 3600) / 60);
+                        $total_late++;
+                    } else {
+                        $late_hours = 0;
+                        $late_minutes = 0;
+                    }
+
+                    // Calculate undertime hours and undertime minutes
+                    if ($time_out_departure < $time_to) {
+                        $undertime_seconds = $time_to - $time_out_departure;
+                        $undertime_hours = floor($undertime_seconds / 3600);
+                        $undertime_minutes = floor(($undertime_seconds % 3600) / 60);
+                        $total_undertime++;
+                    } else {
+                        $undertime_hours = 0;
+                        $undertime_minutes = 0;
+                    }
+                    
+                    if ($letter->num_rows() > 0) {
+                        if (is_array($letter_row) && !empty($letter_row)) {
+                            if ($letter_row['remarks'] == 'For Validation') {
+                                $action = 'For Validation';
+                            } else {
+                                $action = $letter_row['remarks']. ' Letter</span>';
+                            }
+                        }
+                    } else {
+                        $action = 'No Uploaded Letter';
+                    }
+
+                    if ($late_hours != 0 || $late_minutes != 0 || $undertime_hours != 0 || $undertime_minutes != 0) {
+                        $late = '/';
+                    } else {
+                        $late = '';
+                    }
+
+                    // Calculate total time in hours and minutes
+                    if ($time_in_arrival > 0 && $time_out_departure > $time_in_arrival) {
+                        $total_seconds = $time_out_departure - $time_in_arrival;
+                        $total_hours = floor($total_seconds / 3600);
+                        $total_minutes = floor(($total_seconds % 3600) / 60);
+                    } else {
+                        $total_hours = 0;
+                        $total_minutes = 0;
+                    }
+                }
+            } else {
+                $dateToday = date('Y-m-d');
+                if ($dateToday > $list['schedule_date']) {
+                    $time_in = '--:--:--';
+                    $time_out = '--:--:--';
+                    $absent = '/';
+                    $late_hours = '--';
+                    $late_minutes = '--';
+                    $undertime_hours = '--';
+                    $undertime_minutes = '--';
+                    $late = '';
+                    $total_hours = '--';
+                    $total_minutes = '--';
+                    $total_absent++;
+
+                    if ($letter->num_rows() > 0) {
+                        if (is_array($letter_row) && !empty($letter_row)) {
+                            if ($letter_row['remarks'] == 'For Validation') {
+                                $action = 'For Validation';
+                            } else {
+                                $action = $letter_row['remarks'] .' Letter';
+                            }
+                        }
+                    } else {
+                        $action = 'No Uploaded Letter';
+                    }
+                } else {
+                    $absent = '';
+                    $time_in = '';
+                    $time_out = '';
+                    $late_hours = '';
+                    $late_minutes = '';
+                    $undertime_hours = '';
+                    $undertime_minutes = '';
+                    $late = '';
+                    $total_hours = '';
+                    $total_minutes = '';
+                }
+            }
+
+            $spreadsheet->getActiveSheet()->insertNewRowBefore($currentRow+1,1);
+            $spreadsheet->getActiveSheet()
+                ->setCellValue('A'.$currentRow, strtoupper(date('M-d', strtotime($list['schedule_date']))))
+                ->setCellValue('B'.$currentRow, strtoupper(date('D', strtotime($list['day_name']))))
+                ->setCellValue('C'.$currentRow, $time_in)
+                ->setCellValue('D'.$currentRow, date('h:i A', strtotime($list['time_from'])))
+                ->setCellValue('E'.$currentRow, $time_out)
+                ->setCellValue('F'.$currentRow, date('h:i A', strtotime($list['time_to'])))
+                ->setCellValue('G'.$currentRow, $total_hours)
+                ->setCellValue('H'.$currentRow, $total_minutes)
+                ->setCellValue('I'.$currentRow, $late_hours)
+                ->setCellValue('J'.$currentRow, $late_minutes)
+                ->setCellValue('K'.$currentRow, $undertime_hours)
+                ->setCellValue('L'.$currentRow, $undertime_minutes)
+                ->setCellValue('M'.$currentRow, $present)
+                ->setCellValue('N'.$currentRow, $absent)
+                ->setCellValue('O'.$currentRow, $late)
+                ->setCellValue('P'.$currentRow, $action);
+            $currentRow++;
+
+        }
+
+        $spreadsheet->getActiveSheet()->removeRow($currentRow,1);
+        $objWriter = IOFactory::createWriter($spreadsheet, 'Xlsx');
+        header('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'); //mime type
+        header('Content-Disposition: attachment;filename="'.$newfileName.'"'); //tell browser what's the file name
+        header('Cache-Control: max-age=0'); //no cache
+        $objWriter->save('php://output');
     }
 
 }

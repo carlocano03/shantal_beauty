@@ -71,6 +71,8 @@ $route['admin/attendance-record/excel'] = 'portal/admin_portal/attendance_record
 $route['student/dashboard'] = 'portal/student_portal/main/index';
 $route['student/my-profile'] = 'portal/student_portal/main/myProfile';
 $route['student/attendance'] = 'portal/student_portal/student_attendance/index';
+$route['scholar/attendance-record/print'] = 'portal/student_portal/student_attendance/print_attendance';
+$route['scholar/attendance-record/excel'] = 'portal/student_portal/student_attendance/excel_attendance';
 
 
 // Scholarship Closed
