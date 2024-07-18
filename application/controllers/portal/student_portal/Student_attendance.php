@@ -50,32 +50,33 @@ class Student_attendance extends MY_Controller
         $check_sched = $this->student_attendance_model->check_schedule($month);
         if ($check_sched->num_rows() > 0) {
             $date_sched = 'Church Schedule for the month of '.date('F Y');
-            $output .= '<table class="tbl_schedule">';
+			$output .= '<div class="scrollable-table" style="overflow-x:auto;">';
+            $output .= '<table class="tbl_schedule" style="min-width:1100px;">';
             $output .= '
                             <tr>
-                                <th style="background: #222f3e; color: #fff;" rowspan="3">DATE</th>
-                                <th style="background: #222f3e; color: #fff;" rowspan="3">DAY</th>
-                                <th style="background: #222f3e; color: #fff;" colspan="4">REGULAR TIME</th>
-                                <th style="background: #222f3e; color: #fff;" colspan="2">TOTAL TIME</th>
-                                <th style="background: #222f3e; color: #fff;" colspan="2">TARDINESS</th>
-                                <th style="background: #222f3e; color: #fff;" rowspan="3">PRESENT</th>
-                                <th style="background: #222f3e; color: #fff;" rowspan="3">ABSENT</th>
-                                <th style="background: #222f3e; color: #fff;" rowspan="3">LATE</th>
-                                <th style="background: #222f3e; color: #fff; width:13%;" rowspan="3">ACTION</th>
+                                <th class="fw-bold" style="padding:14px 10px !important; background: #222f3e; font-size:12px; color: #fff !important;" rowspan="3">DATE</th>
+                                <th class="fw-bold" style="padding:14px 12px  !important; background: #222f3e; font-size:12px; color: #fff !important;" rowspan="3">DAY</th>
+                                <th class="fw-bold" style="padding:16px 0 !important; background: #222f3e; font-size:12px; color: #fff !important;" colspan="4">REGULAR TIME</th>
+                                <th class="fw-bold" style="padding:16px 0 !important; background: #222f3e; font-size:12px; color: #fff !important;" colspan="2">TOTAL TIME</th>
+                                <th class="fw-bold" style="padding:16px 0 !important; background: #222f3e; font-size:12px; color: #fff !important;"colspan="2">TARDINESS</th>
+                                <th class="fw-bold" style="padding:16px 0 !important; background: #222f3e; font-size:12px; color: #fff !important;"rowspan="3">PRESENT</th>
+                                <th class="fw-bold" style="padding:16px 0 !important; background: #222f3e; font-size:12px; color: #fff !important;"rowspan="3">ABSENT</th>
+                                <th class="fw-bold" style="padding:16px 6px !important; background: #222f3e; font-size:12px; color: #fff !important;"rowspan="3">LATE</th>
+                                <th class="fw-bold" style="padding:16px 0 !important; background: #222f3e; font-size:12px; color: #fff !important; width:13%" rowspan="3">ACTION</th>
                             </tr>
                             <tr>
-                                <th style="font-size:9px; background: #353b48; color: #fff;" colspan="2">Arrival</th>
-                                <th style="font-size:9px; background: #353b48; color: #fff;" colspan="2">Departure</th>
-                                <th style="font-size:9px; background: #353b48; color: #fff;" rowspan="2">Hours</th>
-                                <th style="font-size:9px; background: #353b48; color: #fff;" rowspan="2">Minutes</th>
-                                <th style="font-size:9px; background: #353b48; color: #fff;" rowspan="2">Hours</th>
-                                <th style="font-size:9px; background: #353b48; color: #fff;" rowspan="2">Minutes</th>
+                                <th class="fw-bold" style="font-size:10px; padding:10px 0 !important; background: #4a5667; color: #fff !important;" colspan="2">Arrival</th>
+                                <th class="fw-bold" style="font-size:10px; padding:10px 0 !important; background: #4a5667; color: #fff !important;" colspan="2">Departure</th>
+                                <th class="fw-bold" style="font-size:10px; padding:10px 0 !important; background: #4a5667; color: #fff !important;" rowspan="2">Hours</th>
+                                <th class="fw-bold" style="font-size:10px; padding:10px 0 !important; background: #4a5667; color: #fff !important;"rowspan="2">Minutes</th>
+                                <th class="fw-bold" style="font-size:10px; padding:10px 0 !important; background: #4a5667; color: #fff !important;"rowspan="2">Hours</th>
+                                <th class="fw-bold" style="font-size:10px; padding:10px 0 !important; background: #4a5667; color: #fff !important;"rowspan="2">Minutes</th>
                             </tr>
                             <tr>
-                                <th style="font-size:9px; background: #576574; color: #fff;">Time-In</th>
-                                <th style="font-size:9px; background: #576574; color: #fff;">Schedule</th>
-                                <th style="font-size:9px; background: #576574; color: #fff;">Time-Out</th>
-                                <th style="font-size:9px; background: #576574; color: #fff;">Schedule</th>
+                                <th style="font-size:9px; background: #6f7c91; color: #fff !important;">Time-In</th>
+                                <th style="font-size:9px; background: #6f7c91; color: #fff !important;">Schedule</th>
+                                <th style="font-size:9px; background: #6f7c91; color: #fff !important;">Time-Out</th>
+                                <th style="font-size:9px; background: #6f7c91; color: #fff !important;">Schedule</th>
                             </tr>
             ';
 
@@ -306,17 +307,19 @@ class Student_attendance extends MY_Controller
             $output .= '
                         <tfoot>
                             <tr>
-                                <td colspan="6" style="background: #576574; color: #fff;"></td>
-                                <td colspan="2" style="background: #353b48; color: #fff; font-weight:bold;"><i class="bi bi-clock me-1"></i>'.$total_work_time.'h '.$remaining_minutes.'m</td>
-                                <td colspan="2" style="background: #353b48; color: #fff; font-weight:bold;"><i class="bi bi-clock me-1"></i>'.$tardiness_time.'h '.$remaining_late_minutes.'m</td>
+                                <td colspan="6" style="background: #6f7c91; color: #fff;"></td>
+                                <td colspan="2" style="background: #4a5667; color: #fff; font-weight:bold;"><i class="bi bi-clock me-1"></i>'.$total_work_time.'h '.$remaining_minutes.'m</td>
+                                <td colspan="2" style="background: #4a5667; color: #fff; font-weight:bold;"><i class="bi bi-clock me-1"></i>'.$tardiness_time.'h '.$remaining_late_minutes.'m</td>
                                 <td style="background: #222f3e; color: #fff; font-weight:bold;">'.$total_present.'</td>
                                 <td style="background: #222f3e; color: #fff; font-weight:bold;">'.$total_absent.'</td>
                                 <td style="background: #222f3e; color: #fff; font-weight:bold;">'.$total_late.'</td>
-                                <td colspan="3" style="background: #576574; color: #fff;"></td>
+                                <td colspan="3" style="background: #6f7c91; color: #fff;"></td>
                             </tr>
                         </tfoot>
             ';
             $output .= '</table">';
+            $output .= '</div">';
+
         } else {
             $output .= '<div class="alert alert-danger"><i class="bi bi-info-circle-fill me-2"></i>Schedule not selected. Please click <a href="#scheduleModal" data-bs-toggle="modal">here</a> to choose your preferred schedule.</div>';
         }
