@@ -69,8 +69,9 @@ class Main extends MY_Controller
     {
         $output = '';
         $error = '';
+        $month = $this->input->post('monthToday', true);
         $sched = $this->main_model->getAvailableSched();
-        $selected_sched = $this->main_model->check_schedule($this->session->userdata('scholarIn')['member_id']);
+        $selected_sched = $this->main_model->check_schedule($month, $this->session->userdata('scholarIn')['member_id']);
 
         if ($selected_sched->num_rows() == 0) {
             $error = '<div class="alert alert-danger"><i class="bi bi-info-circle-fill me-2"></i>No Schedule Selected.</div>';
@@ -81,7 +82,7 @@ class Main extends MY_Controller
                 //selected-date
                 //<div class="upcoming-sched__selected">Selected</div>
 
-                $check_selected_sched = $this->main_model->check_selected_sched($list->sched_id);
+                $check_selected_sched = $this->main_model->check_selected_sched($list->sched_id, $month);
                 if ($check_selected_sched->num_rows() > 0) {
                     $selected_date = 'selected-date';
                     $remarks = '<div class="upcoming-sched__selected">Selected</div>';
@@ -125,8 +126,9 @@ class Main extends MY_Controller
         $member_id = $this->session->userdata('scholarIn')['member_id'];
         $sched_id = $this->input->post('sched_id', true);
         $schedule = $this->main_model->get_row('church_schedule', array('sched_id' => $sched_id));
-        $start_dt = date('Y-m-01');
-        $end_date_obj = date('Y-m-t');
+        $month = $this->input->post('monthToday', true);
+        $start_dt = date('Y-m-01', strtotime($month));
+        $end_date_obj = date('Y-m-t', strtotime($month));
 
         $check_sched = $this->main_model->check_existing_schedule($start_dt, $end_date_obj);
         if ($check_sched->num_rows() > 0) {
