@@ -1,54 +1,104 @@
 <style>
-    .tbl_schedule {
-        width: 100%;
-        border-collapse: collapse;
-    }
+.tbl_schedule {
+    width: 100%;
+    border-collapse: collapse;
+}
 
-    .bg-style {
-        font-weight: bold;
-        background: #222f3e;
-        color: #fff;
-    }
-    .fw-bold {
-        font-weight: bold;
-    }
+.bg-style {
+    font-weight: bold;
+    background: #222f3e;
+    color: #fff;
+}
 
-    .tbl_schedule th {
-        font-size: 10px;
-        border: 1px solid #c8d6e5;
-        padding: 3px !important;
-        text-align: center;
-        border-radius: 0px !important;
-        line-height: 10px;
-        color: #fff !important;
-    }
+.fw-bold {
+    font-weight: bold;
+}
 
-    .tbl_schedule td {
-        font-size: 10px;
-        border: 1px solid #c8d6e5;
-        padding: 4px !important;
-        text-align: center;
-        border-radius: 0px !important;
-    }
+.tbl_schedule th {
+    font-size: 10px;
+    border: 1px solid #c8d6e5;
+    padding: 3px !important;
+    text-align: center;
+    border-radius: 0px !important;
+    line-height: 10px;
+    color: #fff !important;
+}
 
-    .time_attendance {
-        background: #27ae60;
-        color: #fff;
-        padding: 2px 15px 2px 15px;
-        border-radius: 3px;
-        font-weight: bold;
-    }
+.tbl_schedule td {
+    font-size: 10px;
+    border: 1px solid #c8d6e5;
+    padding: 4px !important;
+    text-align: center;
+    border-radius: 0px !important;
+}
 
-    .download_letter {
-        font-size: 9px;
-        font-weight: 600;
-        color: #0984e3;
-        cursor: pointer;
-        text-decoration: underline;
-    }
-    .download_letter:hover {
-        text-decoration: underline;
-    }
+.time_attendance {
+    background: #27ae60;
+    color: #fff;
+    padding: 2px 15px 2px 15px;
+    border-radius: 3px;
+    font-weight: bold;
+}
+
+.download_letter {
+    font-size: 9px;
+    font-weight: 600;
+    color: #0984e3;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.download_letter:hover {
+    text-decoration: underline;
+}
+
+.table__title {
+    font-size: 20px;
+    font-weight: 500;
+    color: #434875 !important;
+    padding: 8px 0;
+    margin-bottom: 0;
+
+}
+
+.card {
+    background: #ffffff;
+    border-radius: 8px;
+    color: #434875;
+    box-shadow: 0 9px 20px rgba(46, 35, 94, .07);
+}
+
+
+#date_sched {
+    background-color: #434875;
+    padding: 10px 16px;
+    color: #ffffff;
+    border-radius: 8px;
+}
+
+
+
+.scrollable-table::-webkit-scrollbar {
+    height: 6px;
+}
+
+.scrollable-table::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.scrollable-table::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 3px;
+}
+
+.scrollable-table::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.scrollable-table {
+    scrollbar-width: thin;
+    scrollbar-color: #888 #f1f1f1;
+}
 </style>
 <?php
     $member_id = $this->cipher->decrypt($_GET['scholar']);
@@ -61,13 +111,20 @@
     <!-- Content -->
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="card">
-            <div class="card-header mb-3">
-                <div class="d-flex align-items-center justify-content-between">
-                    <h5><i class="<?= $icon?> me-2"></i><?= $card_title?></h5>
-                    <h5 class="me-3" id="date_sched"></h5>
+            <div
+                class="card-header mb-3 pb-3 d-flex align-items-center flex-column justify-content-between gap-3 gap-md-0 flex-md-row ">
+                <div class="d-flex  gap-2 align-items-center">
+                    <img src="<?php echo base_url('assets/images/student_dashboard/attendance-record.png'); ?>"
+                        width="36px" alt="Calendar" />
+                    <h5 class="table__title"><?= $card_title?></h5>
                 </div>
+                <h6 class="me-3 mb-0" id="date_sched"></h6>
             </div>
-            <div class="card-body">
+
+
+            <div class="card-body mt-2">
+                <a href="<?= base_url('admin/attendance-record');?>" class="btn btn-outline-dark"><i
+                        class="bi bi-backspace-fill me-2 "></i>Back</a>
                 <?php
                     $lastname = isset($record['student_last_name']) ? $record['student_last_name'] : '';
                     $firstname = isset($record['student_first_name']) ? $record['student_first_name'] : '';
@@ -76,41 +133,50 @@
                     $full_name = $lastname.', '.$firstname.' '.$middlename;
                 ?>
 
-                <div class="row">
-                    <div class="col-md-6 mb-3">
+                <div class="d-flex flex-column flex-lg-row justify-content-between align-items-center mt-4 mb-3 ">
+                    <div>
                         <div class="d-flex justify-content-between align-items-center">
                             <?php if (isset($record_prev)) : ?>
-                                <?php
+                            <?php
                                     $member_prev = $this->cipher->encrypt($record_prev['member_id']);
                                     $url = $url_action . $member_prev . '&month=' . $month;
                                 ?>
-                                <a href="<?= $url;?>" class="btn btn-primary me-1"><b class="text-lg"><i class="bi bi-caret-left-fill"></i></b></a>
+                            <a href="<?= $url;?>" class="btn btn-primary me-1"><b class="text-lg"><i
+                                        class="bi bi-caret-left-fill"></i></b></a>
                             <?php else : ?>
-                                <button class="btn btn-primary me-1" disabled="disabled"><b class="text-lg"><i class="bi bi-caret-left-fill"></i></b></button>
+                            <button class="btn btn-primary me-1" disabled="disabled"><b class="text-lg"><i
+                                        class="bi bi-caret-left-fill"></i></b></button>
                             <?php endif;?>
 
-                            <span class="bg-dark rounded text-sm py-2 px-3 mx-0" style="height: 37px; width:100%;"><span class="text-success">Name :</span> 
+                            <span class="bg-dark rounded text-sm py-2 px-3 mx-0" style="height: 37px; width:100%;"><span
+                                    class="text-success">Name :</span>
                                 <b class="text-light px-1"><?= ucwords($full_name);?></b>
                             </span>
 
                             <?php if (isset($record_next)) : ?>
-                                <?php
+                            <?php
                                     $member_next = $this->cipher->encrypt($record_next['member_id']);
                                     $url = $url_action . $member_next . '&month=' . $month;
                                 ?>
-                                <a href="<?= $url;?>" class="btn btn-primary ms-1"><b class="text-lg"><i class="bi bi-caret-right-fill"></i></b></a>
+                            <a href="<?= $url;?>" class="btn btn-primary ms-1"><b class="text-lg"><i
+                                        class="bi bi-caret-right-fill"></i></b></a>
                             <?php else : ?>
-                                <button class="btn btn-primary ms-1" disabled="disabled"><b class="text-lg"><i class="bi bi-caret-right-fill"></i></b></button>
+                            <button class="btn btn-primary ms-1" disabled="disabled"><b class="text-lg"><i
+                                        class="bi bi-caret-right-fill"></i></b></button>
                             <?php endif;?>
                         </div>
                     </div>
-                    <div class="col-md-2 mb-3">
-                        <input type="month" class="form-control" id="month_selected" value="<?= $month;?>">
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <a href="<?= base_url('admin/attendance-record');?>" class="btn btn-outline-dark"><i class="bi bi-backspace-fill me-2"></i>Back</a>
-                        <button class="btn btn-danger print_attendance"><i class="bi bi-printer me-2"></i>Print Record</button>
-                        <a href="<?= base_url('admin/attendance-record/excel?scholar='.$member_id_encrypted.'&month='.$month)?>" class="btn btn-success"><i class="bi bi-file-earmark-excel me-2"></i>Excel</a>
+                    <div class="d-flex flex-column flex-lg-row align-item-center gap-0 gap-lg-3 mt-3 mt-lg-0">
+                        <div>
+                            <input type="month" class="form-control" id="month_selected" value="<?= $month;?>">
+                        </div>
+                        <div>
+                            <button class="btn btn-outline-info print_attendance"><i
+                                    class="bi bi-printer me-2"></i>Print
+                                Record</button>
+                            <a href="<?= base_url('admin/attendance-record/excel?scholar='.$member_id_encrypted.'&month='.$month)?>"
+                                class="btn btn-outline-success"><i class="bi bi-file-earmark-excel me-2"></i>Excel</a>
+                        </div>
                     </div>
                 </div>
                 <hr class="mt-0 mb-2">
@@ -123,12 +189,12 @@
     <!-- / Content -->
 
     <?php $this->load->view('admin_portal/modal/letter_approval_modal');?>
-<script>
+    <script>
     var member_id = '<?= $member_id;?>';
     var month = '<?= $month;?>';
     var member_id_encrypted = '<?= $member_id_encrypted;?>';
-    function getAttendanceRecord()
-    {
+
+    function getAttendanceRecord() {
         $.ajax({
             url: "<?= base_url('portal/admin_portal/attendance_record/getAttendanceRecord')?>",
             method: "POST",
@@ -154,7 +220,8 @@
 
         $(document).on('change', '#month_selected', function() {
             var month_selected = $(this).val();
-            var url = "<?= base_url('admin/attendance-record/manage-record?scholar=')?>" + member_id_encrypted + '&month=' + month_selected;
+            var url = "<?= base_url('admin/attendance-record/manage-record?scholar=')?>" +
+                member_id_encrypted + '&month=' + month_selected;
 
             window.location.href = url;
         });
@@ -186,8 +253,11 @@
                 },
                 success: function(data, status, xhr) {
                     if (xhr.status === 200) {
-                        var filename = xhr.getResponseHeader('Content-Disposition').split('filename=')[1].replace(/"/g, '');
-                        var blob = new Blob([data], { type: 'application/pdf' });
+                        var filename = xhr.getResponseHeader('Content-Disposition').split(
+                            'filename=')[1].replace(/"/g, '');
+                        var blob = new Blob([data], {
+                            type: 'application/pdf'
+                        });
                         var link = document.createElement('a');
                         link.href = window.URL.createObjectURL(blob);
                         link.download = filename;
@@ -270,6 +340,7 @@
                                     title: 'Ooops...',
                                     text: 'An error occurred while processing the request.',
                                 });
+
                             }
                         });
                     }
@@ -278,10 +349,9 @@
         });
 
         $(document).on('click', '.print_attendance', function() {
-            var url = "<?= base_url('admin/attendance-record/print?scholar=')?>" + member_id_encrypted + '&month=' + month;
-            window.open(url, 'targetWindow','resizable=yes,width=1000,height=1000');   
+            var url = "<?= base_url('admin/attendance-record/print?scholar=')?>" + member_id_encrypted +
+                '&month=' + month;
+            window.open(url, 'targetWindow', 'resizable=yes,width=1000,height=1000');
         });
     });
-
-    
-</script>
+    </script>
