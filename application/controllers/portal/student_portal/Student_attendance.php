@@ -101,6 +101,7 @@ class Student_attendance extends MY_Controller
             $total_late = 0;
             $total_undertime = 0;
             foreach($schedule->result_array() as $list) {
+                $action = '';
                 $schedule_date = strtotime($list['schedule_date']);
                 $current_date = strtotime(date('Y-m-d'));
                 $can_change = $current_date < $schedule_date;
@@ -118,8 +119,6 @@ class Student_attendance extends MY_Controller
                                 data-sched_date="'.date('F j, Y', strtotime($list['schedule_date'])).'"
                                 data-sched_id="'.$list['sched_id'].'"
                                ><i class="bi bi-calendar2-check-fill me-1"></i>Change Schedule</button>';
-                } else {
-                    $action = '<span class="badge bg-info px-2">Ongoing Schedule</span>';
                 }
 
 
@@ -219,15 +218,13 @@ class Student_attendance extends MY_Controller
                                                 data-id="'.$list['member_id'].'"
                                             ><i class="bi bi-upload me-1"></i>Upload Letter</button>';
                             }
-                            
-                        } else {
-                            $late = '';
                         }
 
                         if ($late_hours != 0 || $late_minutes != 0) {
                             $late = '<i class="bi bi-check-circle-fill text-warning"></i>';
                         } else {
                             $late = '';
+                            $action = '<span class="badge bg-info"><i class="bi bi-check2-square me-1"></i>With 1,000 Allowance</span>';
                         }
 
                         // Calculate total time in hours and minutes
@@ -641,6 +638,7 @@ class Student_attendance extends MY_Controller
                     $time_out_departure = isset($timeOut['time_transaction']) ? strtotime($timeOut['time_transaction']) : 0;
 
                     $time_from = strtotime($list['time_from']);
+                    $time_to = strtotime($list['time_to']);
 
                     if (isset($timeIn['time_transaction'])) {
                         $time_Arr = date('h:i A', strtotime($timeIn['time_transaction']));
@@ -656,7 +654,11 @@ class Student_attendance extends MY_Controller
 
                     if (isset($timeOut['time_transaction'])) {
                         $time_Dep = date('h:i A', strtotime($timeOut['time_transaction']));
-                        $bgColorOut = '';
+                        if ($time_out_departure < $time_to) {
+                            $bgColorOut = 'text-warning'; // Change to your desired color for late
+                        } else {
+                            $bgColorOut = ''; // No special background color if not late
+                        }
                     } else {
                         $time_Dep = 'No Time-Out';
                         $bgColorOut = 'text-danger';
@@ -689,19 +691,19 @@ class Student_attendance extends MY_Controller
                         $undertime_minutes = 0;
                     }
                     
-                    if ($letter->num_rows() > 0) {
-                        if (is_array($letter_row) && !empty($letter_row)) {
-                            if ($letter_row['remarks'] == 'For Validation') {
-                                $action = 'For Validation';
-                            } else {
-                                $action = $letter_row['remarks']. ' Letter</span>';
+                    
+                    if ($late_hours != 0 || $late_minutes != 0) {
+                        if ($letter->num_rows() > 0) {
+                            if (is_array($letter_row) && !empty($letter_row)) {
+                                if ($letter_row['remarks'] == 'For Validation') {
+                                    $action = 'For Validation';
+                                } else {
+                                    $action = $letter_row['remarks']. ' Letter</span>';
+                                }
                             }
+                        } else {
+                            $action = 'No Uploaded Letter';
                         }
-                    } else {
-                        $action = 'No Uploaded Letter';
-                    }
-
-                    if ($late_hours != 0 || $late_minutes != 0 || $undertime_hours != 0 || $undertime_minutes != 0) {
                         $late = '/';
                     } else {
                         $late = '';
@@ -910,6 +912,7 @@ class Student_attendance extends MY_Controller
                     $time_out_departure = isset($timeOut['time_transaction']) ? strtotime($timeOut['time_transaction']) : 0;
 
                     $time_from = strtotime($list['time_from']);
+                    $time_to = strtotime($list['time_to']);
 
                     if (isset($timeIn['time_transaction'])) {
                         $time_Arr = date('h:i A', strtotime($timeIn['time_transaction']));
@@ -931,8 +934,8 @@ class Student_attendance extends MY_Controller
                         $bgColorOut = 'text-danger';
                     }
 
-                    $time_in = '<span class="'.$bgColorIn.'">'.$time_Arr.'</span>';
-                    $time_out = '<span class="'.$bgColorOut.'">'.$time_Dep.'</span>';
+                    $time_in = $time_Arr;
+                    $time_out = $time_Dep;
                     $present = '/';
                     $total_present++;
 
@@ -970,7 +973,7 @@ class Student_attendance extends MY_Controller
                         $action = 'No Uploaded Letter';
                     }
 
-                    if ($late_hours != 0 || $late_minutes != 0 || $undertime_hours != 0 || $undertime_minutes != 0) {
+                    if ($late_hours != 0 || $late_minutes != 0) {
                         $late = '/';
                     } else {
                         $late = '';

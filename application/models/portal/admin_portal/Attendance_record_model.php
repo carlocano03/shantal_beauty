@@ -215,4 +215,11 @@ class Attendance_record_model extends MY_Model
         $query = $this->db->get('scholar_selected_schedule');
         return $query->result();
     }
+
+    function save_broken_sched($apply_broken_sched, $selected_sched_id)
+    {
+        $this->db->where('selected_schedule_id', $selected_sched_id);
+        $update = $this->db->update('scholar_selected_schedule', $apply_broken_sched);
+        return $update?TRUE:FALSE;
+    }
 }

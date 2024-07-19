@@ -40,7 +40,8 @@
     font-weight: bold;
 }
 
-.download_letter {
+.download_letter,
+.broken_schedule {
     font-size: 9px;
     font-weight: 600;
     color: #0984e3;
@@ -48,7 +49,8 @@
     text-decoration: underline;
 }
 
-.download_letter:hover {
+.download_letter:hover,
+.broken_schedule:hover {
     text-decoration: underline;
 }
 
@@ -99,6 +101,43 @@
     scrollbar-width: thin;
     scrollbar-color: #888 #f1f1f1;
 }
+
+#prev-year-button,
+#next-year-button {
+    background-color: #434875;
+    border-color: #434875;
+    padding: 0 8px;
+
+}
+
+
+#month-year-container label {
+    border-radius: 0;
+}
+
+.btn-outline-primary {
+    border-color: #434875;
+    color: #434875;
+
+}
+
+.btn-check:checked+.btn-outline-primary,
+.btn-check:active+.btn-outline-primary,
+.btn-outline-primary:active,
+.btn-outline-primary.active,
+.btn-outline-primary.dropdown-toggle.show {
+    color: #fff;
+    background-color: #434875;
+    border-color: #434875;
+
+}
+
+.btn-outline-primary:hover {
+    background-color: #434875 !important;
+    border-color: #434875 !important;
+    box-shadow: 0 0.125rem 0.25rem 0 rgba(67, 72, 117, 0.4);
+
+}
 </style>
 <?php
     $member_id = $this->cipher->decrypt($_GET['scholar']);
@@ -123,8 +162,6 @@
 
 
             <div class="card-body mt-2">
-                <a href="<?= base_url('admin/attendance-record');?>" class="btn btn-outline-dark"><i
-                        class="bi bi-backspace-fill me-2 "></i>Back</a>
                 <?php
                     $lastname = isset($record['student_last_name']) ? $record['student_last_name'] : '';
                     $firstname = isset($record['student_first_name']) ? $record['student_first_name'] : '';
@@ -133,18 +170,18 @@
                     $full_name = $lastname.', '.$firstname.' '.$middlename;
                 ?>
 
-                <div class="d-flex flex-column flex-lg-row justify-content-between align-items-center mt-4 mb-3 ">
+                <div class="d-flex flex-column flex-lg-row justify-content-between align-items-center mb-3 ">
                     <div>
-                        <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex justify-content-between align-items-center flex-md-row">
                             <?php if (isset($record_prev)) : ?>
                             <?php
                                     $member_prev = $this->cipher->encrypt($record_prev['member_id']);
                                     $url = $url_action . $member_prev . '&month=' . $month;
                                 ?>
-                            <a href="<?= $url;?>" class="btn btn-primary me-1"><b class="text-lg"><i
+                            <a href="<?= $url;?>" class="btn btn-outline-primary me-1"><b class="text-lg"><i
                                         class="bi bi-caret-left-fill"></i></b></a>
                             <?php else : ?>
-                            <button class="btn btn-primary me-1" disabled="disabled"><b class="text-lg"><i
+                            <button class="btn btn-outline-primary me-1" disabled="disabled"><b class="text-lg"><i
                                         class="bi bi-caret-left-fill"></i></b></button>
                             <?php endif;?>
 
@@ -158,19 +195,21 @@
                                     $member_next = $this->cipher->encrypt($record_next['member_id']);
                                     $url = $url_action . $member_next . '&month=' . $month;
                                 ?>
-                            <a href="<?= $url;?>" class="btn btn-primary ms-1"><b class="text-lg"><i
+                            <a href="<?= $url;?>" class="btn btn-outline-primary ms-1"><b class="text-lg"><i
                                         class="bi bi-caret-right-fill"></i></b></a>
                             <?php else : ?>
-                            <button class="btn btn-primary ms-1" disabled="disabled"><b class="text-lg"><i
+                            <button class="btn btn-outline-primary ms-1" disabled="disabled"><b class="text-lg"><i
                                         class="bi bi-caret-right-fill"></i></b></button>
                             <?php endif;?>
                         </div>
                     </div>
                     <div class="d-flex flex-column flex-lg-row align-item-center gap-0 gap-lg-3 mt-3 mt-lg-0">
-                        <div>
+                        <!-- <div>
                             <input type="month" class="form-control" id="month_selected" value="<?= $month;?>">
-                        </div>
+                        </div> -->
                         <div>
+                        <a href="<?= base_url('admin/attendance-record');?>" class="btn btn-outline-dark"><i
+                            class="bi bi-backspace-fill me-2 "></i>Back</a>
                             <button class="btn btn-outline-info print_attendance"><i
                                     class="bi bi-printer me-2"></i>Print
                                 Record</button>
@@ -180,6 +219,20 @@
                     </div>
                 </div>
                 <hr class="mt-0 mb-2">
+                
+                <div class="scrollable-table mt-4" style="overflow-x:auto">
+                    <div class="d-flex justify-content-center" style="min-width:980px">
+                        <div class="btn-group d-flex" role="group" aria-label="Basic radio toggle button group ">
+                            <button id="prev-year-button" class="btn btn-primary group-btn"><i
+                                    class="fa-solid fa-angles-left"></i></button>
+                            <div id="month-year-container" class="btn-group-toggle " data-toggle="buttons">
+                                <!-- Months will be dynamically generated here -->
+                            </div>
+                            <button id="next-year-button" class="btn btn-primary group-btn"><i
+                                    class=" fa-solid fa-angles-right"></i></button>
+                        </div>
+                    </div>
+                </div>
                 <div class="attendance-info">
                     <!-- AJAX REQUEST -->
                 </div>
@@ -187,12 +240,73 @@
         </div>
     </div>
     <!-- / Content -->
-
+    <?php
+        $currentYear = date("Y");
+    ?>
     <?php $this->load->view('admin_portal/modal/letter_approval_modal');?>
     <script>
     var member_id = '<?= $member_id;?>';
-    var month = '<?= $month;?>';
+    // var month = '<?= $month;?>';
     var member_id_encrypted = '<?= $member_id_encrypted;?>';
+
+    const monthYearContainer = document.getElementById('month-year-container');
+    const prevYearButton = document.getElementById('prev-year-button');
+    const nextYearButton = document.getElementById('next-year-button');
+    let currentYear = "<?php echo $currentYear; ?>";
+    // let currentMonth = new Date().getMonth() + 1; // Get the current month (1 to 12)
+    let currentMonth = "<?= date('n', strtotime($month))?>";
+    let table_payables;
+    var monthToday = "<?= $month;?>";
+
+    prevYearButton.addEventListener('click', () => {
+        currentYear--;
+        updateMonths();
+    });
+
+    nextYearButton.addEventListener('click', () => {
+        currentYear++;
+        updateMonths();
+    });
+
+    monthYearContainer.addEventListener('click', function(event) {
+        if (event.target.classList.contains('btn-check')) {
+            currentMonth = event.target.id;
+            monthToday = currentMonth;
+            
+            var url = "<?= base_url('admin/attendance-record/manage-record?scholar=')?>" +
+                member_id_encrypted + '&month=' + monthToday;
+
+            window.location.href = url;
+        }
+    });
+
+    function updateMonths() {
+        monthYearContainer.innerHTML = '';
+
+        for (let month = 1; month <= 12; month++) {
+            const monthName = new Date(currentYear, month - 1, 1).toLocaleDateString('en-US', {
+                month: 'short'
+            }).toUpperCase();
+            const selectedMonth = (month).toString().padStart(2, '0');
+            const id = currentYear + '-' + selectedMonth;
+            const isActive = (month === parseInt(currentMonth)) ? 'checked' : '';
+            const label = document.createElement('label');
+            label.className = 'btn btn-outline-primary p-0 col';
+            label.innerHTML = `
+                <div id="btn-month" class="p-0 ">
+					<input type="radio" class="btn-check" name="btnradio" id="${id}" autocomplete="off" ${isActive}>
+					<label class="btn btn-outline-primary" for="${id}">
+						${monthName}  
+						<div class="month-year" style="font-size: 12px;">${currentYear}</div>
+					</label>
+				</div>
+
+            `;
+            monthYearContainer.appendChild(label);
+        }
+    }
+
+    updateMonths();
 
     function getAttendanceRecord() {
         $.ajax({
@@ -200,7 +314,7 @@
             method: "POST",
             data: {
                 member_id: member_id,
-                month: month,
+                month: monthToday,
                 '_token': csrf_token_value,
             },
             dataType: "json",
@@ -350,8 +464,96 @@
 
         $(document).on('click', '.print_attendance', function() {
             var url = "<?= base_url('admin/attendance-record/print?scholar=')?>" + member_id_encrypted +
-                '&month=' + month;
+                '&month=' + monthToday;
             window.open(url, 'targetWindow', 'resizable=yes,width=1000,height=1000');
+        });
+
+        $(document).on('click', '#broken_schedule', function() {
+            var selected_sched_id = $(this).data('id');
+            var sched_date = $(this).data('sched');
+            var member_id = $(this).data('member');
+
+            $('#selected_sched_id').val(selected_sched_id);
+            $('#broken_sched').val(sched_date);
+            $('#member_id').val(member_id);
+            $('#brokenModal').modal('show');
+        });
+
+        $(document).on('click', '#view_broken_sched', function() {
+            var remarks = $(this).data('remarks');
+            var comment = $(this).data('comment');
+            var date_change = $(this).data('date_change');
+
+            $('#remarks').text(remarks);
+            $('#date_change').text(date_change);
+            $('#comment_section').text(comment);
+            $('#viewModal').modal('show');
+        });
+
+        $(document).on('click', '#save_broken_sched', function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            var form = $('#brokenForm')[0];
+            var formData = new FormData(form);
+            formData.append('selected_sched_id', $('#selected_sched_id').val());
+            formData.append('member_id', $('#member_id').val());
+            formData.append('broken_sched', $('#broken_sched').val());
+            formData.append('comment', $('#comment').val());
+            formData.append('_token', csrf_token_value);
+            form.classList.add('was-validated');
+            if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+            } else {
+                Swal.fire({
+                    title: 'Are you sure..',
+                    text: "You want to continue this transaction?",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, continue',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: "<?= base_url('portal/admin_portal/attendance_record/save_broken_sched');?>",
+                            method: "POST",
+                            data: formData,
+                            contentType: false,
+                            processData: false,
+                            dataType: "json",
+                            success: function(data) {
+                                if (data.error != '') {
+                                    Swal.fire({
+                                        icon: 'warning',
+                                        title: 'Ooops...',
+                                        text: data.error,
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Thank You!',
+                                        text: data.success,
+                                    });
+                                    $('#brokenModal').modal('hide');
+                                    form.reset();
+                                    form.classList.remove('was-validated');
+                                    getAttendanceRecord();
+                                }
+                            },
+                            error: function() {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Ooops...',
+                                    text: 'An error occurred while processing the request.',
+                                });
+
+                            }
+                        });
+                    }
+                });
+            }
         });
     });
     </script>

@@ -289,7 +289,7 @@
         getAvailableSched(monthToday);
         getTotalAttendance();
         getAttendanceLogs(0);
-        computeRemainingLate();
+        computeRemainingLate(total_late);
 
         $(document).on('click', '.pagination a', function(event) {
             event.preventDefault();

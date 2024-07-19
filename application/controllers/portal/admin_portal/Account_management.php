@@ -55,10 +55,13 @@ class Account_management extends MY_Controller
         $user_type = $this->cipher->decrypt($this->input->get('info'));
         if ($user_type == ADMINISTRATOR) {
             $data['card_title'] = 'Administrator Account';
+            $data['img_icon'] = base_url('assets/images/dashboard/administration.png');
         } elseif ($user_type == ADMIN_STAFF) {
             $data['card_title'] = 'Admin Staff Account';
+            $data['img_icon'] = base_url('assets/images/dashboard/verified-account.png');
         } else {
             $data['card_title'] = 'Student Account';
+            $data['img_icon'] = base_url('assets/images/dashboard/scholars.png');
         }
 
         $data['role_permissions'] = $this->role_permissions();
