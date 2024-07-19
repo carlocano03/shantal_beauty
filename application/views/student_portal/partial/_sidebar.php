@@ -164,7 +164,7 @@
             <ul class="menu-inner py-1">
 
                 <li class="menu-item ">
-                    <a href="<?= base_url('student/dashboard');?>"
+                    <a href="<?= base_url('scholar/dashboard');?>"
                         class="<?= ($dashboard) ? 'menu-link-active' : '';?> menu-link">
                         <i class="menu-icon tf-icons bi bi-speedometer2"></i>
                         <div data-i18n="Analytics">Dashboard</div>
@@ -172,7 +172,7 @@
                 </li>
 
                 <li class="menu-item ">
-                    <a href="<?= base_url('student/attendance');?>"
+                    <a href="<?= base_url('scholar/attendance');?>"
                         class="<?= ($attendance) ? 'menu-link-active' : '';?> menu-link">
                         <i class="menu-icon tf-icons bi bi-calendar-week-fill"></i>
                         <div data-i18n="Analytics">Attendance Record</div>
