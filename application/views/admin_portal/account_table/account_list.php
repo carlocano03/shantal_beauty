@@ -1,17 +1,54 @@
 <style>
-    #table_permission th:nth-child(2),
-    #table_permission td:nth-child(2),
+#table_permission th:nth-child(2),
+#table_permission td:nth-child(2),
 
-    #tbl_account th:nth-child(2),
+#tbl_account th:nth-child(2),
+#tbl_account td:nth-child(2),
+#tbl_account th:nth-child(3),
+#tbl_account td:nth-child(3),
+#tbl_account th:nth-child(4),
+#tbl_account td:nth-child(4),
+#tbl_account th:nth-child(5),
+#tbl_account td:nth-child(5) {
+    text-align: center;
+}
+
+.table__title {
+    font-size: 20px;
+    font-weight: 500;
+    color: #434875 !important;
+    padding: 8px 0;
+    margin-bottom: 0;
+
+}
+
+.card {
+    background: #ffffff;
+    border-radius: 8px;
+    color: #434875;
+    box-shadow: 0 9px 20px rgba(46, 35, 94, .07);
+}
+
+#tbl_account td:nth-child(2),
+#tbl_account td:nth-child(3) {
+    display: none;
+
+}
+
+@media (min-width: 992px) {
+
     #tbl_account td:nth-child(2),
-    #tbl_account th:nth-child(3),
-    #tbl_account td:nth-child(3),
-    #tbl_account th:nth-child(4),
-    #tbl_account td:nth-child(4),
-    #tbl_account th:nth-child(5),
-    #tbl_account td:nth-child(5) {
-        text-align: center;
+    #tbl_account td:nth-child(3) {
+        display: table-cell;
     }
+}
+
+
+@media (min-width: 768px) {
+    #tbl_account td:nth-child(2) {
+        display: table-cell;
+    }
+}
 </style>
 
 <?php
@@ -30,23 +67,26 @@
     <!-- Content -->
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="card">
-            <div class="card-header mb-3 d-flex align-items-center justify-content-between">
-                <h5><i class="<?= $icon?> me-2"></i><?= $card_title?></h5>
-                <a href="<?= base_url('admin/account-management')?>" class="btn btn-dark btn-sm me-4" style="margin-top:-20px;"><i class="bi bi-backspace-fill me-2"></i>Back</a>
+            <div class="card-header mb-3 pb-3 d-flex align-items-center justify-content-between ">
+                <div class="d-flex align-items-center gap-2">
+                    <h5 class="table__title"><?= $card_title?></h5>
+                </div>
+                <a href="<?= base_url('admin/account-management')?>" class="btn btn-dark btn-sm me-4"
+                    style="margin-top:-20px;"><i class="bi bi-backspace-fill me-2"></i>Back</a>
             </div>
             <div class="card-body">
                 <table class="table" width="100%" id="tbl_account">
                     <thead>
                         <tr>
                             <th>Full Name</th>
-                            <th>Username</th>
-                            <th>Email</th>
+                            <th class="d-none d-md-table-cell">Username</th>
+                            <th class="d-none d-lg-table-cell">Email</th>
                             <th>Status</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        
+
                     </tbody>
                 </table>
             </div>
@@ -54,7 +94,7 @@
     </div>
     <!-- / Content -->
 
-<script>
+    <script>
     $(document).ready(function() {
         var tbl_account = $('#tbl_account').DataTable({
             language: {
@@ -72,7 +112,7 @@
             "ajax": {
                 "url": "<?= base_url('portal/admin_portal/account_management/get_account_list')?>",
                 "type": "POST",
-                "data": function (d) {
+                "data": function(d) {
                     d[csrf_token_name] = csrf_token_value;
                     d.user_type = "<?= $user_type?>";
                 },
@@ -84,9 +124,9 @@
         });
 
         <?php if($user_type == ADMINISTRATOR || $user_type == ADMIN_STAFF) : ?>
-            $('#tbl_account_filter').prepend(
-                `<button class="btn btn-dark btn-sm" data-bs-toggle="modal" data-bs-target="#addModal"><i class="bi bi-person-fill-add me-2"></i>Add New Account</button>`
-            );
+        $('#tbl_account_filter').prepend(
+            `<button class="btn btn-dark btn-sm" data-bs-toggle="modal" data-bs-target="#addModal"><i class="bi bi-person-fill-add me-2"></i>Add New Account</button>`
+        );
         <?php endif;?>
 
         $(document).on('click', '.add_permission', function() {
@@ -111,7 +151,7 @@
                 "ajax": {
                     "url": "<?= base_url('portal/admin_portal/account_management/get_Permission') ?>",
                     "type": "POST",
-                    "data": function (d) {
+                    "data": function(d) {
                         d[csrf_token_name] = csrf_token_value;
                         d.user_id = user_id;
                     },
@@ -140,14 +180,18 @@
                     dataType: "json",
                     success: function(data) {
                         if (data.message == 'Success') {
-                            $('.success-message').html('<div class="alert alert-success"><i class="bi bi-info-circle-fill me-2"></i>Permission Granted!</div>');
+                            $('.success-message').html(
+                                '<div class="alert alert-success"><i class="bi bi-info-circle-fill me-2"></i>Permission Granted!</div>'
+                            );
                             setTimeout(() => {
                                 $('.success-message').html('');
                             }, 2000);
                             var table = $('#table_permission').DataTable();
                             table.draw();
                         } else {
-                            $('.success-message').html('<div class="alert alert-danger"><i class="bi bi-info-circle-fill me-2"></i>Failed to add permission.</div>');
+                            $('.success-message').html(
+                                '<div class="alert alert-danger"><i class="bi bi-info-circle-fill me-2"></i>Failed to add permission.</div>'
+                            );
                             setTimeout(() => {
                                 $('.success-message').html('');
                             }, 2000);
@@ -155,7 +199,9 @@
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         console.error("AJAX request failed:", textStatus, errorThrown);
-                        $('.success-message').html('<div class="alert alert-danger text-sm"><i class="bi bi-info-circle-fill me-2"></i>An error occurred while processing the request.</div>');
+                        $('.success-message').html(
+                            '<div class="alert alert-danger text-sm"><i class="bi bi-info-circle-fill me-2"></i>An error occurred while processing the request.</div>'
+                        );
                     }
                 });
             } else {
@@ -171,14 +217,18 @@
                     dataType: "json",
                     success: function(data) {
                         if (data.message == 'Success') {
-                            $('.success-message').html('<div class="alert alert-success"><i class="bi bi-info-circle-fill me-2"></i>Remove Permission!</div>');
+                            $('.success-message').html(
+                                '<div class="alert alert-success"><i class="bi bi-info-circle-fill me-2"></i>Remove Permission!</div>'
+                            );
                             setTimeout(() => {
                                 $('.success-message').html('');
                             }, 2000);
                             var table = $('#table_permission').DataTable();
                             table.draw();
                         } else {
-                            $('.success-message').html('<div class="alert alert-danger"><i class="bi bi-info-circle-fill me-2"></i>Failed to remove permission.</div>');
+                            $('.success-message').html(
+                                '<div class="alert alert-danger"><i class="bi bi-info-circle-fill me-2"></i>Failed to remove permission.</div>'
+                            );
                             setTimeout(() => {
                                 $('.success-message').html('');
                             }, 2000);
@@ -186,7 +236,9 @@
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         console.error("AJAX request failed:", textStatus, errorThrown);
-                        $('.success-message').html('<div class="alert alert-danger text-sm"><i class="bi bi-info-circle-fill me-2"></i>An error occurred while processing the request.</div>');
+                        $('.success-message').html(
+                            '<div class="alert alert-danger text-sm"><i class="bi bi-info-circle-fill me-2"></i>An error occurred while processing the request.</div>'
+                        );
                     }
                 });
             }
@@ -229,10 +281,10 @@
                                         icon: 'warning',
                                         title: 'Oops...',
                                         text: 'Failed to activate the account.',
-                                    }); 
+                                    });
                                 }
                             },
-                            error :function() {
+                            error: function() {
                                 Swal.fire({
                                     icon: 'error',
                                     title: 'Oops...',
@@ -276,10 +328,10 @@
                                         icon: 'warning',
                                         title: 'Oops...',
                                         text: 'Failed to deactivated the account.',
-                                    }); 
+                                    });
                                 }
                             },
-                            error :function() {
+                            error: function() {
                                 Swal.fire({
                                     icon: 'error',
                                     title: 'Oops...',
@@ -463,7 +515,7 @@
                             icon: 'warning',
                             title: 'Ooops..',
                             text: data.error,
-                        }); 
+                        });
                     } else {
                         Swal.fire({
                             icon: 'success',
@@ -477,15 +529,16 @@
                 },
                 error: function() {
                     $('.loading-screen').hide();
+
                     Swal.fire({
                         icon: 'error',
                         title: 'Oops...',
                         text: 'An error occurred while communicating with the server. Please try again.',
-                    }); 
+                    });
                 }
             });
         });
     });
-</script>
+    </script>
 
-<?php $this->load->view('admin_portal/modal/account_modal');?>
+    <?php $this->load->view('admin_portal/modal/account_modal');?>

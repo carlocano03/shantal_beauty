@@ -14,23 +14,29 @@
                                 }
                             }
                         ?>
-                        <img class="student__avatar" src="<?= $img;?>"
-                            alt="applicant">
+                        <img class="student__avatar" src="<?= $img;?>" alt="applicant">
                         <div class="w-100 d-flex flex-column  pt-2 ">
-                            <div class="student__name text-lg-start text-center"><?= $this->session->userdata('scholarIn')['fullname']?><?= isset($student_info['scholarship_no']) ? ' - '.$student_info['scholarship_no'] : '';?></div>
+                            <div class="student__name text-lg-start text-center">
+                                <?= $this->session->userdata('scholarIn')['fullname']?><?= isset($student_info['scholarship_no']) ? ' - '.$student_info['scholarship_no'] : '';?>
+                            </div>
                             <div
                                 class="d-flex gap-lg-5 gap-4 align-items-center justify-content-lg-start justify-content-center mt-3 py-3 py-lg-0">
                                 <div>
                                     <div class="student__info--title">Year Level</div>
-                                    <div class="student__info"><?= isset($student_info['year_level']) ? $student_info['year_level'] : '';?></div>
+                                    <div class="student__info">
+                                        <?= isset($student_info['year_level']) ? $student_info['year_level'] : '';?>
+                                    </div>
                                 </div>
                                 <div>
                                     <div class="student__info--title">Email Address</div>
-                                    <div class="student__info"><?= isset($student_info['email_address']) ? $student_info['email_address'] : '';?></div>
+                                    <div class="student__info">
+                                        <?= isset($student_info['email_address']) ? $student_info['email_address'] : '';?>
+                                    </div>
                                 </div>
                                 <div>
                                     <div class="student__info--title">Phone Number</div>
-                                    <div class="student__info"><?= isset($student_info['mobile_no']) ? $student_info['mobile_no'] : '';?></div>
+                                    <div class="student__info">
+                                        <?= isset($student_info['mobile_no']) ? $student_info['mobile_no'] : '';?></div>
                                 </div>
                             </div>
                         </div>
@@ -124,7 +130,7 @@
                         </div>
                         <h1 class="overview-card__title mb-0">Select Church Schedules</h1>
                     </div>
-                    
+
                     <div class="error-message"></div>
                     <div id="available_sched">
                         <!-- AJAX REQUEST -->
@@ -140,11 +146,11 @@
                         </div>
                         <h1 class="overview-card__title mb-0">Active Late Rules</h1>
                     </div>
-            
+
                     <div id="active_rules">
                         <?php if($late_rules->num_rows() > 0) : ?>
-                            <?php foreach($late_rules->result_array() as $list) : ?>
-                                <?php
+                        <?php foreach($late_rules->result_array() as $list) : ?>
+                        <?php
                                     if ($list['no_late'] > 1) {
                                         $consecutive_late = $list['no_late'].' Consecutive Lates';
                                     } else {
@@ -157,35 +163,38 @@
                                         $day_range = $list['no_days'].' Day Range';
                                     }
                                 ?>
-                                <input type="hidden" id="no_late" value="<?= $list['no_late'];?>">
-                                <input type="hidden" id="days_range" value="<?= $list['no_days'];?>">
-                                <div class="upcoming-sched__date-container-1 mb-3" style="cursor:pointer;">
-                                    <div class="d-flex align-items-center justify-content-between mb-3">
-                                        <h1 class="upcoming-sched__weekday mb-0"><?= ucwords($list['rule_name'])?></h1>
-                                        <div style="font-size:10px; color:red; font-weight:700;">Total Late: <span class="remaining_late"></span></div>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <div class="upcoming-sched__date"><i
-                                                class="fa-solid fa-calendar custom-text-primary me-2"></i><?= $consecutive_late;?></div>
-                                        <div class="upcoming-sched__time"><i
-                                                class="fa-solid fa-clock custom-text-danger me-2"></i><?= $day_range;?></div>
-                                    </div>
+                        <input type="hidden" id="no_late" value="<?= $list['no_late'];?>">
+                        <input type="hidden" id="days_range" value="<?= $list['no_days'];?>">
+                        <div class="upcoming-sched__date-container-3 mb-3" style="cursor:pointer;">
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <h1 class="upcoming-sched__weekday mb-0"><?= ucwords($list['rule_name'])?></h1>
+                                <div style="font-size:10px; color:red; font-weight:700;">Total Late: <span
+                                        class="remaining_late"></span></div>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div class="upcoming-sched__date"><i
+                                        class="fa-solid fa-calendar custom-text-primary me-2"></i><?= $consecutive_late;?>
                                 </div>
-                            <?php endforeach;?>
+                                <div class="upcoming-sched__time"><i
+                                        class="fa-solid fa-clock custom-text-danger me-2"></i><?= $day_range;?></div>
+                            </div>
+                        </div>
+                        <?php endforeach;?>
                         <?php else: ?>
-                            <div class="alert alert-danger"><i class="bi bi-info-circle-fill me-2"></i>No late rules found.</div>
+                        <div class="alert alert-danger"><i class="bi bi-info-circle-fill me-2"></i>No late rules found.
+                        </div>
                         <?php endif; ?>
-                        
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-<script>
+    <script>
     var monthToday = "<?= date('Y-m')?>";
-    function getAvailableSched(monthToday)
-    {
+
+    function getAvailableSched(monthToday) {
         $.ajax({
             url: "<?= base_url('portal/student_portal/main/getAvailableSched')?>",
             method: "POST",
@@ -205,8 +214,7 @@
         });
     }
 
-    function getTotalAttendance()
-    {
+    function getTotalAttendance() {
         $.ajax({
             url: "<?= base_url('portal/student_portal/main/getTotalAttendance')?>",
             method: "GET",
@@ -248,34 +256,32 @@
         });
     }
 
-    function getAttendanceLogs(page)
-    {
+    function getAttendanceLogs(page) {
         $.ajax({
             url: "<?= base_url('portal/student_portal/main/getAttendanceLogs/'); ?>" + page,
             type: "GET",
             dataType: "json",
             success: function(data) {
                 $('#attendance_logs').html(data.attendance_logs);
-                $('#pagination_links').html(data.links); 
+                $('#pagination_links').html(data.links);
                 if (data.error != '') {
                     $('#error').html(data.error);
                     $('#error').fadeIn(200);
-                    $('#pagination_links').hide(); 
+                    $('#pagination_links').hide();
                 } else {
                     $('#error').hide();
-                    $('#pagination_links').fadeIn(200); 
+                    $('#pagination_links').fadeIn(200);
                 }
             }
         });
     }
 
-    function computeRemainingLate(total_late)
-    {
+    function computeRemainingLate(total_late) {
         var no_late = $('#no_late').val();
         var days_range = $('#days_range').val();
 
 
-        var remaining = total_late +'/'+ no_late;
+        var remaining = total_late + '/' + no_late;
         $('.remaining_late').text(remaining);
     }
 
@@ -335,10 +341,11 @@
                                 title: 'Ooops...',
                                 text: 'An error occurred while processing the request.',
                             });
+
                         }
                     });
                 }
             });
         });
     });
-</script>
+    </script>

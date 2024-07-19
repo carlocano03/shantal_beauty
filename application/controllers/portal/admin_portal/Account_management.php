@@ -132,7 +132,12 @@ class Account_management extends MY_Controller
             }
             
             if ($user_type_id == ADMINISTRATOR) {
-                $row[] = '<div class="btn-group">
+                $row[] = '
+				<div class="d-block d-lg-none">
+				  	 <i data-bs-toggle="modal" data-bs-target="#viewAdministratorDetails"
+                        class="fa-solid fa-circle-plus"></i>
+					</div>	
+				<div class="btn-group d-none d-lg-block">
                             <button type="button" class="btn btn-dark btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                 Action
                             </button>
@@ -148,7 +153,12 @@ class Account_management extends MY_Controller
                             </ul>
                         </div>';
             } elseif ($user_type_id == ADMIN_STAFF) {
-                $row[] = '<div class="btn-group">
+                $row[] = '
+					<div class="d-block d-lg-none">
+				  	 <i data-bs-toggle="modal" data-bs-target="#viewAdminStaffDetails"
+                        class="fa-solid fa-circle-plus"></i>
+					</div>	
+				<div class="btn-group d-none d-lg-block">
                             <button type="button" class="btn btn-dark btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                 Action
                             </button>
@@ -165,7 +175,12 @@ class Account_management extends MY_Controller
                             </ul>
                         </div>';
             } else {
-                $row[] = '<div class="btn-group">
+                $row[] = '
+				<div class="d-block d-lg-none">
+				  	 <i data-bs-toggle="modal" data-bs-target="#viewStudentDetails"
+                        class="fa-solid fa-circle-plus"></i>
+				</div>	
+				<div class="btn-group d-none d-lg-block">
                             <button type="button" class="btn btn-dark btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                 Action
                             </button>

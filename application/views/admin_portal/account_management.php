@@ -117,7 +117,7 @@
                                     <div class="dashboard__img-container">
                                         <img width="72px"
                                             src="<?php echo base_url('assets/images/dashboard/administration.png'); ?>"
-                                            alt="Scholars" />
+                                            alt="administration" />
                                     </div>
                                     <div class="flex flex-column text-end">
                                         <div class="custom-card__title" id="total_admin"></div>

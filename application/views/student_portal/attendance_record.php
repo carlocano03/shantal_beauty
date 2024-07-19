@@ -154,13 +154,14 @@
             <div class="card-body">
                 <div
                     class="d-flex py-2 align-items-center justify-content-between flex-column gap-3 flex-md-row gap-md-0">
+                    <h6 class="me-3 mb-0" id="date_sched"></h6>
                     <div>
                         <button class="btn btn-outline-info print_attendance"><i class="bi bi-printer me-2"></i>Print
                             Record</button>
                         <button class="btn btn-outline-success export_excel"><i
                                 class="bi bi-file-earmark-excel me-2"></i>Excel</button>
                     </div>
-                    <h6 class="me-3 mb-0" id="date_sched"></h6>
+
                 </div>
 
                 <hr />
