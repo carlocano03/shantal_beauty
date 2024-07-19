@@ -111,7 +111,7 @@
 
 /* Sched */
 .upcoming-sched__date-container-1 {
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 8px;
+   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     border-radius: .5rem;
     padding: 14px;
     border-left: 4px solid #434875;
@@ -119,10 +119,18 @@
 }
 
 .upcoming-sched__date-container-2 {
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 8px;
+   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     border-radius: .5rem;
     padding: 14px;
     border-left: 4px solid #b18647;
+
+}
+
+.upcoming-sched__date-container-3 {
+   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    border-radius: .5rem;
+    padding: 14px;
+    border-left: 4px solid #D32F2F;
 
 }
 

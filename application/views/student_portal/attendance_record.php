@@ -104,6 +104,7 @@
     background-color: #434875;
     border-color: #434875;
     padding: 0 8px;
+
 }
 
 
@@ -114,6 +115,7 @@
 .btn-outline-primary {
     border-color: #434875;
     color: #434875;
+
 }
 
 .btn-check:checked+.btn-outline-primary,
@@ -140,23 +142,31 @@
     <!-- Content -->
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="card">
-            <div class="card-header mb-3 pb-3 d-flex align-items-center flex-column justify-content-between gap-3 gap-md-0 flex-md-row ">
+            <div
+                class="card-header mb-3 pb-3 d-flex align-items-center flex-column justify-content-between gap-3 gap-md-0 flex-md-row ">
                 <div class="d-flex gap-2 align-items-center">
                     <img src="<?php echo base_url('assets/images/student_dashboard/attendance-record.png'); ?>"
                         width="36px" alt="Calendar" />
                     <h5 class="table__title"><?= $card_title?></h5>
                 </div>
-                <h6 class="me-3 mb-0" id="date_sched"></h6>
+
             </div>
             <div class="card-body">
-                <div class="d-flex align-items-center justify-content-end flex-column gap-3 flex-md-row gap-md-0">
+                <div
+                    class="d-flex py-2 align-items-center justify-content-between flex-column gap-3 flex-md-row gap-md-0">
+                    <h6 class="me-3 mb-0" id="date_sched"></h6>
                     <div>
-                        <button class="btn btn-outline-info print_attendance"><i class="bi bi-printer me-2"></i>Print Record</button>
-                        <button class="btn btn-outline-success export_excel"><i class="bi bi-file-earmark-excel me-2"></i>Excel</button>
+                        <button class="btn btn-outline-info print_attendance"><i class="bi bi-printer me-2"></i>Print
+                            Record</button>
+                        <button class="btn btn-outline-success export_excel"><i
+                                class="bi bi-file-earmark-excel me-2"></i>Excel</button>
                     </div>
+
                 </div>
-                <hr>
-                <div class="scrollable-table mb-2" style="overflow-x:auto">
+
+                <hr />
+
+                <div class="scrollable-table mt-4" style="overflow-x:auto">
                     <div class="d-flex justify-content-center" style="min-width:980px">
                         <div class="btn-group d-flex" role="group" aria-label="Basic radio toggle button group ">
                             <button id="prev-year-button" class="btn btn-primary group-btn"><i
@@ -172,6 +182,7 @@
                 <div class="attendance-info">
                     <!-- AJAX REQUEST -->
                 </div>
+
             </div>
         </div>
     </div>
@@ -276,7 +287,7 @@
                 } else {
                     $('#date_sched').hide();
                 }
-                
+
             }
         })
     }
@@ -498,7 +509,7 @@
 
         $(document).on('click', '.print_attendance', function() {
             var url = "<?= base_url('scholar/attendance-record/print?month=')?>" + monthToday;
-            window.open(url, 'targetWindow','resizable=yes,width=1000,height=1000');   
+            window.open(url, 'targetWindow', 'resizable=yes,width=1000,height=1000');
         });
 
         $(document).on('click', '.export_excel', function() {
