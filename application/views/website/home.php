@@ -58,13 +58,7 @@
                         <a class="nav-link" href="#">About</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Campuses</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="#">Events</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">News</a>
                     </li>
                     <li class="mt-2 mt-lg-0">
                         <a href="<?= base_url('login');?>">
@@ -97,8 +91,7 @@
                         qui totam veritatis nisi quo? Fugiat.
                     </p>
                     <div class="mt-5">
-                        <button class="hero-page__scholarship-btn"
-                            onclick="location.href='<?= $link; ?>'">
+                        <button class="hero-page__scholarship-btn" onclick="location.href='<?= $link; ?>'">
                             Apply for Scholarship
                         </button>
                     </div>
@@ -136,10 +129,11 @@
                                 $addClass = '';
                             }
                         ?>
-                            <div class="col text-center <?= $addClass;?>">
-                                <h1 class="schedule__day m-1"><?= ucfirst($list->day_week);?></h1>
-                                <div class="schedule__time"><?= date('h:i A', strtotime($list->time_in))?> - <?= date('h:i A', strtotime($list->time_out))?></div>
-                            </div>
+                        <div class="col text-center <?= $addClass;?>">
+                            <h1 class="schedule__day m-1"><?= ucfirst($list->day_week);?></h1>
+                            <div class="schedule__time"><?= date('h:i A', strtotime($list->time_in))?> -
+                                <?= date('h:i A', strtotime($list->time_out))?></div>
+                        </div>
                         <?php endforeach;?>
                         <!-- <div class="col text-center schedule__border-right">
                             <h1 class="schedule__day m-1">Thursday</h1>
@@ -300,10 +294,10 @@
         </div>
     </section>
 
-    <!-- Latest News -->
+    <!-- Events -->
     <section class="latest-news mt-5">
         <div class="container-xxl py-5">
-            <div class="title-section mt-3">Latest News</div>
+            <div class="title-section mt-3">Events</div>
             <div class="row mt-lg-5 mt-2 gy-5">
                 <div class="col-12 col-lg-7">
                     <img src="<?php echo base_url('assets/images/home/latest-news-1.avif'); ?>" alt=""
@@ -389,6 +383,49 @@
         </div>
     </section>
 
+
+    <!-- Gallery -->
+
+    <section id="gallery">
+        <div class="p-2">
+            <swiper-container class="mySwiper" loop="true" slides-per-view="3" autoplay init="false">
+                <swiper-slide>
+                    <img class="gallery__img"
+                        src="<?php echo base_url('assets/images/home/clcc-gallery-img-1.webp'); ?>" />
+                </swiper-slide>
+                <swiper-slide>
+                    <img class="gallery__img"
+                        src="<?php echo base_url('assets/images/home/clcc-gallery-img-2.webp'); ?>" />
+                </swiper-slide>
+                <swiper-slide>
+                    <img class="gallery__img"
+                        src="<?php echo base_url('assets/images/home/clcc-gallery-img-3.webp'); ?>" />
+                </swiper-slide>
+                <swiper-slide>
+                    <img class="gallery__img"
+                        src="<?php echo base_url('assets/images/home/clcc-gallery-img-4.webp'); ?>" />
+                </swiper-slide>
+                <swiper-slide>
+                    <img class="gallery__img"
+                        src="<?php echo base_url('assets/images/home/clcc-gallery-img-1.webp'); ?>" />
+                </swiper-slide>
+                <swiper-slide>
+                    <img class="gallery__img"
+                        src="<?php echo base_url('assets/images/home/clcc-gallery-img-2.webp'); ?>" />
+                </swiper-slide>
+                <swiper-slide>
+                    <img class="gallery__img"
+                        src="<?php echo base_url('assets/images/home/clcc-gallery-img-3.webp'); ?>" />
+                </swiper-slide>
+                <swiper-slide>
+                    <img class="gallery__img"
+                        src="<?php echo base_url('assets/images/home/clcc-gallery-img-4.webp'); ?>" />
+                </swiper-slide>
+
+            </swiper-container>
+        </div>
+    </section>
+
     <!-- Contact Us -->
     <section class="contact-us mt-lg-5 mt-2 bg-light">
         <div class="container-xxl py-5">
@@ -438,7 +475,31 @@
     </section>
 </main>
 
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
+
+<script>
+const mySwiper = document.querySelector('.mySwiper');
+
+Object.assign(mySwiper, {
+    slidesPerView: 2,
+    pagination: {
+        clickable: true,
+    },
+    breakpoints: {
+        1: {
+            slidesPerView: 1,
+            spaceBetween: 100,
+        },
+        768: {
+            slidesPerView: 3,
+            spaceBetween: 40,
+        },
+    },
+});
+mySwiper.initialize();
+</script>
 
 
 
