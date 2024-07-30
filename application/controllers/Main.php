@@ -130,7 +130,7 @@ class Main extends MY_Controller
                         );
                         $this->session->set_userdata('scholarIn', $sess_array);
 
-                        $main_url = base_url('student/dashboard');
+                        $main_url = base_url('scholar/dashboard');
                     }
                     $success = '<div class="alert alert-success"><i class="fas fa-info-circle me-2"></i>Please wait redirecting...</div>';
                 }

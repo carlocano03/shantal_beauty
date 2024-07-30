@@ -93,18 +93,18 @@ class Registration_form extends MY_Controller
         $result = $this->registration_form_model->insert_otp_no($insert_otp);
         if ($result == TRUE) {
             //Send email OTP
-			// $mail_data = [
-			// 	'name_to' => $this->input->post('firstname', true),
-			// 	'otp_no'  => $otp_no,
-			// ];
+			$mail_data = [
+				'name_to' => $this->input->post('firstname', true),
+				'otp_no'  => $otp_no,
+			];
 
-            // $this->send_email_html([
-			// 	'mail_to'       => $email_address,
-			// 	'cc'            => [],
-			// 	'subject'       => 'Your One-Time Password (OTP) for Account Verification',
-			// 	'template_path' => 'email_template/email_otp',
-			// 	'mail_data'     => $mail_data,
-			// ]);
+            $this->send_email_html([
+				'mail_to'       => $email_address,
+				'cc'            => [],
+				'subject'       => 'Your One-Time Password (OTP) for Account Verification',
+				'template_path' => 'email_template/email_otp',
+				'mail_data'     => $mail_data,
+			]);
 
             $message = 'Success';
         } else {

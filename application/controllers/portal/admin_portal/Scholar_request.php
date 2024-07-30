@@ -219,18 +219,7 @@ class Scholar_request extends MY_Controller
 
                 $member_id = $this->scholar_request_model->insert_member_details($insert_member);
                 if ($member_id != '') {
-                    //Send email
-                    // $mail_data = [
-                    // 	'name_to' => $data['student_first_name'],
-                    // ];
-
-                    // $this->send_email_html([
-                    // 	'mail_to'       => $data['email_address'],
-                    // 	'cc'            => [],
-                    // 	'subject'       => 'Scholarship Application [Approved]',
-                    // 	'template_path' => 'email_template/application_approved',
-                    // 	'mail_data'     => $mail_data,
-                    // ]);
+                    
                     $this->system_counter->increment_ctrl_num($this->counter_member);
                     $this->scholar_request_model->update_scholarship_application($application_id);
                     //Generate Account Details
@@ -243,24 +232,24 @@ class Scholar_request extends MY_Controller
                         'date_created'      => date('Y-m-d H:i:s'),
                     );
                     $user_id = $this->scholar_request_model->insert_user_acct($member_account);
-                    if ($user_id != '') {
-                        $this->scholar_request_model->update_member_details($user_id, $member_id);
+                    $this->scholar_request_model->update_member_details($user_id, $member_id);
 
-                        // $mail_data = [
-                        // 	'name_to' => $data['student_first_name'],
-                        //  'username' => $scholarship_no,
-                        //  'password' => $password,
-                        //  'student_link' => '',
-                        // ];
+                    //Send email
+                    // $mail_data = [
+                    // 	'name_to'   => $data['student_first_name'],
+                    //     'login_url' => base_url('login'),
+                    //     'username'  => $scholarship_no,
+                    //     'password'  => $password,
+                    // ];
 
-                        // $this->send_email_html([
-                        // 	'mail_to'       => $data['email_address'],
-                        // 	'cc'            => [],
-                        // 	'subject'       => 'Account Credentials',
-                        // 	'template_path' => 'email_template/account_credentials',
-                        // 	'mail_data'     => $mail_data,
-                        // ]);
-                    }
+                    // $this->send_email_html([
+                    // 	'mail_to'       => $data['email_address'],
+                    // 	'cc'            => [],
+                    // 	'subject'       => 'Congratulations [Scholarship Application Approved]',
+                    // 	'template_path' => 'email_template/approved_request',
+                    // 	'mail_data'     => $mail_data,
+                    // ]);
+
                     $logs = array(
                         'user_id'       => $this->session->userdata('adminIn')['user_id'],
                         'user_type_id'  => $this->session->userdata('adminIn')['user_type_id'],
@@ -287,13 +276,14 @@ class Scholar_request extends MY_Controller
                 //Send email
                 // $mail_data = [
                 // 	'name_to' => $data['student_first_name'],
+                //     'comment' => $comment,
                 // ];
 
                 // $this->send_email_html([
                 // 	'mail_to'       => $data['email_address'],
                 // 	'cc'            => [],
                 // 	'subject'       => 'Scholarship Application [Declined]',
-                // 	'template_path' => 'email_template/application_declined',
+                // 	'template_path' => 'email_template/declined_request',
                 // 	'mail_data'     => $mail_data,
                 // ]);
 
