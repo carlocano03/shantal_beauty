@@ -8,7 +8,7 @@
 <body>
     Dear <?= $name_to ?>,<br>
     We have received a request to verify your email address. Please use the following OTP to complete the verification process:<br><br>
-    <b>OTP:</b> <?= $otp_no ?><br>
+    <b>OTP No.: <?= $otp_no ?></b><br>
 
     <hr>
     Thank You.<br>

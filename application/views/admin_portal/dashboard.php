@@ -109,38 +109,6 @@
                 <div class="row mt-4">
                     <div class="col">
                         <div class="overview-card">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="d-flex align-items-center gap-2">
-                                    <img class="overview-card__icon"
-                                        src="<?php echo base_url('assets/images/dashboard/attendance.png'); ?>" alt="
-										Attendance">
-                                    <h1 class="overview-card__title mb-0">Attendance Summary</h1>
-                                </div>
-                                <div class="custom-date-input">
-                                    <input type="date" id="dateInput" class="form-control">
-                                </div>
-                            </div>
-                            <div class="mt-3">
-                                <div>
-                                    <canvas id="attendanceSummary"></canvas>
-
-                                </div>
-                                <div>
-                                    <div class="row">
-                                        <div class="col"></div>
-                                        <div class="col"></div>
-                                        <div class="col"></div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row mt-4">
-                    <div class="col">
-                        <div class="overview-card">
                             <div class="d-flex align-items-center justify-content-between">
                                 <div class="d-flex align-items-center gap-2">
                                     <img class="overview-card__icon"
@@ -238,57 +206,6 @@
 </div>
 
 <?php $this->load->view('admin_portal/modal/deadline_modal');?>
-
-<script>
-    const ctx = document.getElementById('attendanceSummary');
-
-    new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: [
-                'Tues, Jan 08',
-                'Wed, Jan 09',
-                'Tues, Jan 08',
-                'Wed, Jan 09',
-                'Tues, Jan 08',
-                'Wed, Jan 09',
-                'Wed, Jan 09',
-                'Wed, Jan 09'
-            ],
-            datasets: [{
-                    label: "Present",
-                    data: [65, 59, 80, 81, 56, 55, 40, 32],
-                    backgroundColor: [
-                        '#A8E6CF',
-                    ],
-                },
-                {
-                    label: "Absent",
-                    data: [8, 3, 1, 7, 2, 6, 9, 2],
-                    backgroundColor: [
-                        '#FF8B94',
-                    ],
-
-                }, {
-                    label: "Late",
-                    data: [5, 2, 3, 5, 8, 1, 2, 5],
-                    backgroundColor: [
-                        '#FFECB3',
-                    ],
-                }
-            ]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-
-</script>
-
 
 <script>
     var applicationChartInstance;
