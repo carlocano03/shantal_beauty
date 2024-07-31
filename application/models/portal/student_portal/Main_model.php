@@ -265,4 +265,32 @@ class Main_model extends MY_Model
         return $query->num_rows() > 0;
     }
 
+    function check_old_pass($old_pass) 
+    {
+        $this->db->where('user_id', $this->session->userdata('scholarIn')['user_id']);
+        $res = $this->db->get('user_acct')->row_array();
+        if (!$res) {
+            return false;
+        } else {
+            $hash = $res['password'];
+            if ($this->verify_password_hash($old_pass, $hash)) {
+                return $res;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    private function verify_password_hash($old_pass, $hash)
+    {
+        return password_verify($old_pass, $hash);
+    }
+
+    function update_password($update_password)
+    {
+        $this->db->where('user_id', $this->session->userdata('scholarIn')['user_id']);
+        $update = $this->db->update('user_acct', $update_password);
+        return $update?TRUE:FALSE;
+    }
+
 }
