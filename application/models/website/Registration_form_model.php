@@ -89,4 +89,18 @@ class Registration_form_model extends MY_Model
         return $query->row();
     }
 
+    function get_citizenship()
+    {
+        $this->db->where('status', 0);
+        $this->db->order_by("CASE WHEN country_name = 'Philippines' THEN 1 ELSE 2 END, country_name", 'ASC');
+        $query = $this->db->get('country');
+        return $query->result();
+    }
+
+    function get_civil_status()
+    {
+        $this->db->where('status', 0);
+        $query = $this->db->get('civil_status');
+        return $query->result();
+    }
 }
