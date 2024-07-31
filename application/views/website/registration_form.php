@@ -190,6 +190,7 @@
                                                                 class="text-danger">*</span></label>
                                                     </div>
                                                 </div>
+                                                
                                                 <div class="col">
                                                     <div class="form-group">
                                                         <select id="citizenship" class="input input-second-step">
