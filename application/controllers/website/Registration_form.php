@@ -45,6 +45,8 @@ class Registration_form extends MY_Controller
         );
 
 		$data['deadline'] = $this->registration_form_model->get_deadline_filling();
+		$data['citizenship'] = $this->registration_form_model->get_citizenship();
+		$data['civil_status'] = $this->registration_form_model->get_civil_status();
         $this->load->view('website/partial/_header', $data);
         $this->load->view('website/registration_form', $data);
         $this->load->view('website/partial/_footer', $data);
