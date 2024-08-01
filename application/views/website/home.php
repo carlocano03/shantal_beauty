@@ -50,15 +50,18 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 d-flex gap-3 mb-0 mt-3 mt-lg-0">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 d-flex gap-4 mb-0 mt-3 mt-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        <a class="nav-link active__nav" aria-current="page" href="#home">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
+                        <a class="nav-link" href="#about">About</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Events</a>
+                        <a class="nav-link" href="#events">Events</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
                     </li>
                     <li class="mt-2 mt-lg-0">
                         <a href="<?= base_url('login');?>">
@@ -73,7 +76,7 @@
     </nav>
 </header>
 <main>
-    <section class="hero-page">
+    <section id="home" class="hero-page">
         <div class="overlay"></div>
         <img class="hero-image" src="<?php echo base_url('assets/images/home/c-hero-img.webp'); ?>"
             alt="Background Image" />
@@ -150,35 +153,24 @@
     </section>
 
     <!-- About Us -->
-    <section class="about-us mt-5">
+    <section id="about__animate" class="about-us mt-5 animate__animated">
         <div class="container-xxl py-5">
-            <div class="title-section mt-5">About Us</div>
-            <div class="row row-cols-1 row-cols-lg-2 mt-lg-5 mt-2 gx-5 gy-5">
-                <div class="col position-relative">
-                    <div class="d-flex flex-column gap-2">
-                        <img src="<?php echo base_url('assets/images/home/about-us-1.avif'); ?>" alt="" />
-                        <img src="<?php echo base_url('assets/images/home/about-us-2.avif'); ?>" alt="" />
+            <div id="about" class="row row-cols-1 row-cols-lg-2 mt-lg-5 mt-2 gx-5 gy-5">
+                <div class="col position-relative ">
 
-                        <div class="d-flex flex-column position-absolute" style="right: -10px; top: 60px">
-                            <button class="about-us_img-button about-us__history-btn about-us_img-button--active mt-2">
-                                History
-                            </button>
-                            <button class="about-us_img-button about-us__vision-btn mt-2">
-                                Vision
-                            </button>
-                            <button class="about-us_img-button about-us__mission-btn mt-2">
-                                Mission
-                            </button>
-                        </div>
+                    <div class="d-flex flex-column gap-2">
+                        <img src="<?php echo base_url('assets/images/home/about-us-1.jpg'); ?>" alt="" />
+                        <img src="<?php echo base_url('assets/images/home/about-us-2.jpg'); ?>" alt="" />
                     </div>
                 </div>
+
                 <div class="col">
                     <!-- History -->
                     <div class="about-us__history">
-                        <h1 class="text-title fw-bold mb-1">
+                        <h5 class="about-us__header-title">About Us</h5>
+                        <h1 class="text-title fw-bold mb-1 mt-3">
                             Change Life Christian Church
                         </h1>
-                        <p class="text-paragraph mb-4">(History)</p>
                         <p class="text-paragraph about-us__paragraph">
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Non
                             et asperiores ullam quam hic voluptate dolore nulla vero?
@@ -210,82 +202,15 @@
                             numquam dicta vitae deserunt, tempore tenetur quo voluptates,
                             vero eligendi voluptatibus praesentium? Tempore qui fugiat ut
                             quam id aperiam error magnam quia consequatur libero
-                        </p>
-                        <button class="about-us_button">Read More</button>
-                    </div>
-
-                    <!-- Vision -->
-                    <div class="about-us__vision about-us__text-hidden">
-                        <h1 class="text-title fw-bold mb-1">Vision</h1>
-                        <p class="text-paragraph about-us__paragraph">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Non
-                            et asperiores ullam quam hic voluptate dolore nulla vero?
-                            Magni esse consectetur in autem hic nihil ipsum odit nostrum
-                            adipisci aliquam, laboriosam itaque asperiores, animi cum
-                            nobis voluptas commodi? Aliquid excepturi ut, blanditiis rerum
-                            labore iusto! Necessitatibus non velit consequatur dolor, in
-                            eos expedita eaque neque iure iste labore quis incidunt
-                            exercitationem doloribus, praesentium dicta asperiores dolore!
-                            Quis iure non est quasi omnis repudiandae veniam assumenda
-                            odio maxime repellendus veritatis laudantium mollitia
-                            dignissimos, eaque dolorem possimus, saepe id. Natus sunt sint
-                            doloribus! Consequuntur sapiente saepe minus est inventore
-                            repellendus cum, esse libero! Iusto, asperiores commodi.
-                            Optio, omnis nihil earum sit placeat, vero aspernatur
-                            asperiores, at sequi corporis eaque! Aliquam obcaecati dolores
-                            facilis nulla minus odit molestias saepe itaque aut quo omnis
-                            suscipit repellat labore consectetur ut, distinctio, deserunt,
-                            maxime culpa impedit libero reprehenderit debitis officiis?
-                            Perferendis placeat quae quam numquam dicta magni tempora,
-                            totam sapiente ratione voluptate perspiciatis facere iure
-                            commodi, ut incidunt in suscipit reprehenderit! Saepe
-                            dignissimos hic eveniet voluptates corrupti quidem ipsa facere
-                            voluptate vero ea, error eligendi vitae id consequuntur
-                            repellendus dolorem quisquam? Perferendis nihil deleniti est
-                            inventore necessitatibus consequatur tenetur delectus
-                            cupiditate a. Aliquam modi eius esse molestias dolorem culpa,
+                            Aliquam modi eius esse molestias dolorem culpa,
                             ut distinctio sit quae adipisci in soluta provident quaerat
                             numquam dicta vitae deserunt, tempore tenetur quo voluptates,
                             vero eligendi voluptatibus praesentium? Tempore qui fugiat ut
                             quam id aperiam error magnam quia consequatur libero
-                        </p>
-                        <button class="about-us_button">Read More</button>
-                    </div>
-
-                    <!-- Mission -->
-                    <div class="about-us__mission about-us__text-hidden">
-                        <h1 class="text-title fw-bold mb-1">Mission</h1>
-                        <p class="text-paragraph about-us__paragraph">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Non
-                            et asperiores ullam quam hic voluptate dolore nulla vero?
-                            Magni esse consectetur in autem hic nihil ipsum odit nostrum
-                            adipisci aliquam, laboriosam itaque asperiores, animi cum
-                            nobis voluptas commodi? Aliquid excepturi ut, blanditiis rerum
-                            labore iusto! Necessitatibus non velit consequatur dolor, in
-                            eos expedita eaque neque iure iste labore quis incidunt
-                            exercitationem doloribus, praesentium dicta asperiores dolore!
-                            Quis iure non est quasi omnis repudiandae veniam assumenda
-                            odio maxime repellendus veritatis laudantium mollitia
-                            dignissimos, eaque dolorem possimus, saepe id. Natus sunt sint
-                            doloribus! Consequuntur sapiente saepe minus est inventore
-                            repellendus cum, esse libero! Iusto, asperiores commodi.
-                            Optio, omnis nihil earum sit placeat, vero aspernatur
-                            asperiores, at sequi corporis eaque! Aliquam obcaecati dolores
-                            facilis nulla minus odit molestias saepe itaque aut quo omnis
-                            suscipit repellat labore consectetur ut, distinctio, deserunt,
-                            maxime culpa impedit libero reprehenderit debitis officiis?
-                            Perferendis placeat quae quam numquam dicta magni tempora,
-                            totam sapiente ratione voluptate perspiciatis facere iure
-                            commodi, ut incidunt in suscipit reprehenderit! Saepe
-                            dignissimos hic eveniet voluptates corrupti quidem ipsa facere
-                            voluptate vero ea, error eligendi vitae id consequuntur
-                            repellendus dolorem quisquam? Perferendis nihil deleniti est
-                            inventore necessitatibus consequatur tenetur delectus
-                            cupiditate a. Aliquam modi eius esse molestias dolorem culpa,
+                            dolorem culpa,
                             ut distinctio sit quae adipisci in soluta provident quaerat
                             numquam dicta vitae deserunt, tempore tenetur quo voluptates,
-                            vero eligendi voluptatibus praesentium? Tempore qui fugiat ut
-                            quam id aperiam error magnam quia consequatur libero
+                            vero eligendi
                         </p>
                         <button class="about-us_button">Read More</button>
                     </div>
@@ -295,144 +220,160 @@
     </section>
 
     <!-- Events -->
-    <section class="latest-news mt-5">
-        <div class="container-xxl py-5">
-            <div class="title-section mt-3">Events</div>
-            <div class="row mt-lg-5 mt-2 gy-5">
-                <div class="col-12 col-lg-7">
-                    <img src="<?php echo base_url('assets/images/home/latest-news-1.avif'); ?>" alt=""
-                        style="height: 400px; width: 100%; object-fit: cover" />
-                    <div class="d-flex align-items-center justify-content-between mt-4">
-                        <h3 class="text-title fw-bold mb-0">School Program 1</h3>
-                        <p class="bg-primary text-white py-2 px-4 fw-bold">
-                            June 6, 2024
+    <section id="events" class="latest-news my-5 py-5 animate__animated" style="position:relative">
+        <svg xmlns="http://www.w3.org/2000/svg" class="d-none d-lg-block"
+            style="position:absolute; top:0; left:0; right:0; width: 100%; height: 420px;" viewBox="0 0 1440 320"
+            preserveAspectRatio="xMidYMid slice">
+            <path fill="#434875" fill-opacity="1"
+                d="M0,288L288,320L576,224L864,288L1152,192L1440,320L1440,0L1152,0L864,0L576,0L288,0L0,0Z"></path>
+        </svg>
+
+
+        <div class="py-5 pb-lg-5 py-lg-0 events__custom-bg">
+            <div class="section-title__container pt-lg-2   pt-md-5">
+                <h4 class="section-title__title">Events</h4>
+                <h1 class="section-title__p text-white">Upcoming Events</h1>
+                <div class="section-title__border"></div>
+            </div>
+
+            <div class="count-down">
+                <div class="flipdown" id="flipdown"></div>
+            </div>
+        </div>
+
+
+        <div class="container-xxl pt-lg-5 pb-5 pb-lg-0" style="position:relative;">
+            <div>
+                <div class="row mt-lg-5 mt-2 gy-5">
+                    <div class="col-12 col-lg-7">
+                        <div>
+                            <img src="<?php echo base_url('assets/images/home/latest-news-1.avif'); ?>" alt=""
+                                style="height: 400px; width: 100%; object-fit: cover" />
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between mt-4">
+                            <h3 class="text-title fw-bold mb-0">Event 1</h3>
+                            <p class="bg-primary text-white py-2 px-4 fw-bold">
+                                June 6, 2024
+                            </p>
+                        </div>
+                        <p class="text-paragraph mt-3" style="line-height: 1.7">
+                            Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                            Voluptate ad earum sapiente vero. Quod, optio fugiat repellat at
+                            natus eos a nemo minus vitae animi ut dignissimos facere facilis
+                            quae ea maiores explicabo aliquam possimus incidunt reiciendis
+                            sed consequatur. Odio animi adipisci saepe deleniti cum
+                            perferendis nemo cupiditate eligendi dolorum.
                         </p>
                     </div>
-                    <p class="text-paragraph mt-3" style="line-height: 1.7">
-                        Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                        Voluptate ad earum sapiente vero. Quod, optio fugiat repellat at
-                        natus eos a nemo minus vitae animi ut dignissimos facere facilis
-                        quae ea maiores explicabo aliquam possimus incidunt reiciendis
-                        sed consequatur. Odio animi adipisci saepe deleniti cum
-                        perferendis nemo cupiditate eligendi dolorum.
-                    </p>
-                </div>
-                <div class="col-12 col-lg-5">
-                    <div class="row row-cols-1 row-cols-md-2 gx-4 gy-4 row-cols-lg-1">
-                        <div class="col d-flex gap-4">
-                            <img src="<?php echo base_url('assets/images/home/latest-news-1.avif'); ?>" alt=""
-                                style="height: 155px; object-fit: fill" />
-                            <div>
-                                <h5 class="text-title fw-bold mb-0">School Program 2</h5>
-                                <p class="mt-2 bg-primary text-white py-1 px-2 d-inline-block fw-bold"
-                                    style="font-size: 12px">
-                                    June 6, 2024
-                                </p>
-                                <p class="text-paragraph" style="font-size: 14px; margin-top: 12px">
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                    Totam facere expedita
-                                </p>
+                    <div class="col-12 col-lg-5">
+                        <div class="row row-cols-1 row-cols-md-2 gx-4 gy-4 row-cols-lg-1">
+                            <div class="col d-flex gap-4">
+                                <img src="<?php echo base_url('assets/images/home/latest-news-1.avif'); ?>" alt=""
+                                    style="height: 155px; object-fit: fill" />
+                                <div>
+                                    <h5 class="events__text-title fw-bold mb-0">Event 2</h5>
+                                    <p class="mt-2 bg-primary text-white py-1 px-2 d-inline-block fw-bold"
+                                        style="font-size: 12px">
+                                        June 6, 2024
+                                    </p>
+                                    <p class="text-paragraph" style="font-size: 14px; margin-top: 12px">
+                                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                                        Totam facere expedita
+                                    </p>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="col d-flex gap-4">
-                            <img src="<?php echo base_url('assets/images/home/latest-news-1.avif'); ?>" alt=""
-                                style="height: 155px; object-fit: fill" />
-                            <div>
-                                <h5 class="text-title fw-bold mb-0">School Program 2</h5>
-                                <p class="mt-2 bg-primary text-white py-1 px-2 d-inline-block fw-bold"
-                                    style="font-size: 12px">
-                                    June 6, 2024
-                                </p>
-                                <p class="text-paragraph" style="font-size: 14px; margin-top: 12px">
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                    Totam facere expedita
-                                </p>
+                            <div class="col d-flex gap-4">
+                                <img src="<?php echo base_url('assets/images/home/latest-news-1.avif'); ?>" alt=""
+                                    style="height: 155px; object-fit: fill" />
+                                <div>
+                                    <h5 class="events__text-title fw-bold mb-0">Event 3</h5>
+                                    <p class="mt-2 bg-primary text-white py-1 px-2 d-inline-block fw-bold"
+                                        style="font-size: 12px">
+                                        June 6, 2024
+                                    </p>
+                                    <p class="text-paragraph" style="font-size: 14px; margin-top: 12px">
+                                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                                        Totam facere expedita
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col d-flex gap-4">
+                                <img src="<?php echo base_url('assets/images/home/latest-news-1.avif'); ?>" alt=""
+                                    style="height: 155px; object-fit: fill" />
+                                <div>
+                                    <h5 class="events__text-title fw-bold mb-0">Event 4</h5>
+                                    <p class="mt-2 bg-primary text-white py-1 px-2 d-inline-block fw-bold"
+                                        style="font-size: 12px">
+                                        June 6, 2024
+                                    </p>
+                                    <p class="text-paragraph" style="font-size: 14px; margin-top: 12px">
+                                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                                        Totam facere expedita
+                                    </p>
+                                </div>
                             </div>
                         </div>
-                        <div class="col d-flex gap-4">
-                            <img src="<?php echo base_url('assets/images/home/latest-news-1.avif'); ?>" alt=""
-                                style="height: 155px; object-fit: fill" />
-                            <div>
-                                <h5 class="text-title fw-bold mb-0">School Program 2</h5>
-                                <p class="mt-2 bg-primary text-white py-1 px-2 d-inline-block fw-bold"
-                                    style="font-size: 12px">
-                                    June 6, 2024
-                                </p>
-                                <p class="text-paragraph" style="font-size: 14px; margin-top: 12px">
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                    Totam facere expedita
-                                </p>
-                            </div>
-                        </div>
+                        <button class="small-btn">See More</button>
                     </div>
-                    <button class="small-btn">See More</button>
                 </div>
             </div>
         </div>
-    </section>
 
-    <!-- Video -->
-    <section class="video mt-5">
-        <div class="container-xxl py-lg-5 py-2">
-            <iframe width="100%" height="800"
-                src="https://www.youtube.com/embed/e4qhCpfRdQs?si=0J7AESEFfM1P73gO&amp;start=12&autoplay=1&mute=1"
-                title="YouTube video player" frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        </div>
+
     </section>
 
 
     <!-- Gallery -->
-
-    <section id="gallery">
-        <div class="p-2">
-            <swiper-container class="mySwiper" loop="true" slides-per-view="3" autoplay init="false">
-                <swiper-slide>
-                    <img class="gallery__img"
-                        src="<?php echo base_url('assets/images/home/clcc-gallery-img-1.webp'); ?>" />
-                </swiper-slide>
-                <swiper-slide>
-                    <img class="gallery__img"
-                        src="<?php echo base_url('assets/images/home/clcc-gallery-img-2.webp'); ?>" />
-                </swiper-slide>
-                <swiper-slide>
-                    <img class="gallery__img"
-                        src="<?php echo base_url('assets/images/home/clcc-gallery-img-3.webp'); ?>" />
-                </swiper-slide>
-                <swiper-slide>
-                    <img class="gallery__img"
-                        src="<?php echo base_url('assets/images/home/clcc-gallery-img-4.webp'); ?>" />
-                </swiper-slide>
-                <swiper-slide>
-                    <img class="gallery__img"
-                        src="<?php echo base_url('assets/images/home/clcc-gallery-img-1.webp'); ?>" />
-                </swiper-slide>
-                <swiper-slide>
-                    <img class="gallery__img"
-                        src="<?php echo base_url('assets/images/home/clcc-gallery-img-2.webp'); ?>" />
-                </swiper-slide>
-                <swiper-slide>
-                    <img class="gallery__img"
-                        src="<?php echo base_url('assets/images/home/clcc-gallery-img-3.webp'); ?>" />
-                </swiper-slide>
-                <swiper-slide>
-                    <img class="gallery__img"
-                        src="<?php echo base_url('assets/images/home/clcc-gallery-img-4.webp'); ?>" />
-                </swiper-slide>
-
-            </swiper-container>
+    <section id="gallery" class="animate__animated">
+        <div class="section-title__container mb-5">
+            <h4 class="section-title__title">Gallery</h4>
+            <h1 class="section-title__p text-white">Our Gallery</h1>
+            <div class="section-title__border"></div>
         </div>
+        <div class="gallery__overlay"></div>
+        <img class="gallery__img-container" src="<?php echo base_url('assets/images/home/footer__img-1-min.webp'); ?>"
+            alt="" />
+        <swiper-container style="z-index: 15;" class="mySwiper p-2" loop="true" slides-per-view="3" autoplay
+            init="false">
+            <swiper-slide>
+                <img class="gallery__img" src="<?php echo base_url('assets/images/home/clcc-gallery-img-1.webp'); ?>" />
+            </swiper-slide>
+            <swiper-slide>
+                <img class="gallery__img" src="<?php echo base_url('assets/images/home/clcc-gallery-img-2.webp'); ?>" />
+            </swiper-slide>
+            <swiper-slide>
+                <img class="gallery__img" src="<?php echo base_url('assets/images/home/clcc-gallery-img-3.webp'); ?>" />
+            </swiper-slide>
+            <swiper-slide>
+                <img class="gallery__img" src="<?php echo base_url('assets/images/home/clcc-gallery-img-4.webp'); ?>" />
+            </swiper-slide>
+            <swiper-slide>
+                <img class="gallery__img" src="<?php echo base_url('assets/images/home/clcc-gallery-img-1.webp'); ?>" />
+            </swiper-slide>
+            <swiper-slide>
+                <img class="gallery__img" src="<?php echo base_url('assets/images/home/clcc-gallery-img-2.webp'); ?>" />
+            </swiper-slide>
+            <swiper-slide>
+                <img class="gallery__img" src="<?php echo base_url('assets/images/home/clcc-gallery-img-3.webp'); ?>" />
+            </swiper-slide>
+            <swiper-slide>
+                <img class="gallery__img" src="<?php echo base_url('assets/images/home/clcc-gallery-img-4.webp'); ?>" />
+            </swiper-slide>
+        </swiper-container>
     </section>
 
     <!-- Contact Us -->
-    <section class="contact-us mt-lg-5 mt-2 bg-light">
-        <div class="container-xxl py-5">
-            <div class="row row-cols-1 row-cols-lg-2 gy-5 mt-5 gx-5 py-2">
+    <section class="contact-us py-lg-3 py-2 bg-light ">
+        <div id="contact" class="container-xxl py-5 animate__animated">
+            <div class="section-title__container mb-5">
+                <h4 class="section-title__title">Contact</h4>
+                <h1 class="section-title__p">Contact Us</h1>
+                <div class="section-title__border"></div>
+            </div>
+            <div class="row row-cols-1 row-cols-lg-2 gy-5 mt-lg-5 gx-5 py-2">
                 <div class="col">
-                    <div class="title-section">Contact Us</div>
-                    <div class="d-grid gap-4 mt-5">
+                    <div class="d-grid gap-4 mt-lg-5">
                         <div class="p-4 bg-white shadow-sm">
                             <div class="d-flex gap-4">
                                 <i class="fa-solid fa-location-dot fs-4 mr-4"></i>
@@ -462,10 +403,11 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="col">
                     <iframe id="map-canvas" class="map_part" width="100%" height="450" frameborder="0" scrolling="no"
                         marginheight="0" marginwidth="0"
-                        src="https://maps.google.com/maps?width=100%&amp;height=100%&amp;hl=en&amp;q=shibuya tokyo&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed">Powered
+                        src="https://www.google.com/maps/embed/v1/place?q=35+Mayor+Gil+Fernando+Ave.+Marikina,+Marikina+City,+Philippines&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8">Powered
                         by
                         <a href="https://embedgooglemaps.com">google maps embed</a> and
                         <a href="https://beviljaralla.se/">beviljaralla.se</a></iframe>
@@ -478,66 +420,81 @@
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
+<script src="https://pbutcher.uk/flipdown/js/flipdown/flipdown.js"></script>
 
 <script>
-const mySwiper = document.querySelector('.mySwiper');
+document.addEventListener('DOMContentLoaded', function() {
+    const mySwiper = document.querySelector('.mySwiper');
 
-Object.assign(mySwiper, {
-    slidesPerView: 2,
-    pagination: {
-        clickable: true,
-    },
-    breakpoints: {
-        1: {
-            slidesPerView: 1,
-            spaceBetween: 100,
+    Object.assign(mySwiper, {
+        slidesPerView: 2,
+        pagination: {
+            clickable: true,
         },
-        768: {
-            slidesPerView: 3,
-            spaceBetween: 40,
+        breakpoints: {
+            1: {
+                slidesPerView: 1,
+                spaceBetween: 100,
+            },
+            768: {
+                slidesPerView: 3,
+                spaceBetween: 40,
+            },
         },
-    },
-});
-mySwiper.initialize();
+    });
+    mySwiper.initialize();
+
+    // Navbar
+    const navLinks = document.getElementsByClassName('nav-link');
+    console.log(navLinks);
+    for (let i = 0; i < navLinks.length; i++) {
+        navLinks[i].addEventListener("click", function() {
+            for (let j = 0; j < navLinks.length; j++) {
+                navLinks[j].classList.remove('active__nav');
+            }
+
+            this.classList.add("active__nav");
+        })
+    }
+
+
+    // Count down
+    var toDayFromNow = (new Date("Aug 1, 2024 23:59:59").getTime() / 1000) + (3600 / 60 / 60 /
+        24) - 1;
+    var flipdown = new FlipDown(toDayFromNow)
+
+        .start()
+        .ifEnded(() => {
+            document.querySelector(".flipdown").innerHTML = `<h2>Timer is ended</h2>`;
+        });
+
+    const sections = [
+        document.getElementById('about__animate'),
+        document.getElementById('events'),
+        document.getElementById('gallery'),
+        document.getElementById('contact'),
+
+
+    ];
+
+    function addAnimationClass() {
+        const screenPosition = window.innerHeight /
+            1;
+
+        sections.forEach(section => {
+            const sectionPosition = section.getBoundingClientRect().top;
+
+            if (sectionPosition < screenPosition) {
+                section.classList.add('animate__slideInUp');
+            }
+        });
+    }
+
+    window.addEventListener('scroll', addAnimationClass);
+
+})
 </script>
 
 
-
-<script>
-const historyBtn = document.querySelector('.about-us__history-btn');
-const missionBtn = document.querySelector('.about-us__mission-btn');
-const visionBtn = document.querySelector('.about-us__vision-btn');
-
-const history = document.querySelector('.about-us__history');
-const vision = document.querySelector('.about-us__vision');
-const mission = document.querySelector('.about-us__mission');
-
-
-function showSection(element) {
-    const aboutToggle = [history, vision, mission];
-
-    aboutToggle.forEach(item => {
-        if (item === element)
-            item.classList.remove('about-us__text-hidden');
-        else
-            item.classList.add('about-us__text-hidden');
-    })
-
-}
-
-
-historyBtn.addEventListener('click', () => {
-    showSection(history);
-});
-
-visionBtn.addEventListener('click', () => {
-    showSection(vision);
-});
-
-missionBtn.addEventListener('click', () => {
-    showSection(mission);
-});
-</script>
-</body>
 
 </html>

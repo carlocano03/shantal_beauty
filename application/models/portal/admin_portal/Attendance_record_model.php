@@ -215,4 +215,10 @@ class Attendance_record_model extends MY_Model
         $query = $this->db->get('scholar_selected_schedule');
         return $query->result();
     }
+
+	function get_student_by_id($member_id){
+		$this->db->where('member_id', $member_id);
+		$query = $this->db->get('scholarship_member');
+		return $query->row();
+	}
 }

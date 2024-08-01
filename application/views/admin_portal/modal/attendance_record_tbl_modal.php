@@ -27,6 +27,21 @@
     opacity: 0.8;
 
 }
+
+.student-img {
+    border-radius: 100%;
+    height: 50px;
+    width: 50px;
+    border: 2px solid rgba(0, 0, 0, .125);
+}
+
+.modal__label {
+    font-size: 12px;
+}
+
+.modal__data {
+    font-size: 12px;
+}
 </style>
 
 <!-- Modal -->
@@ -42,34 +57,37 @@
             <div class="modal-body">
 
                 <div class="row row-cols-1 gap-3">
+                    <div class="col border-bottom pb-4 d-flex justify-content-center">
+                        <img id="studentImg" class=" student-img" src=""></img>
+                    </div>
                     <div class="col border-bottom pb-3">
                         <div class="row align-items-center">
                             <div class="col modal__label">Scholar No:</div>
-                            <div class="col modal__data">23423432432432</div>
+                            <div id="scholarNo" class="col modal__data"></div>
                         </div>
                     </div>
                     <div class="col border-bottom pb-3">
                         <div class="row align-items-center">
                             <div class="col modal__label">Student:</div>
-                            <div class="col modal__data">Jake Castor</div>
+                            <div id="studentName" class="col modal__data"></div>
                         </div>
                     </div>
                     <div class="col border-bottom pb-3">
                         <div class="row align-items-center">
                             <div class="col modal__label">Schedule:</div>
-                            <div class="col modal__data">First Schedule</div>
+                            <div id="studentSchedule" class="col modal__data"></div>
                         </div>
                     </div>
                     <div class="col border-bottom pb-3">
                         <div class="row align-items-center">
                             <div class="col modal__label">Year Level:</div>
-                            <div class="col modal__data">Second Year</div>
+                            <div id="studentYearLevel" class="col modal__data"></div>
                         </div>
                     </div>
                     <div class="col border-bottom pb-3">
                         <div class="row align-items-center">
                             <div class="col modal__label">Course:</div>
-                            <div class="col modal__data">BSiT</div>
+                            <div id="studentCourse" class="col modal__data"></div>
                         </div>
                     </div>
                     <div class="col">
@@ -82,12 +100,14 @@
                                         Action
                                     </button>
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item link-cursor text-primary manage_attendance"
-                                                data-id="'.$member_id.'"><i class="bi bi-view-list me-2"></i>Manage
+                                        <li><a data-bs-dismiss="modal" id="manageAttendanceBtn"
+                                                class="dropdown-item link-cursor text-primary manage_attendance"
+                                                data-id=""><i class="bi bi-view-list me-2"></i>Manage
                                                 Attendance</a></li>
-                                        <li><a class="dropdown-item link-cursor text-danger view_schedule"
-                                                data-id="'.$list->member_id.'"><i
-                                                    class="bi bi-calendar-week-fill me-2"></i>View Schedule</a></li>
+                                        <li><a data-bs-dismiss="modal" id="viewScheduleBtn"
+                                                class="dropdown-item link-cursor text-danger view_schedule"
+                                                data-id=""><i class="bi bi-calendar-week-fill me-2"></i>View
+                                                Schedule</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -101,3 +121,37 @@
         </div>
     </div>
 </div>
+
+<script>
+$(document).on("click", ".viewStudentAttendanceRecordDetailsBtn", function() {
+    var base_url = "<?php echo base_url(); ?>";
+
+    var member_id = $(this).data("member-id");
+
+    $.ajax({
+        url: '<?php echo base_url('portal/admin_portal/attendance_record/get_student_details'); ?>',
+        type: "GET",
+        data: {
+            member_id: member_id,
+            '_token': csrf_token_value,
+        },
+
+        success: function(response) {
+            var data = JSON.parse(response);
+            if (data.error) {
+                // Error
+            } else {
+                $("#studentImg").attr("src", data.img);
+                $("#scholarNo").text(data.scholarship_no);
+                $("#studentName").text(data.name);
+                $("#studentSchedule").html(data.schedule);
+                $("#studentYearLevel").text(data.year_level);
+                $("#studentCourse").text(data.course);
+                $("#manageAttendanceBtn").attr("data-id", member_id);
+                // FIXME: list->member_id
+                $("#viewScheduleBtn").attr("data-id", 1);
+            }
+        }
+    });
+});
+</script>

@@ -93,7 +93,7 @@
         </div>
     </div>
     <!-- / Content -->
-
+    <?php $this->load->view('/admin_portal/modal/account_management_tbl.php');?>
     <script>
     $(document).ready(function() {
         var tbl_account = $('#tbl_account').DataTable({

@@ -124,6 +124,7 @@ li {
 
 body {
 	font-family: "Roboto", sans-serif;
+	overflow-x:hidden;
 }
 
 
@@ -133,6 +134,7 @@ body {
 
 .text-title {
 	color: #3a352d;
+	font-size:36px;
 }
 
 .text-paragraph {
@@ -152,6 +154,31 @@ body {
 	color: #434875;
 	margin-top: 24px;
 	box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.active__nav{
+	color:#b18647 !important; 
+	position:relative;
+	transition:all .3s ease-in-out;
+}
+.active__nav::after{
+	content:'';
+	height:2px;
+	position:absolute;
+	bottom:0;
+	left:8px;
+	right:8px;
+	background-color:#b18647;
+	transform:translateY(8px);
+	transition:all .3s ease-in-out;
+
+}
+.nav-link{
+	font-weight:bold;
+}
+.nav-link:hover{
+	transition:all .3s ease-in-out;
+	color:#b18647 !important; 
 }
 
 
@@ -307,10 +334,22 @@ body {
 	width: 50%;
 }
 
+.events__text-title{
+	color: #3a352d;
+	font-size:20px;
+}
+
 /* About Us */
+.about-us__header-title{
+	font-weight:bold;
+	color:#b18647;
+	font-size:18px;
+	text-transform:uppercase;
+}
 
 .about-us__paragraph {
 	line-height: 1.8;
+	margin-top:12px;
 }
 
 .about-us_button {
@@ -344,6 +383,11 @@ body {
 .gallery__img {
 	width: 100%;
 	object-fit: cover;
+	transition:all 0.2s ease-in-out;
+	cursor:pointer;
+  }
+  .gallery__img:hover {
+	transform:scale(1.08);
   }
 
 /* Campuses */
@@ -384,6 +428,144 @@ body {
 .link_text:hover {
 	text-decoration: underline;
 }
+
+.footer {
+    padding: 78px 78px 42px 78px;
+    position: relative;
+}
+
+.footer__logo {
+    display: flex;
+    justify-content: center;
+    width: 92px;
+    height: 92px;
+    border-radius: 100%;
+    margin: 0 auto;
+}
+
+.footer__img-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    margin-top: 32px;
+}
+
+.footer__img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+}
+
+.footer__contact {
+    font-size: 18px;
+    padding: 8px 0;
+    color: #cccccc;
+}
+
+.footer__bg-img {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.footer__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #2e3b63;
+    z-index: 10;
+    opacity: 0.97;
+}
+
+#gallery{
+	padding:5rem 1rem 5rem 1rem;
+	position:relative;
+    z-index: 15;
+}
+.gallery__overlay{
+	position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #2e3b63;
+    z-index: 10;
+    opacity: 0.97;
+}
+.gallery__img-container{
+	height: 100%;
+    width: 100%;
+    position: absolute;
+	left:0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.section-title__container{
+	display:flex;
+	justify-content:center;
+	flex-direction:column;
+	align-items:center;
+	gap:10px;
+	position:relative;
+	z-index:100;
+
+}
+.section-title__title{
+	font-size:20px;
+	margin:0;
+	color:#b18647;
+	text-transform:uppercase;
+
+}
+.section-title__p{
+	font-size:36px;
+	margin:0;
+	font-weight:bold;
+	color:#2e3b63;
+
+
+}
+.section-title__border{
+	width:100px;
+	height:4px;
+	background-color:#b18647;
+	margin-top:16px;
+}
+
+.count-down {
+    width: 100%;
+    height: 140px;
+    margin: auto;
+    padding: 20px;
+}
+.count-down .flipdown {
+    margin: auto;
+    width: 600px;
+    margin-top: 1px;
+}
+
+.flipdown.flipdown__theme-dark .rotor-group-heading:before{
+	color:#ffffff !important;
+}
+
+.flipdown.flipdown__theme-dark {
+    font-family: sans-serif;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+
+
+
 
 @media (max-width: 1200px) {
 	.navbar_school-name {
@@ -449,6 +631,24 @@ body {
 		font-size: 28px;
 		padding: 12px 48px 12px 48px;
 	}
+
+	.section-title__title{
+		font-size:18px;
+	
+	}
+	.section-title__p{
+		font-size:32px;
+	
+	}
+	.section-title__border{
+		width:90px;
+		height:4px;
+		background-color:#b18647;
+		margin-top:16px;
+	}
+	.events__custom-bg{
+		background-color:#434875;
+	}
 }
 
 @media (max-width: 768px) {
@@ -508,7 +708,82 @@ body {
 	.schedule__time{
 		font-size:12px;
 	}
+
+	.footer {
+		padding: 48px 16px 22px 16px;
+	}
+
+	.footer__logo {
+		width: 72px;
+		height: 72px;
+	}
+
+	.footer__img-container {
+		gap: 4px;
+		margin-top: 28px;
+	}
+	
+	.footer__img {
+		width: 100%;
+		height: 90px;
+		object-fit: cover;
+	}
+
+	.footer__contact {
+		font-size: 16px;
+		padding: 8px 0;
+		color: #cccccc;
+	}
+
+	.section-title__title{
+		font-size:16px;
+	
+	}
+	.section-title__p{
+		font-size:28px;
+	
+	}
+	.section-title__border{
+		width:80px;
+		height:4px;
+		background-color:#b18647;
+		margin-top:16px;
+	}
+
+	.events__transform{
+		transform:translateY(0)
+	}
+
+	.count-down {
+        height: 162px;
+		margin-top:10px;
+    }
+	.events__custom-bg{
+		background-color:#434875;
+	}
+
+	.active::after{
+		content:'';
+		height:2px;
+		position:absolute;
+		bottom:0;
+		left:0;
+		width:40px;
+		background-color:#b18647;
+		transform:translateY(8px);
+		transition:all .3s ease-in-out;
+	
+	}
+
+
+	
+	
 }
+
+
+
+
+
 
 .modal-header {
 	background: linear-gradient(to right, #434875, #b18647);
