@@ -47,7 +47,7 @@
                             <div class="invalid-feedback">
                                 Please provide a valid password.
                             </div>
-                            <div class="error-message" style="font-size:12px; color:red;"></div>
+                            <div class="error-show" style="font-size:12px; color:red;"></div>
                         </div>
                         
                         <hr>
@@ -147,11 +147,11 @@
                 dataType: "json",
                 success: function(data) {
                     if (data.error != '') {
-                        $('.error-message').html(data.error);
+                        $('.error-show').html(data.error);
                         $('.new_pass').hide();
                     } else {
                         setTimeout(() => {
-                            $('.error-message').html('');
+                            $('.error-show').html('');
                         }, 2000);
                         $('.new_pass').fadeIn();
                     }
