@@ -101,4 +101,10 @@ class Late_rules_model extends MY_Model
         return $update?TRUE:FALSE;
     }
 
+	public function get_rule_by_id($late_rule_id){
+		$this->db->where("late_rule_id",$late_rule_id);
+		$query = $this->db->get("late_rules");
+		return $query->row();
+	}
+
 }

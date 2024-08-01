@@ -125,8 +125,8 @@ class Late_rules extends MY_Controller
             $row[] = date('D M j, Y h:i A', strtotime($list->date_created));
             $row[] = '
 					<div class="d-block d-lg-none">
-				  	 <i data-bs-toggle="modal" data-bs-target="#viewLateRulesTableDetails"
-                        class="fa-solid fa-circle-plus"></i>
+				  	 <i class="fa-solid fa-circle-plus viewLateRulesDetailsBtn" data-bs-toggle="modal" data-rule-id="'.$list->late_rule_id.'" data-bs-target="#viewLateRulesTableDetails"
+                        ></i>
 					</div>	
 
 			<div class="btn-group d-none d-lg-block">
@@ -156,6 +156,69 @@ class Late_rules extends MY_Controller
         );
         echo json_encode($output);
     }
+
+	public function get_rule_by_id(){
+		$late_rule_id = $this->input->get('late_rule_id'); 
+
+		$rule = $this->late_rules_model->get_rule_by_id($late_rule_id);
+
+
+		$data = array();
+		if($rule){
+			
+			$data['rule_name'] = ucwords($rule->rule_name);
+
+			if($rule->no_late>1){
+				$late = " Lates";
+			}else{
+				$late = " Late";
+			}
+
+			$data['no_late'] = $rule->no_late.$late;
+			
+			if ($rule->no_days > 1) {
+				$day = ' Days';
+			} else {
+				$day = ' Day';
+			}
+
+			$data['no_days'] = $rule->no_days.$day;
+			if ($rule->status == 1) {
+				$data['status'] = 
+				'<label class="switch">
+								<input type="checkbox" class="rule_activation" id="' . $rule->late_rule_id  . '">
+								<span class="slider round"></span>
+							</label><br>Not Active';
+			}else{
+				$data['status'] = '<label class="switch">
+								<input type="checkbox" class="rule_activation" id="' . $rule->late_rule_id  . '" checked>
+								<span class="slider round"></span>
+							</label><br>Active';
+			}
+
+			$data['date_created'] = date('D M j, Y h:i A', strtotime($rule->date_created));
+
+			$data['action'] = '
+						<div class="btn-group">
+								<button type="button" class="btn btn-dark btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+									Action
+								</button>
+								<ul class="dropdown-menu">
+									<li><a class="dropdown-item link-cursor text-primary" data-bs-dismiss="modal" id="update_rule" 
+										data-id="'.$rule->late_rule_id.'"
+										data-rule_name="'.$rule->rule_name.'"
+										data-no_late="'.$rule->no_late.'"
+										data-no_days="'.$rule->no_days.'"
+									><i class="bi bi-pencil-square me-1"></i>Update Rule</a></li>
+									<li><a class="dropdown-item link-cursor text-danger" id="delete_rule" data-id="'.$rule->late_rule_id.'"><i class="bi bi-trash3-fill me-1"></i>Delete Rule</a></li>
+								</ul>
+							</div>';
+	}else{
+		$data['error'] = 'Rule not found';
+	}
+
+	echo json_encode($data);
+	}
     
     public function update_rules()
     {

@@ -45,19 +45,19 @@
                     <div class="col border-bottom pb-3">
                         <div class="row align-items-center">
                             <div class="col modal__label">Rule Name:</div>
-                            <div class="col modal__data">Rule 1</div>
+                            <div id="ruleName" class="col modal__data"></div>
                         </div>
                     </div>
                     <div class="col border-bottom pb-3">
                         <div class="row align-items-center">
                             <div class="col modal__label">Consecutive Lates:</div>
-                            <div class="col modal__data">5 Lates</div>
+                            <div id="consecutiveLates" class="col modal__data"></div>
                         </div>
                     </div>
                     <div class="col border-bottom pb-3">
                         <div class="row align-items-center">
                             <div class="col modal__label">No. Of Days:</div>
-                            <div class="col modal__data">5</div>
+                            <div id="ruleNoDays" class="col modal__data"></div>
                         </div>
                     </div>
                     <div class="col border-bottom pb-3">
@@ -65,11 +65,8 @@
                             <div class="col modal__label">
                                 Status
                             </div>
-                            <div class="col modal__data">
-                                <label class="switch">
-                                    <input type="checkbox" class="rule_activation" id="1" checked="">
-                                    <span class="slider round"></span>
-                                </label><br>Active
+                            <div id="ruleStatus" class="col  modal__data">
+
                             </div>
                         </div>
 
@@ -77,25 +74,14 @@
                     <div class="col border-bottom pb-3">
                         <div class="row align-items-center">
                             <div class="col modal__label">Date Added:</div>
-                            <div class="col modal__data">Thu Jul 4, 2024 06:18 PM</div>
+                            <div id="ruleDateAdded" class="col modal__data"></div>
                         </div>
                     </div>
                     <div class="col">
                         <div class="row align-items-center">
                             <div class="col modal__label">Action:</div>
-                            <div class="col modal__data">
-                                <div>
-                                    <button type="button" class="btn btn-dark btn-sm dropdown-toggle"
-                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                        Action
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item link-cursor text-primary" id="update_rule"><i
-                                                    class="bi bi-pencil-square me-1"></i>Update Rule</a></li>
-                                        <li><a class="dropdown-item link-cursor text-danger" id="delete_rule"><i
-                                                    class="bi bi-trash3-fill me-1"></i>Delete Rule</a></li>
-                                    </ul>
-                                </div>
+                            <div id="actionBtn" class="col modal__data">
+
                             </div>
                         </div>
                     </div>
@@ -107,3 +93,35 @@
         </div>
     </div>
 </div>
+
+
+<script>
+$(document).on("click", ".viewLateRulesDetailsBtn", function() {
+    const base_url = "<?php echo base_url(); ?>";
+    const late_rule_id = $(this).data("rule-id");
+
+    $.ajax({
+        url: '<?php echo base_url('portal/admin_portal/late_rules/get_rule_by_id'); ?>',
+        type: "GET",
+        dataType: 'json',
+        data: {
+            late_rule_id: late_rule_id,
+        },
+        success: function(data) {
+            if (data.error) {
+                console.log(data.error);
+            } else {
+                $('#ruleName').text(data.rule_name);
+                $('#consecutiveLates').text(data.no_late);
+                $('#ruleNoDays').text(data.no_days);
+                $('#ruleStatus').html(data.status);
+                $('#ruleDateAdded').text(data.date_created);
+                $('#actionBtn').html(data.action);
+            }
+        },
+        error: function(xhr, status, error) {
+            console.log("AJAX error: " + status + ' : ' + error);
+        }
+    });
+});
+</script>

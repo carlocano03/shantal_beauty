@@ -109,9 +109,12 @@ class Attendance_record extends MY_Controller
             if($schedule_row_count > 0) {
                 $action = '
 					<div class="d-block d-lg-none">
-				  	 <i data-bs-toggle="modal" data-bs-target="#viewAttendanceRecordTableDetails"
-                        class="fa-solid fa-circle-plus"></i>
-					</div>			
+						<i class="fa-solid fa-circle-plus viewStudentAttendanceRecordDetailsBtn" 
+						data-bs-toggle="modal"
+						data-member-id="'.$member_id.'"
+						data-bs-target="#viewAttendanceRecordTableDetails"
+						></i>
+					</div>		
                     <div class="btn-group d-none d-lg-block">
                         <button type="button" class="btn btn-dark btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                             Action
@@ -133,9 +136,15 @@ class Attendance_record extends MY_Controller
             } else {
                 $action = '
 					<div class="d-block d-lg-none">
-				  	 <i data-bs-toggle="modal" data-bs-target="#viewAttendanceRecordTableDetails"
-                        class="fa-solid fa-circle-plus"></i>
-					</div>	
+						<i class="fa-solid fa-circle-plus viewStudentAttendanceRecordDetailsBtn" 
+						data-bs-toggle="modal"
+						data-member-id="'.$member_id.'"
+						data-bs-target="#viewAttendanceRecordTableDetails"
+						></i>
+					</div>
+
+
+		
                     <div class="btn-group d-none d-lg-block">
                         <button type="button" class="btn btn-dark btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                             Action
@@ -165,6 +174,51 @@ class Attendance_record extends MY_Controller
         );
         echo json_encode($output);
     }
+
+	public function get_student_details(){
+		$member_id_encrypted = $this->input->get("member_id");
+		$member_id = $this->cipher->decrypt($member_id_encrypted);
+
+		$student = $this->attendance_record_model->get_student_by_id($member_id);
+
+		if($student){
+			$img = base_url().'assets/images/avatar-default-0.png';
+			if(!empty($student->personal_photo) && file_exists('./assets/uploaded_attachment/personal_photo/'.$student->personal_photo)){
+				$img = base_url()."assets/uploaded_attachment/personal_photo/".$student->personal_photo;
+			}
+			//Check the student schedule
+			$schedule = $this->attendance_record_model->check_student_schedule($student->member_id);
+			$schedule_row_count = $schedule->num_rows();
+			$schedule_row = $schedule->row_array();
+
+
+			if($schedule_row_count > 0) {
+				$sched_id = $schedule_row['sched_id'];
+				$color_mapping = [
+					'1' => 'bg-success',
+					'2' => 'bg-warning',
+				];
+				$badge_color = isset($color_mapping[$sched_id]) ? $color_mapping[$sched_id] : 'bg-primary';
+				$church_schedule = '<span class="badge ' . $badge_color . '">' . $schedule_row['schedule_name'] . '</span>';
+			} else {
+				$church_schedule = '<span class="badge bg-danger">No Schedule Selected</span>';
+			}
+
+			$data = array(
+				'img' => $img,
+				"scholarship_no" => $student->scholarship_no,
+				"name" => ucfirst($student->student_last_name.', '.ucfirst($student->student_first_name).' '.ucfirst($student->student_middle_name)),
+				"schedule" => $church_schedule,
+				"year_level" => $student->year_level,
+				"course" => ucwords($student->course));
+			
+		} else {
+			echo json_encode(array('error' => 'Student not found.'));
+		}
+		echo json_encode($data);
+
+		
+	}
 
     public function check_month_attendance()
     {
@@ -1218,3 +1272,4 @@ class Attendance_record extends MY_Controller
         echo json_encode($output);
     }
 }
+

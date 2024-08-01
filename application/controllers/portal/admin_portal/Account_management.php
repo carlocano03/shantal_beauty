@@ -96,6 +96,7 @@ class Account_management extends MY_Controller
         echo json_encode($output);
     }
 
+
     public function get_account_list()
     {
         $account = $this->account_management_model->get_account_list();
@@ -133,13 +134,28 @@ class Account_management extends MY_Controller
 							  <span class="slider round"></span>
 					  	  </label><br>Active';
             }
-            
+
+			$status = $list->is_active == 1 ? 
+          '<label class="switch">
+               <input type="checkbox" class="account_activation" id="' . $list->user_id . '">
+               <span class="slider round"></span>
+           </label><br>Not Active' : 
+          '<label class="switch">
+               <input type="checkbox" class="account_activation" id="' . $list->user_id . '" checked>
+               <span class="slider round"></span>
+           </label><br>Active';
+
+			$view_button = '<i data-bs-toggle="modal" data-bs-target="#viewAccountManagementTableDetails"
+            class="fa-solid fa-circle-plus view-account-management-btn"
+                data-fullname="'.$fullname.'"
+                data-username="'.$list->username.'"
+            	data-email="'.$email.'"
+              	data-status="'.htmlspecialchars($status, ENT_QUOTES, 'UTF-8').'"></i>';
+
+
             if ($user_type_id == ADMINISTRATOR) {
                 $row[] = '
-				<div class="d-block d-lg-none">
-				  	 <i data-bs-toggle="modal" data-bs-target="#viewAdministratorDetails"
-                        class="fa-solid fa-circle-plus"></i>
-					</div>	
+				<div class="d-block d-lg-none">' . $view_button . '</div> 
 				<div class="btn-group d-none d-lg-block">
                             <button type="button" class="btn btn-dark btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                 Action
@@ -157,10 +173,7 @@ class Account_management extends MY_Controller
                         </div>';
             } elseif ($user_type_id == ADMIN_STAFF) {
                 $row[] = '
-					<div class="d-block d-lg-none">
-				  	 <i data-bs-toggle="modal" data-bs-target="#viewAdminStaffDetails"
-                        class="fa-solid fa-circle-plus"></i>
-					</div>	
+				<div class="d-block d-lg-none">' . $view_button . '</div> 
 				<div class="btn-group d-none d-lg-block">
                             <button type="button" class="btn btn-dark btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                 Action
@@ -179,10 +192,7 @@ class Account_management extends MY_Controller
                         </div>';
             } else {
                 $row[] = '
-				<div class="d-block d-lg-none">
-				  	 <i data-bs-toggle="modal" data-bs-target="#viewStudentDetails"
-                        class="fa-solid fa-circle-plus"></i>
-				</div>	
+			<div class="d-block d-lg-none">' . $view_button . '</div> 
 				<div class="btn-group d-none d-lg-block">
                             <button type="button" class="btn btn-dark btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                 Action

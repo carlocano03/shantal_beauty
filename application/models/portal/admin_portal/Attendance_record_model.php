@@ -216,6 +216,13 @@ class Attendance_record_model extends MY_Model
         return $query->result();
     }
 
+
+    function get_student_by_id($member_id){
+      $this->db->where('member_id', $member_id);
+      $query = $this->db->get('scholarship_member');
+      return $query->row();
+    }
+
     function save_broken_sched($apply_broken_sched, $selected_sched_id)
     {
         $this->db->where('selected_schedule_id', $selected_sched_id);

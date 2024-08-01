@@ -73,6 +73,35 @@ class Student_record extends MY_Controller
         $this->load->view('admin_portal/partial/_footer', $data);
     }
 
+	public function get_student_details(){
+		$member_id_encrypted = $this->input->get('member_id');
+		$member_id = $this->cipher->decrypt($member_id_encrypted);
+
+		$student = $this->student_record_model->get_scholar_by_id($member_id);
+
+		if($student){
+			$img = base_url().'assets/images/avatar-default-0.png';
+			if(!empty($student->personal_photo) && file_exists('./assets/uploaded_attachment/personal_photo/'.$student->personal_photo)){
+				$img = base_url()."assets/uploaded_attachment/personal_photo/".$student->personal_photo;
+			}
+
+			$data = array(
+				'img' => $img,
+				"name" => ucfirst($student->student_last_name).', '.ucfirst($student->student_first_name).' '.ucfirst($student->student_middle_name),
+				"scholarship_no" => $student->scholarship_no,
+			  	 "school_name" => ucwords($student->school_name),
+				"birthday" => date('F j, Y', strtotime($student->birthday)),
+				"civil_status" => $student->civil_status,
+				"user_id"=>$student->user_id,
+
+			);
+		}else{
+			$data = array("error" => "Student not found");
+		}
+
+		echo json_encode($data);
+	}
+
     public function get_student_list()
     {
         $student = $this->student_record_model->get_student_list();
@@ -98,47 +127,61 @@ class Student_record extends MY_Controller
             $row[] = $list->civil_status;
 
             $row[] = '
-            	<div class="d-block d-lg-none">
-				  	 <i data-bs-toggle="modal" data-bs-target="#viewStudentRecordDetails"
-                        class="fa-solid fa-circle-plus"></i>
-					</div>	
-            <div class="btn-group d-none d-lg-block">
-                        <button type="button" class="btn btn-dark btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            Action
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a target="_blank" href="'.base_url('admin/student-record/details?id=').$member_id.'" class="dropdown-item link-cursor text-primary"><i class="bi bi-view-list me-2"></i>View Information</a></li>
-                            <li><a class="dropdown-item link-cursor text-danger delete_scholar" data-id="'.$list->member_id.'" data-user="'.$list->user_id.'"><i class="bi bi-trash3-fill me-2"></i>Remove Scholar</a></li>
-                        </ul>
-                    </div>';
+						
+		<div class="d-block d-lg-none">
+			<i class="fa-solid fa-circle-plus viewStudentRecordDetailsBtn" 
+			data-bs-toggle="modal"
+			data-member-id="'.$member_id.'"
+			data-bs-target="#viewStudentRecordDetails"
+			></i>
+		</div>
 
-            $data[] = $row;
-        }
-        $output = array(
-            "draw" => $_POST['draw'],
-            "recordsTotal" => $this->student_record_model->count_all(),
-            "recordsFiltered" => $this->student_record_model->count_filtered(),
-            "data" => $data,
-            "csrf_token_value" => $this->security->get_csrf_hash(),
-            "csrf_token_name" => $this->security->get_csrf_token_name(),
-        );
-        echo json_encode($output);
-    }
 
-    public function delete_scholar()
-    {
-        $message = '';
-        $member_id = $this->input->post('member_id', true);
-        $user_id = $this->input->post('user_id', true);
 
-        $result = $this->student_record_model->delete_scholar($member_id, $user_id);
-        if ($result == TRUE) {
-            $message = 'Success';
-        } else {
-            $message = 'Error';
-        }
-        $output['message'] = $message;
-        echo json_encode($output);
-    }
+<div class="btn-group d-none d-lg-block">
+    <button type="button" class="btn btn-dark btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        Action
+    </button>
+    <ul class="dropdown-menu">
+        <li><a target="_blank" href="'.base_url('admin/student-record/details?id=').$member_id.'"
+                class="dropdown-item link-cursor text-primary"><i class="bi bi-view-list me-2"></i>View Information</a>
+        </li>
+        <li><a class="dropdown-item link-cursor text-danger delete_scholar" data-id="'.$list->member_id.'"
+                data-user="'.$list->user_id.'"><i class="bi bi-trash3-fill me-2"></i>Remove Scholar</a></li>
+    </ul>
+</div>';
+
+$data[] = $row;
+}
+$output = array(
+"draw" => $_POST['draw'],
+"recordsTotal" => $this->student_record_model->count_all(),
+"recordsFiltered" => $this->student_record_model->count_filtered(),
+"data" => $data,
+"csrf_token_value" => $this->security->get_csrf_hash(),
+"csrf_token_name" => $this->security->get_csrf_token_name(),
+);
+echo json_encode($output);
+}
+
+
+
+
+
+public function delete_scholar()
+{
+$message = '';
+$member_id = $this->input->post('member_id', true);
+$user_id = $this->input->post('user_id', true);
+
+$result = $this->student_record_model->delete_scholar($member_id, $user_id);
+if ($result == TRUE) {
+$message = 'Success';
+} else {
+$message = 'Error';
+}
+$output['message'] = $message;
+echo json_encode($output);
+}
 
 }
