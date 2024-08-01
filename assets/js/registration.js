@@ -451,6 +451,57 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+	$(document).on('click', '.send_otp', function() {
+        var errorMessage = $('#email_address').next('.error-message');
+        var email_address = $('#email_address').val();
+        var firstname = $('#first_name').val();
+        if (checkOTP == true) {
+            errorMessage.text('');
+            $.ajax({
+                url: baseURL + `website/registration_form/send_email_otp`,
+                method: "POST",
+                data: {
+                    email_address: email_address,
+                    firstname: firstname,
+                    '_token': csrf_token_value,
+                },
+                dataType: "json",
+                beforeSend: function() {
+                    $('.loading-screen').show();
+                },
+                success: function(data) {
+                    if (data.message == 'Success') {
+                        $('#verifyModal').modal('show');
+                    } else {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Ooops...',
+                            text: 'Failed to send OTP.',
+                        });
+                    }
+                },
+                complete: function() {
+                    $('.loading-screen').hide();
+                },
+                error: function() {
+                    $('.loading-screen').hide();
+                    console.error("AJAX request failed:", textStatus, errorThrown);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Ooops...',
+                        text: 'An error occurred while processing the request.',
+                    });
+                }
+            });
+        } else {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Ooops...',
+                text: 'Invalid/empty email address.',
+            });
+        }
+    });
+
     $(document).on('click', '#verify_otp', function() {
         var otp_no = $('#otp_no').val();
         var email_address = $('#email_address').val();

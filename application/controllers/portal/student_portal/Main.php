@@ -55,7 +55,9 @@ class Main extends MY_Controller
         //Get No of lates
         $late_rules = $this->main_model->get_row('late_rules', array('status' => 0));
 
-        $attendance_data = $this->main_model->get_attendance_last_90_days($member_id, $late_rules['no_days']);
+        $no_days = isset($late_rules['no_days']) ? $late_rules['no_days'] : '0';
+
+        $attendance_data = $this->main_model->get_attendance_last_90_days($member_id, $no_days);
 
         $lates = [];
 
