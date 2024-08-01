@@ -204,5 +204,44 @@ class Main extends MY_Controller
             ->set_content_type('application/json')
             ->set_output(json_encode($data));
     }
+
+    public function check_old_pass()
+    {
+        $success = '';
+        $error = '';
+        $old_pass = $this->input->post('old_pass', true);
+
+        $checkPass = $this->main_model->check_old_pass($old_pass);
+        if ($checkPass) {
+            $success == 'Success';
+        } else {
+            $error = 'Please input the correct password';
+        }
+        $output = array(
+            'success' => $success,
+            'error' => $error,
+        );
+        echo json_encode($output);
+    }
+
+    public function update_password()
+    {
+        $message = '';
+        $new_password = $this->input->post('password', true);
+
+        $update_password = array(
+            'password' => password_hash($new_password, PASSWORD_DEFAULT),
+            'temp_password' => '',
+        );
+        $result = $this->main_model->update_password($update_password);
+        if ($result == TRUE) {
+            $message = 'Success';
+        } else {
+            $message = 'Error';
+        }
+        $output['message'] = $message;
+        echo json_encode($output);
+    }
+
 }
 //End CI_Controller

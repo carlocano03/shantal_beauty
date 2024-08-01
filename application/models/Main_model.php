@@ -84,7 +84,7 @@ class Main_model extends MY_Model
         $this->db->select("CONCAT(AU.first_name,' ',AU.last_name) as user_name");
         $this->db->from('recent_activities RA');
         $this->db->join('admin_user_details AU', 'RA.user_id = AU.user_id', 'left');
-        $this->db->limit(5);
+        $this->db->limit(3);
         $this->db->order_by('logs_id', 'DESC');
         $query = $this->db->get();
         return $query;

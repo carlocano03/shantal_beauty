@@ -67,8 +67,10 @@
     <!-- Content -->
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="card">
-            <div class="card-header mb-3 pb-3 d-flex align-items-center justify-content-between ">
+            <div class="card-header mb-3 pb-3 d-flex align-items-center justify-content-between">
                 <div class="d-flex align-items-center gap-2">
+                    <img src="<?= $img_icon;?>" width="36px"
+                    alt="Calendar" />
                     <h5 class="table__title"><?= $card_title?></h5>
                 </div>
                 <a href="<?= base_url('admin/account-management')?>" class="btn btn-dark btn-sm me-4"

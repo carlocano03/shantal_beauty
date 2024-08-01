@@ -258,6 +258,7 @@ class Attendance_record extends MY_Controller
                                 <th class="fw-bold" style="padding:16px 0 !important; background: #222f3e; font-size:12px; color: #fff !important;" colspan="4">REGULAR TIME</th>
                                 <th class="fw-bold" style="padding:16px 0 !important; background: #222f3e; font-size:12px; color: #fff !important;" colspan="2">TOTAL TIME</th>
                                 <th class="fw-bold" style="padding:16px 0 !important; background: #222f3e; font-size:12px; color: #fff !important;" colspan="2">TARDINESS</th>
+                                <th class="fw-bold" style="padding:16px 0 !important; background: #222f3e; font-size:12px; color: #fff !important;"colspan="2">UNDERTIME</th>
                                 <th class="fw-bold" style="padding:16px 0 !important; background: #222f3e; font-size:12px; color: #fff !important;" rowspan="3">PRESENT</th>
                                 <th class="fw-bold" style="padding:16px 0 !important; background: #222f3e; font-size:12px; color: #fff !important;" rowspan="3">ABSENT</th>
                                 <th class="fw-bold" style="padding:16px 6px !important; background: #222f3e; font-size:12px; color: #fff !important;"rowspan="3" rowspan="3">LATE</th>
@@ -268,6 +269,8 @@ class Attendance_record extends MY_Controller
                                 <th class="fw-bold" style="font-size:10px; padding:10px 0 !important; background: #4a5667; color: #fff !important;" colspan="2">Departure</th>
                                 <th class="fw-bold" style="font-size:10px; padding:10px 0 !important; background: #4a5667; color: #fff !important;" rowspan="2">Hours</th>
                                 <th class="fw-bold" style="font-size:10px; padding:10px 0 !important; background: #4a5667; color: #fff !important;" rowspan="2">Minutes</th>
+                                <th class="fw-bold" style="font-size:10px; padding:10px 0 !important; background: #4a5667; color: #fff !important;"rowspan="2">Hours</th>
+                                <th class="fw-bold" style="font-size:10px; padding:10px 0 !important; background: #4a5667; color: #fff !important;"rowspan="2">Minutes</th>
                                 <th class="fw-bold" style="font-size:10px; padding:10px 0 !important; background: #4a5667; color: #fff !important;" rowspan="2">Hours</th>
                                 <th class="fw-bold" style="font-size:10px; padding:10px 0 !important; background: #4a5667; color: #fff !important;" rowspan="2">Minutes</th>
                             </tr>
@@ -287,12 +290,15 @@ class Attendance_record extends MY_Controller
             $total_work_minutes = 0;
             $tardiness_hours = 0;
             $tardiness_minutes = 0;
+            $underTime_hours = 0;
+            $underTime_minutes = 0;
 
             $total_present = 0;
             $total_absent = 0;
             $total_late = 0;
-
+            $total_undertime = 0;
             foreach($schedule->result_array() as $list) {
+                $dateToday = date('Y-m-d');
 
                 //Attendance Data
                 $attendance = $this->attendance_record_model->get_attendance_record($list['member_id'], $list['schedule_date']);
@@ -312,13 +318,14 @@ class Attendance_record extends MY_Controller
                 $letter_row = $letter->row_array();
                 // Reset the action variable
                 $action = '';
-
+                $brokenSched = '';
                 if ($attendance->num_rows() > 0) {
                     if (is_array($attendance_row) && !empty($attendance_row)) {
                         $time_in_arrival = isset($timeIn['time_transaction']) ? strtotime($timeIn['time_transaction']) : '';
                         $time_out_departure = isset($timeOut['time_transaction']) ? strtotime($timeOut['time_transaction']) : '';
 
                         $time_from = strtotime($list['time_from']);
+                        $time_to = strtotime($list['time_to']);
 
                         if (isset($timeIn['time_transaction'])) {
                             $time_Arr = date('h:i A', strtotime($timeIn['time_transaction']));
@@ -334,7 +341,11 @@ class Attendance_record extends MY_Controller
 
                         if (isset($timeOut['time_transaction'])) {
                             $time_Dep = date('h:i A', strtotime($timeOut['time_transaction']));
-                            $bgColorOut = '';
+                            if ($time_out_departure < $time_to) {
+                                $bgColorOut = 'bg-warning';
+                            } else {
+                                $bgColorOut = '';
+                            }
                         } else {
                             $time_Dep = 'No Time-Out';
                             $bgColorOut = 'bg-danger';
@@ -356,6 +367,16 @@ class Attendance_record extends MY_Controller
                             $late_minutes = 0;
                         }
 
+                        // Calculate undertime hours and undertime minutes
+                        if ($time_out_departure < $time_to) {
+                            $undertime_seconds = $time_to - $time_out_departure;
+                            $undertime_hours = floor($undertime_seconds / 3600);
+                            $undertime_minutes = floor(($undertime_seconds % 3600) / 60);
+                            $total_undertime++;
+                        } else {
+                            $undertime_hours = 0;
+                            $undertime_minutes = 0;
+                        }
 
                         // Calculate total time in hours and minutes
                         if ($time_in_arrival > 0 && $time_out_departure > $time_in_arrival) {
@@ -367,37 +388,42 @@ class Attendance_record extends MY_Controller
                             $total_minutes = 0;
                         }
 
-                        if ($letter->num_rows() > 0) {
-                            if (is_array($letter_row) && !empty($letter_row)) {
-                                if ($letter_row['remarks'] == 'For Validation') {
-                                    $action = '<button class="btn btn-outline-primary btn-xs validate_letter" data-action="Late" data-id="'.$list['member_id'].'" data-date="'.$list['schedule_date'].'"><i class="bi bi-check2-circle me-1"></i>Validate Letter</button>';
-                                } else {
-                                    $color_mapping = [
-                                        'Valid' => 'bg-success',
-                                        'Invalid' => 'bg-danger',
-                                    ];
-                                    $badge_color = isset($color_mapping[$letter_row['remarks']]) ? $color_mapping[$letter_row['remarks']] : 'bg-primary';
-                                    $action = '<span class="badge ' . $badge_color . ' px-2">' . $letter_row['remarks'] . ' Letter</span>';
+                        if ($late_hours != 0 || $late_minutes != 0 || $undertime_hours != 0 || $undertime_minutes != 0) {
+                            if ($letter->num_rows() > 0) {
+                                if (is_array($letter_row) && !empty($letter_row)) {
+                                    if ($letter_row['remarks'] == 'For Validation') {
+                                        $action = '<button class="btn btn-outline-primary btn-xs validate_letter" data-action="Late" data-id="'.$list['member_id'].'" data-date="'.$list['schedule_date'].'"><i class="bi bi-check2-circle me-1"></i>Validate Letter</button>';
+                                    } else {
+                                        $color_mapping = [
+                                            'Valid' => 'bg-success',
+                                            'Invalid' => 'bg-danger',
+                                        ];
+                                        $badge_color = isset($color_mapping[$letter_row['remarks']]) ? $color_mapping[$letter_row['remarks']] : 'bg-primary';
+                                        $action = '<span class="badge ' . $badge_color . ' px-2">' . $letter_row['remarks'] . ' Letter</span>';
+                                    }
                                 }
+                            } else {
+                                $action = '<span class="badge bg-danger"><i class="bi bi-check2-square me-1"></i>No Uploaded Letter</span>';
                             }
-                        } else {
-                            $action = '<span class="badge bg-danger"><i class="bi bi-check2-square me-1"></i>No Uploaded Letter</span>';
                         }
+                        
 
                         if ($late_hours != 0 || $late_minutes != 0) {
                             $late = '<div><i class="bi bi-check-circle-fill text-warning"></i></div>
                                      <span class="download_letter" data-action="Late" title="Download Excuse Letter" data-id="'.$list['member_id'].'" data-date="'.$list['schedule_date'].'">Download</span>';
                         } else {
                             $late = '';
+                            $action = '<span class="badge bg-info"><i class="bi bi-check2-square me-1"></i>With 1,000 Allowance</span>';
                         }
                     }
                 } else {
-                    $dateToday = date('Y-m-d');
                     if ($dateToday > $list['schedule_date']) {
                         $time_in = '<span class="font-weight-bold text-danger">--:--:--</span>';
                         $time_out = '<span class="font-weight-bold text-danger">--:--:--</span>';
                         $late_hours = '--';
                         $late_minutes = '--';
+                        $undertime_hours = '--';
+                        $undertime_minutes = '--';
                         $late = '';
                         $total_hours = '--';
                         $total_minutes = '--';
@@ -420,7 +446,7 @@ class Attendance_record extends MY_Controller
                             $action = '<span class="badge bg-danger"><i class="bi bi-check2-square me-1"></i>No Uploaded Letter</span>';
                         }
 
-                        $absent = '<div><i class="bi bi-check-circle-fill text-warning"></i></div>
+                        $absent = '<div><i class="bi bi-check-circle-fill text-danger"></i></div>
                                    <span class="download_letter" data-action="Absent" title="Download Excuse Letter" data-id="'.$list['member_id'].'" data-date="'.$list['schedule_date'].'">Download</span>';
                     } else {
                         $absent = '';
@@ -428,24 +454,56 @@ class Attendance_record extends MY_Controller
                         $time_out = '';
                         $late_hours = '';
                         $late_minutes = '';
+                        $undertime_hours = '';
+                        $undertime_minutes = '';
                         $late = '';
                         $total_hours = '';
                         $total_minutes = '';
+
+                        $currentMonth = date('Y-m');
+                        if ($month > $currentMonth) {
+                            $brokenSched = '';
+                        } else {
+                            if ($dateToday >= $list['schedule_date']) { 
+                                $brokenSched = '';
+                            } else {
+                                $brokenSched = 'Broken Sched';
+                            }
+                        }
+                        
                     }
                 }
-                
+
+                if ($list['remarks'] == 'Broken Schedule') {
+                    $view = 'View';
+                } else {
+                    $view = '';
+                }
+
                 $output .= '
                             <tr>
-                                <td class="fw-bold">'.strtoupper(date('M-d', strtotime($list['schedule_date']))).'</td>
+                                <td class="fw-bold">
+                                    <div>'.strtoupper(date('M-d', strtotime($list['schedule_date']))).'</div>
+                                    <span title="View broken schedule" class="broken_schedule" id="view_broken_sched"
+                                        data-remarks="'.$list['remarks'].'"
+                                        data-comment="'.$list['comment'].'"
+                                        data-date_change="'.date('D M j, Y h:i A', strtotime($list['date_updated'])).'"
+                                    >'.$view.'</span>
+                                </td>
                                 <td class="fw-bold">'.strtoupper(date('D', strtotime($list['day_name']))).'</td>
                                 <td>'.$time_in.'</td>
-                                <td class="fw-bold">'.date('h:i A', strtotime($list['time_from'])).'</td>
+                                <td class="fw-bold">
+                                    <div>'.date('h:i A', strtotime($list['time_from'])).'</div>
+                                    <span title="Apply broken schedule" class="broken_schedule" id="broken_schedule" data-member="'.$list['member_id'].'" data-id="'.$list['selected_schedule_id'].'" data-sched="'.$list['time_from'].'">'.$brokenSched.'</span>
+                                </td>
                                 <td>'.$time_out.'</td>
                                 <td class="fw-bold">'.date('h:i A', strtotime($list['time_to'])).'</td>
                                 <td>'.$total_hours.'</td>
                                 <td>'.$total_minutes.'</td>
                                 <td>'.$late_hours.'</td>
                                 <td>'.$late_minutes.'</td>
+                                <td>'.$undertime_hours.'</td>
+                                <td>'.$undertime_minutes.'</td>
                                 <td>'.$present.'</td>
                                 <td>'.$absent.'</td>
                                 <td>'.$late.'</td>
@@ -463,6 +521,12 @@ class Attendance_record extends MY_Controller
                     //Tardiness
                     $tardiness_hours += $late_hours;
                     $tardiness_minutes += $late_minutes;
+                }
+
+                if (is_numeric($undertime_hours) && is_numeric($undertime_minutes)) {
+                    //Tardiness
+                    $underTime_hours += $undertime_hours;
+                    $underTime_minutes += $undertime_minutes;
                 }
             }
 
@@ -486,12 +550,22 @@ class Attendance_record extends MY_Controller
             $remaining_late_minutes = $tardiness_minutes % 60; 
             $tardiness_time += (int)($remaining_late_hours);
 
+            //Undertime
+            $undertime_time = 0;
+            $remaining_undertime_hours = 0;
+            $remaining_undertime_minutes = 0;
+            $undertime_time += $underTime_hours;
+            $remaining_undertime_hours = $underTime_minutes / 60; 
+            $remaining_undertime_minutes = $underTime_minutes % 60; 
+            $undertime_time += (int)($remaining_undertime_hours);
+
             $output .= '
                         <tfoot>
                             <tr>
                                 <td colspan="6" style="background: #6f7c91; color: #fff;"></td>
                                 <td colspan="2" style="background: #4a5667; color: #fff; font-weight:bold;"><i class="bi bi-clock me-1"></i>'.$total_work_time.'h '.$remaining_minutes.'m</td>
                                 <td colspan="2" style="background: #4a5667; color: #fff; font-weight:bold;"><i class="bi bi-clock me-1"></i>'.$tardiness_time.'h '.$remaining_late_minutes.'m</td>
+                                <td colspan="2" style="background: #4a5667; color: #fff; font-weight:bold;"><i class="bi bi-clock me-1"></i>'.$undertime_time.'h '.$remaining_undertime_minutes.'m</td>
                                 <td style="background: #222f3e; color: #fff; font-weight:bold;">'.$total_present.'</td>
                                 <td style="background: #222f3e; color: #fff; font-weight:bold;">'.$total_absent.'</td>
                                 <td style="background: #222f3e; color: #fff; font-weight:bold;">'.$total_late.'</td>
@@ -570,6 +644,16 @@ class Attendance_record extends MY_Controller
 
         $result = $this->attendance_record_model->save_validation($update_letter, $remarks, $member_id, $schedule_date);
         if ($result == TRUE) {
+            $member = $this->attendance_record_model->get_row('scholarship_member', array('member_id' => $member_id));
+            $logs = array(
+                'user_id'       => $this->session->userdata('adminIn')['user_id'],
+                'user_type_id'  => $this->session->userdata('adminIn')['user_type_id'],
+                'transaction'   => 'Validate the excuse letter of'.$member['scholarship_no'],
+                'remarks'       => 'Validate',
+                'email_use'     => $this->session->userdata('adminIn')['email_add'],
+            );
+            $this->insert_activity_logs($logs);
+
             $success = 'Excuse letter successfully validated.';
         } else {
             $error = 'Failed to validate the letter.';
@@ -661,6 +745,7 @@ class Attendance_record extends MY_Controller
                     <th style="background: #222f3e; color: #fff;" colspan="4">REGULAR TIME</th>
                     <th style="background: #222f3e; color: #fff;" colspan="2">TOTAL TIME</th>
                     <th style="background: #222f3e; color: #fff;" colspan="2">TARDINESS</th>
+                    <th style="background: #222f3e; color: #fff;" colspan="2">UNDERTIME</th>
                     <th style="background: #222f3e; color: #fff;" rowspan="3">PRESENT</th>
                     <th style="background: #222f3e; color: #fff;" rowspan="3">ABSENT</th>
                     <th style="background: #222f3e; color: #fff;" rowspan="3">LATE</th>
@@ -669,6 +754,8 @@ class Attendance_record extends MY_Controller
                 <tr>
                     <th style="font-size:9px; background: #353b48; color: #fff;" colspan="2">Arrival</th>
                     <th style="font-size:9px; background: #353b48; color: #fff;" colspan="2">Departure</th>
+                    <th style="font-size:9px; background: #353b48; color: #fff;" rowspan="2">Hours</th>
+                    <th style="font-size:9px; background: #353b48; color: #fff;" rowspan="2">Minutes</th>
                     <th style="font-size:9px; background: #353b48; color: #fff;" rowspan="2">Hours</th>
                     <th style="font-size:9px; background: #353b48; color: #fff;" rowspan="2">Minutes</th>
                     <th style="font-size:9px; background: #353b48; color: #fff;" rowspan="2">Hours</th>
@@ -690,11 +777,13 @@ class Attendance_record extends MY_Controller
         $total_work_minutes = 0;
         $tardiness_hours = 0;
         $tardiness_minutes = 0;
+        $underTime_hours = 0;
+        $underTime_minutes = 0;
 
         $total_present = 0;
         $total_absent = 0;
         $total_late = 0;
-        
+        $total_undertime = 0;
         foreach($schedule->result_array() as $list) {
             //Attendance Data
             $attendance = $this->attendance_record_model->get_attendance_record($list['member_id'], $list['schedule_date']);
@@ -721,6 +810,7 @@ class Attendance_record extends MY_Controller
                     $time_out_departure = isset($timeOut['time_transaction']) ? strtotime($timeOut['time_transaction']) : '';
 
                     $time_from = strtotime($list['time_from']);
+                    $time_to = strtotime($list['time_to']);
 
                     if (isset($timeIn['time_transaction'])) {
                         $time_Arr = date('h:i A', strtotime($timeIn['time_transaction']));
@@ -736,7 +826,11 @@ class Attendance_record extends MY_Controller
 
                     if (isset($timeOut['time_transaction'])) {
                         $time_Dep = date('h:i A', strtotime($timeOut['time_transaction']));
-                        $bgColorOut = '';
+                        if ($time_out_departure < $time_to) {
+                            $bgColorOut = 'text-warning'; // Change to your desired color for late
+                        } else {
+                            $bgColorOut = ''; // No special background color if not late
+                        }
                     } else {
                         $time_Dep = 'No Time-Out';
                         $bgColorOut = 'text-danger';
@@ -759,6 +853,17 @@ class Attendance_record extends MY_Controller
                         $late_minutes = 0;
                     }
 
+                    // Calculate undertime hours and undertime minutes
+                    if ($time_out_departure < $time_to) {
+                        $undertime_seconds = $time_to - $time_out_departure;
+                        $undertime_hours = floor($undertime_seconds / 3600);
+                        $undertime_minutes = floor(($undertime_seconds % 3600) / 60);
+                        $total_undertime++;
+                    } else {
+                        $undertime_hours = 0;
+                        $undertime_minutes = 0;
+                    }
+
                     // Calculate total time in hours and minutes
                     if ($time_in_arrival > 0 && $time_out_departure > $time_in_arrival) {
                         $total_seconds = $time_out_departure - $time_in_arrival;
@@ -769,19 +874,19 @@ class Attendance_record extends MY_Controller
                         $total_minutes = 0;
                     }
 
-                    if ($letter->num_rows() > 0) {
-                        if (is_array($letter_row) && !empty($letter_row)) {
-                            if ($letter_row['remarks'] == 'For Validation') {
-                                $action = 'For Validation';
-                            } else {
-                                $action = $letter_row['remarks']. ' Letter</span>';
-                            }
-                        }
-                    } else {
-                        $action = 'No Uploaded Letter';
-                    }
-
+            
                     if ($late_hours != 0 || $late_minutes != 0) {
+                        if ($letter->num_rows() > 0) {
+                            if (is_array($letter_row) && !empty($letter_row)) {
+                                if ($letter_row['remarks'] == 'For Validation') {
+                                    $action = 'For Validation';
+                                } else {
+                                    $action = $letter_row['remarks']. ' Letter</span>';
+                                }
+                            }
+                        } else {
+                            $action = 'No Uploaded Letter';
+                        }
                         $late = '/';
                     } else {
                         $late = '';
@@ -794,6 +899,8 @@ class Attendance_record extends MY_Controller
                     $time_out = '<span class="text-danger">--:--:--</span>';
                     $late_hours = '--';
                     $late_minutes = '--';
+                    $undertime_hours = '--';
+                    $undertime_minutes = '--';
                     $late = '';
                     $total_hours = '--';
                     $total_minutes = '--';
@@ -818,6 +925,8 @@ class Attendance_record extends MY_Controller
                     $time_out = '';
                     $late_hours = '';
                     $late_minutes = '';
+                    $undertime_hours = '';
+                    $undertime_minutes = '';
                     $late = '';
                     $total_hours = '';
                     $total_minutes = '';
@@ -836,6 +945,8 @@ class Attendance_record extends MY_Controller
                         <td>'.$total_minutes.'</td>
                         <td>'.$late_hours.'</td>
                         <td>'.$late_minutes.'</td>
+                        <td>'.$undertime_hours.'</td>
+                        <td>'.$undertime_minutes.'</td>
                         <td>'.$present.'</td>
                         <td>'.$absent.'</td>
                         <td>'.$late.'</td>
@@ -853,6 +964,12 @@ class Attendance_record extends MY_Controller
                     //Tardiness
                     $tardiness_hours += $late_hours;
                     $tardiness_minutes += $late_minutes;
+                }
+
+                if (is_numeric($undertime_hours) && is_numeric($undertime_minutes)) {
+                    //Tardiness
+                    $underTime_hours += $undertime_hours;
+                    $underTime_minutes += $undertime_minutes;
                 }
         }
 
@@ -874,11 +991,21 @@ class Attendance_record extends MY_Controller
         $remaining_late_minutes = $tardiness_minutes % 60; 
         $tardiness_time += (int)($remaining_late_hours);
 
+        //Undertime
+        $undertime_time = 0;
+        $remaining_undertime_hours = 0;
+        $remaining_undertime_minutes = 0;
+        $undertime_time += $underTime_hours;
+        $remaining_undertime_hours = $underTime_minutes / 60; 
+        $remaining_undertime_minutes = $underTime_minutes % 60; 
+        $undertime_time += (int)($remaining_undertime_hours);
+
         $output .= '
                     <tr>
                         <td colspan="6" style="background: #576574; color: #fff;"></td>
                         <td colspan="2" style="background: #353b48; color: #fff; font-weight:bold;"><i class="bi bi-clock me-1"></i>'.$total_work_time.'h '.$remaining_minutes.'m</td>
                         <td colspan="2" style="background: #353b48; color: #fff; font-weight:bold;"><i class="bi bi-clock me-1"></i>'.$tardiness_time.'h '.$remaining_late_minutes.'m</td>
+                        <td colspan="2" style="background: #4a5667; color: #fff; font-weight:bold;"><i class="bi bi-clock me-1"></i>'.$undertime_time.'h '.$remaining_undertime_minutes.'m</td>
                         <td style="background: #222f3e; color: #fff; font-weight:bold;">'.$total_present.'</td>
                         <td style="background: #222f3e; color: #fff; font-weight:bold;">'.$total_absent.'</td>
                         <td style="background: #222f3e; color: #fff; font-weight:bold;">'.$total_late.'</td>
@@ -908,7 +1035,7 @@ class Attendance_record extends MY_Controller
         $month_of = date('F Y', strtotime($month));
 
         $objReader = IOFactory::createReader('Xlsx');
-        $fileName = 'Attendance.xlsx';
+        $fileName = 'New Attendance.xlsx';
         $newfileName = 'Attendance for the month of '.$month_of.'.xlsx';
 
         $spreadsheet = $objReader->load(FCPATH . '/assets/template/'. $fileName);
@@ -925,11 +1052,13 @@ class Attendance_record extends MY_Controller
         $total_work_minutes = 0;
         $tardiness_hours = 0;
         $tardiness_minutes = 0;
+        $underTime_hours = 0;
+        $underTime_minutes = 0;
 
         $total_present = 0;
         $total_absent = 0;
         $total_late = 0;
-
+        $total_undertime = 0;
         foreach($schedule->result_array() as $list) {
             //Attendance Data
             $attendance = $this->attendance_record_model->get_attendance_record($list['member_id'], $list['schedule_date']);
@@ -956,6 +1085,7 @@ class Attendance_record extends MY_Controller
                     $time_out_departure = isset($timeOut['time_transaction']) ? strtotime($timeOut['time_transaction']) : '';
 
                     $time_from = strtotime($list['time_from']);
+                    $time_to = strtotime($list['time_to']);
 
                     if (isset($timeIn['time_transaction'])) {
                         $time_Arr = date('h:i A', strtotime($timeIn['time_transaction']));
@@ -977,8 +1107,8 @@ class Attendance_record extends MY_Controller
                         $bgColorOut = 'text-danger';
                     }
 
-                    $time_in = '<span class="'.$bgColorIn.'">'.$time_Arr.'</span>';
-                    $time_out = '<span class="'.$bgColorOut.'">'.$time_Dep.'</span>';
+                    $time_in = $time_Arr;
+                    $time_out = $time_Dep;
 
                     $present = '/';
                     $total_present++;
@@ -992,6 +1122,17 @@ class Attendance_record extends MY_Controller
                     } else {
                         $late_hours = 0;
                         $late_minutes = 0;
+                    }
+
+                    // Calculate undertime hours and undertime minutes
+                    if ($time_out_departure < $time_to) {
+                        $undertime_seconds = $time_to - $time_out_departure;
+                        $undertime_hours = floor($undertime_seconds / 3600);
+                        $undertime_minutes = floor(($undertime_seconds % 3600) / 60);
+                        $total_undertime++;
+                    } else {
+                        $undertime_hours = 0;
+                        $undertime_minutes = 0;
                     }
 
                     // Calculate total time in hours and minutes
@@ -1029,6 +1170,8 @@ class Attendance_record extends MY_Controller
                     $time_out = '--:--:--';
                     $late_hours = '--';
                     $late_minutes = '--';
+                    $undertime_hours = '--';
+                    $undertime_minutes = '--';
                     $late = '';
                     $total_hours = '--';
                     $total_minutes = '--';
@@ -1053,6 +1196,8 @@ class Attendance_record extends MY_Controller
                     $time_out = '';
                     $late_hours = '';
                     $late_minutes = '';
+                    $undertime_hours = '';
+                    $undertime_minutes = '';
                     $late = '';
                     $total_hours = '';
                     $total_minutes = '';
@@ -1071,10 +1216,12 @@ class Attendance_record extends MY_Controller
                 ->setCellValue('H'.$currentRow, $total_minutes)
                 ->setCellValue('I'.$currentRow, $late_hours)
                 ->setCellValue('J'.$currentRow, $late_minutes)
-                ->setCellValue('K'.$currentRow, $present)
-                ->setCellValue('L'.$currentRow, $absent)
-                ->setCellValue('M'.$currentRow, $late)
-                ->setCellValue('N'.$currentRow, $action);
+                ->setCellValue('K'.$currentRow, $undertime_hours)
+                ->setCellValue('L'.$currentRow, $undertime_minutes)
+                ->setCellValue('M'.$currentRow, $present)
+                ->setCellValue('N'.$currentRow, $absent)
+                ->setCellValue('O'.$currentRow, $late)
+                ->setCellValue('P'.$currentRow, $action);
             $currentRow++;
         }
         $spreadsheet->getActiveSheet()->removeRow($currentRow,1);
@@ -1084,4 +1231,45 @@ class Attendance_record extends MY_Controller
         header('Cache-Control: max-age=0'); //no cache
         $objWriter->save('php://output');
     }
+
+    public function save_broken_sched()
+    {
+        $error = '';
+        $success = '';
+        $selected_sched_id = $this->input->post('selected_sched_id', true);
+        $member_id = $this->input->post('member_id', true);
+        
+        $broken_sched = $this->input->post('broken_sched', true);
+        $comment = $this->input->post('comment', true);
+
+        $apply_broken_sched = array(
+            'time_from'     => $broken_sched,
+            'remarks'       => 'Broken Schedule',
+            'comment'       => $comment,
+            'date_updated'  => date('Y-m-d H:i:s'),
+        );
+
+        $result = $this->attendance_record_model->save_broken_sched($apply_broken_sched, $selected_sched_id);
+        if ($result == TRUE) {
+            $member = $this->attendance_record_model->get_row('scholarship_member', array('member_id' => $member_id));
+            $logs = array(
+                'user_id'       => $this->session->userdata('adminIn')['user_id'],
+                'user_type_id'  => $this->session->userdata('adminIn')['user_type_id'],
+                'transaction'   => 'Apply broken schedule to '.$member['scholarship_no'],
+                'remarks'       => 'Broken Schedule',
+                'email_use'     => $this->session->userdata('adminIn')['email_add'],
+            );
+            $this->insert_activity_logs($logs);
+            $success = 'Broken schedule successfully applied.';
+        } else {
+            $error = 'Failed to apply the broken schedule.';
+        }
+
+        $output = array(
+            'error' => $error,
+            'success' => $success,
+        );
+        echo json_encode($output);
+    }
 }
+

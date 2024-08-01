@@ -190,12 +190,16 @@
                                                                 class="text-danger">*</span></label>
                                                     </div>
                                                 </div>
+                                                
                                                 <div class="col">
                                                     <div class="form-group">
                                                         <select id="citizenship" class="input input-second-step">
                                                             <option value="">Select Citizenship<span
                                                                     class="text-danger">*</span></option>
-                                                            <option value="Filipino">Filipino</option>
+                                                            <?php foreach($citizenship as $row) : ?>
+                                                                <option value="<?= $row->country_name;?>"><?= $row->country_name;?></option>
+                                                            <?php endforeach;?>
+                                                            
                                                         </select>
                                                     </div>
                                                 </div>
@@ -204,7 +208,9 @@
                                                         <select id="civil_status" class="input input-second-step">
                                                             <option value="">Select Civil Status<span
                                                                     class="text-danger">*</span></option>
-                                                            <option value="Single">Single</option>
+                                                            <?php foreach($civil_status as $row) : ?>
+                                                                <option value="<?= $row->status_name;?>"><?= $row->status_name;?></option>
+                                                            <?php endforeach;?>
                                                         </select>
                                                     </div>
                                                 </div>

@@ -34,6 +34,10 @@ class Main extends MY_Controller
 
     public function index()
     {
+        $lates = $this->check_lates();
+
+        $data['total_late'] = count($lates) > 0;
+        $data['late_rules'] = $this->main_model->get_row('late_rules', array('status' => 0));
         $data['late_rules'] = $this->main_model->getActiveRules();
         $data['student_info'] = $this->main_model->get_row('scholarship_member', array('user_id' => $this->session->userdata('scholarIn')['user_id']));
         $data['home_url'] = base_url('student/portal');
@@ -45,6 +49,35 @@ class Main extends MY_Controller
         $this->load->view('student_portal/partial/_footer', $data);
     }
 
+    private function check_lates() {
+        $member_id = $this->session->userdata('scholarIn')['member_id'];
+
+        //Get No of lates
+        $late_rules = $this->main_model->get_row('late_rules', array('status' => 0));
+
+        $no_days = isset($late_rules['no_days']) ? $late_rules['no_days'] : '0';
+
+        $attendance_data = $this->main_model->get_attendance_last_90_days($member_id, $no_days);
+
+        $lates = [];
+
+        foreach ($attendance_data as $record) {
+            $schedule_date = $record['schedule_date'];
+            $time_from = strtotime($record['time_from']);
+            $time_in_record = $this->main_model->get_attendance_record_data($member_id, $schedule_date);
+
+            if (count($time_in_record) > 0) {
+                $time_in = strtotime($time_in_record[0]['time_transaction']);
+                if ($time_in > $time_from) {
+                    if (!$this->main_model->get_uploaded_letter($member_id, $schedule_date)) {
+                        $lates[] = $schedule_date;
+                    }
+                }
+            }
+        }
+
+        return $lates;
+    }
 
 	public function myProfile(){
         $data['student_info'] = $this->main_model->get_row('scholarship_member', array('user_id' => $this->session->userdata('scholarIn')['user_id']));
@@ -57,6 +90,8 @@ class Main extends MY_Controller
         $this->load->view('student_portal/my_profile', $data);
         $this->load->view('student_portal/partial/_footer', $data);
 	}
+
+
 
     // Error 404 redirect
 	public function page404()
@@ -304,7 +339,6 @@ class Main extends MY_Controller
         $data["links"] = $this->pagination->create_links();
     
         $schedule = $this->main_model->get_student_schedule_record($config["per_page"], $page);
-    
         if ($schedule->num_rows() > 0) {
             foreach($schedule->result_array() as $list) {
                 $time_in = $list['time_in'] ? date('h:i A', strtotime($list['time_in'])) : 'No Time-In';
@@ -353,6 +387,44 @@ class Main extends MY_Controller
         $data['attendance_logs'] = $output;
         $data['error'] = $error;
         echo json_encode($data);
+    }
+
+    public function check_old_pass()
+    {
+        $success = '';
+        $error = '';
+        $old_pass = $this->input->post('old_pass', true);
+
+        $checkPass = $this->main_model->check_old_pass($old_pass);
+        if ($checkPass) {
+            $success == 'Success';
+        } else {
+            $error = 'Please input the correct password';
+        }
+        $output = array(
+            'success' => $success,
+            'error' => $error,
+        );
+        echo json_encode($output);
+    }
+
+    public function update_password()
+    {
+        $message = '';
+        $new_password = $this->input->post('password', true);
+
+        $update_password = array(
+            'password' => password_hash($new_password, PASSWORD_DEFAULT),
+            'temp_password' => '',
+        );
+        $result = $this->main_model->update_password($update_password);
+        if ($result == TRUE) {
+            $message = 'Success';
+        } else {
+            $message = 'Error';
+        }
+        $output['message'] = $message;
+        echo json_encode($output);
     }
     
 

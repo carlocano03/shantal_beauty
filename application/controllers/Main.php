@@ -103,6 +103,7 @@ class Main extends MY_Controller
                             'user_type_id'  => $session['user_type_id'],
                             'fullname'      => $user_details['first_name'] .' '. $user_details['last_name'],
                             'email_add'     => $user_details['active_email'],
+                            'temp_pass'     => $session['temp_password'],
                         );
                         $this->session->set_userdata('adminIn', $sess_array);
 
@@ -127,10 +128,11 @@ class Main extends MY_Controller
                             'school_name'       => $user_details['school_name'],
                             'fullname'          => $user_details['student_first_name'] .' '. $user_details['student_last_name'],
                             'email_add'         => $user_details['email_address'],
+                            'temp_pass'         => $session['temp_password'],
                         );
                         $this->session->set_userdata('scholarIn', $sess_array);
 
-                        $main_url = base_url('student/dashboard');
+                        $main_url = base_url('scholar/dashboard');
                     }
                     $success = '<div class="alert alert-success"><i class="fas fa-info-circle me-2"></i>Please wait redirecting...</div>';
                 }

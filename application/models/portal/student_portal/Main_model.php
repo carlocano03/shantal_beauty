@@ -198,8 +198,26 @@ class Main_model extends MY_Model
     {
         $member_id = $this->session->userdata('scholarIn')['member_id'];
 
+        // Subquery to get the first time-in
+        $subquery_in = $this->db->select('attendance_date, MIN(time_transaction) as time_in')
+                                ->from('attendance_record')
+                                ->where('remarks', 'Time-In')
+                                ->where('member_id', $member_id)
+                                ->group_by('attendance_date')
+                                ->get_compiled_select();
+
+        // Subquery to get the last time-out
+        $subquery_out = $this->db->select('attendance_date, MAX(time_transaction) as time_out')
+                                 ->from('attendance_record')
+                                 ->where('remarks', 'Time-Out')
+                                 ->where('member_id', $member_id)
+                                 ->group_by('attendance_date')
+                                 ->get_compiled_select();
+
+        $this->db->select('s.schedule_date, s.time_from, a.time_in, a2.time_out');
         $this->db->from('scholar_selected_schedule s');
-        $this->db->join('attendance_record a', 's.schedule_date = a.attendance_date AND a.member_id = s.member_id', 'left');
+        $this->db->join("($subquery_in) a", 's.schedule_date = a.attendance_date', 'left');
+        $this->db->join("($subquery_out) a2", 's.schedule_date = a2.attendance_date', 'left');
         $this->db->where('s.member_id', $member_id);
         $this->db->where('s.schedule_date <', date('Y-m-d')); // Exclude the present date
         
@@ -213,4 +231,66 @@ class Main_model extends MY_Model
         $query = $this->db->get('late_rules');
         return $query;
     }
+
+    function get_attendance_last_90_days($member_id, $no_days) {
+        $this->db->select('schedule_date, time_from, time_to');
+        $this->db->from('scholar_selected_schedule');
+        $this->db->where('member_id', $member_id);
+        $this->db->where('schedule_date >=', date('Y-m-d', strtotime('-'.$no_days.' days')));
+        $this->db->order_by('schedule_date', 'ASC');
+        $query = $this->db->get();
+        
+        return $query->result_array();
+    }
+
+    function get_attendance_record_data($member_id, $date) {
+        $this->db->select('time_transaction');
+        $this->db->from('attendance_record');
+        $this->db->where('member_id', $member_id);
+        $this->db->where('attendance_date', $date);
+        $this->db->where('remarks', 'Time-In');
+        $this->db->order_by('attendance_id', 'ASC');
+        $query = $this->db->get();
+        
+        return $query->result_array();
+    }
+
+    function get_uploaded_letter($member_id, $date) {
+        $this->db->select('excuse_id');
+        $this->db->from('excuse_letter');
+        $this->db->where('member_id', $member_id);
+        $this->db->where('attendance_date', $date);
+        $query = $this->db->get();
+        
+        return $query->num_rows() > 0;
+    }
+
+    function check_old_pass($old_pass) 
+    {
+        $this->db->where('user_id', $this->session->userdata('scholarIn')['user_id']);
+        $res = $this->db->get('user_acct')->row_array();
+        if (!$res) {
+            return false;
+        } else {
+            $hash = $res['password'];
+            if ($this->verify_password_hash($old_pass, $hash)) {
+                return $res;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    private function verify_password_hash($old_pass, $hash)
+    {
+        return password_verify($old_pass, $hash);
+    }
+
+    function update_password($update_password)
+    {
+        $this->db->where('user_id', $this->session->userdata('scholarIn')['user_id']);
+        $update = $this->db->update('user_acct', $update_password);
+        return $update?TRUE:FALSE;
+    }
+
 }

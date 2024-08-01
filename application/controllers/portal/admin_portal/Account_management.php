@@ -55,10 +55,13 @@ class Account_management extends MY_Controller
         $user_type = $this->cipher->decrypt($this->input->get('info'));
         if ($user_type == ADMINISTRATOR) {
             $data['card_title'] = 'Administrator Account';
+            $data['img_icon'] = base_url('assets/images/dashboard/administration.png');
         } elseif ($user_type == ADMIN_STAFF) {
             $data['card_title'] = 'Admin Staff Account';
+            $data['img_icon'] = base_url('assets/images/dashboard/verified-account.png');
         } else {
             $data['card_title'] = 'Student Account';
+            $data['img_icon'] = base_url('assets/images/dashboard/scholars.png');
         }
 
         $data['role_permissions'] = $this->role_permissions();
@@ -233,11 +236,11 @@ class Account_management extends MY_Controller
         $user_type = $this->input->post('user_type', true);
         switch ($user_type) {
             case ADMINISTRATOR:
-                $remarks = 'Administrator ';
+                $remarks = 'Administrator';
                 break;
             
             case ADMIN_STAFF:
-                $remarks = 'Admin Staff ';
+                $remarks = 'Admin Staff';
                 break;
         }
 
@@ -251,7 +254,7 @@ class Account_management extends MY_Controller
 
         $check_user = $this->account_management_model->check_existing_user($email_add, $user_type);
         if ($check_user->num_rows() > 0) {
-            $error = $remarks.'account already exist.';
+            $error = $remarks.' account already exist.';
         } else {
             $password = $this->generateRandomString();
             $username = str_replace(' ','', $smallFname).str_replace(' ','', $smallLname).mt_rand(10000,99999);
@@ -274,17 +277,18 @@ class Account_management extends MY_Controller
                 );
                 $this->account_management_model->insert_user_details($user_details);
                 // $mail_data = [
-                // 	'name_to' => $first_name,
-                //  'username' => $username,
-                //  'password' => $password,
-                //  'student_link' => '',
+                // 	'name_to'   => $first_name,
+                //     'username'  => $username,
+                //     'password'  => $password,
+                //     'login_url' => base_url('login'),
+                //     'user_level' => $remarks,
                 // ];
 
                 // $this->send_email_html([
                 // 	'mail_to'       => $email_add,
                 // 	'cc'            => [],
                 // 	'subject'       => 'Account Credentials',
-                // 	'template_path' => 'email_template/employee_account_credentials',
+                // 	'template_path' => 'email_template/admin_side_credentials',
                 // 	'mail_data'     => $mail_data,
                 // ]);
             }
@@ -455,16 +459,30 @@ class Account_management extends MY_Controller
 
         if ($user_type == ADMINISTRATOR || $user_type == ADMIN_STAFF) {
             $user_details = $this->account_management_model->get_row('admin_user_details', array('user_id' => $user_id));
-            $template_path = 'email_template/employee_account_credentials';
+            $template_path = 'email_template/admin_side_credentials';
             $first_name = $user_details['first_name'];
             $url_link = base_url('login');
             $email_add = $user_details['active_email'];
         } else {
             $user_details = $this->account_management_model->get_row('scholarship_member', array('user_id' => $user_id));
-            $template_path = 'email_template/account_credentials';
+            $template_path = 'email_template/scholar_credentials';
             $first_name = $user_details['student_first_name'];
             $url_link = base_url('login');
             $email_add = $user_details['email_address'];
+        }
+
+        switch ($user_type) {
+            case ADMINISTRATOR:
+                $user_level = 'Administrator';
+                break;
+            
+            case ADMIN_STAFF:
+                $user_level = 'Admin Staff';
+                break;
+
+            case STUDENT:
+                $user_level = 'Scholar Member';
+                break;
         }
 
         $user_acct = $this->account_management_model->get_row('user_acct', array('user_id' => $user_id));
@@ -480,9 +498,10 @@ class Account_management extends MY_Controller
 
             // $mail_data = [
             // 	'name_to' => $first_name,
-            //  'username' => $user_acct['username'],
-            //  'password' => $password,
-            //  'url_link' => $url_link,
+            //     'username' => $user_acct['username'],
+            //     'password' => $password,
+            //     'login_url' => $url_link,
+            //     'user_level' => $user_level,
             // ];
 
             // $this->send_email_html([
