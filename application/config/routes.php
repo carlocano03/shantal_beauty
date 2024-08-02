@@ -57,6 +57,7 @@ $route['admin/dashboard'] = 'portal/admin_portal/main/index';
 $route['admin/scholarship-approval'] = 'portal/admin_portal/scholar_request/index';
 $route['admin/scholarship-approval/scholar-information'] = 'portal/admin_portal/scholar_request/scholar_information';
 $route['admin/scholars-record'] = 'portal/admin_portal/student_record/index';
+$route['admin/scholars-record/export-data'] = 'portal/admin_portal/student_record/export_data';
 $route['admin/student-record/details'] = 'portal/admin_portal/student_record/student_information';
 $route['admin/account-management'] = 'portal/admin_portal/account_management/index';
 $route['admin/account-management/account-list'] = 'portal/admin_portal/account_management/account_list';

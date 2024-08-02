@@ -93,9 +93,18 @@ class Student_record_model extends MY_Model
         return $delete?TRUE:FALSE;
     }
 
-	function get_scholar_by_id($member_id){
+	function get_scholar_by_id($member_id)
+    {
         $this->db->where('member_id', $member_id);
 		$query = $this->db->get('scholarship_member');
 		return $query->row();
 	}
+
+    function get_scholar_list()
+    {
+        $this->db->from($this->scholar);
+        $this->db->where('status', 0);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
 }

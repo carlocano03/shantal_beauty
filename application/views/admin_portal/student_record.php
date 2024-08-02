@@ -114,6 +114,9 @@
                 }
             },
         });
+        $('#tbl_student_filter').prepend(
+            `<a href="<?= base_url('admin/scholars-record/export-data')?>" class="btn btn-success btn-sm"><i class="bi bi-file-earmark-excel-fill me-2"></i>Export Excel</a>`
+        );
 
         $(document).on('click', '.delete_scholar', function() {
             var member_id = $(this).data('id');
