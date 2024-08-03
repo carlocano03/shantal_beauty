@@ -149,9 +149,8 @@ $(document).on("click", '.viewStudentRecordDetailsBtn', function() {
                 $('#studentCivilStatus').text(data.civil_status);
                 $("#viewInformationBtn").attr("href", baseUrl + 'admin/student-record/details?id=' +
                     member_id);
-
-                // FIXME: list->member_id
-                $("#removeScholarBtn").attr("data-user", data.user_id).attr("data-id", member_id);
+                $("#removeScholarBtn").attr("data-user", data.user_id).attr("data-id", data
+                    .member_id);
 
             }
         }

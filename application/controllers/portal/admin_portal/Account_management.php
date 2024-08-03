@@ -145,12 +145,61 @@ class Account_management extends MY_Controller
                <span class="slider round"></span>
            </label><br>Active';
 
-			$view_button = '<i data-bs-toggle="modal" data-bs-target="#viewAccountManagementTableDetails"
-            class="fa-solid fa-circle-plus view-account-management-btn"
-                data-fullname="'.$fullname.'"
-                data-username="'.$list->username.'"
-            	data-email="'.$email.'"
-              	data-status="'.htmlspecialchars($status, ENT_QUOTES, 'UTF-8').'"></i>';
+		   
+		   if ($user_type_id == ADMINISTRATOR) {
+			   $action_btn = '<div class="btn-group">
+                            <button type="button" class="btn btn-dark btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                Action
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item link-cursor text-warning update_account"
+                                    data-id="'.$list->user_id.'"
+                                    data-fname="'.$fname.'"
+                                    data-mname="'.$mname.'"
+                                    data-lname="'.$lname.'"
+                                    data-email="'.$email.'"
+                                ><i class="bi bi-pencil-square me-2"></i>Update Account</a></li>
+                                <li><a class="dropdown-item link-cursor text-danger" id="send_credentials" data-id="'.$list->user_id.'" data-user_type="'.$user_type_id.'"><i class="bi bi-send-fill me-1"></i>Resend Credentials</a></li>
+                            </ul>
+                        </div>';
+
+			} elseif ($user_type_id == ADMIN_STAFF) {
+				$action_btn = '<div class="btn-group">
+                            <button type="button" class="btn btn-dark btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                Action
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item link-cursor text-primary add_permission" id="'.$list->user_id.'"><i class="bi bi-lock-fill me-2"></i>Add Permission</a></li>
+                                <li><a class="dropdown-item link-cursor text-warning update_account"
+                                    data-id="'.$list->user_id.'"
+                                    data-fname="'.$fname.'"
+                                    data-mname="'.$mname.'"
+                                    data-lname="'.$lname.'"
+                                    data-email="'.$email.'"
+                                ><i class="bi bi-pencil-square me-2"></i>Update Account</a></li>
+                                <li><a class="dropdown-item link-cursor text-danger" id="send_credentials" data-id="'.$list->user_id.'" data-user_type="'.$user_type_id.'"><i class="bi bi-send-fill me-1"></i>Resend Credentials</a></li>
+                            </ul>
+                        </div>';
+
+			}else{
+				$action_btn ='	<div class="btn-group">
+                            <button type="button" class="btn btn-dark btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                Action
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item link-cursor text-danger" id="send_credentials" data-id="'.$list->user_id.'" data-user_type="'.$user_type_id.'"><i class="bi bi-send-fill me-1"></i>Resend Credentials</a></li>
+                            </ul>
+                        </div>';
+			}
+
+
+		   $view_button = '<i data-bs-toggle="modal" data-bs-target="#viewAccountManagementTableDetails"
+		   class="fa-solid fa-circle-plus view-account-management-btn"
+			   data-fullname="'.$fullname.'"
+			   data-username="'.$list->username.'"
+			   data-email="'.$email.'"
+			   data-action="'.htmlspecialchars($action_btn, ENT_QUOTES, 'UTF-8').'"
+				data-status="'.htmlspecialchars($status, ENT_QUOTES, 'UTF-8').'"></i>';
 
 
             if ($user_type_id == ADMINISTRATOR) {
