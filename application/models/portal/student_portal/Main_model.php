@@ -174,14 +174,14 @@ class Main_model extends MY_Model
                                 ->get_compiled_select();
 
         // Subquery to get the last time-out
-        $subquery_out = $this->db->select('attendance_date, MAX(time_transaction) as time_out')
+        $subquery_out = $this->db->select('attendance_date, MIN(time_transaction) as time_out')
                                  ->from('attendance_record')
                                  ->where('remarks', 'Time-Out')
                                  ->where('member_id', $member_id)
                                  ->group_by('attendance_date')
                                  ->get_compiled_select();
 
-        $this->db->select('s.schedule_date, s.time_from, a.time_in, a2.time_out');
+        $this->db->select('s.schedule_date, s.time_from, s.time_to, a.time_in, a2.time_out');
         $this->db->from('scholar_selected_schedule s');
         $this->db->join("($subquery_in) a", 's.schedule_date = a.attendance_date', 'left');
         $this->db->join("($subquery_out) a2", 's.schedule_date = a2.attendance_date', 'left');

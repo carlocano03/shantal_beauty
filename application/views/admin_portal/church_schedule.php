@@ -415,7 +415,6 @@
                             }
                         },
                         error: function() {
-                            console.error("AJAX request failed:", textStatus, errorThrown);
                             Swal.fire({
                                 icon: 'error',
                                 title: 'Ooops...',
@@ -477,6 +476,8 @@
                             });
                         }
                     });
+                } else {
+                    loadSchedule();
                 }
             });
         } else {
@@ -525,6 +526,8 @@
 
                         }
                     });
+                } else {
+                    loadSchedule();
                 }
             });
         }
@@ -536,24 +539,76 @@
         var day = $(this).data('day');
         var timeIn = $(this).data('in');
         var timeOut = $(this).data('out');
+        var status = $(this).data('status');
 
-        Swal.fire({
-            icon: "question",
-            title: "Are you sure..",
-            text: "Do you want to update this schedule?",
-            showCancelButton: true,
-            confirmButtonText: "Update",
-        }).then((result) => {
-            /* Read more about isConfirmed, isDenied below */
-            if (result.isConfirmed) {
-                //Update Record
-                $('#sched_id').val(sched_id);
-                $('#sched_name').val(name);
-                $('#day_week').val(day).trigger('change');
-                $('#time_in').val(timeIn);
-                $('#time_out').val(timeOut);
-                $("#save_schedule").text("Update Schedule");
-            }
-        });
+        if (status == 1) {
+            Swal.fire({
+                icon: "question",
+                title: "Are you sure..",
+                text: "Do you want to delete this schedule?",
+                showCancelButton: true,
+                confirmButtonText: "Delete",
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "<?= base_url('portal/admin_portal/church_schedule/schedule_activation')?>",
+                        method: "POST",
+                        data: {
+                            sched_id: sched_id,
+                            action: 'Delete',
+                            '_token': csrf_token_value,
+                        },
+                        dataType: "json",
+                        success: function(data) {
+                            if (data.message == 'Success') {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Thank you!',
+                                    text: 'Schedule successfully deleted.',
+                                });
+                                loadSchedule();
+                            } else {
+                                Swal.fire({
+                                    icon: 'warning',
+                                    title: 'Oops...',
+                                    text: 'Failed to delete the schedule.',
+                                });
+                            }
+                        },
+                        error: function() {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'An error occurred while processing the request.',
+                            });
+
+                        }
+                    });
+                } else {
+                    loadSchedule();
+                }
+            });
+        } else {
+            Swal.fire({
+                icon: "question",
+                title: "Are you sure..",
+                text: "Do you want to update this schedule?",
+                showCancelButton: true,
+                confirmButtonText: "Update",
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    //Update Record
+                    $('#sched_id').val(sched_id);
+                    $('#sched_name').val(name);
+                    $('#day_week').val(day).trigger('change');
+                    $('#time_in').val(timeIn);
+                    $('#time_out').val(timeOut);
+                    $("#save_schedule").text("Update Schedule");
+                }
+            });
+        }
+        
     });
     </script>

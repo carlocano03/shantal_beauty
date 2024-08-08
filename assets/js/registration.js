@@ -462,7 +462,6 @@ document.addEventListener('DOMContentLoaded', function () {
 				},
 				error: function () {
 					$('.loading-screen').hide();
-					console.error("AJAX request failed:", textStatus, errorThrown);
 					Swal.fire({
 						icon: 'error',
 						title: 'Ooops...',
@@ -513,7 +512,6 @@ document.addEventListener('DOMContentLoaded', function () {
 				},
 				error: function () {
 					$('.loading-screen').hide();
-					console.error("AJAX request failed:", textStatus, errorThrown);
 					Swal.fire({
 						icon: 'error',
 						title: 'Ooops...',
@@ -587,7 +585,6 @@ document.addEventListener('DOMContentLoaded', function () {
 					}
 				},
 				error: function () {
-					console.error("AJAX request failed:", textStatus, errorThrown);
 					Swal.fire({
 						icon: 'error',
 						title: 'Ooops...',
@@ -709,7 +706,6 @@ document.addEventListener('DOMContentLoaded', function () {
 					},
 					error: function () {
 						$('.loading-screen').hide();
-						console.error("AJAX request failed:", textStatus, errorThrown);
 						Swal.fire({
 							icon: 'error',
 							title: 'Ooops...',

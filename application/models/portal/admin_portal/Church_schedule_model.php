@@ -27,6 +27,7 @@ class Church_schedule_model extends MY_Model
         $this->db->where('day_week', $day_week);
         $this->db->where('time_in', $time_in);
         $this->db->where('time_out', $time_out);
+        $this->db->where('status !=', 2);
         $query = $this->db->get('church_schedule');
         return $query;
     }
@@ -46,6 +47,7 @@ class Church_schedule_model extends MY_Model
 
     function get_church_schedule()
     {
+        $this->db->where('status !=', 2);
         $query = $this->db->get('church_schedule');
         return $query;
     }

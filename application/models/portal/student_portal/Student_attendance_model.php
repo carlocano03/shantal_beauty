@@ -78,7 +78,7 @@ class Student_attendance_model extends MY_Model
         if ($remarks == 'Time-In') {
             $this->db->order_by('attendance_id', 'ASC');
         } else {
-            $this->db->order_by('attendance_id', 'DESC');
+            $this->db->order_by('attendance_id', 'ASC');
         }
         
         $query = $this->db->get('attendance_record');

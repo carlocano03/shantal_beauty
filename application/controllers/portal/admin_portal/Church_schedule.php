@@ -127,6 +127,7 @@ class Church_schedule extends MY_Controller
                             data-day="'.$list->day_week.'"
                             data-in="'.$list->time_in.'"
                             data-out="'.$list->time_out.'"
+                            data-status="'.$list->status.'"
                         >
                             <div class="d-flex align-items-center gap-3 justify-content-between">
                                 <div class="dashboard__img-container">
@@ -198,9 +199,13 @@ class Church_schedule extends MY_Controller
             $update_sched = array(
                 'status' => 0,//Active
             ); 
-        } else {
+        } elseif ($action == 'Deactivate') {
             $update_sched = array(
                 'status' => 1,//Deactivate
+            ); 
+        } else {
+            $update_sched = array(
+                'status' => 2,//Deleted
             ); 
         }
         $result = $this->church_schedule_model->update_schedule($update_sched, $sched_id);

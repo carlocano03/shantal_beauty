@@ -303,6 +303,8 @@
                                 });
                             }
                         });
+                    } else {
+                        tbl_rules.draw();
                     }
                 });
             } else {
@@ -350,6 +352,8 @@
                                 });
                             }
                         });
+                    } else {
+                        tbl_rules.draw();
                     }
                 });
             }

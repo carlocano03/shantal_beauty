@@ -62,7 +62,7 @@ class Student_attendance extends MY_Controller
                                 <th class="fw-bold" style="padding:16px 0 !important; background: #222f3e; font-size:12px; color: #fff !important;"colspan="2">UNDERTIME</th>
                                 <th class="fw-bold" style="padding:16px 0 !important; background: #222f3e; font-size:12px; color: #fff !important;"rowspan="3">PRESENT</th>
                                 <th class="fw-bold" style="padding:16px 0 !important; background: #222f3e; font-size:12px; color: #fff !important;"rowspan="3">ABSENT</th>
-                                <th class="fw-bold" style="padding:16px 6px !important; background: #222f3e; font-size:12px; color: #fff !important;"rowspan="3">LATE</th>
+                                <th class="fw-bold" style="padding:16px 6px !important; background: #222f3e; font-size:12px; color: #fff !important;"rowspan="3">LT/UT</th>
                                 <th class="fw-bold" style="padding:16px 0 !important; background: #222f3e; font-size:12px; color: #fff !important; width:13%" rowspan="3">ACTION</th>
                             </tr>
                             <tr>
@@ -165,9 +165,22 @@ class Student_attendance extends MY_Controller
                             } else {
                                 $bgColorOut = '';
                             }
+
+                            // Calculate undertime hours and undertime minutes
+                            if ($time_out_departure < $time_to) {
+                                $undertime_seconds = $time_to - $time_out_departure;
+                                $undertime_hours = floor($undertime_seconds / 3600);
+                                $undertime_minutes = floor(($undertime_seconds % 3600) / 60);
+                                $total_late++;
+                            } else {
+                                $undertime_hours = 0;
+                                $undertime_minutes = 0;
+                            }
                         } else {
                             $time_Dep = 'No Time-Out';
                             $bgColorOut = 'bg-danger';
+                            $undertime_hours = 0;
+                            $undertime_minutes = 0;
                         }
 
                         $time_in = '<span class="time_attendance '.$bgColorIn.'">'.$time_Arr.'</span>';
@@ -185,17 +198,6 @@ class Student_attendance extends MY_Controller
                             $late_hours = 0;
                             $late_minutes = 0;
                         }
-
-                        // Calculate undertime hours and undertime minutes
-                        if ($time_out_departure < $time_to) {
-                            $undertime_seconds = $time_to - $time_out_departure;
-                            $undertime_hours = floor($undertime_seconds / 3600);
-                            $undertime_minutes = floor(($undertime_seconds % 3600) / 60);
-                            $total_undertime++;
-                        } else {
-                            $undertime_hours = 0;
-                            $undertime_minutes = 0;
-                        }
                         
                         if ($late_hours != 0 || $late_minutes != 0 || $undertime_hours != 0 || $undertime_minutes != 0) {
                             if ($letter->num_rows() > 0) {
@@ -208,7 +210,12 @@ class Student_attendance extends MY_Controller
                                             'Invalid' => 'bg-danger',
                                         ];
                                         $badge_color = isset($color_mapping[$letter_row['remarks']]) ? $color_mapping[$letter_row['remarks']] : 'bg-primary';
-                                        $action = '<span class="badge ' . $badge_color . ' px-2">' . $letter_row['remarks'] . ' Letter</span>';
+                                        if ($letter_row['remarks'] == 'Valid') {
+                                            $action = '<span class="badge ' . $badge_color . ' px-2 mb-1">' . $letter_row['remarks'] . ' Letter</span>' . 
+                                                      '<div class="badge bg-info"><i class="bi bi-check2-square me-1"></i>With 1,000 Allowance</div>';
+                                        } else {
+                                            $action = '<span class="badge ' . $badge_color . ' px-2">' . $letter_row['remarks'] . ' Letter</span>';
+                                        }
                                     }
                                 }
                             } else {
@@ -220,11 +227,13 @@ class Student_attendance extends MY_Controller
                             }
                         }
 
-                        if ($late_hours != 0 || $late_minutes != 0) {
-                            $late = '<i class="bi bi-check-circle-fill text-warning"></i>';
-                        } else {
-                            $late = '';
-                            $action = '<span class="badge bg-info"><i class="bi bi-check2-square me-1"></i>With 1,000 Allowance</span>';
+                        if ($time_Dep != 'No Time-Out') {
+                            if ($late_hours != 0 || $late_minutes != 0 || $undertime_hours != 0 || $undertime_minutes != 0) {
+                                $late = '<i class="bi bi-check-circle-fill text-warning"></i>';
+                            } else {
+                                $late = '';
+                                $action = '<span class="badge bg-info"><i class="bi bi-check2-square me-1"></i>With 1,000 Allowance</span>';
+                            }
                         }
 
                         // Calculate total time in hours and minutes
@@ -578,7 +587,7 @@ class Student_attendance extends MY_Controller
                     <th class="fw-bold" style="background: #222f3e; font-size:12px; color: #fff !important;"colspan="2">UNDERTIME</th>
                     <th class="fw-bold" style="background: #222f3e; font-size:12px; color: #fff !important;"rowspan="3">PRESENT</th>
                     <th class="fw-bold" style="background: #222f3e; font-size:12px; color: #fff !important;"rowspan="3">ABSENT</th>
-                    <th class="fw-bold" style="background: #222f3e; font-size:12px; color: #fff !important;"rowspan="3">LATE</th>
+                    <th class="fw-bold" style="background: #222f3e; font-size:12px; color: #fff !important;"rowspan="3">LT/UT</th>
                     <th class="fw-bold" style="background: #222f3e; font-size:12px; color: #fff !important; width:13%" rowspan="3">REMARKS</th>
                 </tr>
                 <tr>
@@ -659,9 +668,22 @@ class Student_attendance extends MY_Controller
                         } else {
                             $bgColorOut = ''; // No special background color if not late
                         }
+
+                        // Calculate undertime hours and undertime minutes
+                        if ($time_out_departure < $time_to) {
+                            $undertime_seconds = $time_to - $time_out_departure;
+                            $undertime_hours = floor($undertime_seconds / 3600);
+                            $undertime_minutes = floor(($undertime_seconds % 3600) / 60);
+                            $total_late++;
+                        } else {
+                            $undertime_hours = 0;
+                            $undertime_minutes = 0;
+                        }
                     } else {
                         $time_Dep = 'No Time-Out';
                         $bgColorOut = 'text-danger';
+                        $undertime_hours = 0;
+                        $undertime_minutes = 0;
                     }
 
                     $time_in = '<span class="'.$bgColorIn.'">'.$time_Arr.'</span>';
@@ -680,25 +702,18 @@ class Student_attendance extends MY_Controller
                         $late_minutes = 0;
                     }
 
-                    // Calculate undertime hours and undertime minutes
-                    if ($time_out_departure < $time_to) {
-                        $undertime_seconds = $time_to - $time_out_departure;
-                        $undertime_hours = floor($undertime_seconds / 3600);
-                        $undertime_minutes = floor(($undertime_seconds % 3600) / 60);
-                        $total_undertime++;
-                    } else {
-                        $undertime_hours = 0;
-                        $undertime_minutes = 0;
-                    }
-                    
-                    
-                    if ($late_hours != 0 || $late_minutes != 0) {
+                    if ($late_hours != 0 || $late_minutes != 0 || $undertime_hours != 0 || $undertime_minutes != 0) {
                         if ($letter->num_rows() > 0) {
                             if (is_array($letter_row) && !empty($letter_row)) {
                                 if ($letter_row['remarks'] == 'For Validation') {
                                     $action = 'For Validation';
                                 } else {
-                                    $action = $letter_row['remarks']. ' Letter</span>';
+                                    if ($letter_row['remarks'] == 'Valid') {
+                                        $action = '<span>' .$letter_row['remarks']. ' Letter</span>' . 
+                                                  '<div>With 1,000 Allowance</div>';
+                                    } else {
+                                        $action = '<span>' .$letter_row['remarks']. ' Letter</span>';
+                                    }
                                 }
                             }
                         } else {
@@ -741,7 +756,7 @@ class Student_attendance extends MY_Controller
                             if ($letter_row['remarks'] == 'For Validation') {
                                 $action = 'For Validation';
                             } else {
-                                $action = $letter_row['remarks'] .' Letter';
+                                $action = '<span>' .$letter_row['remarks']. ' Letter</span>';
                             }
                         }
                     } else {
@@ -929,9 +944,22 @@ class Student_attendance extends MY_Controller
                     if (isset($timeOut['time_transaction'])) {
                         $time_Dep = date('h:i A', strtotime($timeOut['time_transaction']));
                         $bgColorOut = '';
+
+                        // Calculate undertime hours and undertime minutes
+                        if ($time_out_departure < $time_to) {
+                            $undertime_seconds = $time_to - $time_out_departure;
+                            $undertime_hours = floor($undertime_seconds / 3600);
+                            $undertime_minutes = floor(($undertime_seconds % 3600) / 60);
+                            $total_late++;
+                        } else {
+                            $undertime_hours = 0;
+                            $undertime_minutes = 0;
+                        }
                     } else {
                         $time_Dep = 'No Time-Out';
                         $bgColorOut = 'text-danger';
+                        $undertime_hours = 0;
+                        $undertime_minutes = 0;
                     }
 
                     $time_in = $time_Arr;
@@ -949,31 +977,24 @@ class Student_attendance extends MY_Controller
                         $late_hours = 0;
                         $late_minutes = 0;
                     }
-
-                    // Calculate undertime hours and undertime minutes
-                    if ($time_out_departure < $time_to) {
-                        $undertime_seconds = $time_to - $time_out_departure;
-                        $undertime_hours = floor($undertime_seconds / 3600);
-                        $undertime_minutes = floor(($undertime_seconds % 3600) / 60);
-                        $total_undertime++;
-                    } else {
-                        $undertime_hours = 0;
-                        $undertime_minutes = 0;
-                    }
                     
                     if ($letter->num_rows() > 0) {
                         if (is_array($letter_row) && !empty($letter_row)) {
                             if ($letter_row['remarks'] == 'For Validation') {
                                 $action = 'For Validation';
                             } else {
-                                $action = $letter_row['remarks']. ' Letter</span>';
+                                if ($letter_row['remarks'] == 'Valid') {
+                                    $action = $letter_row['remarks'].' Letter/With 1,000 Allowance';
+                                } else {
+                                    $action = $letter_row['remarks'];
+                                }
                             }
                         }
                     } else {
                         $action = 'No Uploaded Letter';
                     }
 
-                    if ($late_hours != 0 || $late_minutes != 0) {
+                    if ($late_hours != 0 || $late_minutes != 0 || $undertime_hours != 0 || $undertime_minutes != 0) {
                         $late = '/';
                     } else {
                         $late = '';
@@ -1009,7 +1030,7 @@ class Student_attendance extends MY_Controller
                             if ($letter_row['remarks'] == 'For Validation') {
                                 $action = 'For Validation';
                             } else {
-                                $action = $letter_row['remarks'] .' Letter';
+                                $action = $letter_row['remarks'].' Letter';
                             }
                         }
                     } else {
