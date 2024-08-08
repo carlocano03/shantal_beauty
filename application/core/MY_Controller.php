@@ -109,12 +109,13 @@ class MY_Controller extends CI_Controller {
         $email_to = $data['mail_to'];
         $subject = $data['subject'];
         $template = $data['template_path'];
+        $sender_name = 'CLCC School Unity Portal';
 
         $body = $this->load->view($template, $mail_data, TRUE);
         
         $this->email->set_newline("\r\n");
         $this->email->set_mailtype("html");
-		$this->email->from($emailCredentials['smtp_user']);
+		$this->email->from($emailCredentials['smtp_user'], $sender_name);
 		$this->email->to($email_to);
 		$this->email->subject($subject);
 		$this->email->message($body);

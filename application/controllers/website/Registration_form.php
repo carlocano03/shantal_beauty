@@ -312,17 +312,17 @@ class Registration_form extends MY_Controller
 			if ($result == TRUE) {
 
 				//Send email
-				// $mail_data = [
-				// 	'name_to' => $student_first_name,
-				// ];
+				$mail_data = [
+					'name_to' => $student_first_name,
+				];
 
-				// $this->send_email_html([
-				// 	'mail_to'       => $email_address,
-				// 	'cc'            => [],
-				// 	'subject'       => 'Scholarship Application [For Approval]',
-				// 	'template_path' => 'email_template/success_registration',
-				// 	'mail_data'     => $mail_data,
-				// ]);
+				$this->send_email_html([
+					'mail_to'       => $email_address,
+					'cc'            => [],
+					'subject'       => 'Scholarship Application [For Approval]',
+					'template_path' => 'email_template/success_registration',
+					'mail_data'     => $mail_data,
+				]);
 				$this->system_counter->increment_ctrl_num($this->counter_application);
 				$success = 'Scholarship application successfully submitted.';
 			} else {

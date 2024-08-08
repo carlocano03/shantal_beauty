@@ -294,6 +294,8 @@
                                 });
                             }
                         });
+                    } else {
+                        tbl_account.draw();
                     }
                 });
             } else {
@@ -341,6 +343,8 @@
                                 });
                             }
                         });
+                    } else {
+                        tbl_account.draw();
                     }
                 });
             }

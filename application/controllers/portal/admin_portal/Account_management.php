@@ -325,21 +325,21 @@ class Account_management extends MY_Controller
                     'date_created'  => date('Y-m-d H:i:s'),
                 );
                 $this->account_management_model->insert_user_details($user_details);
-                // $mail_data = [
-                // 	'name_to'   => $first_name,
-                //     'username'  => $username,
-                //     'password'  => $password,
-                //     'login_url' => base_url('login'),
-                //     'user_level' => $remarks,
-                // ];
+                $mail_data = [
+                	'name_to'   => $first_name,
+                    'username'  => $username,
+                    'password'  => $password,
+                    'login_url' => base_url('login'),
+                    'user_level' => $remarks,
+                ];
 
-                // $this->send_email_html([
-                // 	'mail_to'       => $email_add,
-                // 	'cc'            => [],
-                // 	'subject'       => 'Account Credentials',
-                // 	'template_path' => 'email_template/admin_side_credentials',
-                // 	'mail_data'     => $mail_data,
-                // ]);
+                $this->send_email_html([
+                	'mail_to'       => $email_add,
+                	'cc'            => [],
+                	'subject'       => 'Account Credentials',
+                	'template_path' => 'email_template/admin_side_credentials',
+                	'mail_data'     => $mail_data,
+                ]);
             }
         }
         $output = array(
@@ -545,21 +545,21 @@ class Account_management extends MY_Controller
         $result = $this->account_management_model->update_account($update_account, $user_id);
         if ($user_id == TRUE) {
 
-            // $mail_data = [
-            // 	'name_to' => $first_name,
-            //     'username' => $user_acct['username'],
-            //     'password' => $password,
-            //     'login_url' => $url_link,
-            //     'user_level' => $user_level,
-            // ];
+            $mail_data = [
+            	'name_to' => $first_name,
+                'username' => $user_acct['username'],
+                'password' => $password,
+                'login_url' => $url_link,
+                'user_level' => $user_level,
+            ];
 
-            // $this->send_email_html([
-            // 	'mail_to'       => $email_add,
-            // 	'cc'            => [],
-            // 	'subject'       => 'Account Credentials',
-            // 	'template_path' => $template_path,
-            // 	'mail_data'     => $mail_data,
-            // ]);
+            $this->send_email_html([
+            	'mail_to'       => $email_add,
+            	'cc'            => [],
+            	'subject'       => 'Account Credentials',
+            	'template_path' => $template_path,
+            	'mail_data'     => $mail_data,
+            ]);
 
             $success = 'Success';
         } else {
