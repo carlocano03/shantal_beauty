@@ -110,6 +110,8 @@
 }
 
 /* Sched */
+
+
 .upcoming-sched__date-container-1 {
    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     border-radius: .5rem;
@@ -133,6 +135,16 @@
     border-left: 4px solid #D32F2F;
 
 }
+
+.upcoming-sched__date-container-4 {
+	box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+	 border-radius: .5rem;
+	 padding: 14px;
+	 border-left: 4px solid #4CAF50;
+ 
+ }
+
+ 
 
 .upcoming-sched__weekday {
     font-size: 16px;

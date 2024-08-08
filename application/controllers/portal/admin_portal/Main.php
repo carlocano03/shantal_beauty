@@ -170,8 +170,14 @@ class Main extends MY_Controller
         $output = '';
         $sched = $this->main_model->getAvailableSched();
         $no = 0;
+
+		$total_schedules = $sched->num_rows();
+
+
+
         if ($sched->num_rows() > 0) {
             foreach($sched->result() as $list) {
+				if($no > 1) break;
                 $no++;
                 $output .= '
                     <div class="upcoming-sched__date-container-'.$no.' mb-3">
@@ -185,9 +191,21 @@ class Main extends MY_Controller
                     </div>
                 ';
             }
+
+			   if ($total_schedules >= 3) {
+				$output .= '
+					<div class="text-center">
+					  <a href="'.base_url('admin/church-schedule').'">
+						<button type="button" class="btn" style="text-decoration: underline;">View All</button>
+					  </a>
+					</div>
+				';
+			}
         } else {
             $output .= '<div class="alert alert-danger"><i class="bi bi-info-circle-fill me-2"></i>No church schedule found.</div>';
         }
+
+	
 
         $data = array(
             'available_sched' => $output
@@ -242,6 +260,52 @@ class Main extends MY_Controller
         $output['message'] = $message;
         echo json_encode($output);
     }
+
+	private function upload_img()
+    {
+        if (isset($_FILES["product_img"]))
+        {
+            $dt = Date('His');
+            $extension = explode('.', $_FILES['product_img']['name']);
+            $new_name = rand() . '_' . $dt . '.' . $extension[1];
+            $destination = 'assets/uploaded_attachment/events/' . $new_name;
+            move_uploaded_file($_FILES['product_img']['tmp_name'], $destination);
+            return $new_name;
+        } 
+    }
+
+	
+
+	// public function add_event(){
+		
+	// 		$event_name = $this->input->post('event_name');
+	// 		$event_date = $this->input->post('event_date');
+	// 		$start_time = $this->input->post('start_time');
+	// 		$end_time = $this->input->post("end_time");
+	// 		$event_description = $this->input->post("event_description");
+		
+	// 		$data = array(
+	// 			"event_name" => $event_name,
+	// 			"event_date" => $event_date,
+	// 			"start_time" => $start_time,
+	// 			"end_time" => $end_time,
+	// 			"event_description" =>$event_description,
+	// 			"img" => $this->upload_img(),
+	// 		);
+
+	// 		$status = $this->Event_model->insert_event($data);
+
+	// 		echo $status;
+
+	// 		if($status){
+	// 			$response = array('status'=>'success','message' => 'Event added successfully.');
+	// 		}else{
+	// 			$response = array('status'=>'error', 'message' => 'Failed to add event.');
+	// 		}
+
+	// 		echo json_encode($response);
+
+	// }
 
 }
 //End CI_Controller

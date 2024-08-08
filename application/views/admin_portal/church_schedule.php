@@ -204,7 +204,7 @@
                                 <h5 class="table__title"><i class="bi bi-ui-radios me-2"></i>Church Schedule Form</h5>
                             </div>
                             <div class="card-body mt-4">
-                                <div class="alert alert-danger mt-3"><i class="bi bi-info-circle-fill me-2"></i>Schedule
+                                <div class="alert alert-info mt-3"><i class="bi bi-info-circle-fill me-2"></i>Schedule
                                     Details</div>
                                 <form id="addForm" class="needs-validation" novalidate>
                                     <input type="hidden" id="sched_id">
@@ -258,10 +258,17 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-md-12 mt-2">
+                                        <div class="form-group">
+                                            <div class="invalid-feedback" id="time-error" style="display: none;">
+                                                Time In should be less than Time Out.
+                                            </div>
+                                        </div>
+                                    </div>
                                     <hr>
                                     <div class="text-md-end d-flex d-md-block flex-column gap-2">
-                                        <button type="button" class="btn btn-primary" id="save_schedule"><i
-                                                class="bi bi-floppy-fill me-2"></i>Save changes</button>
+                                        <button type="button" class="btn btn-primary" id="save_schedule">Add
+                                            Schedule</button>
                                         <a href="" type="button" class="btn btn-secondary"><i
                                                 class="bi bi-x-square me-2"></i>Cancel</a>
 
@@ -276,7 +283,7 @@
     </div>
     <!-- / Content -->
 
-<script>
+    <script>
     const scheduleChart = new Chart(document.getElementById('church_schedule_chart'), {
         type: 'pie',
         data: {}, // Initialize with empty data
@@ -300,7 +307,7 @@
             method: "GET",
             dataType: "json",
             success: function(data) {
-                if(data.count > 0) {
+                if (data.count > 0) {
                     scheduleChart.data = data.chart;
                     scheduleChart.update();
                 } else {
@@ -331,6 +338,7 @@
         var formData = new FormData(form);
 
         var sched_id = $('#sched_id').val();
+
         if (sched_id != '') {
             //Update process
             formData.append('sched_id', $('#sched_id').val());
@@ -340,6 +348,7 @@
             formData.append('time_out', $('#time_out').val());
             formData.append('action', 'Update');
             formData.append('_token', csrf_token_value);
+
         } else {
             //Insert process
             formData.append('sched_name', $('#sched_name').val());
@@ -350,20 +359,33 @@
             formData.append('_token', csrf_token_value);
         }
 
+        var isTimeValid = $('#time_in').val() < $('#time_out').val();
 
         form.classList.add('was-validated');
-        if (form.checkValidity() === false) {
+        if (form.checkValidity() === false || !isTimeValid) {
+            if (!isTimeValid) {
+                $('#time-error').show();
+                $('#time_in').css('border', '1px solid red');
+                $('#time_out').css('border', '1px solid red');
+            } else {
+                $('#time-error').hide();
+                $('#time_in').css('border', '');
+                $('#time_out').css('border', '');
+            }
             event.preventDefault();
             event.stopPropagation();
         } else {
+            $('#time-error').hide();
+            $('#time_in').css('border', '');
+            $('#time_out').css('border', '');
             Swal.fire({
                 title: 'Are you sure..',
-                text: "You want to continue this transaction?",
+                text: "You want to add this church schedule?",
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, continue',
+                confirmButtonText: 'Yes',
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
@@ -386,6 +408,7 @@
                                     title: 'Thank You!',
                                     text: data.success,
                                 });
+                                $("#save_schedule").text("Add Schedule");
                                 form.reset();
                                 form.classList.remove('was-validated');
                                 loadSchedule();
@@ -435,7 +458,7 @@
                                 Swal.fire({
                                     icon: 'success',
                                     title: 'Thank you!',
-                                    text: 'Schedule successfully activated.',
+                                    text: 'Schedule Detailssuccessfully activated.',
                                 });
                                 loadSchedule();
                             } else {
@@ -513,7 +536,7 @@
         var day = $(this).data('day');
         var timeIn = $(this).data('in');
         var timeOut = $(this).data('out');
-        
+
         Swal.fire({
             icon: "question",
             title: "Are you sure..",
@@ -529,7 +552,8 @@
                 $('#day_week').val(day).trigger('change');
                 $('#time_in').val(timeIn);
                 $('#time_out').val(timeOut);
+                $("#save_schedule").text("Update Schedule");
             }
         });
     });
-</script>
+    </script>

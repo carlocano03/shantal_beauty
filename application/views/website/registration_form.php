@@ -95,7 +95,9 @@
                                         <h1 class="form-title">Scholarhip/Study Grant Information</h1>
                                         <div class="d-flex gap-2">
                                             <div>Deadline for filling:</div>
-                                            <div class="fw-bold text-primary"><?= isset($deadline->date_deadline) ? date('F j, Y', strtotime($deadline->date_deadline)) : date('F j, Y');?></div>
+                                            <div class="fw-bold text-primary">
+                                                <?= isset($deadline->date_deadline) ? date('F j, Y', strtotime($deadline->date_deadline)) : date('F j, Y');?>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="py-3 ">
@@ -131,7 +133,8 @@
                                                 </div>
                                                 <div class="col">
                                                     <div class="form-group">
-                                                        <input type="text" id="middle_name" class="input" autocomplete="off" required>
+                                                        <input type="text" id="middle_name" class="input"
+                                                            autocomplete="off" required>
                                                         <label for="middle_name" class="label">Middle Name</label>
                                                     </div>
                                                 </div>
@@ -148,14 +151,15 @@
                                             <div class="row row-cols-lg-3 gy-4 row-cols-1 mb-4">
                                                 <div class="col">
                                                     <div class="form-group">
-                                                        <input type="text" id="student_no" class="input" autocomplete="off" required>
+                                                        <input type="text" id="student_no" class="input"
+                                                            autocomplete="off" required>
                                                         <label for="student_no" class="label">Student No.</label>
                                                     </div>
                                                 </div>
                                                 <div class="col">
                                                     <div class="form-group">
-                                                        <input type="text" id="course" class="input input-second-step" autocomplete="off"
-                                                            required>
+                                                        <input type="text" id="course" class="input input-second-step"
+                                                            autocomplete="off" required>
                                                         <label for="course" class="label">Course<span
                                                                 class="text-danger">*</span></label>
                                                     </div>
@@ -190,16 +194,17 @@
                                                                 class="text-danger">*</span></label>
                                                     </div>
                                                 </div>
-                                                
+
                                                 <div class="col">
                                                     <div class="form-group">
                                                         <select id="citizenship" class="input input-second-step">
                                                             <option value="">Select Citizenship<span
                                                                     class="text-danger">*</span></option>
                                                             <?php foreach($citizenship as $row) : ?>
-                                                                <option value="<?= $row->country_name;?>"><?= $row->country_name;?></option>
+                                                            <option value="<?= $row->country_name;?>">
+                                                                <?= $row->country_name;?></option>
                                                             <?php endforeach;?>
-                                                            
+
                                                         </select>
                                                     </div>
                                                 </div>
@@ -209,7 +214,8 @@
                                                             <option value="">Select Civil Status<span
                                                                     class="text-danger">*</span></option>
                                                             <?php foreach($civil_status as $row) : ?>
-                                                                <option value="<?= $row->status_name;?>"><?= $row->status_name;?></option>
+                                                            <option value="<?= $row->status_name;?>">
+                                                                <?= $row->status_name;?></option>
                                                             <?php endforeach;?>
                                                         </select>
                                                     </div>
@@ -230,15 +236,16 @@
                                                 </div>
                                                 <div class="col">
                                                     <div class="form-group">
-                                                        <input type="text" id="perm_zip_code" autocomplete="off" class="input input-second-step"
-                                                            required>
+                                                        <input type="text" id="perm_zip_code" autocomplete="off"
+                                                            class="input input-second-step" required>
                                                         <label for="perm_zip_code" class="label">Zip Code<span
                                                                 class="text-danger">*</span></label>
                                                     </div>
                                                 </div>
                                                 <div class="col">
                                                     <div class="form-group">
-                                                        <input type="text" id="perm_tel_no" autocomplete="off" class="input" required>
+                                                        <input type="text" id="perm_tel_no" autocomplete="off"
+                                                            class="input" required>
                                                         <label for="perm_tel_no" class="label">Tel. No.</label>
                                                     </div>
                                                 </div>
@@ -247,19 +254,22 @@
                                             <div class="row row-cols-lg-3 row-cols-1 gy-4 mb-4">
                                                 <div class="col">
                                                     <div class="form-group">
-                                                        <input type="text" id="city_address" autocomplete="off" class="input" required>
+                                                        <input type="text" id="city_address" autocomplete="off"
+                                                            class="input" required>
                                                         <label for="city_address" class="label">City Address</label>
                                                     </div>
                                                 </div>
                                                 <div class="col">
                                                     <div class="form-group">
-                                                        <input type="text" id="city_zip_code" autocomplete="off" class="input" required>
+                                                        <input type="text" id="city_zip_code" autocomplete="off"
+                                                            class="input" required>
                                                         <label for="city_zip_code" class="label">Zip Code</label>
                                                     </div>
                                                 </div>
                                                 <div class="col">
                                                     <div class="form-group">
-                                                        <input type="text" id="city_tel_no" autocomplete="off" class="input" required>
+                                                        <input type="text" id="city_tel_no" autocomplete="off"
+                                                            class="input" required>
                                                         <label for="city_tel_no" class="label">Tel. No.</label>
                                                     </div>
                                                 </div>
@@ -276,19 +286,28 @@
                                                 </div>
                                                 <div class="col">
                                                     <div class="form-group">
-                                                        <input type="text" id="mobile_no" autocomplete="off" class="input number-input input-second-step" required>
-                                                        <label for="mobile_no" class="label">Mobile No.<span class="text-danger">*</span></label>
+                                                        <input type="text" id="mobile_no" autocomplete="off"
+                                                            class="input input-second-step" required>
+                                                        <div class="error-message"></div>
+                                                        <div class="success-message"></div>
+
+                                                        <label for="mobile_no" class="label">Mobile No.<span
+                                                                class="text-danger">*</span></label>
                                                     </div>
                                                 </div>
                                                 <div class="col">
                                                     <div class="form-group" style="position:relative">
-                                                        <input type="email" id="email_address" autocomplete="off" class="input input-second-step" required>
+                                                        <input type="email" id="email_address" autocomplete="off"
+                                                            class="input input-second-step" required>
                                                         <div class="error-message"></div>
-                                                        <label for="email_address" class="label">Email Address<span class="text-danger">*</span></label>
+                                                        <div class="success-message"></div>
+
+                                                        <label for="email_address" class="label">Email Address<span
+                                                                class="text-danger">*</span></label>
                                                         <div id="verify-email" class="contact__email-address fw-bold"><i
                                                                 class="fa-solid fa-envelope"></i>
                                                             Verify</div>
-                                                        
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -314,16 +333,16 @@
                                             <div class="row row-cols-lg-3 row-cols-1 gy-4 mb-4">
                                                 <div class="col">
                                                     <div class="form-group">
-                                                        <input type="text" id="father" autocomplete="off" class="input input-third-step"
-                                                            required>
+                                                        <input type="text" id="father" autocomplete="off"
+                                                            class="input input-third-step" required>
                                                         <label for="father" class="label">Father<span
                                                                 class="text-danger">*</span></label>
                                                     </div>
                                                 </div>
                                                 <div class="col">
                                                     <div class="form-group">
-                                                        <input type="text" id="father_occupation" autocomplete="off" class="input"
-                                                            required>
+                                                        <input type="text" id="father_occupation" autocomplete="off"
+                                                            class="input" required>
                                                         <label for="father_occupation" class="label">Occupation</label>
                                                     </div>
                                                 </div>
@@ -339,16 +358,16 @@
                                             <div class="row row-cols-lg-3 row-cols-1 gy-4 mb-4">
                                                 <div class="col">
                                                     <div class="form-group">
-                                                        <input type="text" id="mother" class="input input-third-step" autocomplete="off"
-                                                            required>
+                                                        <input type="text" id="mother" class="input input-third-step"
+                                                            autocomplete="off" required>
                                                         <label for="mother" class="label">Mother<span
                                                                 class="text-danger">*</span></label>
                                                     </div>
                                                 </div>
                                                 <div class="col">
                                                     <div class="form-group">
-                                                        <input type="text" id="mother_occupation" class="input" autocomplete="off"
-                                                            required>
+                                                        <input type="text" id="mother_occupation" class="input"
+                                                            autocomplete="off" required>
                                                         <label for="mother_occupation" class="label">Occupation</label>
                                                     </div>
                                                 </div>
@@ -365,7 +384,8 @@
                                             <div class="row mb-4 gy-4">
                                                 <div class="col-12 col-lg-8 ">
                                                     <div class="form-group">
-                                                        <input type="text" id="state_reason" class="input" required autocomplete="off">
+                                                        <input type="text" id="state_reason" class="input" required
+                                                            autocomplete="off">
                                                         <label for="state_reason" style="font-size:12px;"
                                                             class="label">If both
                                                             parents are unemployed, state reason/s (e.g. retired, old
@@ -385,8 +405,8 @@
                                             <div class="row mb-4">
                                                 <div class="col">
                                                     <div class="form-group">
-                                                        <input type="text" id="contribution_from_other_sources" autocomplete="off"
-                                                            class="input" required>
+                                                        <input type="text" id="contribution_from_other_sources"
+                                                            autocomplete="off" class="input" required>
                                                         <label for="contribution_from_other_sources" class="label">(or
                                                             contribution from other sources like relatives,
                                                             etc.)</label>
@@ -398,7 +418,8 @@
                                             <div class="row  row-cols-lg-2 row-cols-1 gy-4 mb-4">
                                                 <div class="col">
                                                     <div class="form-group">
-                                                        <input type="text" id="self_employed" class="input" autocomplete="off" required>
+                                                        <input type="text" id="self_employed" class="input"
+                                                            autocomplete="off" required>
                                                         <label for="self_employed" class="label">If self-employed, state
                                                             type of
                                                             business</label>
@@ -417,14 +438,15 @@
                                             <div class="row row-cols-lg-4 row-cols-1 gy-4 mb-4">
                                                 <div class="col">
                                                     <div class="form-group">
-                                                        <input type="text" id="guardian" class="input" autocomplete="off" required>
+                                                        <input type="text" id="guardian" class="input"
+                                                            autocomplete="off" required>
                                                         <label for="guardian" class="label">Guardian</label>
                                                     </div>
                                                 </div>
                                                 <div class="col">
                                                     <div class="form-group">
-                                                        <input type="text" id="guardian_occupation" autocomplete="off" class="input"
-                                                            required>
+                                                        <input type="text" id="guardian_occupation" autocomplete="off"
+                                                            class="input" required>
                                                         <label for="guardian_occupation"
                                                             class="label">Occupation</label>
                                                     </div>
@@ -432,14 +454,15 @@
                                                 <div class="col">
                                                     <div class="form-group">
                                                         <input type="text" id="guardian_salary"
-                                                            class="input number-input amount-input" autocomplete="off" required>
+                                                            class="input number-input amount-input" autocomplete="off"
+                                                            required>
                                                         <label for="guardian_salary" class="label">Salary</label>
                                                     </div>
                                                 </div>
                                                 <div class="col">
                                                     <div class="form-group">
-                                                        <input type="text" id="guardian_relation" autocomplete="off" class="input"
-                                                            required>
+                                                        <input type="text" id="guardian_relation" autocomplete="off"
+                                                            class="input" required>
                                                         <label for="guardian_relation" class="label">Relation</label>
                                                     </div>
                                                 </div>
@@ -516,7 +539,8 @@
                                                     <div>If the answer is “yes” to either or both, specify name, nature
                                                         and
                                                         amount of grant or scholarship:</div>
-                                                    <input type="text" class="amount-of-scholarship normal-input" id="amount-of-scholarship">
+                                                    <input type="text" class="amount-of-scholarship normal-input"
+                                                        id="amount-of-scholarship">
                                                 </div>
 
                                                 <!-- Question #2 -->
@@ -570,8 +594,7 @@
                                                     <div>3. If applicant’s parents are separated, state support being
                                                         given by
                                                         father/mother:</div>
-                                                    <input class="ms-3 normal-input" type="text"
-                                                        id="parents_separated">
+                                                    <input class="ms-3 normal-input" type="text" id="parents_separated">
                                                 </div>
 
                                                 <!-- Question #4 -->
@@ -919,7 +942,8 @@
                                                     class="me-1"><i class="fa-solid fa-arrow-left"></i></span> Back
                                             </button>
 
-                                            <button id="submit-form" type="submit" class="button-next" disabled>Submit</button>
+                                            <button id="submit-form" type="submit" class="button-next"
+                                                disabled>Submit</button>
                                         </div>
                                     </div>
                                 </div>

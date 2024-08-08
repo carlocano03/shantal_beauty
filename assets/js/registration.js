@@ -25,8 +25,8 @@ document.addEventListener('DOMContentLoaded', function () {
 	var universityAnswer = false;
 	var realProperties = false;
 	var enrolledUniversity = false;
-    var checkOTP = false;
-    var verifyOTP = false;
+	var checkOTP = false;
+	var verifyOTP = false;
 
 	// Next 
 
@@ -53,6 +53,26 @@ document.addEventListener('DOMContentLoaded', function () {
 	});
 	//End of Scholarhip/Study Grant Information
 
+	$('#mobile_no').on('input', function () {
+		var phonePattern = /^(\+639|09)\d{9}$/;
+		var mobileNoValue = $(this).val();
+		var isValidMobileNo = phonePattern.test(mobileNoValue);
+		var errorMessage = $(this).next('.error-message');
+		var successMessage = $(this).next().next('.success-message');
+
+
+		if (!isValidMobileNo) {
+			$(this).addClass('input-error');
+			errorMessage.text('Please input a valid phone number in the format +639XXXXXXXXX or 09XXXXXXXXX.');
+			successMessage.text("");
+
+		} else {
+			$(this).removeClass('input-error');
+			errorMessage.text('');
+			successMessage.text("✔ Valid number");
+		}
+	});
+
 	//Personal Information
 	secondFormNext.addEventListener('click', () => {
 		var allValid = true;
@@ -66,11 +86,19 @@ document.addEventListener('DOMContentLoaded', function () {
 			}
 		});
 
-        if(verifyOTP == false) {
-            var errorMessage = $('#email_address').next('.error-message');
-            errorMessage.text('Please verify your email address.');
-            allValid = false;
-        }
+		if (verifyOTP == false) {
+			var errorMessage = $('#email_address').next('.error-message');
+			errorMessage.text('Please verify your email address.');
+			allValid = false;
+		}
+
+		var phonePattern = /^(\+639|09)\d{9}$/;
+		var mobileNoValue = $("#mobile_no").val();
+		var isValidMobileNo = phonePattern.test(mobileNoValue);
+
+		if (!isValidMobileNo) {
+			allValid = false;
+		}
 
 		if (allValid) {
 			stepper.next();
@@ -180,7 +208,7 @@ document.addEventListener('DOMContentLoaded', function () {
 			universityRequired = true;
 		} else {
 			$('.hide-university').fadeOut(200);
-            universityRequired = false;
+			universityRequired = false;
 		}
 	});
 
@@ -188,14 +216,14 @@ document.addEventListener('DOMContentLoaded', function () {
 		var answer = $('input[name="outsideUniversity"]:checked').val();
 		$('#outsideUniversityError').hide();
 
-        if (answer == 'Yes') {
-            $('.hide-university-answer').fadeIn(200);
-            universityAnswer = true;
-        } else {
-            $('.hide-university-answer').fadeOut(200);
-            universityAnswer = false;
-        }
-    });
+		if (answer == 'Yes') {
+			$('.hide-university-answer').fadeIn(200);
+			universityAnswer = true;
+		} else {
+			$('.hide-university-answer').fadeOut(200);
+			universityAnswer = false;
+		}
+	});
 
 	$(document).on('input', '.amount-of-scholarship', function () {
 		var input = $(this);
@@ -206,17 +234,17 @@ document.addEventListener('DOMContentLoaded', function () {
 		}
 	});
 
-    $(document).on('click', 'input[name="scholarshipQuestion2"]', function() {
-        var answer = $('input[name="scholarshipQuestion2"]:checked').val();
-        $('#scholarshipQuestion2Error').hide();
-        if (answer == 'Yes') {
-            $('.real-property').fadeIn(200);
-            realProperties = true;
-        } else {
-            $('.real-property').fadeOut(200);
-            realProperties = false;
-        }
-    });
+	$(document).on('click', 'input[name="scholarshipQuestion2"]', function () {
+		var answer = $('input[name="scholarshipQuestion2"]:checked').val();
+		$('#scholarshipQuestion2Error').hide();
+		if (answer == 'Yes') {
+			$('.real-property').fadeIn(200);
+			realProperties = true;
+		} else {
+			$('.real-property').fadeOut(200);
+			realProperties = false;
+		}
+	});
 
 	$(document).on('input', '.properties', function () {
 		var input = $(this);
@@ -267,17 +295,17 @@ document.addEventListener('DOMContentLoaded', function () {
 		//stepper.next();
 	})
 
-    $(document).on('click', 'input[name="enrolledUniversity"]', function() {
-        var answer = $('input[name="enrolledUniversity"]:checked').val();
-        $('#enrolledUniversityError').hide();
-        if (answer == 'Yes') {
-            $('.enroll_university').fadeIn(200);
-            enrolledUniversity = true;
-        } else {
-            $('.enroll_university').fadeOut(200);
-            enrolledUniversity = false;
-        }
-    });
+	$(document).on('click', 'input[name="enrolledUniversity"]', function () {
+		var answer = $('input[name="enrolledUniversity"]:checked').val();
+		$('#enrolledUniversityError').hide();
+		if (answer == 'Yes') {
+			$('.enroll_university').fadeIn(200);
+			enrolledUniversity = true;
+		} else {
+			$('.enroll_university').fadeOut(200);
+			enrolledUniversity = false;
+		}
+	});
 
 	$(document).on('input', '.input-fifth-step', function () {
 		var input = $(this);
@@ -353,46 +381,46 @@ document.addEventListener('DOMContentLoaded', function () {
 		$('#school_name').text(school);
 	});
 
-    $(document).on('input', '#email_address', function() {
+	$(document).on('input', '#email_address', function () {
 		clearTimeout(timeout);
-        const email_address = $(this).val().trim();
-        const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email_address);
-        var errorMessage = $(this).next('.error-message');
+		const email_address = $(this).val().trim();
+		const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email_address);
+		var errorMessage = $(this).next('.error-message');
 		var student_email = $('#email_address').val();
 
-        if (isValidEmail) {
-			timeout = setTimeout(function() {
+		if (isValidEmail) {
+			timeout = setTimeout(function () {
 				$.ajax({
-                    url: baseURL + 'website/registration_form/check_existing_email',
-                    method: 'POST',
-                    data: {
-                        email_address: student_email,
-                        '_token': csrf_token_value,
-                    },
-                    dataType: 'json',
-                    success: function(data) {
-                        if (data.email_address > 0) {
-                            Swal.fire({
-                                icon: 'warning',
-                                title: 'Ooops...',
-                                text: 'Student email address already exists.',
-                            });
-                            errorMessage.text('Student email address already exists.');
-                            checkOTP = false;
-                        } else {
-                            errorMessage.text('Please send OTP to verify your email.');
-                            checkOTP = true;
-                        }
-                    }
-                });
+					url: baseURL + 'website/registration_form/check_existing_email',
+					method: 'POST',
+					data: {
+						email_address: student_email,
+						'_token': csrf_token_value,
+					},
+					dataType: 'json',
+					success: function (data) {
+						if (data.email_address > 0) {
+							Swal.fire({
+								icon: 'warning',
+								title: 'Ooops...',
+								text: 'Student email address already exists.',
+							});
+							errorMessage.text('Student email address already exists.');
+							checkOTP = false;
+						} else {
+							errorMessage.text('Please send OTP to verify your email.');
+							checkOTP = true;
+						}
+					}
+				});
 			}, 500);
-        } else {
-            errorMessage.text('Invalid email address.');
-            checkOTP = false;
-        }
-    });
+		} else {
+			errorMessage.text('Invalid email address.');
+			checkOTP = false;
+		}
+	});
 
-	$(document).on('click', '#consent', function() {
+	$(document).on('click', '#consent', function () {
 		if ($(this).is(":checked")) {
 			$('#submit-form').attr('disabled', false);
 		} else {
@@ -400,188 +428,190 @@ document.addEventListener('DOMContentLoaded', function () {
 		}
 	});
 
-    $(document).on('click', '#verify-email', function() {
-        var errorMessage = $('#email_address').next('.error-message');
-        var email_address = $('#email_address').val();
-        var firstname = $('#first_name').val();
-        if (checkOTP == true) {
-            errorMessage.text('');
-            $.ajax({
-                url: baseURL + `website/registration_form/send_email_otp`,
-                method: "POST",
-                data: {
-                    email_address: email_address,
-                    firstname: firstname,
-                    '_token': csrf_token_value,
-                },
-                dataType: "json",
-                beforeSend: function() {
-                    $('.loading-screen').show();
-                },
-                success: function(data) {
-                    if (data.message == 'Success') {
-                        $('#verifyModal').modal('show');
-                    } else {
-                        Swal.fire({
-                            icon: 'warning',
-                            title: 'Ooops...',
-                            text: 'Failed to send OTP.',
-                        });
-                    }
-                },
-                complete: function() {
-                    $('.loading-screen').hide();
-                },
-                error: function() {
-                    $('.loading-screen').hide();
-                    console.error("AJAX request failed:", textStatus, errorThrown);
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Ooops...',
-                        text: 'An error occurred while processing the request.',
-                    });
-                }
-            });
-        } else {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Ooops...',
-                text: 'Invalid/empty email address.',
-            });
-        }
-    });
+	$(document).on('click', '#verify-email', function () {
+		var errorMessage = $('#email_address').next('.error-message');
+		var email_address = $('#email_address').val();
+		var firstname = $('#first_name').val();
+		if (checkOTP == true) {
+			errorMessage.text('');
+			$.ajax({
+				url: baseURL + `website/registration_form/send_email_otp`,
+				method: "POST",
+				data: {
+					email_address: email_address,
+					firstname: firstname,
+					'_token': csrf_token_value,
+				},
+				dataType: "json",
+				beforeSend: function () {
+					$('.loading-screen').show();
+				},
+				success: function (data) {
+					if (data.message == 'Success') {
+						$('#verifyModal').modal('show');
+					} else {
+						Swal.fire({
+							icon: 'warning',
+							title: 'Ooops...',
+							text: 'Failed to send OTP.',
+						});
+					}
+				},
+				complete: function () {
+					$('.loading-screen').hide();
+				},
+				error: function () {
+					$('.loading-screen').hide();
+					console.error("AJAX request failed:", textStatus, errorThrown);
+					Swal.fire({
+						icon: 'error',
+						title: 'Ooops...',
+						text: 'An error occurred while processing the request.',
+					});
+				}
+			});
+		} else {
+			Swal.fire({
+				icon: 'warning',
+				title: 'Ooops...',
+				text: 'Invalid/empty email address.',
+			});
+		}
+	});
 
-	$(document).on('click', '.send_otp', function() {
-        var errorMessage = $('#email_address').next('.error-message');
-        var email_address = $('#email_address').val();
-        var firstname = $('#first_name').val();
-        if (checkOTP == true) {
-            errorMessage.text('');
-            $.ajax({
-                url: baseURL + `website/registration_form/send_email_otp`,
-                method: "POST",
-                data: {
-                    email_address: email_address,
-                    firstname: firstname,
-                    '_token': csrf_token_value,
-                },
-                dataType: "json",
-                beforeSend: function() {
-                    $('.loading-screen').show();
-                },
-                success: function(data) {
-                    if (data.message == 'Success') {
-                        $('#verifyModal').modal('show');
-                    } else {
-                        Swal.fire({
-                            icon: 'warning',
-                            title: 'Ooops...',
-                            text: 'Failed to send OTP.',
-                        });
-                    }
-                },
-                complete: function() {
-                    $('.loading-screen').hide();
-                },
-                error: function() {
-                    $('.loading-screen').hide();
-                    console.error("AJAX request failed:", textStatus, errorThrown);
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Ooops...',
-                        text: 'An error occurred while processing the request.',
-                    });
-                }
-            });
-        } else {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Ooops...',
-                text: 'Invalid/empty email address.',
-            });
-        }
-    });
+	$(document).on('click', '.send_otp', function () {
+		var errorMessage = $('#email_address').next('.error-message');
+		var email_address = $('#email_address').val();
+		var firstname = $('#first_name').val();
+		if (checkOTP == true) {
+			errorMessage.text('');
+			$.ajax({
+				url: baseURL + `website/registration_form/send_email_otp`,
+				method: "POST",
+				data: {
+					email_address: email_address,
+					firstname: firstname,
+					'_token': csrf_token_value,
+				},
+				dataType: "json",
+				beforeSend: function () {
+					$('.loading-screen').show();
+				},
+				success: function (data) {
+					if (data.message == 'Success') {
+						$('#verifyModal').modal('show');
+					} else {
+						Swal.fire({
+							icon: 'warning',
+							title: 'Ooops...',
+							text: 'Failed to send OTP.',
+						});
+					}
+				},
+				complete: function () {
+					$('.loading-screen').hide();
+				},
+				error: function () {
+					$('.loading-screen').hide();
+					console.error("AJAX request failed:", textStatus, errorThrown);
+					Swal.fire({
+						icon: 'error',
+						title: 'Ooops...',
+						text: 'An error occurred while processing the request.',
+					});
+				}
+			});
+		} else {
+			Swal.fire({
+				icon: 'warning',
+				title: 'Ooops...',
+				text: 'Invalid/empty email address.',
+			});
+		}
+	});
 
-    $(document).on('click', '#verify_otp', function() {
-        var otp_no = $('#otp_no').val();
-        var email_address = $('#email_address').val();
-        var errorMessage = $('#email_address').next('.error-message');
+	$(document).on('click', '#verify_otp', function () {
+		var otp_no = $('#otp_no').val();
+		var email_address = $('#email_address').val();
+		var errorMessage = $('#email_address').next('.error-message');
+		var successMessage = $('#email_address').next().next('.success-message');
 
-        if (otp_no != '') {
-            $.ajax({
-                url: baseURL + `website/registration_form/verify_email_otp`,
-                method: "POST",
-                data: {
-                    otp_no: otp_no,
-                    email_address: email_address,
-                    '_token': csrf_token_value,
-                },
-                dataType: "json",
-                success: function(data) {
-                    if (data.message == 'Success') {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Thank You!',
-                            text: 'Email address successfully verified.',
-                        });
-                        $('#verifyModal').modal('hide');
-                        errorMessage.text('Email address successfully verified.');
-                        verifyOTP = true;
-                        $('#otp_no').val('');
-                    } else if (data.message == 'No Data') {
-                        Swal.fire({
-                            icon: 'warning',
-                            title: 'Ooops...',
-                            text: 'Invalid OTP number.',
-                        });
-                        verifyOTP = false;
-                        $('#otp_no').val('');
-                        errorMessage.text('');
-                    } else if (data.message == 'Expired') {
-                        Swal.fire({
-                            icon: 'warning',
-                            title: 'Ooops...',
-                            text: 'OTP number already expired.',
-                        });
-                        $('#verifyModal').modal('hide');
-                        $('#otp_no').val('');
-                        errorMessage.text('OTP number already expired. Please resend OTP.');
-                        verifyOTP = false;
-                    } else {
-                        Swal.fire({
-                            icon: 'warning',
-                            title: 'Ooops...',
-                            text: 'Failed to verify the email address.',
-                        });
-                        verifyOTP = false;
-                    }
-                },
-                error: function() {
-                    console.error("AJAX request failed:", textStatus, errorThrown);
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Ooops...',
-                        text: 'An error occurred while processing the request.',
-                    });
-                }
-            });
-        } else {
-            Swal.fire({
-                icon: 'warning',
-                title: 'Ooops...',
-                text: 'Please provide a valid OTP.',
-            });
-        }
-    });
 
-	$(document).on('click', '#submit-form', function(event) {
+		if (otp_no != '') {
+			$.ajax({
+				url: baseURL + `website/registration_form/verify_email_otp`,
+				method: "POST",
+				data: {
+					otp_no: otp_no,
+					email_address: email_address,
+					'_token': csrf_token_value,
+				},
+				dataType: "json",
+				success: function (data) {
+					if (data.message == 'Success') {
+						Swal.fire({
+							icon: 'success',
+							title: 'Thank You!',
+							text: 'Email address successfully verified.',
+						});
+						$('#verifyModal').modal('hide');
+						successMessage.text('✔ Email address successfully verified.');
+						verifyOTP = true;
+						$('#otp_no').val('');
+					} else if (data.message == 'No Data') {
+						Swal.fire({
+							icon: 'warning',
+							title: 'Ooops...',
+							text: 'Invalid OTP number.',
+						});
+						verifyOTP = false;
+						$('#otp_no').val('');
+						errorMessage.text('');
+					} else if (data.message == 'Expired') {
+						Swal.fire({
+							icon: 'warning',
+							title: 'Ooops...',
+							text: 'OTP number already expired.',
+						});
+						$('#verifyModal').modal('hide');
+						$('#otp_no').val('');
+						errorMessage.text('OTP number already expired. Please resend OTP.');
+						verifyOTP = false;
+					} else {
+						Swal.fire({
+							icon: 'warning',
+							title: 'Ooops...',
+							text: 'Failed to verify the email address.',
+						});
+						verifyOTP = false;
+					}
+				},
+				error: function () {
+					console.error("AJAX request failed:", textStatus, errorThrown);
+					Swal.fire({
+						icon: 'error',
+						title: 'Ooops...',
+						text: 'An error occurred while processing the request.',
+					});
+				}
+			});
+		} else {
+			Swal.fire({
+				icon: 'warning',
+				title: 'Ooops...',
+				text: 'Please provide a valid OTP.',
+			});
+		}
+	});
+
+	$(document).on('click', '#submit-form', function (event) {
 		event.preventDefault();
-        event.stopPropagation();
+		event.stopPropagation();
 
-        var form = $('#registration_form')[0];
-        var formData = new FormData(form);
+		var form = $('#registration_form')[0];
+		var formData = new FormData(form);
 		formData.append('school_name', $('#scholarship-grant-information-input').val());
-        formData.append('student_first_name', $('#first_name').val());
+		formData.append('student_first_name', $('#first_name').val());
 		formData.append('student_middle_name', $('#middle_name').val());
 		formData.append('student_last_name', $('#last_name').val());
 		formData.append('student_no', $('#student_no').val());
@@ -649,15 +679,15 @@ document.addEventListener('DOMContentLoaded', function () {
 				$.ajax({
 					url: baseURL + `website/registration_form/scholarship_registration`,
 					method: "POST",
-                    data: formData,
-                    contentType: false,
-                    processData: false,
-                    dataType: "json",
-					beforeSend: function() {
+					data: formData,
+					contentType: false,
+					processData: false,
+					dataType: "json",
+					beforeSend: function () {
 						$('.loading-screen').show();
 					},
-					success: function(data) {
-						if(data.error != '') {
+					success: function (data) {
+						if (data.error != '') {
 							Swal.fire({
 								icon: 'warning',
 								title: 'Ooops...',
@@ -674,10 +704,10 @@ document.addEventListener('DOMContentLoaded', function () {
 							}, 2000);
 						}
 					},
-					complete: function() {
+					complete: function () {
 						$('.loading-screen').hide();
 					},
-					error: function() {
+					error: function () {
 						$('.loading-screen').hide();
 						console.error("AJAX request failed:", textStatus, errorThrown);
 						Swal.fire({
