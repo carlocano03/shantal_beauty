@@ -123,6 +123,7 @@ class Student_record extends MY_Controller
 
             $member_id = $this->cipher->encrypt($list->member_id);
             $row[] = '<img class="img-profile" src="' . $img . '" alt="Profile-Picture">';
+            $row[] = $list->member_id;
             $row[] = $list->scholarship_no;
             $row[] = ucfirst($list->student_last_name).', '.ucfirst($list->student_first_name).' '.ucfirst($list->student_middle_name);
             $row[] = ucwords($list->school_name);
@@ -200,7 +201,7 @@ class Student_record extends MY_Controller
         foreach($student as $list) {
             $spreadsheet->getActiveSheet()->insertNewRowBefore($currentRow+1,1);
             $spreadsheet->getActiveSheet()
-                ->setCellValue('A'.$currentRow, $list['scholarship_no'])
+                ->setCellValue('A'.$currentRow, $list['member_id'])
                 ->setCellValue('B'.$currentRow, $list['student_last_name'])
                 ->setCellValue('C'.$currentRow, $list['student_first_name'])
                 ->setCellValue('D'.$currentRow, $list['student_middle_name'])
