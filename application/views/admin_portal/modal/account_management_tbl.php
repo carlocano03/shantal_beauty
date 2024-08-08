@@ -74,7 +74,9 @@
                             <div class="col modal__label">
                                 Action
                             </div>
-                            <div id="actionBtn" class="col modal__data"></div>
+                            <div id="actionBtn" class="col modal__data">
+
+                            </div>
                         </div>
                     </div>
 

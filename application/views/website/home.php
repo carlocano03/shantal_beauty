@@ -220,7 +220,7 @@
     </section>
 
     <!-- Events -->
-    <section id="events" class="latest-news my-5 py-5 animate__animated" style="position:relative">
+    <section id="events" class="latest-news my-5 py-5 animate__animated" style="position:relative;background:#F8F9FA">
         <svg xmlns="http://www.w3.org/2000/svg" class="d-none d-lg-block"
             style="position:absolute; top:0; left:0; right:0; width: 100%; height: 420px;" viewBox="0 0 1440 320"
             preserveAspectRatio="xMidYMid slice">
@@ -245,27 +245,111 @@
         <div class="container-xxl pt-lg-5 pb-5 pb-lg-0" style="position:relative;">
             <div>
                 <div class="row mt-lg-5 mt-2 gy-5">
-                    <div class="col-12 col-lg-7">
-                        <div>
-                            <img src="<?php echo base_url('assets/images/home/latest-news-1.avif'); ?>" alt=""
-                                style="height: 400px; width: 100%; object-fit: cover" />
-                        </div>
-                        <div class="d-flex align-items-center justify-content-between mt-4">
-                            <h3 class="text-title fw-bold mb-0">Event 1</h3>
-                            <p class="bg-primary text-white py-2 px-4 fw-bold">
-                                June 6, 2024
+
+                    <swiper-container class="mySwiper2 " pagination="true" pagination-clickable="true"
+                        space-between="30">
+                        <swiper-slide class="rounded-3 border " style="overflow:hidden"
+                            style="box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;">
+                            <div>
+                                <img src="<?php echo base_url('assets/images/home/latest-news-1.avif')?>" alt="" />
+                                <div class="bg-white px-3 pt-4 pb-5">
+                                    <p class="fw-bold" style="color:#616E7C">Sunday, 12 Aug | 10:00am</p>
+                                    <div class="mt-1 d-flex align-items-center gap-2" style="color:#616E7C"><i
+                                            class="fa-solid fa-location-dot"></i>
+                                        Nueva
+                                        Ecija</div>
+                                    <h3 class="mt-3 fw-bold" style="color:#1F2933">Event 1</h3>
+                                    <p class="mt-2 " style="color:#52606D; line-height:1.7;">Lorem ipsum dolor sit amet
+                                        consectetur
+                                        adipisicing elit.
+                                        Minima harum animi
+                                        accusamus unde ratione alias dolorum adipisci aperiam ipsum quasi!</p>
+                                </div>
+                            </div>
+                        </swiper-slide>
+
+                        <swiper-slide class="rounded-3 border " style="overflow:hidden"
+                            style="box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;">
+                            <div>
+                                <img src="<?php echo base_url('assets/images/home/latest-news-1.avif')?>" alt="" />
+                                <div class="bg-white px-3 pt-4 pb-5">
+                                    <p class="fw-bold" style="color:#616E7C">Sunday, 12 Aug | 10:00am</p>
+                                    <div class="mt-1 d-flex align-items-center gap-2" style="color:#616E7C"><i
+                                            class="fa-solid fa-location-dot"></i>
+                                        Nueva
+                                        Ecija</div>
+                                    <h3 class="mt-3 fw-bold" style="color:#1F2933">Event 1</h3>
+                                    <p class="mt-2" style="color:#52606D; line-height:1.7;">Lorem ipsum dolor sit amet
+                                        consectetur
+                                        adipisicing elit.
+                                        Minima harum animi
+                                        accusamus unde ratione alias dolorum adipisci aperiam ipsum quasi!</p>
+                                </div>
+                            </div>
+                        </swiper-slide>
+
+                        <swiper-slide class="rounded-3 border " style="overflow:hidden"
+                            style="box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;">
+                            <div>
+                                <img src="<?php echo base_url('assets/images/home/latest-news-1.avif')?>" alt="" />
+                                <div class="bg-white px-3 pt-4 pb-5">
+                                    <p class="fw-bold" style="color:#616E7C">Sunday, 12 Aug | 10:00am</p>
+                                    <div class="mt-1 d-flex align-items-center gap-2" style="color:#616E7C"><i
+                                            class="fa-solid fa-location-dot"></i>
+                                        Nueva
+                                        Ecija</div>
+                                    <h3 class="mt-3 fw-bold" style="color:#1F2933">Event 1</h3>
+                                    <p class="mt-2 " style="color:#52606D; line-height:1.7;">Lorem ipsum dolor sit amet
+                                        consectetur
+                                        adipisicing elit.
+                                        Minima harum animi
+                                        accusamus unde ratione alias dolorum adipisci aperiam ipsum quasi!</p>
+                                </div>
+                            </div>
+                        </swiper-slide>
+
+                        <swiper-slide class="rounded-3 border " style="overflow:hidden"
+                            style="box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;">
+                            <div>
+                                <img src="<?php echo base_url('assets/images/home/latest-news-1.avif')?>" alt="" />
+                                <div class="bg-white px-3 pt-4 pb-5">
+                                    <p class="fw-bold" style="color:#616E7C">Sunday, 12 Aug | 10:00am</p>
+                                    <div class="mt-1 d-flex align-items-center gap-2" style="color:#616E7C"><i
+                                            class="fa-solid fa-location-dot"></i>
+                                        Nueva
+                                        Ecija</div>
+                                    <h3 class="mt-3 fw-bold" style="color:#1F2933">Event 1</h3>
+                                    <p class="mt-2 " style="color:#52606D; line-height:1.7;">Lorem ipsum dolor sit amet
+                                        consectetur
+                                        adipisicing elit.
+                                        Minima harum animi
+                                        accusamus unde ratione alias dolorum adipisci aperiam ipsum quasi!</p>
+                                </div>
+                            </div>
+                        </swiper-slide>
+
+                    </swiper-container>
+                    <!-- <div class=" col-12 col-lg-7">
+                            <div>
+                                <img src="<?php echo base_url('assets/images/home/latest-news-1.avif'); ?>" alt=""
+                                    style="height: 400px; width: 100%; object-fit: cover" />
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between mt-4">
+                                <h3 class="text-title fw-bold mb-0">Event 1</h3>
+                                <p class="bg-primary text-white py-2 px-4 fw-bold">
+                                    June 6, 2024
+                                </p>
+                            </div>
+                            <p class="text-paragraph mt-3" style="line-height: 1.7">
+                                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                                Voluptate ad earum sapiente vero. Quod, optio fugiat repellat at
+                                natus eos a nemo minus vitae animi ut dignissimos facere facilis
+                                quae ea maiores explicabo aliquam possimus incidunt reiciendis
+                                sed consequatur. Odio animi adipisci saepe deleniti cum
+                                perferendis nemo cupiditate eligendi dolorum.
                             </p>
-                        </div>
-                        <p class="text-paragraph mt-3" style="line-height: 1.7">
-                            Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                            Voluptate ad earum sapiente vero. Quod, optio fugiat repellat at
-                            natus eos a nemo minus vitae animi ut dignissimos facere facilis
-                            quae ea maiores explicabo aliquam possimus incidunt reiciendis
-                            sed consequatur. Odio animi adipisci saepe deleniti cum
-                            perferendis nemo cupiditate eligendi dolorum.
-                        </p>
-                    </div>
-                    <div class="col-12 col-lg-5">
+                </div> -->
+                    <!-- <div class="col-12 col-lg-5"> 
                         <div class="row row-cols-1 row-cols-md-2 gx-4 gy-4 row-cols-lg-1">
                             <div class="col d-flex gap-4">
                                 <img src="<?php echo base_url('assets/images/home/latest-news-1.avif'); ?>" alt=""
@@ -315,7 +399,7 @@
                             </div>
                         </div>
                         <button class="small-btn">See More</button>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -444,6 +528,38 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     mySwiper.initialize();
 
+
+    const mySwiper2 = document.querySelector('.mySwiper2');
+
+    Object.assign(mySwiper2, {
+        slidesPerView: 1,
+        pagination: {
+            clickable: true,
+        },
+        breakpoints: {
+            1: {
+                slidesPerView: 1,
+                spaceBetween: 20,
+            },
+            768: {
+                slidesPerView: 2,
+                spaceBetween: 20,
+            },
+            992: {
+                slidesPerView: 3,
+                spaceBetween: 10,
+            },
+            1200: {
+                slidesPerView: 3,
+                spaceBetween: 30,
+            }
+        },
+    });
+    mySwiper2.initialize();
+
+
+
+
     // Navbar
     const navLinks = document.getElementsByClassName('nav-link');
     console.log(navLinks);
@@ -459,7 +575,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     // Count down
-    var toDayFromNow = (new Date("Aug 1, 2024 23:59:59").getTime() / 1000) + (3600 / 60 / 60 /
+    var toDayFromNow = (new Date("Aug 20, 2024 23:59:59").getTime() / 1000) + (3600 / 60 / 60 /
         24) - 1;
     var flipdown = new FlipDown(toDayFromNow)
 

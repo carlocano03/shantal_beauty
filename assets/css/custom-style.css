@@ -536,7 +536,7 @@ input[type=number] {
   opacity: 0.6;
 }
 
-.upcoming-sched__create-btn {
+.upcoming-sched__create-btn,.events__create-btn {
   border-radius: 8px;
   padding: 8px 16px;
   background: rgba(82, 82, 108, .1);
@@ -569,6 +569,13 @@ box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 
 }
 
+.upcoming-sched__date-container-4 {
+	box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+	 border-radius: .5rem;
+	 padding: 14px;
+	 border-left: 4px solid #4CAF50;
+ 
+ }
 
 .upcoming-sched__weekday {
   font-size: 16px;

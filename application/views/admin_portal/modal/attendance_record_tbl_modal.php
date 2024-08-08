@@ -148,8 +148,7 @@ $(document).on("click", ".viewStudentAttendanceRecordDetailsBtn", function() {
                 $("#studentYearLevel").text(data.year_level);
                 $("#studentCourse").text(data.course);
                 $("#manageAttendanceBtn").attr("data-id", member_id);
-                // FIXME: list->member_id
-                $("#viewScheduleBtn").attr("data-id", 1);
+                $("#viewScheduleBtn").attr("data-id", data.member_id);
             }
         }
     });

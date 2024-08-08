@@ -143,7 +143,6 @@ class Attendance_record extends MY_Controller
 						></i>
 					</div>
 
-
 		
                     <div class="btn-group d-none d-lg-block">
                         <button type="button" class="btn btn-dark btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
@@ -209,8 +208,10 @@ class Attendance_record extends MY_Controller
 				"scholarship_no" => $student->scholarship_no,
 				"name" => ucfirst($student->student_last_name.', '.ucfirst($student->student_first_name).' '.ucfirst($student->student_middle_name)),
 				"schedule" => $church_schedule,
-				"year_level" => $student->year_level,
-				"course" => ucwords($student->course));
+				"year_level" => $student->member_id,
+				"course" => ucwords($student->course),
+				"member_id" => $student->member_id
+			);
 			
 		} else {
 			echo json_encode(array('error' => 'Student not found.'));
@@ -1272,4 +1273,3 @@ class Attendance_record extends MY_Controller
         echo json_encode($output);
     }
 }
-

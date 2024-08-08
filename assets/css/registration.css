@@ -377,6 +377,11 @@ html {
   font-size: 12px;
   font-weight: 500;
 }
+.success-message {
+  color: #28A745;
+  font-size: 12px;
+  font-weight: 500;
+}
 
 .fs-sm {
   font-size: 14px;

@@ -94,6 +94,8 @@ class Student_record extends MY_Controller
 				"birthday" => date('F j, Y', strtotime($student->birthday)),
 				"civil_status" => $student->civil_status,
 				"user_id"=>$student->user_id,
+				"member_id" => $student->member_id
+
 
 			);
 		}else{
