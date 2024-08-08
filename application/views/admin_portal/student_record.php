@@ -1,12 +1,14 @@
 <style>
 #tbl_student th:nth-child(1),
 #tbl_student td:nth-child(1),
-#tbl_student th:nth-child(5),
-#tbl_student td:nth-child(5),
+#tbl_student th:nth-child(2),
+#tbl_student td:nth-child(2),
 #tbl_student th:nth-child(6),
 #tbl_student td:nth-child(6),
 #tbl_student th:nth-child(7),
-#tbl_student td:nth-child(7) {
+#tbl_student td:nth-child(7),
+#tbl_student th:nth-child(8),
+#tbl_student td:nth-child(8) {
     text-align: center;
 }
 
@@ -67,7 +69,8 @@
                     <thead>
                         <tr>
                             <th class="d-none d-md-table-cell"></th>
-                            <th>Scholarship No</th>
+                            <th>ID</th>
+                            <th>Personnel No</th>
                             <th style="white-space:nowrap">Name</th>
                             <th class="d-none d-lg-table-cell">School</th>
                             <th class="d-none d-lg-table-cell">Birthday</th>
