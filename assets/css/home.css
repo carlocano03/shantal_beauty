@@ -353,7 +353,7 @@ body {
 	margin-top:12px;
 }
 
-.about-us_button {
+.about-us_button,.contact-us__btn {
 	padding: 8px 24px;
 	margin-top: 24px;
 	font-size: 18px;
