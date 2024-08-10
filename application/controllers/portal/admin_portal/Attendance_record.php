@@ -659,7 +659,7 @@ class Attendance_record extends MY_Controller
             $logs = array(
                 'user_id'       => $this->session->userdata('adminIn')['user_id'],
                 'user_type_id'  => $this->session->userdata('adminIn')['user_type_id'],
-                'transaction'   => 'Validate the excuse letter of'.$member['scholarship_no'],
+                'transaction'   => 'Validate the excuse letter of '.$member['scholarship_no'],
                 'remarks'       => 'Validate',
                 'email_use'     => $this->session->userdata('adminIn')['email_add'],
             );

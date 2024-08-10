@@ -75,10 +75,10 @@ class System_counter_generator_model extends MY_Model
         } else {
             $system_code = $result['system_code'];
             $counter = $result['counter'];
-            $year = date('y');
+            $year = date('Y');
             $month = date('m');
             $counter_padded = sprintf("%05d", $counter);
-            $ctrl_no = $system_code . $year.$month .'-' . $counter_padded;
+            $ctrl_no = $system_code .$year.'-' . $counter_padded;
 
             return $ctrl_no;
         }
