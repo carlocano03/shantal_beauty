@@ -361,6 +361,13 @@ input[type=number] {
   border: 2px solid rgba(0,0,0,.125);
 }
 
+.img-bio {
+  border-radius: 100%;
+  height: 35px;
+  width: 35px;
+  border: 2px solid rgba(0,0,0,.125);
+}
+
 @keyframes round {
 
   0% {
