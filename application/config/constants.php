@@ -20,6 +20,7 @@ define('CHURCH_SCHEDULE', 5);
 define('LATE_RULES', 6);
 define('ATTENDANCE', 7);
 define('APPROVAL_SCHOLAR', 8);
+define('BIOMETRIC_LOGS', 9);
 /*
 |--------------------------------------------------------------------------
 | Display Debug backtrace

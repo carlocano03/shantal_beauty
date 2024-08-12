@@ -7,6 +7,7 @@
     $church_settings = FALSE;
     $late_rules = FALSE;
     $attendance = FALSE;
+    $biometric = FALSE;
 
     if ($active_page == 'dashboard_page') {
         $dashboard = TRUE;
@@ -25,6 +26,8 @@
         $late_rules = TRUE;
     } elseif ($active_page == 'attendance_page') {
         $attendance = TRUE;
+    } elseif ($active_page == 'biometric_page') {
+        $biometric = TRUE;
     }
 
 ?>
@@ -209,6 +212,14 @@
                     </li>
 
                     <li class="menu-item ">
+                        <a href="<?= base_url('admin/biometric-logs');?>"
+                            class="<?= ($biometric) ? 'menu-link-active' : '';?> menu-link">
+                            <i class="menu-icon tf-icons bi bi-fingerprint"></i>
+                            <div data-i18n="Analytics">Biometric Logs</div>
+                        </a>
+                    </li>
+
+                    <li class="menu-item ">
                         <a href="<?= base_url('admin/attendance-record');?>"
                             class="<?= ($attendance) ? 'menu-link-active' : '';?> menu-link">
                             <i class="menu-icon tf-icons bi bi-calendar-week-fill"></i>
@@ -284,6 +295,16 @@
                                 class="<?= ($student_record) ? 'menu-link-active' : '';?> menu-link">
                                 <i class="menu-icon tf-icons bi bi-person-lines-fill"></i>
                                 <div data-i18n="Analytics">Scholars Records</div>
+                            </a>
+                        </li>
+                    <?php endif; ?>
+
+                    <?php if (in_array(BIOMETRIC_LOGS, $role_permissions)): ?>
+                        <li class="menu-item ">
+                            <a href="<?= base_url('admin/biometric-logs');?>"
+                                class="<?= ($biometric) ? 'menu-link-active' : '';?> menu-link">
+                                <i class="menu-icon tf-icons bi bi-fingerprint"></i>
+                                <div data-i18n="Analytics">Biometric Logs</div>
                             </a>
                         </li>
                     <?php endif; ?>

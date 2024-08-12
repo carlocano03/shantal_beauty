@@ -3,6 +3,27 @@
     background: #E2E8F0 !important;
     color: red !important;
 }
+#church_schedule_chart {
+    width: 450px !important;
+    height: 450px !important;
+
+}
+
+@media (max-width: 768px) {
+    #church_schedule_chart {
+        width: 350px !important;
+        height: 350px !important;
+
+    }
+}
+
+@media (max-width: 420px) {
+    #church_schedule_chart {
+        width: 250px !important;
+        height: 250px !important;
+
+    }
+}
 </style>
 <!-- Content wrapper -->
 <div class="content-wrapper">
@@ -124,7 +145,12 @@
                             <div class="mt-3">
                                 <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                                     <li class="nav-item" role="presentation">
-                                        <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">
+                                        <button class="nav-link active" id="pills-overview-tab" data-bs-toggle="pill" data-bs-target="#pills-overview" type="button" role="tab" aria-controls="pills-overview" aria-selected="false">
+                                            Schedule Overview
+                                        </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">
                                             Scholars With Schedule <span class="badge bg-warning with_schedule"></span>
                                         </button>
                                     </li>
@@ -135,7 +161,12 @@
                                     </li>
                                 </ul>
                                 <div class="tab-content p-0" id="pills-tabContent">
-                                    <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                                    <div class="tab-pane fade fade show active" id="pills-overview" role="tabpanel" aria-labelledby="pills-overview-tab">
+                                        <div class="mt-3 d-flex align-items-center justify-content-center">
+                                            <canvas id="church_schedule_chart"></canvas>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
                                         <?php $this->load->view('admin_portal/scholar_tab/with_schedule')?>
                                     </div>
                                     <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
@@ -173,28 +204,60 @@
                 </div>
             </div>
             <div class="col-lg-4 col-12 order-lg-2 order-1">
-                <div class="row mb-4">
-                    <div class="col">
-                        <div class="overview-card">
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div class="d-flex align-items-center gap-2">
-                                    <img class="overview-card__icon"
-                                        src="<?php echo base_url('assets/images/dashboard/biometric.png'); ?>" alt="
-										Registration">
-                                    <h1 class="overview-card__title mb-0">Biometric Logs</h1>
+                <?php if ($this->session->userdata('adminIn')['user_type_id'] == ADMINISTRATOR) : ?>
+                    <div class="row mb-4">
+                        <div class="col">
+                            <div class="overview-card">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="d-flex align-items-center gap-2">
+                                        <img class="overview-card__icon"
+                                            src="<?php echo base_url('assets/images/dashboard/biometric.png'); ?>" alt="
+                                            Registration">
+                                        <h1 class="overview-card__title mb-0">Biometric Logs</h1>
+                                    </div>
+                                    <a href="<?= base_url('admin/biometric-logs')?>"><button class="upcoming-sched__create-btn"><i
+                                            class="bi bi-folder2-open me-2"></i>View All</button></a>
                                 </div>
-                            </div>
 
-                            <div class="mt-4" id="biometric_logs">
-                                <!-- AJAX Request -->
-                            </div>
-                            <div id="error"></div>
-                            <div id="pagination_links">
-                                <!-- Pagination links will be loaded here via AJAX -->
+                                <div class="mt-4" id="biometric_logs">
+                                    <!-- AJAX Request -->
+                                </div>
+                                <div id="error"></div>
+                                <div id="pagination_links">
+                                    <!-- Pagination links will be loaded here via AJAX -->
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                <?php else : ?>
+                    <?php if (in_array(BIOMETRIC_LOGS, $role_permissions)): ?>
+                        <div class="row mb-4">
+                            <div class="col">
+                                <div class="overview-card">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <img class="overview-card__icon"
+                                                src="<?php echo base_url('assets/images/dashboard/biometric.png'); ?>" alt="
+                                                Registration">
+                                            <h1 class="overview-card__title mb-0">Biometric Logs</h1>
+                                        </div>
+                                        <a href="<?= base_url('admin/biometric-logs')?>"><button class="upcoming-sched__create-btn"><i
+                                            class="bi bi-folder2-open me-2"></i>View All</button></a>
+                                    </div>
+
+                                    <div class="mt-4" id="biometric_logs">
+                                        <!-- AJAX Request -->
+                                    </div>
+                                    <div id="error"></div>
+                                    <div id="pagination_links">
+                                        <!-- Pagination links will be loaded here via AJAX -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endif;?>
+                <?php endif;?>
+                
 
                 <div class="row mb-4">
                     <div class="col">
@@ -207,15 +270,15 @@
                                     <h1 class="overview-card__title mb-0">Church Schedules</h1>
                                 </div>
                                 <?php if ($this->session->userdata('adminIn')['user_type_id'] == ADMINISTRATOR) : ?>
-                                <a href="<?= base_url('admin/church-schedule')?>"><button
+                                    <a href="<?= base_url('admin/church-schedule')?>"><button
                                         class="upcoming-sched__create-btn"><i
                                             class="fa-solid fa-plus me-1"></i>Create</button></a>
                                 <?php else: ?>
-                                <?php if (in_array(CHURCH_SCHEDULE, $role_permissions)): ?>
-                                <a href="<?= base_url('admin/church-schedule')?>"><button
-                                        class="upcoming-sched__create-btn"><i
-                                            class="fa-solid fa-plus me-1"></i>Create</button></a>
-                                <?php endif; ?>
+                                    <?php if (in_array(CHURCH_SCHEDULE, $role_permissions)): ?>
+                                        <a href="<?= base_url('admin/church-schedule')?>"><button
+                                            class="upcoming-sched__create-btn"><i
+                                                class="fa-solid fa-plus me-1"></i>Create</button></a>
+                                    <?php endif; ?>
                                 <?php endif; ?>
                             </div>
 
@@ -312,6 +375,47 @@
 
 <script>
 var applicationChartInstance;
+
+const scheduleChart = new Chart(document.getElementById('church_schedule_chart'), {
+    type: 'pie',
+    data: {}, // Initialize with empty data
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                 position: 'top',
+            },
+            title: {
+                display: true,
+                text: 'Scholar Schedules'
+            }
+        }
+    }
+});
+
+function loadSchedule() {
+    $.ajax({
+        url: "<?= base_url('portal/admin_portal/main/get_church_schedule');?>",
+        method: "GET",
+        dataType: "json",
+        success: function(data) {
+            if (data.count > 0) {
+                scheduleChart.data = data.chart;
+                scheduleChart.update();
+            } else {
+                scheduleChart.data = {
+                    datasets: [{
+                        data: [1], // Dummy data
+                        backgroundColor: ['rgba(0, 0, 0, 0)'], // Transparent color
+                        borderColor: ['rgba(0, 0, 0, 0)'] // Transparent color
+                    }],
+                    labels: ['No data found']
+                };
+                scheduleChart.update();
+            }
+        }
+    });
+}
 
 function getCount() {
     $.ajax({
@@ -551,6 +655,7 @@ $(document).ready(function() {
     getDeadlineFilling();
     getCountSchedule();
     getBiometricLogs(0);
+    loadSchedule();
 
     setInterval(() => {
         getScholarshipRequest();
@@ -562,6 +667,10 @@ $(document).ready(function() {
         event.preventDefault();
         var page = $(this).attr('href').split('/').pop();
         getBiometricLogs(page);
+    });
+
+    $(document).on('click', '#pills-overview-tab', function() {
+        loadSchedule();
     });
 
     var tbl_with_schedule = $('#tbl_with_schedule').DataTable({
