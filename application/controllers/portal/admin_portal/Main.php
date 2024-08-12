@@ -283,6 +283,35 @@ class Main extends MY_Controller
         } 
     }
 
+    public function get_church_schedule()
+    {
+        //Chart Data
+        $schedData = $this->main_model->fetch_data_chart();
+        $labels = array();
+        $datasets = array(
+            'label' => 'Schedules',
+            'data' => array(),
+            'backgroundColor' => array("rgb(54, 162, 235)", "rgb(255, 99, 132)")
+        );
+
+        if($schedData->num_rows() > 0) {
+            foreach ($schedData->result() as $row) {
+                $labels[] = $row->schedule_name;
+                $datasets['data'][] = $row->sched_count;
+            }
+        }
+
+        $data = array(
+            'labels' => $labels,
+            'datasets' => array($datasets)
+        );
+
+        $output = array(
+            'chart' => $data,
+            'count' => $schedData->num_rows(),
+        );
+        echo json_encode($output);
+    }
 	
 
 	// public function add_event(){
