@@ -163,4 +163,10 @@ class Main_model extends MY_Model
         return $update?TRUE:FALSE;
     }
 
+	function insert_event($data)
+    {
+      return $this->db->insert('events',$data);
+    }
+    
+
 }
