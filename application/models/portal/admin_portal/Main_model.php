@@ -163,6 +163,13 @@ class Main_model extends MY_Model
         return $update?TRUE:FALSE;
     }
 
+
+	 function insert_event($data)
+    {
+      return $this->db->insert('events',$data);
+    }
+    
+
     function fetch_data_chart()
     {
         $start_dt = date('Y-m-01');
@@ -177,5 +184,6 @@ class Main_model extends MY_Model
         $query = $this->db->get();
         return $query;
     }
+
 
 }

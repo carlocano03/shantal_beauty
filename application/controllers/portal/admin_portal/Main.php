@@ -272,13 +272,13 @@ class Main extends MY_Controller
 
 	private function upload_img()
     {
-        if (isset($_FILES["product_img"]))
+        if (isset($_FILES["event_img"]))
         {
             $dt = Date('His');
-            $extension = explode('.', $_FILES['product_img']['name']);
+            $extension = explode('.', $_FILES['event_img']['name']);
             $new_name = rand() . '_' . $dt . '.' . $extension[1];
             $destination = 'assets/uploaded_attachment/events/' . $new_name;
-            move_uploaded_file($_FILES['product_img']['tmp_name'], $destination);
+            move_uploaded_file($_FILES['event_img']['tmp_name'], $destination);
             return $new_name;
         } 
     }
@@ -314,36 +314,45 @@ class Main extends MY_Controller
     }
 	
 
-	// public function add_event(){
+	public function add_event(){
 		
-	// 		$event_name = $this->input->post('event_name');
-	// 		$event_date = $this->input->post('event_date');
-	// 		$start_time = $this->input->post('start_time');
-	// 		$end_time = $this->input->post("end_time");
-	// 		$event_description = $this->input->post("event_description");
-		
-	// 		$data = array(
-	// 			"event_name" => $event_name,
-	// 			"event_date" => $event_date,
-	// 			"start_time" => $start_time,
-	// 			"end_time" => $end_time,
-	// 			"event_description" =>$event_description,
-	// 			"img" => $this->upload_img(),
-	// 		);
+			$event_name = $this->input->post('event_name');
+			$event_date = $this->input->post('event_date');
+			$start_time = $this->input->post('start_time');
+			$end_time = $this->input->post("end_time");
+			$event_description = $this->input->post("event_description");
 
-	// 		$status = $this->Event_model->insert_event($data);
+			$upload_img = $this->upload_img();
 
-	// 		echo $status;
+			if ($upload_img === false) {
+				$response = array('status' => 'error', 'message' => 'Image upload failed.');
+				echo json_encode($response);
+				return;
+			}
 
-	// 		if($status){
-	// 			$response = array('status'=>'success','message' => 'Event added successfully.');
-	// 		}else{
-	// 			$response = array('status'=>'error', 'message' => 'Failed to add event.');
-	// 		}
 
-	// 		echo json_encode($response);
+			$data = array(
+				"event_name" => $event_name,
+				"event_date" => $event_date,
+				"start_time" => $start_time,
+				"end_time" => $end_time,
+				"event_description" =>$event_description,
+				"event_img" => $upload_img,
+			);
 
-	// }
+			$status = $this->main_model->insert_event($data);
+
+			if($status){
+				$response = array(
+					'status'=>'success','message' => 'Event added successfully.'
+				);
+			}else{
+				$response = array('status'=>'error', 'message' => 'Failed to add event.');
+			}
+
+			echo json_encode($response);
+
+	}
 
 }
 //End CI_Controller
