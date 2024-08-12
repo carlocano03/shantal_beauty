@@ -163,10 +163,27 @@ class Main_model extends MY_Model
         return $update?TRUE:FALSE;
     }
 
-	function insert_event($data)
+
+	 function insert_event($data)
     {
       return $this->db->insert('events',$data);
     }
     
+
+    function fetch_data_chart()
+    {
+        $start_dt = date('Y-m-01');
+        $end_date_obj = date('Y-m-t');
+
+        $this->db->select('schedule_name, COUNT(*) as sched_count');
+        $this->db->from('scholar_schedule');
+        $this->db->where('status', 0);
+        $this->db->where('DATE(date_from) >=', $start_dt);  // Adjust the year as needed
+        $this->db->where('DATE(date_from) <=', $end_date_obj);
+        $this->db->group_by('sched_id');
+        $query = $this->db->get();
+        return $query;
+    }
+
 
 }

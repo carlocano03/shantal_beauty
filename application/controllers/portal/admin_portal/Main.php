@@ -40,6 +40,15 @@ class Main extends MY_Controller
         $data['active_page'] = 'dashboard_page';
         $data['card_title'] = 'Dashboard';
         $data['icon'] = 'bi bi-speedometer2';
+        $data['header_contents'] = array(
+            '<link href="https://cdn.datatables.net/1.13.2/css/dataTables.bootstrap4.min.css" rel="stylesheet">',
+            '<script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>',
+            '<script src="https://cdn.datatables.net/1.13.2/js/dataTables.bootstrap4.min.js"></script>',
+            '<script>
+                var csrf_token_name = "'.$this->security->get_csrf_token_name().'";
+                var csrf_token_value = "'.$this->security->get_csrf_hash().'";
+            </script>'
+        );
         $this->load->view('admin_portal/partial/_header', $data);
         $this->load->view('admin_portal/dashboard', $data);
         $this->load->view('admin_portal/partial/_footer', $data);
@@ -274,6 +283,35 @@ class Main extends MY_Controller
         } 
     }
 
+    public function get_church_schedule()
+    {
+        //Chart Data
+        $schedData = $this->main_model->fetch_data_chart();
+        $labels = array();
+        $datasets = array(
+            'label' => 'Schedules',
+            'data' => array(),
+            'backgroundColor' => array("rgb(54, 162, 235)", "rgb(255, 99, 132)")
+        );
+
+        if($schedData->num_rows() > 0) {
+            foreach ($schedData->result() as $row) {
+                $labels[] = $row->schedule_name;
+                $datasets['data'][] = $row->sched_count;
+            }
+        }
+
+        $data = array(
+            'labels' => $labels,
+            'datasets' => array($datasets)
+        );
+
+        $output = array(
+            'chart' => $data,
+            'count' => $schedData->num_rows(),
+        );
+        echo json_encode($output);
+    }
 	
 
 	public function add_event(){

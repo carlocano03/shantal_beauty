@@ -116,6 +116,15 @@ class Main extends MY_Controller
                                 'email_use'     => $user_details['active_email'],
                             );
                             $this->insert_activity_logs($logs);
+                        } else {
+                            $logs = array(
+                                'user_id'       => $user_details['user_id'],
+                                'user_type_id'  => ADMINISTRATOR,
+                                'transaction'   => 'Login to School Unity Portal.',
+                                'remarks'       => 'Log-In',
+                                'email_use'     => $user_details['active_email'],
+                            );
+                            $this->insert_activity_logs($logs);
                         }
                         $main_url = base_url('admin/dashboard');
                     } else {
@@ -131,7 +140,14 @@ class Main extends MY_Controller
                             'temp_pass'         => $session['temp_password'],
                         );
                         $this->session->set_userdata('scholarIn', $sess_array);
-
+                        $logs = array(
+                            'user_id'       => $user_details['user_id'],
+                            'user_type_id'  => STUDENT,
+                            'transaction'   => 'Login to School Unity Portal.',
+                            'remarks'       => 'Log-In',
+                            'email_use'     => $user_details['email_address'],
+                        );
+                        $this->insert_activity_logs($logs);
                         $main_url = base_url('scholar/dashboard');
                     }
                     $success = '<div class="alert alert-success"><i class="fas fa-info-circle me-2"></i>Please wait redirecting...</div>';
@@ -150,6 +166,89 @@ class Main extends MY_Controller
         );
         echo json_encode($output);
     }
+
+    public function check_user()
+    {
+        $error = '';
+        $success = '';
+        $username = $this->input->post('username', true);
+        $user = $this->main_model->check_reset_pass($username);
+        $userCheck = $this->main_model->userCheck($username);
+
+        if ($userCheck > 0) {
+            if($user) {
+                if ($user['is_active'] == 1) {
+                    $error = '<div class="alert alert-danger"><i class="fas fa-info-circle me-2"></i>Your account is deactivated.</div>';
+                } elseif ($user['status'] == 1) {
+                    $error = '<div class="alert alert-danger"><i class="fas fa-info-circle me-2"></i>Your account is already deleted.</div>';
+                } else {
+                    $success = '<div class="alert alert-success"><i class="fas fa-info-circle me-2"></i>Please click reset password.</div>';
+                }
+            }
+        } else {
+            $error = '<div class="alert alert-danger"><i class="fas fa-info-circle me-2"></i>Invalid scholarship no.</div>';
+        }
+        $output = array(
+            'success' => $success,
+            'error' => $error,
+        );
+        echo json_encode($output);
+    }
+
+    public function reset_password()
+    {
+        $error = '';
+        $success = '';
+        $username = $this->input->post('username', true);
+        $user = $this->main_model->check_reset_pass($username);
+
+        $user_details = $this->main_model->get_row('scholarship_member', array('user_id' => $user['user_id']));
+
+        $password = $this->generateRandomString();
+        $update_account = array(
+            'password'          => password_hash($password, PASSWORD_DEFAULT),
+            'temp_password'     => $password,
+        );
+        $result = $this->main_model->reset_password($username, $update_account);
+        if ($result == TRUE) {
+            $success = '<div class="alert alert-success"><i class="fas fa-info-circle me-2"></i>Reset successfull. Please check your email to get the OTP.</div>';
+
+            //Send email
+            // $mail_data = [
+            // 	'name_to'   => $user_details['student_first_name'],
+            //     'login_url' => base_url('login'),
+            //     'username'  => $user_details['scholarship_no'],
+            //     'password'  => $password,
+            // ];
+
+            // $this->send_email_html([
+            // 	'mail_to'       => $user_details['email_address'],
+            // 	'cc'            => [],
+            // 	'subject'       => 'Password Successfully Reset',
+            // 	'template_path' => 'email_template/reset_password',
+            // 	'mail_data'     => $mail_data,
+            // ]);
+        } else {
+            $error = '<div class="alert alert-danger"><i class="fas fa-info-circle me-2"></i>Failed to reset the password.</div>';
+        }
+        $output = array(
+            'success' => $success,
+            'error' => $error,
+        );
+        echo json_encode($output);
+    }
+
+    private function generateRandomString($length = 6)
+    {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
+
 
     public function logout($session)
     {

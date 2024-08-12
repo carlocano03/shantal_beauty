@@ -51,6 +51,13 @@ class Main_model extends MY_Model
         return $query->num_rows();
     }
 
+    function check_reset_pass($username)
+    {
+        $this->db->where('username', $username);
+        $query = $this->db->get('user_acct');
+        return $query->row_array();
+    }
+
     private function verify_password_hash($password, $hash)
     {
         return password_verify($password, $hash);
@@ -125,5 +132,12 @@ class Main_model extends MY_Model
         $this->db->where('status', 0);
         $query = $this->db->get('church_schedule');
         return $query->result();
+    }
+
+    function reset_password($username, $update_account)
+    {
+        $this->db->where('username', $username);
+        $update = $this->db->update('user_acct', $update_account);
+        return $update?TRUE:FALSE;
     }
 }
