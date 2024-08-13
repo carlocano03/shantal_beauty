@@ -64,6 +64,10 @@ class Main extends MY_Controller
     public function scholarship_closed(){
         $this->load->view('website/scholarship_closed');
 	}
+	
+	public function maintenance(){
+        $this->load->view('website/maintenance');
+	}
 
     // Error 404 redirect
 	public function page404()

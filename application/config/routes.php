@@ -77,14 +77,16 @@ $route['scholar/attendance-record/print'] = 'portal/student_portal/student_atten
 $route['scholar/attendance-record/excel'] = 'portal/student_portal/student_attendance/excel_attendance';
 
 
-// Scholarship Closed
-$route['scholarship-closed'] = 'main/scholarship_closed';
+
 
 
 // Custom Table
 $route['custom-table'] = 'main/custom_table';
 
-
+// Scholarship Closed
+$route['scholarship-closed'] = 'main/scholarship_closed';
+// Maintenance
+$route['maintenance'] = 'main/maintenance';
 
 $route['default_controller'] = 'main';
 $route['404_override'] = 'main/page404';

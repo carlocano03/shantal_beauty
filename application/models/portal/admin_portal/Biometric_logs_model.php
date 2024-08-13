@@ -34,6 +34,7 @@ class Biometric_logs_model extends MY_Model
         $query = $this->db->get();
         return $query->result();
     }
+	
 
     public function count_filtered()
     {

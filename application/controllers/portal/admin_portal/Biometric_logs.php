@@ -61,19 +61,20 @@ class Biometric_logs extends MY_Controller
         foreach ($logs as $list) {
             $no++;
             $row = array();
-
+			
             $img = base_url()."assets/images/avatar-default-0.png";
             if(!empty($list->personal_photo)){
-                if(file_exists('./assets/uploaded_attachment/personal_photo/'.$list->personal_photo)){
-                    $img = base_url()."assets/uploaded_attachment/personal_photo/".$list->personal_photo;
+				if(file_exists('./assets/uploaded_attachment/personal_photo/'.$list->personal_photo)){
+					$img = base_url()."assets/uploaded_attachment/personal_photo/".$list->personal_photo;
                 }
             }
-
             $row[] = '<img class="img-profile" src="' . $img . '" alt="Profile-Picture">';
             $row[] = $list->scholarship_no;
             $row[] = ucwords($list->scholar);
             $row[] = date('F j, Y', strtotime($list->attendance_date));
             $row[] = date('h:i A', strtotime($list->time_transaction));
+	
+			
 
             $color_mapping = [
                 'Time-In' => 'bg-success',
@@ -94,4 +95,40 @@ class Biometric_logs extends MY_Controller
         );
         echo json_encode($output);
     }
+
+	// public function get_single_biometric_log(){
+	// 	$id = $this->input->post('id');
+
+	// 	$log = $this->biometric_logs_model->get_biometric_log_by_id($id);
+
+	// 	if($log){
+	// 		$img = base_url()."assets/images/avatar-default-0.png";
+	// 		if(!empty($log->personal_photo)){
+	// 			if(file_exists('./assets/uploaded_attachment/personal_photo/'.$log->personal_photo)){
+    //                 $img = base_url()."assets/uploaded_attachment/personal_photo/".$log->personal_photo;
+    //             }
+	// 		}
+
+	// 		$color_mapping = [
+    //             'Time-In' => 'bg-success',
+    //             'Time-Out' => 'bg-danger',
+    //         ];
+			
+	// 		$badge_color = isset($color_mapping[$log->remarks]) ? $color_mapping[$log->remarks] : 'bg-warning';
+
+	// 		$data = array(
+	// 			'b_student_img' => $img,
+    //             'b_scholar_no' => $log->scholarship_no,
+    //             'b_student_name' => $log->scholar,
+    //             'b_date' => date('F j, Y', strtotime($log->attendance_date)),
+    //             'b_time' => date('h:i A', strtotime($log->time_transaction)),
+    //             'b_type' => $badge_color
+	// 		);
+
+	// 		echo json_encode($data);
+
+	// 	}else{
+	// 		echo json_encode(['status' => 'error', 'message' => 'Log not found']);
+	// 	}
+	// }
 }
