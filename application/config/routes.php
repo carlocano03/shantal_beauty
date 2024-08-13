@@ -86,7 +86,7 @@ $route['custom-table'] = 'main/custom_table';
 // Scholarship Closed
 $route['scholarship-closed'] = 'main/scholarship_closed';
 // Maintenance
-$route['maintenance'] = 'main/maintenance';
+$route['maintenance'] = 'main/index';
 
 $route['default_controller'] = 'main';
 $route['404_override'] = 'main/page404';

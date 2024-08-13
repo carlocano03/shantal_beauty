@@ -293,4 +293,75 @@ class Main_model extends MY_Model
         return $update?TRUE:FALSE;
     }
 
+    function get_time_in($member_id)
+    {
+        // $start_dt = date('Y-m-01');
+        // $end_date_obj = date('Y-m-t');
+
+        // $this->db->select('CS.time_in');
+        // $this->db->from('scholar_schedule SS');
+        // $this->db->join('church_schedule CS', 'SS.sched_id = CS.sched_id', 'left');
+        // // $this->db->where('DATE(SS.date_from) >=', $start_dt);  // Adjust the year as needed
+        // // $this->db->where('DATE(SS.date_from) <=', $end_date_obj);
+        // $this->db->where('member_id', $member_id);
+        // $query = $this->db->get();
+        // return $query->row();
+
+        $this->db->where('member_id', $member_id);
+        $query = $this->db->get('scholar_selected_schedule');
+        return $query->result_array();
+    }
+
+    function get_attendance_data($schedule_date, $remarks, $no_days)
+    {
+        $this->db->where('member_id', $this->session->userdata('scholarIn')['member_id']);
+        $this->db->where('attendance_date >=', 'DATE_SUB(CURDATE(), INTERVAL ' . $this->db->escape($no_days) . ' DAY)', FALSE);
+        $this->db->where('attendance_date', $schedule_date);
+        $this->db->where('remarks', $remarks);
+        $this->db->where('is_handled', 0);
+        $this->db->order_by('attendance_id', 'ASC');
+        $query = $this->db->get('attendance_record');
+        return $query->row_array();
+    }
+
+    function get_total_late_count($member_id, $expected_time_in, $days_interval)
+    {
+        // $query = $this->db->query("
+        //     SELECT COUNT(*) as late_count 
+        //     FROM attendance_record 
+        //     WHERE member_id = ? 
+        //     AND remarks = 'Time-In' 
+        //     AND time_transaction > ? 
+        //     AND attendance_date >= DATE_SUB(CURDATE(), INTERVAL ? DAY)
+        //     AND is_handled = 0
+        // ", array($member_id, $expected_time_in, $days_interval));
+        // return $query->row();
+        $subquery = "
+            SELECT MIN(time_transaction) AS earliest_time
+            FROM attendance_record 
+            WHERE member_id = ? 
+            AND remarks = 'Time-In' 
+            AND attendance_date >= DATE_SUB(CURDATE(), INTERVAL ? DAY)
+            AND is_handled = 0
+            GROUP BY attendance_date
+        ";
+
+        // Main query to count the number of late occurrences based on the earliest Time-In
+        $query = $this->db->query("
+            SELECT COUNT(*) as late_count
+            FROM (
+                $subquery
+            ) AS earliest_times
+            WHERE earliest_time > ?
+        ", array($member_id, $days_interval, $expected_time_in));
+
+        return $query->row();
+    }
+
+    function upload_letter_late($upload_letter)
+    {
+        $insert = $this->db->insert('uploaded_consecutive_late', $upload_letter);
+        return $insert?TRUE:FALSE;
+    }
+
 }
