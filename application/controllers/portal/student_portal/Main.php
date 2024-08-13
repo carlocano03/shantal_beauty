@@ -35,11 +35,61 @@ class Main extends MY_Controller
     public function index()
     {
         $lates = $this->check_lates();
-
         $data['total_late'] = count($lates) > 0;
-        $data['late_rules'] = $this->main_model->get_row('late_rules', array('status' => 0));
+
         $data['late_rules'] = $this->main_model->getActiveRules();
         $data['student_info'] = $this->main_model->get_row('scholarship_member', array('user_id' => $this->session->userdata('scholarIn')['user_id']));
+        $late_rules = $data['late_rules']->row();
+        $no_days = isset($late_rules->no_days) ? $late_rules->no_days : 0;
+
+        $data['letter'] = $this->main_model->get_row('uploaded_consecutive_late', array('member_id' => $this->session->userdata('scholarIn')['member_id'], 'remarks' => 'For Validation'));
+
+        // $student_time_in = $this->main_model->get_time_in($this->session->userdata('scholarIn')['member_id']);
+        // $expected_time_in = isset($student_time_in->time_in) ? $student_time_in->time_in : '';
+
+        $schedules = $this->main_model->get_time_in($this->session->userdata('scholarIn')['member_id']);
+        $total_late_count = 0;
+
+        foreach ($schedules as $list) {
+            $attendance = $this->main_model->get_attendance_record($list['schedule_date']);
+            $attendance_row = $attendance->row_array();
+
+            $timeIn = $this->main_model->get_attendance_data($list['schedule_date'], 'Time-In', $no_days);
+
+            if ($attendance->num_rows() > 0) {
+                if (is_array($attendance_row) && !empty($attendance_row)) {
+                    $time_in_arrival = isset($timeIn['time_transaction']) ? strtotime($timeIn['time_transaction']) : 0;
+
+                    $time_from = strtotime($list['time_from']);
+
+                    // Calculate late hours and late minutes
+                    if ($time_in_arrival > $time_from) {
+                        $late_seconds = $time_in_arrival - $time_from;
+                        $late_hours = floor($late_seconds / 3600);
+                        $late_minutes = floor(($late_seconds % 3600) / 60);
+                        $total_late_count++;
+                    } else {
+                        $late_hours = 0;
+                        $late_minutes = 0;
+                    }
+                }
+            }
+            // $late_result = $this->main_model->get_total_late_count($this->session->userdata('scholarIn')['member_id'], $expected_time_in, $no_days);
+
+            // $total_late_count += $late_result->late_count;
+        }
+
+        //$late_result = $this->main_model->get_total_late_count($this->session->userdata('scholarIn')['member_id'], $expected_time_in, $no_days);
+
+        $data['late_count'] = $total_late_count;
+
+        if ($total_late_count >= $late_rules->no_late) {
+        //if ($total_late_count >= 1) {
+            $data['show_upload_button'] = 'Show';
+        } else {
+            $data['show_upload_button'] = 'Hide';
+        }
+
         $data['home_url'] = base_url('student/portal');
         $data['active_page'] = 'dashboard_page';
         $data['card_title'] = 'Dashboard';
@@ -424,6 +474,47 @@ class Main extends MY_Controller
             $message = 'Error';
         }
         $output['message'] = $message;
+        echo json_encode($output);
+    }
+
+    function upload_attachment()
+    {
+        if (isset($_FILES["attachment"]))
+        {
+            $dt = Date('His');
+            $extension = explode('.', $_FILES['attachment']['name']);
+            $new_name = rand() . 'letter_' . $dt . '.' . $extension[1];
+            $destination = 'assets/uploaded_attachment/excuse_letter/' . $new_name;
+            move_uploaded_file($_FILES['attachment']['tmp_name'], $destination);
+            return $new_name;
+        } 
+    }
+
+    public function save_excuse_letter()
+    {
+        $success = '';
+        $error = '';
+
+        $member_id = $this->session->userdata('scholarIn')['member_id'];
+        $attachment = $this->upload_attachment();
+
+        $upload_letter = array(
+            'member_id'         => $member_id,
+            'attachment'        => $attachment,
+            'remarks'           => 'For Validation',
+            'date_created'      => date('Y-m-d H:i:s'),
+        );
+
+        $result = $this->main_model->upload_letter_late($upload_letter);
+        if ($result == TRUE) {
+            $success = 'Excuse letter successfully submitted.';
+        } else {
+            $error = 'Failed to upload the excuse letter.';
+        }
+        $output = array(
+            'error' => $error,
+            'success' => $success,
+        );
         echo json_encode($output);
     }
     

@@ -20,8 +20,12 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
     <script src="<?= base_url('assets/js/registration.js')?>"></script>
+    <!--   CSRF Token   -->
+    <script src="<?php echo base_url('assets/js/csrf_generator.js'); ?>"></script>
     <script>
-    var baseURL = "<?php echo base_url(); ?>";
+    var csrf_token_name = "<?php echo $this->security->get_csrf_token_name(); ?>";
+    var csrf_token_value = "<?php echo $this->security->get_csrf_hash(); ?>";
+    var baseURL = "<?= base_url();?>";
     </script>
     <?php
         // Load specified header library

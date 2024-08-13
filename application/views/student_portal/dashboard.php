@@ -17,7 +17,7 @@
                         <img class="student__avatar" src="<?= $img;?>" alt="applicant">
                         <div class="w-100 d-flex flex-column  pt-2 ">
                             <div class="student__name text-lg-start text-center">
-                                <?= $this->session->userdata('scholarIn')['fullname']?><?= isset($student_info['scholarship_no']) ? ' - '.$student_info['scholarship_no'] : '';?>
+                                <?= $this->session->userdata('scholarIn')['fullname']?><?= isset($student_info['scholarship_no']) ? ' - '.$student_info['scholarship_no'] : '';?> 
                             </div>
                             <div
                                 class="d-flex gap-lg-5 gap-4 align-items-center justify-content-lg-start justify-content-center mt-3 py-3 py-lg-0">
@@ -149,40 +149,45 @@
 
                     <div id="active_rules">
                         <?php if($late_rules->num_rows() > 0) : ?>
-                        <?php foreach($late_rules->result_array() as $list) : ?>
-                        <?php
+                            <?php foreach($late_rules->result_array() as $list) : ?>
+                                <?php
                                     if ($list['no_late'] > 1) {
                                         $consecutive_late = $list['no_late'].' Consecutive Lates';
                                     } else {
                                         $consecutive_late = $list['no_late'].' Consecutive Late';
                                     }
-                    
+                        
                                     if ($list['no_days'] > 1) {
                                         $day_range = $list['no_days'].' Days Range';
                                     } else {
                                         $day_range = $list['no_days'].' Day Range';
                                     }
                                 ?>
-                        <input type="hidden" id="no_late" value="<?= $list['no_late'];?>">
-                        <input type="hidden" id="days_range" value="<?= $list['no_days'];?>">
-                        <div class="upcoming-sched__date-container-3 mb-3" style="cursor:pointer;">
-                            <div class="d-flex align-items-center justify-content-between mb-3">
-                                <h1 class="upcoming-sched__weekday mb-0"><?= ucwords($list['rule_name'])?></h1>
-                                <div style="font-size:10px; color:red; font-weight:700;">Total Late: <span
-                                        class="remaining_late"></span></div>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div class="upcoming-sched__date"><i
-                                        class="fa-solid fa-calendar custom-text-primary me-2"></i><?= $consecutive_late;?>
+                                <div class="upcoming-sched__date-container-3 mb-3" style="cursor:pointer;">
+                                    <div class="d-flex align-items-center justify-content-between mb-3">
+                                        <h1 class="upcoming-sched__weekday mb-0"><?= ucwords($list['rule_name'])?></h1>
+                                        <div style="font-size:12px; font-weight:700;">Total Late: 
+                                            <span class="text-danger"><?= isset($late_count) ? $late_count : 0;?></span> / <span><?= $list['no_late'];?></span>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div class="upcoming-sched__date"><i
+                                                class="fa-solid fa-calendar custom-text-primary me-2"></i><?= $consecutive_late;?>
+                                        </div>
+                                        <div class="upcoming-sched__time"><i
+                                                class="fa-solid fa-clock custom-text-danger me-2"></i><?= $day_range;?></div>
+                                    </div>
                                 </div>
-                                <div class="upcoming-sched__time"><i
-                                        class="fa-solid fa-clock custom-text-danger me-2"></i><?= $day_range;?></div>
-                            </div>
-                        </div>
-                        <?php endforeach;?>
+                            <?php endforeach;?>
+                            <?php if ($show_upload_button == 'Show') : ?>
+                                <?php if(isset($letter['remarks']) && $letter['remarks'] == 'For Validation') : ?>
+                                    <span style="font-size:13px; font-weight:600; color:red;">Letter Already Uploaded <?= '['.$letter['remarks'].']'?></span>
+                                <?php else : ?>
+                                    <button class="btn btn-danger w-100" data-bs-toggle="modal" data-bs-target="#uploadModal"><i class="bi bi-upload me-2"></i>Upload Letter</button>
+                                <?php endif;?>
+                            <?php endif;?>
                         <?php else: ?>
-                        <div class="alert alert-danger"><i class="bi bi-info-circle-fill me-2"></i>No late rules found.
-                        </div>
+                            <div class="alert alert-danger"><i class="bi bi-info-circle-fill me-2"></i>No late rules found.</div>
                         <?php endif; ?>
 
                     </div>
@@ -190,6 +195,8 @@
             </div>
         </div>
     </div>
+
+    <?php $this->load->view('student_portal/modal/upload_letter_modal');?>
 
     <script>
     var monthToday = "<?= date('Y-m')?>";
@@ -220,7 +227,7 @@
             method: "GET",
             dataType: "json",
             success: function(data) {
-                computeRemainingLate(data.total_late)
+                // computeRemainingLate(data.total_late)
                 const countUpConfigs = [{
                         elementId: 'total_attendance',
                         targetValue: data.total_attendance,
@@ -276,20 +283,20 @@
         });
     }
 
-    function computeRemainingLate(total_late) {
-        var no_late = $('#no_late').val();
-        var days_range = $('#days_range').val();
+    // function computeRemainingLate(total_late) {
+    //     var no_late = $('#no_late').val();
+    //     var days_range = $('#days_range').val();
 
 
-        var remaining = total_late + '/' + no_late;
-        $('.remaining_late').text(remaining);
-    }
+    //     var remaining = total_late + '/' + no_late;
+    //     $('.remaining_late').text(remaining);
+    // }
 
     $(document).ready(function() {
         getAvailableSched(monthToday);
         getTotalAttendance();
         getAttendanceLogs(0);
-        computeRemainingLate(total_late);
+        // computeRemainingLate(total_late);
 
         $(document).on('click', '.pagination a', function(event) {
             event.preventDefault();
@@ -346,6 +353,72 @@
                     });
                 }
             });
+        });
+
+        $(document).on('click', '#save_excuse_letter', function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            var form = $('#attachmentForm')[0];
+            var formData = new FormData(form);
+            formData.append('attachment', $('#attachment')[0].files[0]);
+            formData.append('_token', csrf_token_value);
+
+            form.classList.add('was-validated');
+            if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+            } else {
+                Swal.fire({
+                    title: 'Are you sure..',
+                    text: "You want to continue this transaction?",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, continue',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: "<?= base_url('portal/student_portal/main/save_excuse_letter')?>",
+                            method: "POST",
+                            data: formData,
+                            contentType: false,
+                            processData: false,
+                            dataType: "json",
+                            success: function(data) {
+                                if (data.error != '') {
+                                    Swal.fire({
+                                        icon: 'warning',
+                                        title: 'Ooops...',
+                                        text: data.error,
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Thank You!',
+                                        text: data.success,
+                                    });
+                                    $('#attachmentModal').modal('hide');
+                                    form.reset();
+                                    form.classList.remove('was-validated');
+                                    setTimeout(() => {
+                                        location.reload();
+                                    }, 2000);
+                                }
+                            },
+                            error: function() {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Ooops...',
+                                    text: 'An error occurred while processing the request.',
+                                });
+                            }
+                        });
+                    }
+
+                });
+            }
         });
     });
     </script>
