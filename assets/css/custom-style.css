@@ -361,6 +361,8 @@ input[type=number] {
   border: 2px solid rgba(0,0,0,.125);
 }
 
+
+
 .img-bio {
   border-radius: 100%;
   height: 35px;
@@ -744,6 +746,13 @@ box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 	}
 	.dataTables_length{
 		transform:translateY(0);
+	}
+
+	.img-profile {
+		border-radius: 100%;
+		min-height: 50px;
+		min-width: 50px;
+		border: 2px solid rgba(0,0,0,.125);
 	}
 	
 }

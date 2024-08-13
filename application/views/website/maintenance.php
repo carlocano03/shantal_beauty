@@ -91,10 +91,7 @@
         <h1>Our site is under maintenance</h1>
         <p>Our website is currently undergoing some updates to serve you better. We'll be back online shortly. Thank you
             for your understanding and patience!</p>
-        <div class="py-3">
-            <a href="<?= base_url(); ?>" class="back-button">Go Back</a>
-
-        </div>
+   
         <img class="cogwheel-img" src="<?= base_url('assets/images/cogwheel.png')?>" alt="">
     </div>
 </body>

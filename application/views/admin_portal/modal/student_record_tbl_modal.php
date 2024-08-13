@@ -45,7 +45,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header border-bottom-none">
-                <h6 class="modal-title" id="staticBackdropLabel"><i class="fa-solid fa-user me-2"></i>User Details
+                <h6 class="modal-title" id="staticBackdropLabel"><i class="fa-solid fa-user me-2"></i>Student Details
                 </h6>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>

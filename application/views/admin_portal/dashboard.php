@@ -3,6 +3,7 @@
     background: #E2E8F0 !important;
     color: red !important;
 }
+
 #church_schedule_chart {
     width: 450px !important;
     height: 450px !important;
@@ -28,7 +29,7 @@
 <!-- Content wrapper -->
 <div class="content-wrapper">
     <!-- Content -->
-    <div class="container-xxl flex-grow-1 container-p-y" style="max-width:100%">
+    <div class="container-xxl flex-grow-1 container-p-y" style="max-width:100%; ">
 
         <div class="row gy-3 ">
             <div class="col-lg-8 col-12 order-lg-1 order-2">
@@ -139,37 +140,49 @@
                                     <img class="overview-card__icon"
                                         src="<?php echo base_url('assets/images/dashboard/schedule.png'); ?>" alt="
 										Registration">
-                                    <h1 class="overview-card__title mb-0">Scholars Schedule - For the Month of <?= date('F Y');?></h1>
+                                    <h1 class="overview-card__title mb-0">Scholars Schedule - For the Month of
+                                        <?= date('F Y');?></h1>
                                 </div>
                             </div>
                             <div class="mt-3">
-                                <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                                <ul class="nav nav-pills mb-3 d-flex flex-column flex-lg-row" id="pills-tab"
+                                    role="tablist">
                                     <li class="nav-item" role="presentation">
-                                        <button class="nav-link active" id="pills-overview-tab" data-bs-toggle="pill" data-bs-target="#pills-overview" type="button" role="tab" aria-controls="pills-overview" aria-selected="false">
+                                        <button class="nav-link active" id="pills-overview-tab" data-bs-toggle="pill"
+                                            data-bs-target="#pills-overview" type="button" role="tab"
+                                            aria-controls="pills-overview" aria-selected="false">
                                             Schedule Overview
                                         </button>
                                     </li>
                                     <li class="nav-item" role="presentation">
-                                        <button class="nav-link" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">
+                                        <button class="nav-link" id="pills-home-tab" data-bs-toggle="pill"
+                                            data-bs-target="#pills-home" type="button" role="tab"
+                                            aria-controls="pills-home" aria-selected="true">
                                             Scholars With Schedule <span class="badge bg-warning with_schedule"></span>
                                         </button>
                                     </li>
                                     <li class="nav-item" role="presentation">
-                                        <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">
-                                            Scholars Without Schedule <span class="badge bg-warning without_schedule"></span>
+                                        <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill"
+                                            data-bs-target="#pills-profile" type="button" role="tab"
+                                            aria-controls="pills-profile" aria-selected="false">
+                                            Scholars Without Schedule <span
+                                                class="badge bg-warning without_schedule"></span>
                                         </button>
                                     </li>
                                 </ul>
                                 <div class="tab-content p-0" id="pills-tabContent">
-                                    <div class="tab-pane fade fade show active" id="pills-overview" role="tabpanel" aria-labelledby="pills-overview-tab">
+                                    <div class=" tab-pane fade fade show active" id="pills-overview" role="tabpanel"
+                                        aria-labelledby="pills-overview-tab">
                                         <div class="mt-3 d-flex align-items-center justify-content-center">
                                             <canvas id="church_schedule_chart"></canvas>
                                         </div>
                                     </div>
-                                    <div class="tab-pane" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                                    <div class="tab-pane" id="pills-home" role="tabpanel"
+                                        aria-labelledby="pills-home-tab">
                                         <?php $this->load->view('admin_portal/scholar_tab/with_schedule')?>
                                     </div>
-                                    <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                                    <div class="tab-pane fade" id="pills-profile" role="tabpanel"
+                                        aria-labelledby="pills-profile-tab">
                                         <?php $this->load->view('admin_portal/scholar_tab/without_schedule')?>
                                     </div>
                                 </div>
@@ -205,59 +218,61 @@
             </div>
             <div class="col-lg-4 col-12 order-lg-2 order-1">
                 <?php if ($this->session->userdata('adminIn')['user_type_id'] == ADMINISTRATOR) : ?>
-                    <div class="row mb-4">
-                        <div class="col">
-                            <div class="overview-card">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div class="d-flex align-items-center gap-2">
-                                        <img class="overview-card__icon"
-                                            src="<?php echo base_url('assets/images/dashboard/biometric.png'); ?>" alt="
+                <div class="row mb-4">
+                    <div class="col">
+                        <div class="overview-card">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div class="d-flex align-items-center gap-2">
+                                    <img class="overview-card__icon"
+                                        src="<?php echo base_url('assets/images/dashboard/biometric.png'); ?>" alt="
                                             Registration">
-                                        <h1 class="overview-card__title mb-0">Biometric Logs</h1>
-                                    </div>
-                                    <a href="<?= base_url('admin/biometric-logs')?>"><button class="upcoming-sched__create-btn"><i
-                                            class="bi bi-folder2-open me-2"></i>View All</button></a>
+                                    <h1 class="overview-card__title mb-0">Biometric Logs</h1>
                                 </div>
+                                <a href="<?= base_url('admin/biometric-logs')?>"><button
+                                        class="upcoming-sched__create-btn"><i class="bi bi-folder2-open me-2"></i>View
+                                        All</button></a>
+                            </div>
 
-                                <div class="mt-4" id="biometric_logs">
-                                    <!-- AJAX Request -->
-                                </div>
-                                <div id="error"></div>
-                                <div id="pagination_links">
-                                    <!-- Pagination links will be loaded here via AJAX -->
-                                </div>
+                            <div class="mt-4" id="biometric_logs">
+                                <!-- AJAX Request -->
+                            </div>
+                            <div id="error"></div>
+                            <div id="pagination_links" style="overflow-x:auto;">
+                                <!-- Pagination links will be loaded here via AJAX -->
                             </div>
                         </div>
                     </div>
+                </div>
                 <?php else : ?>
-                    <?php if (in_array(BIOMETRIC_LOGS, $role_permissions)): ?>
-                        <div class="row mb-4">
-                            <div class="col">
-                                <div class="overview-card">
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <div class="d-flex align-items-center gap-2">
-                                            <img class="overview-card__icon"
-                                                src="<?php echo base_url('assets/images/dashboard/biometric.png'); ?>" alt="
+                <?php if (in_array(BIOMETRIC_LOGS, $role_permissions)): ?>
+                <div class="row mb-4">
+                    <div class="col">
+                        <div class="overview-card">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div class="d-flex align-items-center gap-2">
+                                    <img class="overview-card__icon"
+                                        src="<?php echo base_url('assets/images/dashboard/biometric.png'); ?>" alt="
                                                 Registration">
-                                            <h1 class="overview-card__title mb-0">Biometric Logs</h1>
-                                        </div>
-                                        <a href="<?= base_url('admin/biometric-logs')?>"><button class="upcoming-sched__create-btn"><i
-                                            class="bi bi-folder2-open me-2"></i>View All</button></a>
-                                    </div>
-
-                                    <div class="mt-4" id="biometric_logs">
-                                        <!-- AJAX Request -->
-                                    </div>
-                                    <div id="error"></div>
-                                    <div id="pagination_links">
-                                        <!-- Pagination links will be loaded here via AJAX -->
-                                    </div>
+                                    <h1 class="overview-card__title mb-0">Biometric Logs</h1>
                                 </div>
+                                <a href="<?= base_url('admin/biometric-logs')?>"><button
+                                        class="upcoming-sched__create-btn"><i class="bi bi-folder2-open me-2"></i>View
+                                        All</button></a>
+                            </div>
+
+                            <div class="mt-4" id="biometric_logs">
+                                <!-- AJAX Request -->
+                            </div>
+                            <div id="error"></div>
+                            <div id="pagination_links">
+                                <!-- Pagination links will be loaded here via AJAX -->
                             </div>
                         </div>
-                    <?php endif;?>
+                    </div>
+                </div>
                 <?php endif;?>
-                
+                <?php endif;?>
+
 
                 <div class="row mb-4">
                     <div class="col">
@@ -270,15 +285,15 @@
                                     <h1 class="overview-card__title mb-0">Church Schedules</h1>
                                 </div>
                                 <?php if ($this->session->userdata('adminIn')['user_type_id'] == ADMINISTRATOR) : ?>
-                                    <a href="<?= base_url('admin/church-schedule')?>"><button
+                                <a href="<?= base_url('admin/church-schedule')?>"><button
                                         class="upcoming-sched__create-btn"><i
                                             class="fa-solid fa-plus me-1"></i>Create</button></a>
                                 <?php else: ?>
-                                    <?php if (in_array(CHURCH_SCHEDULE, $role_permissions)): ?>
-                                        <a href="<?= base_url('admin/church-schedule')?>"><button
-                                            class="upcoming-sched__create-btn"><i
-                                                class="fa-solid fa-plus me-1"></i>Create</button></a>
-                                    <?php endif; ?>
+                                <?php if (in_array(CHURCH_SCHEDULE, $role_permissions)): ?>
+                                <a href="<?= base_url('admin/church-schedule')?>"><button
+                                        class="upcoming-sched__create-btn"><i
+                                            class="fa-solid fa-plus me-1"></i>Create</button></a>
+                                <?php endif; ?>
                                 <?php endif; ?>
                             </div>
 
@@ -380,7 +395,7 @@ const scheduleChart = new Chart(document.getElementById('church_schedule_chart')
         responsive: true,
         plugins: {
             legend: {
-                 position: 'top',
+                position: 'top',
             },
             title: {
                 display: true,
@@ -723,8 +738,11 @@ $(document).ready(function() {
     });
 
     // Adjust column sizing when a tab is shown
-    $('button[data-bs-toggle="pill"]').on('shown.bs.tab', function (e) {
-        $.fn.dataTable.tables({ visible: true, api: true }).columns.adjust();
+    $('button[data-bs-toggle="pill"]').on('shown.bs.tab', function(e) {
+        $.fn.dataTable.tables({
+            visible: true,
+            api: true
+        }).columns.adjust();
     });
 
     $(document).on('change', '#filter_options', function() {

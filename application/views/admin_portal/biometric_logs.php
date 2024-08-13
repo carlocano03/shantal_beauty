@@ -29,6 +29,7 @@
 }
 
 
+
 @media (min-width: 768px) {
     #tbl_logs td:nth-child(1) {
         display: table-cell;
@@ -51,7 +52,6 @@
     color: #434875;
     box-shadow: 0 9px 20px rgba(46, 35, 94, .07);
 }
-
 </style>
 <!-- Content wrapper -->
 <div class="content-wrapper">
@@ -60,7 +60,8 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="card">
             <div class="card-header mb-3 pb-3 d-flex align-items-center gap-2 ">
-                <img src="<?php echo base_url('assets/images/dashboard/biometric.png'); ?>" width="36px" alt="Calendar" />
+                <img src="<?php echo base_url('assets/images/dashboard/biometric.png'); ?>" width="36px"
+                    alt="Calendar" />
                 <h5 class="table__title"><?= $card_title?></h5>
             </div>
             <div class="card-body mt-4">
@@ -73,6 +74,7 @@
                             <th class="d-none d-lg-table-cell">Date</th>
                             <th class="d-none d-lg-table-cell">Time</th>
                             <th class="d-none d-lg-table-cell">Type</th>
+                            <th class="d-table-cell d-lg-none"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -83,8 +85,8 @@
         </div>
     </div>
     <!-- / Content -->
-
-<script>
+    <?php $this->load->view('/admin_portal/modal/biometric_logs_tbl.php');?>
+    <script>
     $(document).ready(function() {
         var tbl_logs = $('#tbl_logs').DataTable({
             language: {
@@ -110,6 +112,22 @@
                     csrf_token_value = res.responseJSON.csrf_token_value;
                 }
             },
+            "columnDefs": [{
+                "targets": -1,
+                "orderable": false,
+                "data": null,
+                "render": function(data, type, row, meta) {
+                    return `
+            		<div class="d-flex justify-content-center">
+            		<div class='d-block d-lg-none'>
+                                    <i class='fa-solid fa-circle-plus viewBiometricLogDetailsBtn' 
+                                       data-bs-toggle='modal' 
+                                       data-biometric-data='${JSON.stringify(row)}' 
+                                       data-bs-target='#viewBiometricLogTableDetails'></i>
+                                </div>
+            					</div>`;
+                }
+            }],
         });
     });
-</script>
+    </script>
