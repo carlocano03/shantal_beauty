@@ -22,3 +22,32 @@
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="suggestionModal" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel"><i class="bi bi-lightbulb me-2"></i>Add New Suggestion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="suggestionForm" class="needs-validation" novalidate>
+                    <div class="form-group mb-3">
+                        <div class="form-floating">
+                            <textarea class="form-control" placeholder="Leave a suggestion here" id="suggestion" style="height: 100px" required></textarea>
+                            <label for="suggestion">Provide your suggestion</label>
+                            <div class="invalid-feedback">
+                                Please provide a valid suggestion.
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="save_suggestion">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>

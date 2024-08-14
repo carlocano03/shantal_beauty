@@ -70,6 +70,7 @@ $route['admin/attendance-record/manage-record'] = 'portal/admin_portal/attendanc
 $route['admin/attendance-record/print'] = 'portal/admin_portal/attendance_record/print_attendance';
 $route['admin/attendance-record/excel'] = 'portal/admin_portal/attendance_record/excel_attendance';
 $route['admin/biometric-logs'] = 'portal/admin_portal/biometric_logs/index';
+$route['admin/poll-suggestion'] = 'portal/admin_portal/poll_suggestion/index';
 
 // Student Portal
 $route['scholar/dashboard'] = 'portal/student_portal/main/index';

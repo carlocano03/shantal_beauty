@@ -326,6 +326,26 @@
                     </div>
                 </div>
 
+                <div class="row mb-4">
+                    <div class="col">
+                        <div class="overview-card">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div class="d-flex align-items-center gap-2">
+                                    <img class="overview-card__icon"
+                                        src="<?php echo base_url('assets/images/client/poll.png'); ?>" alt="
+										Registration">
+                                    <h1 class="overview-card__title mb-0">Poll Result</h1>
+                                </div>
+                            </div>
+
+                            <div class="mt-4">
+                                <div id="poll_request">
+                                    <!-- AJAX Request -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col">
                         <div class="overview-card">
@@ -626,6 +646,16 @@ function getBiometricLogs(page) {
     });
 }
 
+function getPollRequest() {
+    $.ajax({
+        url: "<?= base_url('portal/admin_portal/main/getPollRequest')?>",
+        method: "GET",
+        dataType: "json",
+        success: function(data) {
+            $('#poll_request').html(data.poll_request);
+        }
+    });
+}
 
 $(document).ready(function() {
     getCount();
@@ -637,6 +667,7 @@ $(document).ready(function() {
     getCountSchedule();
     getBiometricLogs(0);
     loadSchedule();
+    getPollRequest();
 
     setInterval(() => {
         getScholarshipRequest();
