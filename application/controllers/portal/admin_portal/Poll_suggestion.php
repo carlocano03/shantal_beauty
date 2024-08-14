@@ -198,7 +198,7 @@ class Poll_suggestion extends MY_Controller
         $config["base_url"] = base_url() . "portal/admin_portal/poll_suggestion/getSuggestion";
         $config["total_rows"] = $this->poll_suggestion->get_suggestion_count();
         $config["per_page"] = 5;
-        $config["uri_segment"] = 4; // Adjusted uri_segment to match your setup
+        $config["uri_segment"] = 5; // Adjusted uri_segment to match your setup
 
         // Bootstrap 5 Pagination
         $config['full_tag_open'] = '<nav><ul class="pagination">';
