@@ -27,6 +27,7 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 /assets/uploaded_attachment/letter_recommendation/*
 /assets/uploaded_attachment/personal_photo/*
 /assets/uploaded_attachment/tor/*
+/assets/uploaded_attachment/events/*
 
 # IDE Files
 #-------------------------
