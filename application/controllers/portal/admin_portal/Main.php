@@ -305,7 +305,63 @@ class Main extends MY_Controller
         echo json_encode($output);
     }
 	
+    public function sidebar_count()
+    {
+        $suggestion = $this->main_model->gest_suggestion_count();
 
+        $settings_count = $suggestion;
+
+        $output = array(
+            'settings_count' => $settings_count,
+            'suggestion_count' => $suggestion,
+        );
+        echo json_encode($output);
+    }
+
+    public function getPollRequest()
+    {
+        $output = '';
+
+        $poll = $this->main_model->getPollRequest();
+        if ($poll->num_rows() > 0) {
+            foreach($poll->result() as $list) {
+                $choices = explode('|', $list->pollChoices);
+
+                $output .= '
+                    <h5 style="font-size:14px;"><i class="bi bi-question-circle me-1"></i>'.ucfirst($list->poll_question).'</h5>
+                ';
+
+                $output .= '<div class="poll_result">';
+                foreach ($choices as $poll_Choices) {
+                    list($poll_choices_id, $poll_choices) = explode(':', $poll_Choices);
+                    $poll_answer = $this->main_model->get_poll_answer($poll_choices_id);
+                    $total_answer = $poll_answer->num_rows();
+                    $totalAnswer = $poll_answer->num_rows();
+                    $totalAnswer *= 3;
+
+                    $voteTotal = 'width:'.$totalAnswer.'%';
+                    $title = 'Total Vote: '.$total_answer;
+
+                    $output .= '
+                        <div class="mb-3">
+                            <div class="d-flex align-items-center justify-content-between mb-1">
+                                <h5 class="mb-0" style="font-size:13px;">'.$poll_choices.'</h5>
+                            </div>
+                            <div class="progress" style="height:16px; cursor:pointer" title="'.$title.'">
+                                <div class="progress-bar bg-info progress-bar-striped progress-bar-animate" role="progressbar" style="'.$voteTotal.'" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" title="'.$title.'">'.$total_answer.'</div>
+                            </div>
+                        </div>
+                    ';
+                }
+                $output .= '<div>';
+            }
+        } else {
+            $output .= '<div class="col-md-12 alert alert-danger"><i class="bi bi-info-circle me-2"></i>No poll request found.</div>';
+        }
+        $data['poll_request'] = $output;
+        // Return JSON data for AJAX
+        echo json_encode($data);
+    }
 	
 
 }

@@ -85,6 +85,10 @@ class Attendance_record extends MY_Controller
         $student = $this->attendance_record_model->get_student_list();
         $data = array();
         $no = $_POST['start'];
+
+        $late_rules = $this->attendance_record_model->getActiveRules();
+        $no_days = isset($late_rules->no_days) ? $late_rules->no_days : 0;
+        $no_late = isset($late_rules->no_late) ? $late_rules->no_late : 0;
         foreach ($student as $list) {
             $no++;
             $row = array();
@@ -100,6 +104,43 @@ class Attendance_record extends MY_Controller
             $row[] = '<img class="img-profile" src="' . $img . '" alt="Profile-Picture">';
             $row[] = $list->scholarship_no;
             $row[] = ucfirst($list->student_last_name).', '.ucfirst($list->student_first_name).' '.ucfirst($list->student_middle_name);
+
+            $schedules = $this->attendance_record_model->get_time_in($list->member_id);
+            $total_late_count = 0;
+            foreach ($schedules as $schedList) {
+                $attendance = $this->attendance_record_model->get_attendance_data($list->member_id, $schedList['schedule_date']);
+                $attendance_row = $attendance->row_array();
+
+                $timeIn = $this->attendance_record_model->get_attendance_time($list->member_id, $schedList['schedule_date'], 'Time-In', $no_days);
+                if ($attendance->num_rows() > 0) {
+                    if (is_array($attendance_row) && !empty($attendance_row)) {
+                        $time_in_arrival = isset($timeIn['time_transaction']) ? strtotime($timeIn['time_transaction']) : 0;
+    
+                        $time_from = strtotime($schedList['time_from']);
+    
+                        // Calculate late hours and late minutes
+                        if ($time_in_arrival > $time_from) {
+                            $late_seconds = $time_in_arrival - $time_from;
+                            $late_hours = floor($late_seconds / 3600);
+                            $late_minutes = floor(($late_seconds % 3600) / 60);
+                            $total_late_count++;
+                        } else {
+                            $late_hours = 0;
+                            $late_minutes = 0;
+                        }
+                    }
+                }
+            }
+
+            $row[] = '<span class="text-danger fw-bold">'.$total_late_count.'</span> / <span class="fw-bold">'.$no_late.'</span>';
+            //if ($total_late_count >= $no_late) {
+            if ($total_late_count >= 1) {
+                $verifyLetter = '<li><a class="dropdown-item link-cursor text-info verify_letter" data-id="'.$list->member_id.'"><i class="bi bi-download me-2"></i>Verify Letter</a></li>';
+                $showButton = 'Show';
+            } else {
+                $verifyLetter = '';
+                $showButton = 'Hide';
+            }
             
             //Check the student schedule
             $schedule = $this->attendance_record_model->check_student_schedule($list->member_id);
@@ -112,6 +153,9 @@ class Attendance_record extends MY_Controller
 						<i class="fa-solid fa-circle-plus viewStudentAttendanceRecordDetailsBtn" 
 						data-bs-toggle="modal"
 						data-member-id="'.$member_id.'"
+                        data-late_count="'.$total_late_count.'"
+                        data-no_late="'.$no_late.'"
+                        data-show_button="'.$showButton.'"
 						data-bs-target="#viewAttendanceRecordTableDetails"
 						></i>
 					</div>		
@@ -122,6 +166,7 @@ class Attendance_record extends MY_Controller
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item link-cursor text-primary manage_attendance" data-id="'.$member_id.'"><i class="bi bi-view-list me-2"></i>Manage Attendance</a></li>
                             <li><a class="dropdown-item link-cursor text-danger view_schedule" data-id="'.$list->member_id.'"><i class="bi bi-calendar-week-fill me-2"></i>View Schedule</a></li>
+                            '.$verifyLetter.'
                         </ul>
                     </div>
                 ';
@@ -139,10 +184,12 @@ class Attendance_record extends MY_Controller
 						<i class="fa-solid fa-circle-plus viewStudentAttendanceRecordDetailsBtn" 
 						data-bs-toggle="modal"
 						data-member-id="'.$member_id.'"
+                        data-late_count="'.$total_late_count.'"
+                        data-no_late="'.$no_late.'"
+                        data-show_button="'.$showButton.'"
 						data-bs-target="#viewAttendanceRecordTableDetails"
 						></i>
 					</div>
-
 		
                     <div class="btn-group d-none d-lg-block">
                         <button type="button" class="btn btn-dark btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
@@ -150,6 +197,7 @@ class Attendance_record extends MY_Controller
                         </button>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item link-cursor text-primary manage_attendance" data-id="'.$member_id.'"><i class="bi bi-view-list me-2"></i>Manage Attendance</a></li>
+                            '.$verifyLetter.'
                         </ul>
                     </div>
                 ';
@@ -210,7 +258,8 @@ class Attendance_record extends MY_Controller
 				"schedule" => $church_schedule,
 				"year_level" => $student->member_id,
 				"course" => ucwords($student->course),
-				"member_id" => $student->member_id
+				"member_id" => $student->member_id,
+                "schedule_count" => $schedule_row_count,
 			);
 			
 		} else {
@@ -1285,6 +1334,102 @@ class Attendance_record extends MY_Controller
             $success = 'Broken schedule successfully applied.';
         } else {
             $error = 'Failed to apply the broken schedule.';
+        }
+
+        $output = array(
+            'error' => $error,
+            'success' => $success,
+        );
+        echo json_encode($output);
+    }
+
+    public function view_letter()
+    {
+        $error = '';
+        $success = '';
+
+        $member_id = $this->input->post('member_id', true);
+
+        $check_letter = $this->attendance_record_model->check_uploaded_letter($member_id);
+        if ($check_letter->num_rows() > 0) {
+            $letter = $check_letter->row_array();
+
+            $attachment = $letter['attachment'];
+            $uploaded_id = $letter['uploaded_id'];
+        } else {
+            $error = 'No uploaded letter found.';
+        }
+
+        $output = array(
+            'error' => $error,
+            'attachment' => $attachment,
+            'uploaded_id' => $uploaded_id,
+            'member_id' => $member_id,
+        );
+        echo json_encode($output);
+    }
+
+    private function download_attachment($folder)
+    {
+        $attachment = $_GET['file'];
+        $filename = $attachment;
+        $file_path = 'assets/uploaded_attachment/' . $folder . '/' . $filename;
+        $this->load->helper('download');
+        force_download($file_path, NULL);
+    }
+
+    public function download()
+    {
+        $this->download_attachment('excuse_letter');
+    }
+
+    public function verify_letter()
+    {
+        $error = '';
+        $success = '';
+        $letter_verification = $this->input->post('letter_verification', true);
+        $member_id = $this->input->post('member_id', true);
+        $uploaded_id = $this->input->post('uploaded_id', true);
+
+        $member = $this->attendance_record_model->get_row('scholarship_member', array('member_id' => $member_id));
+
+        $verify_letter = array(
+            'remarks' => $letter_verification,
+        );
+
+        $result = $this->attendance_record_model->verify_letter($uploaded_id, $verify_letter);
+        if ($result == TRUE) {
+
+            $schedules = $this->attendance_record_model->get_time_in($member_id);
+            $late_rules = $this->attendance_record_model->getActiveRules();
+            $no_days = isset($late_rules->no_days) ? $late_rules->no_days : 0;
+            foreach ($schedules as $list) {
+                $this->attendance_record_model->get_attendance_update($member_id, $list['schedule_date'], 'Time-In', $no_days);
+            }
+
+            if($letter_verification == 'Valid') {
+                $subject = 'Letter Verification [Valid]';
+                $template = 'email_template/approved_letter';
+            } else {
+                $subject = 'Letter Verification [Invalid]';
+                $template = 'email_template/invalid_letter';
+            }
+
+            $mail_data = [
+                'name_to'   => $member['student_first_name'],
+                'comment'   => $this->input->post('comment', true),
+            ];
+
+            $this->send_email_html([
+                'mail_to'       => $member['email_address'],
+                'cc'            => [],
+                'subject'       => $subject,
+                'template_path' => $template,
+                'mail_data'     => $mail_data,
+            ]);
+            $success = 'Letter verification successfully submitted.'; 
+        } else {
+            $error = 'Failed to verify the letter.';
         }
 
         $output = array(

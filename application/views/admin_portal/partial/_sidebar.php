@@ -9,6 +9,7 @@
     $attendance = FALSE;
     $biometric = FALSE;
 	$event_management = FALSE;
+    $poll_suggestion = FALSE;
 
     if ($active_page == 'dashboard_page') {
         $dashboard = TRUE;
@@ -32,6 +33,9 @@
     } elseif ($active_page == 'event_management_page') {
 		$settings = TRUE;
         $event_management = TRUE;
+    } elseif ($active_page == 'poll_suggestion_page') {
+        $settings = TRUE;
+        $poll_suggestion = TRUE;
     }
 
 ?>
@@ -237,7 +241,7 @@
                     <div class="d-flex justify-content-between align-items-center ">
                         <div class="d-flex align-items-center">
                             <i class="menu-icon tf-icons bi bi-gear" style="color:#ffffff;"></i>
-                            <div class="menu-header-text">Manage Settings</div>
+                            <div class="menu-header-text">Manage Settings <span class="badge bg-danger settings_count"></span></div>
                         </div>
                         <div class="icon-chevron"></div>
                     </div>
@@ -271,6 +275,12 @@
                                 <a href="<?= base_url('admin/event-management');?>"
                                     class="<?= ($event_management) ? 'menu-link-active-2' : '';?> menu-link">
                                     <div data-i18n="Account">Event Management</div>
+                                </a>
+                            </li>
+                            <li class="menu-item sidebar-menu-item <?= ($poll_suggestion) ? 'active' : '';?>">
+                                <a href="<?= base_url('admin/poll-suggestion');?>"
+                                    class="<?= ($poll_suggestion) ? 'menu-link-active-2' : '';?> menu-link">
+                                    <div data-i18n="Account">Poll & Suggestion <span class="badge bg-danger suggestion_count"></span></div>
                                 </a>
                             </li>
                         </ul>
@@ -331,13 +341,13 @@
                 <?php endif; ?>
 
                 <!-- Settings -->
-                <?php if (array_intersect([ACCOUNT_MANAGEMENT, CHURCH_SCHEDULE, LATE_RULES], $role_permissions)): ?>
+                <?php if (array_intersect([ACCOUNT_MANAGEMENT, CHURCH_SCHEDULE, LATE_RULES, EVENT_MANAGEMENT, POLL_SUGGESTION], $role_permissions)): ?>
                 <li class="menu-header  btn btn-toggle" data-bs-toggle="collapse" data-bs-target="#sample"
                     aria-expanded="<?= ($settings) ? 'true' : '';?>">
                     <div class="d-flex justify-content-between align-items-center ">
                         <div class="d-flex align-items-center">
                             <i class="menu-icon tf-icons bi bi-gear" style="color:#ffffff;"></i>
-                            <div class="menu-header-text">Manage Settings</div>
+                            <div class="menu-header-text">Manage Settings <span class="badge bg-danger settings_count"></span></div>
                         </div>
                         <div class="icon-chevron"></div>
                     </div>
@@ -379,6 +389,15 @@
                                 <a href="<?= base_url('admin/event-management');?>"
                                     class="<?= ($event_management) ? 'menu-link-active-2' : '';?> menu-link">
                                     <div data-i18n="Account">Event Management</div>
+                                </a>
+                            </li>
+                            <?php endif; ?>
+
+                            <?php if (in_array(POLL_SUGGESTION, $role_permissions)): ?>
+                            <li class="menu-item sidebar-menu-item <?= ($poll_suggestion) ? 'active' : '';?>">
+                                <a href="<?= base_url('admin/poll-suggestion');?>"
+                                    class="<?= ($poll_suggestion) ? 'menu-link-active-2' : '';?> menu-link">
+                                    <div data-i18n="Account">Poll & Suggestion <span class="badge bg-danger suggestion_count"></span></div>
                                 </a>
                             </li>
                             <?php endif; ?>
