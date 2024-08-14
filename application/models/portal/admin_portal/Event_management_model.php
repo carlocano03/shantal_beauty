@@ -34,6 +34,8 @@ class Event_management_model extends MY_Model
 
 		if($status !== null){
 			$this->db->where('is_active',$status);
+			$this->db->where('is_deleted',0);
+
 		}
 
 		$query = $this->db->get();
@@ -50,6 +52,8 @@ class Event_management_model extends MY_Model
 		$this->db->select('*');
 		$this->db->from('events');
 		$this->db->where('is_active',1);
+		$this->db->where('is_deleted',0);
+
 		$query = $this->db->get();
 		return $query->result_array();
 	}
@@ -67,19 +71,22 @@ class Event_management_model extends MY_Model
 		$this->db->select('*');
 		$this->db->from('events');
         $this->db->where('status', 'finished');
+		$this->db->where('is_deleted',0);
         $query = $this->db->get();
         return $query->result();
     }
 
 	public function delete_event_by_id($id) {
+		$data = array('is_deleted' => 1);
    		$this->db->where('id', $id);
-    	return $this->db->delete('events');
+    	return $this->db->update("events",$data);
     }
 
 	public function get_closest_upcoming_event_date() {
 		$this->db->select('event_date');
 		$this->db->from('events');
 		$this->db->where('start_time > NOW()'); 
+		$this->db->where('is_deleted',0);
 		$this->db->order_by('start_time', 'ASC'); 
 		$this->db->limit(1); 
 		

@@ -326,37 +326,6 @@
                     </div>
                 </div>
 
-                <div class="row mb-4">
-                    <div class="col">
-                        <div class="overview-card">
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div class="d-flex align-items-center gap-2">
-                                    <img class="overview-card__icon"
-                                        src="<?php echo base_url('assets/images/dashboard/event.png'); ?>" alt="
-										Registration">
-                                    <h1 class="overview-card__title mb-0">Upcoming Event</h1>
-                                </div>
-
-                                <button class="events__create-btn" data-bs-target="#eventModal"
-                                    data-bs-toggle="modal"><i class="fa-solid fa-plus me-1"></i>Create</button>
-                            </div>
-
-                            <div class="mt-4">
-                                <div class="upcoming-sched__date-container-4">
-                                    <h1 class="upcoming-sched__weekday">Wednesday</h1>
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <div class="upcoming-sched__date"><i
-                                                class="fa-solid fa-calendar custom-text-primary me-2"></i>July 31, 2024
-                                        </div>
-                                        <div class="upcoming-sched__time"><i
-                                                class="fa-solid fa-clock custom-text-danger me-2"></i>12:00 PM - 05:00
-                                            PM</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div class="row">
                     <div class="col">
                         <div class="overview-card">
