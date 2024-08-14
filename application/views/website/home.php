@@ -58,9 +58,9 @@
                         <a class="nav-link" href="#about">About</a>
                     </li>
                     <?php if(count($active_events) > 0) : ?>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#events">Events</a>
-                        </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#events">Events</a>
+                    </li>
                     <?php endif;?>
                     <li class="nav-item">
                         <a class="nav-link" href="#contact">Contact</a>
@@ -222,67 +222,68 @@
 
     <!-- Events -->
     <?php if(count($active_events) > 0) : ?>
-        <section id="events" class="latest-news my-5 py-5 animate__animated" style="position:relative;background:#F8F9FA">
-            <svg xmlns="http://www.w3.org/2000/svg" class="d-none d-lg-block"
-                style="position:absolute; top:0; left:0; right:0; width: 100%; height: 420px;" viewBox="0 0 1440 320"
-                preserveAspectRatio="xMidYMid slice">
-                <path fill="#434875" fill-opacity="1"
-                    d="M0,288L288,320L576,224L864,288L1152,192L1440,320L1440,0L1152,0L864,0L576,0L288,0L0,0Z"></path>
-            </svg>
+    <section id="events" class="latest-news my-5 py-5 animate__animated" style="position:relative;background:#F8F9FA">
+        <svg xmlns="http://www.w3.org/2000/svg" class="d-none d-lg-block"
+            style="position:absolute; top:0; left:0; right:0; width: 100%; height: 420px;" viewBox="0 0 1440 320"
+            preserveAspectRatio="xMidYMid slice">
+            <path fill="#434875" fill-opacity="1"
+                d="M0,288L288,320L576,224L864,288L1152,192L1440,320L1440,0L1152,0L864,0L576,0L288,0L0,0Z"></path>
+        </svg>
 
 
-            <div class="py-5 pb-lg-5 py-lg-0 events__custom-bg">
-                <div class="section-title__container pt-lg-2   pt-md-5">
-                    <h4 class="section-title__title">Events</h4>
-                    <h1 class="section-title__p text-white">Upcoming Events</h1>
-                    <div class="section-title__border"></div>
-                </div>
-
-                <div class="count-down">
-                    <div class="flipdown" id="flipdown"></div>
-                </div>
+        <div class="py-5 pb-lg-5 py-lg-0 events__custom-bg">
+            <div class="section-title__container pt-lg-2   pt-md-5">
+                <h4 class="section-title__title">Events</h4>
+                <h1 class="section-title__p text-white">Upcoming Events</h1>
+                <div class="section-title__border"></div>
             </div>
 
+            <div class="count-down">
+                <div class="flipdown" id="flipdown"></div>
+            </div>
+        </div>
 
-            <div class="container-xxl pt-lg-5 pb-5 pb-lg-0" style="position:relative;">
-                <div>
-                    <div class="row mt-lg-5 mt-2 gy-5">
 
-                        <swiper-container class="mySwiper2 " pagination="true" pagination-clickable="true"
-                            space-between="30">
-                            <?php foreach ($active_events as $event) : ?>
-                                <swiper-slide class="rounded-3 border " style="overflow:hidden"
-                                    style="box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;">
-                                    <div>
-                                        <!-- <img src="<?php echo base_url('assets/images/home/latest-news-1.avif')?>" alt="" /> -->
-                                        <img class="event__img"
-                                            src="<?php echo base_url('assets/uploaded_attachment/events/' . $event['event_img']); ?>"
-                                            alt="" />
-                                        <div class="bg-white px-3 pt-4 pb-5">
-                                            <div class="">
-                                                <p class="fw-bold" style="color:#616E7C">
-                                                    <?= date('F j, Y', strtotime($event["event_date"])) ?></p>
-                                                <p><?= date('g:ia', strtotime($event['start_time']))?> -
-                                                    <?= date('g:ia', strtotime($event['end_time']))?>
-                                                </p>
-                                            </div>
-                                            <div class="mt-2 d-flex align-items-center gap-2" style="color:#616E7C"><i
-                                                    class="fa-solid fa-location-dot"></i>
-                                                <?= $event['event_location'] ?></div>
-                                            <h3 class="mt-3 fw-bold" style="color:#1F2933">
-                                                <?= $event['event_name'] ?></h3>
-                                            <p class="mt-2 " style="color:#52606D; line-height:1.7;">
-                                                <?= $event['event_description'] ?>
-                                            </p>
-                                        </div>
+        <div class="container-xxl pt-lg-5 pb-5 pb-lg-0" style="position:relative;">
+            <div>
+                <div class="row mt-lg-5 mt-2 gy-5">
+
+                    <swiper-container class="mySwiper2 " pagination="true" pagination-clickable="true"
+                        space-between="30">
+                        <?php foreach ($active_events as $event) : ?>
+                        <swiper-slide class="rounded-3 border " style="overflow:hidden"
+                            style="box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;">
+                            <div>
+                                <!-- <img src="<?php echo base_url('assets/images/home/latest-news-1.avif')?>" alt="" /> -->
+                                <img class="event__img"
+                                    src="<?php echo base_url('assets/uploaded_attachment/events/' . $event['event_img']); ?>"
+                                    alt="" />
+                                <div class="bg-white px-3 pt-4 pb-5">
+                                    <div class="d-flex justify-content-between">
+                                        <p class="fw-bold" style="color:#616E7C">
+                                            <?= date('F j, Y', strtotime($event["event_date"])) ?></p>
+                                        <p class="upcoming-event__card-time">
+                                            <?= date('g:i a', strtotime($event['start_time']))?> -
+                                            <?= date('g:i a', strtotime($event['end_time']))?>
+                                        </p>
                                     </div>
-                                </swiper-slide>
-                            <?php endforeach; ?>
-                        </swiper-container>
-                    </div>
+                                    <div class="mt-2 d-flex align-items-center gap-2" style="color:#616E7C"><i
+                                            class="fa-solid fa-location-dot"></i>
+                                        <?= $event['event_location'] ?></div>
+                                    <h4 class="mt-3 fw-bold" style="color:#2e3b63">
+                                        <?= $event['event_name'] ?></h4>
+                                    <p class="mt-2 " style="color:#52606D; line-height:1.7;">
+                                        <?= $event['event_description'] ?>
+                                    </p>
+                                </div>
+                            </div>
+                        </swiper-slide>
+                        <?php endforeach; ?>
+                    </swiper-container>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
     <?php endif;?>
 
 

@@ -554,6 +554,17 @@ body {
     width: 100%;
 }
 
+.upcoming-event__card-time{
+	background-color:#2e3b63;
+	padding:4px 8px;
+	border-radius:8px;
+	color:#ffffff;
+	font-size:14px;
+	font-weight:bold;
+}
+
+
+
 
 
 
