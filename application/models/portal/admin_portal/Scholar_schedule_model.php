@@ -196,7 +196,7 @@ class Scholar_schedule_model extends MY_Model
         $this->db->where('SM.status', 0);
         $this->db->where('SS.sched_id IS NULL');
         $query = $this->db->get();
-        return $this->db->count_all_results();
+        return $query->num_rows();
     }
 
     function biometric_logs_count()
