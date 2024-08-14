@@ -57,9 +57,11 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#about">About</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#events">Events</a>
-                    </li>
+                    <?php if(count($active_events) > 0) : ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#events">Events</a>
+                        </li>
+                    <?php endif;?>
                     <li class="nav-item">
                         <a class="nav-link" href="#contact">Contact</a>
                     </li>
@@ -219,142 +221,69 @@
     </section>
 
     <!-- Events -->
-    <section id="events" class="latest-news my-5 py-5 animate__animated" style="position:relative;background:#F8F9FA">
-        <svg xmlns="http://www.w3.org/2000/svg" class="d-none d-lg-block"
-            style="position:absolute; top:0; left:0; right:0; width: 100%; height: 420px;" viewBox="0 0 1440 320"
-            preserveAspectRatio="xMidYMid slice">
-            <path fill="#434875" fill-opacity="1"
-                d="M0,288L288,320L576,224L864,288L1152,192L1440,320L1440,0L1152,0L864,0L576,0L288,0L0,0Z"></path>
-        </svg>
+    <?php if(count($active_events) > 0) : ?>
+        <section id="events" class="latest-news my-5 py-5 animate__animated" style="position:relative;background:#F8F9FA">
+            <svg xmlns="http://www.w3.org/2000/svg" class="d-none d-lg-block"
+                style="position:absolute; top:0; left:0; right:0; width: 100%; height: 420px;" viewBox="0 0 1440 320"
+                preserveAspectRatio="xMidYMid slice">
+                <path fill="#434875" fill-opacity="1"
+                    d="M0,288L288,320L576,224L864,288L1152,192L1440,320L1440,0L1152,0L864,0L576,0L288,0L0,0Z"></path>
+            </svg>
 
 
-        <div class="py-5 pb-lg-5 py-lg-0 events__custom-bg">
-            <div class="section-title__container pt-lg-2   pt-md-5">
-                <h4 class="section-title__title">Events</h4>
-                <h1 class="section-title__p text-white">Upcoming Events</h1>
-                <div class="section-title__border"></div>
-            </div>
+            <div class="py-5 pb-lg-5 py-lg-0 events__custom-bg">
+                <div class="section-title__container pt-lg-2   pt-md-5">
+                    <h4 class="section-title__title">Events</h4>
+                    <h1 class="section-title__p text-white">Upcoming Events</h1>
+                    <div class="section-title__border"></div>
+                </div>
 
-            <div class="count-down">
-                <div class="flipdown" id="flipdown"></div>
-            </div>
-        </div>
-
-
-        <div class="container-xxl pt-lg-5 pb-5 pb-lg-0" style="position:relative;">
-            <div>
-                <div class="row mt-lg-5 mt-2 gy-5">
-
-                    <swiper-container class="mySwiper2 " pagination="true" pagination-clickable="true"
-                        space-between="30">
-                        <?php foreach ($active_events as $event) : ?>
-                        <swiper-slide class="rounded-3 border " style="overflow:hidden"
-                            style="box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;">
-                            <div>
-                                <!-- <img src="<?php echo base_url('assets/images/home/latest-news-1.avif')?>" alt="" /> -->
-                                <img class="event__img"
-                                    src="<?php echo base_url('assets/uploaded_attachment/events/' . $event['event_img']); ?>"
-                                    alt="" />
-                                <div class="bg-white px-3 pt-4 pb-5">
-                                    <div class="">
-                                        <p class="fw-bold" style="color:#616E7C">
-                                            <?= date('F j, Y', strtotime($event["event_date"])) ?></p>
-                                        <p><?=date('g:ia', strtotime($event['start_time']))?> -
-                                            <?=date('g:ia', strtotime($event['end_time']))?>
-                                        </p>
-                                    </div>
-                                    <div class="mt-2 d-flex align-items-center gap-2" style="color:#616E7C"><i
-                                            class="fa-solid fa-location-dot"></i>
-                                        <?= $event['event_location'] ?></div>
-                                    <h3 class="mt-3 fw-bold" style="color:#1F2933">
-                                        <?= $event['event_name'] ?></h3>
-                                    <p class="mt-2 " style="color:#52606D; line-height:1.7;">
-                                        <?= $event['event_description'] ?>
-                                    </p>
-                                </div>
-                            </div>
-                        </swiper-slide>
-                        <?php endforeach; ?>
-
-
-                    </swiper-container>
-                    <!-- <div class=" col-12 col-lg-7">
-                            <div>
-                                <img src="<?php echo base_url('assets/images/home/latest-news-1.avif'); ?>" alt=""
-                                    style="height: 400px; width: 100%; object-fit: cover" />
-                            </div>
-                            <div class="d-flex align-items-center justify-content-between mt-4">
-                                <h3 class="text-title fw-bold mb-0">Event 1</h3>
-                                <p class="bg-primary text-white py-2 px-4 fw-bold">
-                                    June 6, 2024
-                                </p>
-                            </div>
-                            <p class="text-paragraph mt-3" style="line-height: 1.7">
-                                Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                                Voluptate ad earum sapiente vero. Quod, optio fugiat repellat at
-                                natus eos a nemo minus vitae animi ut dignissimos facere facilis
-                                quae ea maiores explicabo aliquam possimus incidunt reiciendis
-                                sed consequatur. Odio animi adipisci saepe deleniti cum
-                                perferendis nemo cupiditate eligendi dolorum.
-                            </p>
-                </div> -->
-                    <!-- <div class="col-12 col-lg-5"> 
-                        <div class="row row-cols-1 row-cols-md-2 gx-4 gy-4 row-cols-lg-1">
-                            <div class="col d-flex gap-4">
-                                <img src="<?php echo base_url('assets/images/home/latest-news-1.avif'); ?>" alt=""
-                                    style="height: 155px; object-fit: fill" />
-                                <div>
-                                    <h5 class="events__text-title fw-bold mb-0">Event 2</h5>
-                                    <p class="mt-2 bg-primary text-white py-1 px-2 d-inline-block fw-bold"
-                                        style="font-size: 12px">
-                                        June 6, 2024
-                                    </p>
-                                    <p class="text-paragraph" style="font-size: 14px; margin-top: 12px">
-                                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                        Totam facere expedita
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div class="col d-flex gap-4">
-                                <img src="<?php echo base_url('assets/images/home/latest-news-1.avif'); ?>" alt=""
-                                    style="height: 155px; object-fit: fill" />
-                                <div>
-                                    <h5 class="events__text-title fw-bold mb-0">Event 3</h5>
-                                    <p class="mt-2 bg-primary text-white py-1 px-2 d-inline-block fw-bold"
-                                        style="font-size: 12px">
-                                        June 6, 2024
-                                    </p>
-                                    <p class="text-paragraph" style="font-size: 14px; margin-top: 12px">
-                                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                        Totam facere expedita
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="col d-flex gap-4">
-                                <img src="<?php echo base_url('assets/images/home/latest-news-1.avif'); ?>" alt=""
-                                    style="height: 155px; object-fit: fill" />
-                                <div>
-                                    <h5 class="events__text-title fw-bold mb-0">Event 4</h5>
-                                    <p class="mt-2 bg-primary text-white py-1 px-2 d-inline-block fw-bold"
-                                        style="font-size: 12px">
-                                        June 6, 2024
-                                    </p>
-                                    <p class="text-paragraph" style="font-size: 14px; margin-top: 12px">
-                                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                        Totam facere expedita
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <button class="small-btn">See More</button>
-                    </div> -->
+                <div class="count-down">
+                    <div class="flipdown" id="flipdown"></div>
                 </div>
             </div>
-        </div>
 
 
-    </section>
+            <div class="container-xxl pt-lg-5 pb-5 pb-lg-0" style="position:relative;">
+                <div>
+                    <div class="row mt-lg-5 mt-2 gy-5">
+
+                        <swiper-container class="mySwiper2 " pagination="true" pagination-clickable="true"
+                            space-between="30">
+                            <?php foreach ($active_events as $event) : ?>
+                                <swiper-slide class="rounded-3 border " style="overflow:hidden"
+                                    style="box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;">
+                                    <div>
+                                        <!-- <img src="<?php echo base_url('assets/images/home/latest-news-1.avif')?>" alt="" /> -->
+                                        <img class="event__img"
+                                            src="<?php echo base_url('assets/uploaded_attachment/events/' . $event['event_img']); ?>"
+                                            alt="" />
+                                        <div class="bg-white px-3 pt-4 pb-5">
+                                            <div class="">
+                                                <p class="fw-bold" style="color:#616E7C">
+                                                    <?= date('F j, Y', strtotime($event["event_date"])) ?></p>
+                                                <p><?= date('g:ia', strtotime($event['start_time']))?> -
+                                                    <?= date('g:ia', strtotime($event['end_time']))?>
+                                                </p>
+                                            </div>
+                                            <div class="mt-2 d-flex align-items-center gap-2" style="color:#616E7C"><i
+                                                    class="fa-solid fa-location-dot"></i>
+                                                <?= $event['event_location'] ?></div>
+                                            <h3 class="mt-3 fw-bold" style="color:#1F2933">
+                                                <?= $event['event_name'] ?></h3>
+                                            <p class="mt-2 " style="color:#52606D; line-height:1.7;">
+                                                <?= $event['event_description'] ?>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </swiper-slide>
+                            <?php endforeach; ?>
+                        </swiper-container>
+                    </div>
+                </div>
+            </div>
+        </section>
+    <?php endif;?>
 
 
     <!-- Gallery -->
