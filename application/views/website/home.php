@@ -247,85 +247,35 @@
 
                     <swiper-container class="mySwiper2 " pagination="true" pagination-clickable="true"
                         space-between="30">
+                        <?php foreach ($active_events as $event) : ?>
                         <swiper-slide class="rounded-3 border " style="overflow:hidden"
                             style="box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;">
                             <div>
-                                <img src="<?php echo base_url('assets/images/home/latest-news-1.avif')?>" alt="" />
+                                <!-- <img src="<?php echo base_url('assets/images/home/latest-news-1.avif')?>" alt="" /> -->
+                                <img class="event__img"
+                                    src="<?php echo base_url('assets/uploaded_attachment/events/' . $event['event_img']); ?>"
+                                    alt="" />
                                 <div class="bg-white px-3 pt-4 pb-5">
-                                    <p class="fw-bold" style="color:#616E7C">Sunday, 12 Aug | 10:00am</p>
-                                    <div class="mt-1 d-flex align-items-center gap-2" style="color:#616E7C"><i
+                                    <div class="">
+                                        <p class="fw-bold" style="color:#616E7C">
+                                            <?= date('F j, Y', strtotime($event["event_date"])) ?></p>
+                                        <p><?=date('g:ia', strtotime($event['start_time']))?> -
+                                            <?=date('g:ia', strtotime($event['end_time']))?>
+                                        </p>
+                                    </div>
+                                    <div class="mt-2 d-flex align-items-center gap-2" style="color:#616E7C"><i
                                             class="fa-solid fa-location-dot"></i>
-                                        Nueva
-                                        Ecija</div>
-                                    <h3 class="mt-3 fw-bold" style="color:#1F2933">Event 1</h3>
-                                    <p class="mt-2 " style="color:#52606D; line-height:1.7;">Lorem ipsum dolor sit amet
-                                        consectetur
-                                        adipisicing elit.
-                                        Minima harum animi
-                                        accusamus unde ratione alias dolorum adipisci aperiam ipsum quasi!</p>
+                                        <?= $event['event_location'] ?></div>
+                                    <h3 class="mt-3 fw-bold" style="color:#1F2933">
+                                        <?= $event['event_name'] ?></h3>
+                                    <p class="mt-2 " style="color:#52606D; line-height:1.7;">
+                                        <?= $event['event_description'] ?>
+                                    </p>
                                 </div>
                             </div>
                         </swiper-slide>
+                        <?php endforeach; ?>
 
-                        <swiper-slide class="rounded-3 border " style="overflow:hidden"
-                            style="box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;">
-                            <div>
-                                <img src="<?php echo base_url('assets/images/home/latest-news-1.avif')?>" alt="" />
-                                <div class="bg-white px-3 pt-4 pb-5">
-                                    <p class="fw-bold" style="color:#616E7C">Sunday, 12 Aug | 10:00am</p>
-                                    <div class="mt-1 d-flex align-items-center gap-2" style="color:#616E7C"><i
-                                            class="fa-solid fa-location-dot"></i>
-                                        Nueva
-                                        Ecija</div>
-                                    <h3 class="mt-3 fw-bold" style="color:#1F2933">Event 1</h3>
-                                    <p class="mt-2" style="color:#52606D; line-height:1.7;">Lorem ipsum dolor sit amet
-                                        consectetur
-                                        adipisicing elit.
-                                        Minima harum animi
-                                        accusamus unde ratione alias dolorum adipisci aperiam ipsum quasi!</p>
-                                </div>
-                            </div>
-                        </swiper-slide>
-
-                        <swiper-slide class="rounded-3 border " style="overflow:hidden"
-                            style="box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;">
-                            <div>
-                                <img src="<?php echo base_url('assets/images/home/latest-news-1.avif')?>" alt="" />
-                                <div class="bg-white px-3 pt-4 pb-5">
-                                    <p class="fw-bold" style="color:#616E7C">Sunday, 12 Aug | 10:00am</p>
-                                    <div class="mt-1 d-flex align-items-center gap-2" style="color:#616E7C"><i
-                                            class="fa-solid fa-location-dot"></i>
-                                        Nueva
-                                        Ecija</div>
-                                    <h3 class="mt-3 fw-bold" style="color:#1F2933">Event 1</h3>
-                                    <p class="mt-2 " style="color:#52606D; line-height:1.7;">Lorem ipsum dolor sit amet
-                                        consectetur
-                                        adipisicing elit.
-                                        Minima harum animi
-                                        accusamus unde ratione alias dolorum adipisci aperiam ipsum quasi!</p>
-                                </div>
-                            </div>
-                        </swiper-slide>
-
-                        <swiper-slide class="rounded-3 border " style="overflow:hidden"
-                            style="box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;">
-                            <div>
-                                <img src="<?php echo base_url('assets/images/home/latest-news-1.avif')?>" alt="" />
-                                <div class="bg-white px-3 pt-4 pb-5">
-                                    <p class="fw-bold" style="color:#616E7C">Sunday, 12 Aug | 10:00am</p>
-                                    <div class="mt-1 d-flex align-items-center gap-2" style="color:#616E7C"><i
-                                            class="fa-solid fa-location-dot"></i>
-                                        Nueva
-                                        Ecija</div>
-                                    <h3 class="mt-3 fw-bold" style="color:#1F2933">Event 1</h3>
-                                    <p class="mt-2 " style="color:#52606D; line-height:1.7;">Lorem ipsum dolor sit amet
-                                        consectetur
-                                        adipisicing elit.
-                                        Minima harum animi
-                                        accusamus unde ratione alias dolorum adipisci aperiam ipsum quasi!</p>
-                                </div>
-                            </div>
-                        </swiper-slide>
 
                     </swiper-container>
                     <!-- <div class=" col-12 col-lg-7">
@@ -545,6 +495,8 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+
+
     const mySwiper = document.querySelector('.mySwiper');
 
     Object.assign(mySwiper, {
@@ -612,10 +564,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     // Count down
-    var toDayFromNow = (new Date("Aug 20, 2024 23:59:59").getTime() / 1000) + (3600 / 60 / 60 /
-        24) - 1;
-    var flipdown = new FlipDown(toDayFromNow)
 
+    var closestEventDate = <?php echo json_encode($closest_event_date); ?>;
+
+    var eventDate = new Date(closestEventDate);
+
+    var toDayFromNow = (eventDate.getTime() / 1000) + (3600 / 60 / 60 /
+        24) - 1;
+    var eventDateUnix = Math.floor(eventDate.getTime() / 1000);
+
+    var flipdown = new FlipDown(eventDateUnix)
         .start()
         .ifEnded(() => {
             document.querySelector(".flipdown").innerHTML = `<h2>Timer is ended</h2>`;
@@ -647,6 +605,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 })
 </script>
+
 
 
 

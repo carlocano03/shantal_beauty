@@ -391,27 +391,17 @@ body {
 	transform:scale(1.08);
   }
 
+
+  /* event */
+  .event__img{
+	width:100%;
+	height:280px;
+	object-fit:cover;
+}
+
+
 /* Campuses */
 
-.campuses_logo {
-	width: 8rem;
-	margin: 0 auto;
-}
-.campuses__card {
-	border: 1px solid #434875;
-}
-.campuses_paragraph {
-	line-height: 1.7;
-}
-.campuses__btn {
-	padding: 8px 96px;
-	margin-top: 32px;
-	font-size: 18px;
-	font-weight: bold;
-	background-color: #434875;
-	color: #ffffff;
-	box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-}
 
 .navbar_school-name {
 	font-size: 1.6rem; /* Default for small devices */
@@ -563,6 +553,7 @@ body {
     justify-content: center;
     width: 100%;
 }
+
 
 
 

@@ -334,14 +334,14 @@
                                     <img class="overview-card__icon"
                                         src="<?php echo base_url('assets/images/dashboard/event.png'); ?>" alt="
 										Registration">
-                                    <h1 class="overview-card__title mb-0">Events</h1>
+                                    <h1 class="overview-card__title mb-0">Upcoming Event</h1>
                                 </div>
 
                                 <button class="events__create-btn" data-bs-target="#eventModal"
                                     data-bs-toggle="modal"><i class="fa-solid fa-plus me-1"></i>Create</button>
                             </div>
 
-                            <div class="mt-4" id="deadline_filling">
+                            <div class="mt-4">
                                 <div class="upcoming-sched__date-container-4">
                                     <h1 class="upcoming-sched__weekday">Wednesday</h1>
                                     <div class="d-flex align-items-center justify-content-between">

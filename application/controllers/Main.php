@@ -23,6 +23,7 @@ class Main extends MY_Controller
         $this->load->helper('language');
         $this->lang->load('common','english');
         $this->load->model('main_model');
+		$this->load->model('portal/admin_portal/event_management_model');
 
         $this->output->set_header("X-Robots-Tag: noindex");
         $this->output->set_header('Cache-Control: no-store, no-cache');
@@ -49,6 +50,9 @@ class Main extends MY_Controller
 
         $data['link'] = $url;
         $data['church_schedule'] = $this->main_model->get_church_schedule();
+
+		$data['active_events'] = $this->event_management_model->get_active_events();
+		$data['closest_event_date'] = $this->event_management_model->get_closest_upcoming_event_date();
         $this->load->view('website/partial/_header', $data);
         $this->load->view('website/home', $data);
         $this->load->view('website/partial/_footer', $data);

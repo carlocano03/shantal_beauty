@@ -24,6 +24,7 @@ class Main extends MY_Controller
         $this->load->library('cipher');
         $this->lang->load('common','english');
         $this->load->model('portal/admin_portal/main_model');
+	
 
         $this->output->set_header("X-Robots-Tag: noindex");
         $this->output->set_header('Cache-Control: no-store, no-cache');
@@ -49,6 +50,8 @@ class Main extends MY_Controller
                 var csrf_token_value = "'.$this->security->get_csrf_hash().'";
             </script>'
         );
+	
+		
         $this->load->view('admin_portal/partial/_header', $data);
         $this->load->view('admin_portal/dashboard', $data);
         $this->load->view('admin_portal/partial/_footer', $data);
@@ -270,18 +273,7 @@ class Main extends MY_Controller
         echo json_encode($output);
     }
 
-	private function upload_img()
-    {
-        if (isset($_FILES["event_img"]))
-        {
-            $dt = Date('His');
-            $extension = explode('.', $_FILES['event_img']['name']);
-            $new_name = rand() . '_' . $dt . '.' . $extension[1];
-            $destination = 'assets/uploaded_attachment/events/' . $new_name;
-            move_uploaded_file($_FILES['event_img']['tmp_name'], $destination);
-            return $new_name;
-        } 
-    }
+
 
     public function get_church_schedule()
     {
@@ -314,45 +306,7 @@ class Main extends MY_Controller
     }
 	
 
-	public function add_event(){
-		
-			$event_name = $this->input->post('event_name');
-			$event_date = $this->input->post('event_date');
-			$start_time = $this->input->post('start_time');
-			$end_time = $this->input->post("end_time");
-			$event_description = $this->input->post("event_description");
-
-			$upload_img = $this->upload_img();
-
-			if ($upload_img === false) {
-				$response = array('status' => 'error', 'message' => 'Image upload failed.');
-				echo json_encode($response);
-				return;
-			}
-
-
-			$data = array(
-				"event_name" => $event_name,
-				"event_date" => $event_date,
-				"start_time" => $start_time,
-				"end_time" => $end_time,
-				"event_description" =>$event_description,
-				"event_img" => $upload_img,
-			);
-
-			$status = $this->main_model->insert_event($data);
-
-			if($status){
-				$response = array(
-					'status'=>'success','message' => 'Event added successfully.'
-				);
-			}else{
-				$response = array('status'=>'error', 'message' => 'Failed to add event.');
-			}
-
-			echo json_encode($response);
-
-	}
+	
 
 }
 //End CI_Controller
