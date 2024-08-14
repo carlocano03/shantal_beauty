@@ -305,7 +305,18 @@ class Main extends MY_Controller
         echo json_encode($output);
     }
 	
+    public function sidebar_count()
+    {
+        $suggestion = $this->main_model->gest_suggestion_count();
 
+        $settings_count = $suggestion;
+
+        $output = array(
+            'settings_count' => $settings_count,
+            'suggestion_count' => $suggestion,
+        );
+        echo json_encode($output);
+    }
 	
 
 }

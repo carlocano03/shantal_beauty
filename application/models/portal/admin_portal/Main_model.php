@@ -179,5 +179,14 @@ class Main_model extends MY_Model
         return $query;
     }
 
+    function gest_suggestion_count()
+    {
+        $dateToday = date('Y-m-d');
+
+        $this->db->where('DATE(date_created)', $dateToday);
+        $query = $this->db->get('suggestion');
+        return $query->num_rows();
+    }
+
 
 }
