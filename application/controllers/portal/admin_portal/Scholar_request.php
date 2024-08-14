@@ -235,20 +235,20 @@ class Scholar_request extends MY_Controller
                     $this->scholar_request_model->update_member_details($user_id, $member_id);
 
                     //Send email
-                    // $mail_data = [
-                    // 	'name_to'   => $data['student_first_name'],
-                    //     'login_url' => base_url('login'),
-                    //     'username'  => $scholarship_no,
-                    //     'password'  => $password,
-                    // ];
+                    $mail_data = [
+                    	'name_to'   => $data['student_first_name'],
+                        'login_url' => base_url('login'),
+                        'username'  => $scholarship_no,
+                        'password'  => $password,
+                    ];
 
-                    // $this->send_email_html([
-                    // 	'mail_to'       => $data['email_address'],
-                    // 	'cc'            => [],
-                    // 	'subject'       => 'Congratulations [Scholarship Application Approved]',
-                    // 	'template_path' => 'email_template/approved_request',
-                    // 	'mail_data'     => $mail_data,
-                    // ]);
+                    $this->send_email_html([
+                    	'mail_to'       => $data['email_address'],
+                    	'cc'            => [],
+                    	'subject'       => 'Congratulations [Scholarship Application Approved]',
+                    	'template_path' => 'email_template/approved_request',
+                    	'mail_data'     => $mail_data,
+                    ]);
 
                     $logs = array(
                         'user_id'       => $this->session->userdata('adminIn')['user_id'],
@@ -274,18 +274,18 @@ class Scholar_request extends MY_Controller
             $result = $this->scholar_request_model->decline_application($decline_application, $application_id);
             if ($result == TRUE) {
                 //Send email
-                // $mail_data = [
-                // 	'name_to' => $data['student_first_name'],
-                //     'comment' => $comment,
-                // ];
+                $mail_data = [
+                	'name_to' => $data['student_first_name'],
+                    'comment' => $comment,
+                ];
 
-                // $this->send_email_html([
-                // 	'mail_to'       => $data['email_address'],
-                // 	'cc'            => [],
-                // 	'subject'       => 'Scholarship Application [Declined]',
-                // 	'template_path' => 'email_template/declined_request',
-                // 	'mail_data'     => $mail_data,
-                // ]);
+                $this->send_email_html([
+                	'mail_to'       => $data['email_address'],
+                	'cc'            => [],
+                	'subject'       => 'Scholarship Application [Declined]',
+                	'template_path' => 'email_template/declined_request',
+                	'mail_data'     => $mail_data,
+                ]);
 
                 $logs = array(
                     'user_id'       => $this->session->userdata('adminIn')['user_id'],
