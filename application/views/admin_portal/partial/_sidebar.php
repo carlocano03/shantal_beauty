@@ -8,6 +8,7 @@
     $late_rules = FALSE;
     $attendance = FALSE;
     $biometric = FALSE;
+	$event_management = FALSE;
 
     if ($active_page == 'dashboard_page') {
         $dashboard = TRUE;
@@ -28,6 +29,9 @@
         $attendance = TRUE;
     } elseif ($active_page == 'biometric_page') {
         $biometric = TRUE;
+    } elseif ($active_page == 'event_management_page') {
+		$settings = TRUE;
+        $event_management = TRUE;
     }
 
 ?>
@@ -168,7 +172,7 @@
 
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-white">
             <div class="app-brand demo">
-                <a href="<?= base_url('client/crm-dashboard');?>" class="app-brand-link">
+                <a href="<?= base_url('admin/dashboard');?>" class="app-brand-link">
                     <span class="app-brand-logo demo">
                         <img src="<?= base_url('assets/images/home/clc.jpg');?>">
                     </span>
@@ -187,188 +191,205 @@
             <ul class="menu-inner py-1">
 
                 <?php if ($this->session->userdata('adminIn')['user_type_id'] == ADMINISTRATOR) : ?>
-                    <li class="menu-item ">
-                        <a href="<?= base_url('admin/dashboard');?>"
-                            class="<?= ($dashboard) ? 'menu-link-active' : '';?> menu-link">
-                            <i class="menu-icon tf-icons bx bxs-dashboard"></i>
-                            <div data-i18n="Analytics">Dashboard</div>
-                        </a>
-                    </li>
+                <li class="menu-item ">
+                    <a href="<?= base_url('admin/dashboard');?>"
+                        class="<?= ($dashboard) ? 'menu-link-active' : '';?> menu-link">
+                        <i class="menu-icon tf-icons bx bxs-dashboard"></i>
+                        <div data-i18n="Analytics">Dashboard</div>
+                    </a>
+                </li>
 
-                    <li class="menu-item ">
-                        <a href="<?= base_url('admin/scholarship-approval');?>"
-                            class="<?= ($scholarship_request) ? 'menu-link-active' : '';?> menu-link">
-                            <i class="menu-icon tf-icons bi bi-person-vcard"></i>
-                            <div data-i18n="Analytics">Scholarship Request</div>
-                        </a>
-                    </li>
+                <li class="menu-item ">
+                    <a href="<?= base_url('admin/scholarship-approval');?>"
+                        class="<?= ($scholarship_request) ? 'menu-link-active' : '';?> menu-link">
+                        <i class="menu-icon tf-icons bi bi-person-vcard"></i>
+                        <div data-i18n="Analytics">Scholarship Request</div>
+                    </a>
+                </li>
 
-                    <li class="menu-item ">
-                        <a href="<?= base_url('admin/scholars-record');?>"
-                            class="<?= ($student_record) ? 'menu-link-active' : '';?> menu-link">
-                            <i class="menu-icon tf-icons bi bi-person-lines-fill"></i>
-                            <div data-i18n="Analytics">Scholars Records</div>
-                        </a>
-                    </li>
+                <li class="menu-item ">
+                    <a href="<?= base_url('admin/scholars-record');?>"
+                        class="<?= ($student_record) ? 'menu-link-active' : '';?> menu-link">
+                        <i class="menu-icon tf-icons bi bi-person-lines-fill"></i>
+                        <div data-i18n="Analytics">Scholars Records</div>
+                    </a>
+                </li>
 
-                    <li class="menu-item ">
-                        <a href="<?= base_url('admin/biometric-logs');?>"
-                            class="<?= ($biometric) ? 'menu-link-active' : '';?> menu-link">
-                            <i class="menu-icon tf-icons bi bi-fingerprint"></i>
-                            <div data-i18n="Analytics">Biometric Logs</div>
-                        </a>
-                    </li>
+                <li class="menu-item ">
+                    <a href="<?= base_url('admin/biometric-logs');?>"
+                        class="<?= ($biometric) ? 'menu-link-active' : '';?> menu-link">
+                        <i class="menu-icon tf-icons bi bi-fingerprint"></i>
+                        <div data-i18n="Analytics">Biometric Logs</div>
+                    </a>
+                </li>
 
-                    <li class="menu-item ">
-                        <a href="<?= base_url('admin/attendance-record');?>"
-                            class="<?= ($attendance) ? 'menu-link-active' : '';?> menu-link">
-                            <i class="menu-icon tf-icons bi bi-calendar-week-fill"></i>
-                            <div data-i18n="Analytics">Attendance Record</div>
-                        </a>
-                    </li>
+                <li class="menu-item ">
+                    <a href="<?= base_url('admin/attendance-record');?>"
+                        class="<?= ($attendance) ? 'menu-link-active' : '';?> menu-link">
+                        <i class="menu-icon tf-icons bi bi-calendar-week-fill"></i>
+                        <div data-i18n="Analytics">Attendance Record</div>
+                    </a>
+                </li>
 
-                    <!-- Settings -->
-                    <li class="menu-header  btn btn-toggle" data-bs-toggle="collapse" data-bs-target="#sample"
-                        aria-expanded="<?= ($settings) ? 'true' : '';?>">
-                        <div class="d-flex justify-content-between align-items-center ">
-                            <div class="d-flex align-items-center">
-                                <i class="menu-icon tf-icons bi bi-gear" style="color:#ffffff;"></i>
-                                <div class="menu-header-text">Manage Settings</div>
-                            </div>
-                            <div class="icon-chevron"></div>
+                <!-- Settings -->
+                <li class="menu-header  btn btn-toggle" data-bs-toggle="collapse" data-bs-target="#sample"
+                    aria-expanded="<?= ($settings) ? 'true' : '';?>">
+                    <div class="d-flex justify-content-between align-items-center ">
+                        <div class="d-flex align-items-center">
+                            <i class="menu-icon tf-icons bi bi-gear" style="color:#ffffff;"></i>
+                            <div class="menu-header-text">Manage Settings</div>
                         </div>
-                    </li>
-
-                    <div>
-                        <div class="collapse <?= ($settings) ? 'show' : '';?>" id="sample" style="">
-                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small sidebar-menu">
-                                <li class="menu-item sidebar-menu-item <?= ($account_management) ? 'active' : '';?>">
-                                    <a href="<?= base_url('admin/account-management');?>"
-                                        class="<?= ($account_management) ? 'menu-link-active-2' : '';?> menu-link">
-                                        <div data-i18n="Account">Account Management</div>
-                                    </a>
-                                </li>
-
-                                <li class="menu-item sidebar-menu-item <?= ($church_settings) ? 'active' : '';?>">
-                                    <a href="<?= base_url('admin/church-schedule');?>"
-                                        class="<?= ($church_settings) ? 'menu-link-active-2' : '';?> menu-link">
-                                        <div data-i18n="Account">Church Schedule</div>
-                                    </a>
-                                </li>
-
-                                <li class="menu-item sidebar-menu-item <?= ($late_rules) ? 'active' : '';?>">
-                                    <a href="<?= base_url('admin/late-rules-setup');?>"
-                                        class="<?= ($late_rules) ? 'menu-link-active-2' : '';?> menu-link">
-                                        <div data-i18n="Account">Total Late Rules</div>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+                        <div class="icon-chevron"></div>
                     </div>
-                    <!-- End -->
+                </li>
+
+                <div>
+                    <div class="collapse <?= ($settings) ? 'show' : '';?>" id="sample" style="">
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small sidebar-menu">
+                            <li class="menu-item sidebar-menu-item <?= ($account_management) ? 'active' : '';?>">
+                                <a href="<?= base_url('admin/account-management');?>"
+                                    class="<?= ($account_management) ? 'menu-link-active-2' : '';?> menu-link">
+                                    <div data-i18n="Account">Account Management</div>
+                                </a>
+                            </li>
+
+                            <li class="menu-item sidebar-menu-item <?= ($church_settings) ? 'active' : '';?>">
+                                <a href="<?= base_url('admin/church-schedule');?>"
+                                    class="<?= ($church_settings) ? 'menu-link-active-2' : '';?> menu-link">
+                                    <div data-i18n="Account">Church Schedule</div>
+                                </a>
+                            </li>
+
+                            <li class="menu-item sidebar-menu-item <?= ($late_rules) ? 'active' : '';?>">
+                                <a href="<?= base_url('admin/late-rules-setup');?>"
+                                    class="<?= ($late_rules) ? 'menu-link-active-2' : '';?> menu-link">
+                                    <div data-i18n="Account">Total Late Rules</div>
+                                </a>
+                            </li>
+
+                            <li class="menu-item sidebar-menu-item <?= ($event_management) ? 'active' : '';?>">
+                                <a href="<?= base_url('admin/event-management');?>"
+                                    class="<?= ($event_management) ? 'menu-link-active-2' : '';?> menu-link">
+                                    <div data-i18n="Account">Event Management</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- End -->
 
                 <?php else : ?>
 
-                    <?php if (in_array(DASHBOARD, $role_permissions)): ?>
-                        <li class="menu-item ">
-                            <a href="<?= base_url('admin/dashboard');?>"
-                                class="<?= ($dashboard) ? 'menu-link-active' : '';?> menu-link">
-                                <i class="menu-icon tf-icons bx bxs-dashboard"></i>
-                                <div data-i18n="Analytics">Dashboard</div>
-                            </a>
-                        </li>
-                    <?php endif; ?>
+                <?php if (in_array(DASHBOARD, $role_permissions)): ?>
+                <li class="menu-item ">
+                    <a href="<?= base_url('admin/dashboard');?>"
+                        class="<?= ($dashboard) ? 'menu-link-active' : '';?> menu-link">
+                        <i class="menu-icon tf-icons bx bxs-dashboard"></i>
+                        <div data-i18n="Analytics">Dashboard</div>
+                    </a>
+                </li>
+                <?php endif; ?>
 
-                    <?php if (in_array(SCHOLAR_APPLICATION, $role_permissions)): ?>
-                        <li class="menu-item ">
-                            <a href="<?= base_url('admin/scholarship-approval');?>"
-                                class="<?= ($scholarship_request) ? 'menu-link-active' : '';?> menu-link">
-                                <i class="menu-icon tf-icons bi bi-person-vcard"></i>
-                                <div data-i18n="Analytics">Scholarship Request</div>
-                            </a>
-                        </li>
-                    <?php endif; ?>
+                <?php if (in_array(SCHOLAR_APPLICATION, $role_permissions)): ?>
+                <li class="menu-item ">
+                    <a href="<?= base_url('admin/scholarship-approval');?>"
+                        class="<?= ($scholarship_request) ? 'menu-link-active' : '';?> menu-link">
+                        <i class="menu-icon tf-icons bi bi-person-vcard"></i>
+                        <div data-i18n="Analytics">Scholarship Request</div>
+                    </a>
+                </li>
+                <?php endif; ?>
 
-                    <?php if (in_array(STUDENT_RECORD, $role_permissions)): ?>
-                        <li class="menu-item ">
-                            <a href="<?= base_url('admin/scholars-record');?>"
-                                class="<?= ($student_record) ? 'menu-link-active' : '';?> menu-link">
-                                <i class="menu-icon tf-icons bi bi-person-lines-fill"></i>
-                                <div data-i18n="Analytics">Scholars Records</div>
-                            </a>
-                        </li>
-                    <?php endif; ?>
+                <?php if (in_array(STUDENT_RECORD, $role_permissions)): ?>
+                <li class="menu-item ">
+                    <a href="<?= base_url('admin/scholars-record');?>"
+                        class="<?= ($student_record) ? 'menu-link-active' : '';?> menu-link">
+                        <i class="menu-icon tf-icons bi bi-person-lines-fill"></i>
+                        <div data-i18n="Analytics">Scholars Records</div>
+                    </a>
+                </li>
+                <?php endif; ?>
 
-                    <?php if (in_array(BIOMETRIC_LOGS, $role_permissions)): ?>
-                        <li class="menu-item ">
-                            <a href="<?= base_url('admin/biometric-logs');?>"
-                                class="<?= ($biometric) ? 'menu-link-active' : '';?> menu-link">
-                                <i class="menu-icon tf-icons bi bi-fingerprint"></i>
-                                <div data-i18n="Analytics">Biometric Logs</div>
-                            </a>
-                        </li>
-                    <?php endif; ?>
+                <?php if (in_array(BIOMETRIC_LOGS, $role_permissions)): ?>
+                <li class="menu-item ">
+                    <a href="<?= base_url('admin/biometric-logs');?>"
+                        class="<?= ($biometric) ? 'menu-link-active' : '';?> menu-link">
+                        <i class="menu-icon tf-icons bi bi-fingerprint"></i>
+                        <div data-i18n="Analytics">Biometric Logs</div>
+                    </a>
+                </li>
+                <?php endif; ?>
 
-                    <?php if (in_array(ATTENDANCE, $role_permissions)): ?>
-                        <li class="menu-item ">
-                            <a href="<?= base_url('admin/attendance-record');?>"
-                                class="<?= ($attendance) ? 'menu-link-active' : '';?> menu-link">
-                                <i class="menu-icon tf-icons bi bi-calendar-week-fill"></i>
-                                <div data-i18n="Analytics">Attendance Record</div>
-                            </a>
-                        </li>
-                    <?php endif; ?>
+                <?php if (in_array(ATTENDANCE, $role_permissions)): ?>
+                <li class="menu-item ">
+                    <a href="<?= base_url('admin/attendance-record');?>"
+                        class="<?= ($attendance) ? 'menu-link-active' : '';?> menu-link">
+                        <i class="menu-icon tf-icons bi bi-calendar-week-fill"></i>
+                        <div data-i18n="Analytics">Attendance Record</div>
+                    </a>
+                </li>
+                <?php endif; ?>
 
-                    <!-- Settings -->
-                    <?php if (array_intersect([ACCOUNT_MANAGEMENT, CHURCH_SCHEDULE, LATE_RULES], $role_permissions)): ?>
-                        <li class="menu-header  btn btn-toggle" data-bs-toggle="collapse" data-bs-target="#sample"
-                            aria-expanded="<?= ($settings) ? 'true' : '';?>">
-                            <div class="d-flex justify-content-between align-items-center ">
-                                <div class="d-flex align-items-center">
-                                    <i class="menu-icon tf-icons bi bi-gear" style="color:#ffffff;"></i>
-                                    <div class="menu-header-text">Manage Settings</div>
-                                </div>
-                                <div class="icon-chevron"></div>
-                            </div>
-                        </li>
-
-                        <div>
-                            <div class="collapse <?= ($settings) ? 'show' : '';?>" id="sample" style="">
-                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small sidebar-menu">
-                                    <?php if (in_array(ACCOUNT_MANAGEMENT, $role_permissions)): ?>
-                                        <li class="menu-item sidebar-menu-item <?= ($account_management) ? 'active' : '';?>">
-                                            <a href="<?= base_url('admin/account-management');?>"
-                                                class="<?= ($account_management) ? 'menu-link-active-2' : '';?> menu-link">
-                                                <div data-i18n="Account">Account Management</div>
-                                            </a>
-                                        </li>
-                                    <?php endif; ?>
-
-                                    <?php if (in_array(CHURCH_SCHEDULE, $role_permissions)): ?>
-                                        <li class="menu-item sidebar-menu-item <?= ($church_settings) ? 'active' : '';?>">
-                                            <a href="<?= base_url('admin/church-schedule');?>"
-                                                class="<?= ($church_settings) ? 'menu-link-active-2' : '';?> menu-link">
-                                                <div data-i18n="Account">Church Schedule</div>
-                                            </a>
-                                        </li>
-                                    <?php endif; ?>
-
-                                    <?php if (in_array(LATE_RULES, $role_permissions)): ?>
-                                        <li class="menu-item sidebar-menu-item <?= ($late_rules) ? 'active' : '';?>">
-                                            <a href="<?= base_url('admin/late-rules-setup');?>"
-                                                class="<?= ($late_rules) ? 'menu-link-active-2' : '';?> menu-link">
-                                                <div data-i18n="Account">Total Late Rules</div>
-                                            </a>
-                                        </li>
-                                    <?php endif; ?>
-                                </ul>
-                            </div>
+                <!-- Settings -->
+                <?php if (array_intersect([ACCOUNT_MANAGEMENT, CHURCH_SCHEDULE, LATE_RULES], $role_permissions)): ?>
+                <li class="menu-header  btn btn-toggle" data-bs-toggle="collapse" data-bs-target="#sample"
+                    aria-expanded="<?= ($settings) ? 'true' : '';?>">
+                    <div class="d-flex justify-content-between align-items-center ">
+                        <div class="d-flex align-items-center">
+                            <i class="menu-icon tf-icons bi bi-gear" style="color:#ffffff;"></i>
+                            <div class="menu-header-text">Manage Settings</div>
                         </div>
-                    <?php endif; ?>
-                    <!-- End -->
+                        <div class="icon-chevron"></div>
+                    </div>
+                </li>
+
+                <div>
+                    <div class="collapse <?= ($settings) ? 'show' : '';?>" id="sample" style="">
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small sidebar-menu">
+                            <?php if (in_array(ACCOUNT_MANAGEMENT, $role_permissions)): ?>
+                            <li class="menu-item sidebar-menu-item <?= ($account_management) ? 'active' : '';?>">
+                                <a href="<?= base_url('admin/account-management');?>"
+                                    class="<?= ($account_management) ? 'menu-link-active-2' : '';?> menu-link">
+                                    <div data-i18n="Account">Account Management</div>
+                                </a>
+                            </li>
+                            <?php endif; ?>
+
+                            <?php if (in_array(CHURCH_SCHEDULE, $role_permissions)): ?>
+                            <li class="menu-item sidebar-menu-item <?= ($church_settings) ? 'active' : '';?>">
+                                <a href="<?= base_url('admin/church-schedule');?>"
+                                    class="<?= ($church_settings) ? 'menu-link-active-2' : '';?> menu-link">
+                                    <div data-i18n="Account">Church Schedule</div>
+                                </a>
+                            </li>
+                            <?php endif; ?>
+
+                            <?php if (in_array(LATE_RULES, $role_permissions)): ?>
+                            <li class="menu-item sidebar-menu-item <?= ($late_rules) ? 'active' : '';?>">
+                                <a href="<?= base_url('admin/late-rules-setup');?>"
+                                    class="<?= ($late_rules) ? 'menu-link-active-2' : '';?> menu-link">
+                                    <div data-i18n="Account">Total Late Rules</div>
+                                </a>
+                            </li>
+                            <?php endif; ?>
+
+
+                            <?php if (in_array(EVENT_MANAGEMENT, $role_permissions)): ?>
+                            <li class="menu-item sidebar-menu-item <?= ($event_management) ? 'active' : '';?>">
+                                <a href="<?= base_url('admin/event-management');?>"
+                                    class="<?= ($event_management) ? 'menu-link-active-2' : '';?> menu-link">
+                                    <div data-i18n="Account">Event Management</div>
+                                </a>
+                            </li>
+                            <?php endif; ?>
+                        </ul>
+                    </div>
+                </div>
+                <?php endif; ?>
+                <!-- End -->
 
                 <?php endif; ?>
-                
+
 
 
             </ul>

@@ -145,7 +145,7 @@
 
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-white">
             <div class="app-brand demo">
-                <a href="<?= base_url('client/crm-dashboard');?>" class="app-brand-link">
+                <a href="<?= base_url('student/dashboard');?>" class="app-brand-link">
                     <span class="app-brand-logo demo">
                         <img src="<?= base_url('assets/images/home/clc.jpg');?>">
                     </span>
