@@ -101,10 +101,11 @@ class Scholar_request extends MY_Controller
             );
             $color = array_key_exists($list->application_status, $stageColors) ? $stageColors[$list->application_status] : 'bg-secondary';
             $row[] = '<div class="badge '.$color.'">'.$list->application_status.'</div>';
+
             $row[] = '
 				<div class="d-block d-lg-none">
-				  	 <i data-bs-toggle="modal" data-bs-target="#viewScholarRequestTableDetails"
-                        class="fa-solid fa-circle-plus"></i>
+				  	 <i data-bs-toggle="modal" data-application-id="'.$list->application_id.'" data-bs-target="#viewScholarRequestTableDetails"
+                        class="fa-solid fa-circle-plus viewScholarRequestTableDetailsBtn"></i>
 					</div>	
 			<div class="btn-group d-none d-lg-block">
                         <button type="button" class="btn btn-dark btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
@@ -128,6 +129,52 @@ class Scholar_request extends MY_Controller
         );
         echo json_encode($output);
     }
+
+
+	public function get_scholar(){
+		$application_id = $this->input->get('application_id');
+		
+		$application_id_encrypted = $this->cipher->encrypt($application_id);
+		$scholar = $this->scholar_request_model->get_scholar_by_id($application_id);
+
+		$data = array();
+
+		if($scholar){
+			$full_name = $scholar->student_last_name.', '.$scholar->student_first_name.' '.$scholar->student_middle_name;
+			$application_no = $scholar->application_no;
+			$school_name = $scholar->school_name;
+			$application_date = $scholar->date_application;
+
+			$stageColors = array(
+                'For Approval' => 'bg-warning',
+                'Approved' => 'bg-success',
+                'Declined' => 'bg-danger',
+            );
+            $color = array_key_exists($scholar->application_status, $stageColors) ? $stageColors[$scholar->application_status] : 'bg-secondary';
+            $status = '<div class="badge '.$color.'">'.$scholar->application_status.'</div>';
+
+
+			$data = array(
+				"full_name" => $full_name,
+				"application_no" => $application_no,
+				"school_name" => $school_name,
+				"application_date" => $application_date,
+				"status" => $status,
+				"action" => '<div class="btn-group">
+                        <button type="button" class="btn btn-dark btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            Action
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a target="_blank" href="'.base_url('admin/scholarship-approval/scholar-information?application=').$application_id_encrypted.'" class="dropdown-item link-cursor text-primary"><i class="bi bi-view-list me-2"></i>View Request</a></li>
+                        </ul>
+                    </div>'
+			);
+
+		}else{
+			$data = array("error" => "Student not found");
+		}
+		echo json_encode($data);
+	}
 
     public function download_attachment()
     {
