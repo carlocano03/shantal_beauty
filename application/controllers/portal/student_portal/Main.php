@@ -84,8 +84,8 @@ class Main extends MY_Controller
 
         $data['late_count'] = $total_late_count;
 
-        if ($total_late_count >= $late_rules->no_late) {
-        //if ($total_late_count >= 1) {
+        //if ($total_late_count >= $late_rules->no_late) {
+        if ($total_late_count >= 1) {
             $data['show_upload_button'] = 'Show';
         } else {
             $data['show_upload_button'] = 'Hide';

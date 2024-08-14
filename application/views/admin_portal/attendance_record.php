@@ -8,14 +8,17 @@
 #tbl_student th:nth-child(6),
 #tbl_student td:nth-child(6),
 #tbl_student th:nth-child(7),
-#tbl_student td:nth-child(7) {
+#tbl_student td:nth-child(7),
+#tbl_student th:nth-child(8),
+#tbl_student td:nth-child(8) {
     text-align: center;
 }
 
 #tbl_student td:nth-child(1),
 #tbl_student td:nth-child(4),
 #tbl_student td:nth-child(5),
-#tbl_student td:nth-child(6) {
+#tbl_student td:nth-child(6),
+#tbl_student td:nth-child(7) {
     display: none;
 
 }
@@ -25,7 +28,8 @@
     #tbl_student td:nth-child(1),
     #tbl_student td:nth-child(4),
     #tbl_student td:nth-child(5),
-    #tbl_student td:nth-child(6) {
+    #tbl_student td:nth-child(6),
+    #tbl_student td:nth-child(7) {
         display: table-cell;
     }
 }
@@ -92,6 +96,7 @@
                             <th class="d-none d-md-table-cell"></th>
                             <th>Scholarship No</th>
                             <th style="white-space:nowrap">Student Name</th>
+                            <th class="d-none d-lg-table-cell">Late Count</th>
                             <th class="d-none d-lg-table-cell">Schedule</th>
                             <th class="d-none d-lg-table-cell">Year Level</th>
                             <th class="d-none d-lg-table-cell">Course</th>
@@ -141,7 +146,7 @@
             <!-- AJAX REQUEST -->
         </div>
     </div>
-    <?php $this->load->view('/admin_portal/modal/attendance_record_tbl_modal.php');?>
+    <?php $this->load->view('/admin_portal/modal/attendance_record_tbl_modal');?>
 
 <script>
     $(document).ready(function() {
@@ -239,6 +244,122 @@
                     $('#viewSchedule').offcanvas('show')
                 }
             });
+        });
+
+        $(document).on('click', '.verify_letter', function() {
+            var member_id = $(this).data('id');
+
+            $.ajax({
+                url: "<?= base_url('portal/admin_portal/attendance_record/view_letter')?>",
+                method: "POST",
+                data: {
+                    member_id: member_id,
+                    '_token': csrf_token_value,
+                },
+                dataType: "json",
+                success: function(data) {
+                    if(data.error != '') {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Ooops.',
+                            text: data.error,
+                        });
+                    } else {
+                        $('#memberID').val(data.member_id);
+                        $('#uploaded_id').val(data.uploaded_id);
+                        $('#attachment').val(data.attachment);
+                        $('#verifyModal').modal('show');
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.error("AJAX request failed:", textStatus, errorThrown);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'An error occurred while processing the request.',
+                    });
+                }
+            });
+        });
+
+        $(document).on('click', '#download_btn', function() {
+            var attachment = $('#attachment').val();
+            var url = "<?= base_url('portal/admin_portal/attendance_record/download?file=')?>" + attachment;
+            if(attachment != '') {
+                window.location.href = url;
+            } else {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Ooops.',
+                    text: 'No attachment found.',
+                });
+            }
+        });
+
+        $(document).on('click', '#save_verification', function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            var form = $('#verifyForm')[0];
+            var formData = new FormData(form);
+            formData.append('member_id', $('#memberID').val());
+            formData.append('uploaded_id', $('#uploaded_id').val());
+            formData.append('letter_verification', $('#letter_verification').val());
+            formData.append('comment', $('#comment').val());
+            formData.append('_token', csrf_token_value);
+
+            form.classList.add('was-validated');
+            if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+            } else {
+                Swal.fire({
+                    title: 'Are you sure..',
+                    text: "You want to continue this transaction?",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, continue',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: "<?= base_url('portal/admin_portal/attendance_record/verify_letter');?>",
+                            method: "POST",
+                            data: formData,
+                            contentType: false,
+                            processData: false,
+                            dataType: "json",
+                            success: function(data) {
+                                if (data.error != '') {
+                                    Swal.fire({
+                                        icon: 'warning',
+                                        title: 'Ooops...',
+                                        text: data.error,
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Thank You!',
+                                        text: data.success,
+                                    });
+                                    $('#verifyModal').modal('hide');
+                                    form.reset();
+                                    form.classList.remove('was-validated');
+                                    tbl_student.draw();
+                                }
+                            },
+                            error: function() {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Ooops...',
+                                    text: 'An error occurred while processing the request.',
+                                });
+                            }
+                        });
+                    }
+                });
+            }
         });
 
     });

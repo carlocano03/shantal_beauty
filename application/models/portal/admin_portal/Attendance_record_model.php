@@ -229,4 +229,63 @@ class Attendance_record_model extends MY_Model
         $update = $this->db->update('scholar_selected_schedule', $apply_broken_sched);
         return $update?TRUE:FALSE;
     }
+
+    function get_time_in($member_id)
+    {
+        $this->db->where('member_id', $member_id);
+        $query = $this->db->get('scholar_selected_schedule');
+        return $query->result_array();
+    }
+
+    function get_attendance_data($member_id, $schedule_date)
+    {
+        $this->db->where('member_id', $member_id);
+        $this->db->where('attendance_date', $schedule_date);
+        $query = $this->db->get('attendance_record');
+        return $query;
+    }
+
+    function getActiveRules()
+    {
+        $this->db->where('status', 0);
+        $this->db->limit(1);
+        $query = $this->db->get('late_rules');
+        return $query->row();
+    }
+
+    function get_attendance_time($member_id, $schedule_date, $remarks, $no_days)
+    {
+        $this->db->where('member_id', $member_id);
+        $this->db->where('attendance_date >=', 'DATE_SUB(CURDATE(), INTERVAL ' . $this->db->escape($no_days) . ' DAY)', FALSE);
+        $this->db->where('attendance_date', $schedule_date);
+        $this->db->where('remarks', $remarks);
+        $this->db->where('is_handled', 0);
+        $this->db->order_by('attendance_id', 'ASC');
+        $query = $this->db->get('attendance_record');
+        return $query->row_array();
+    }
+
+    function check_uploaded_letter($member_id)
+    {
+        $this->db->where('member_id', $member_id);
+        $this->db->where('remarks', 'For Validation');
+        $query = $this->db->get('uploaded_consecutive_late');
+        return $query;
+    }
+
+    function verify_letter($uploaded_id, $verify_letter)
+    {
+        $this->db->where('uploaded_id', $uploaded_id);
+        $update = $this->db->update('uploaded_consecutive_late', $verify_letter);
+        return $update?TRUE:FALSE;
+    }
+
+    function get_attendance_update($member_id, $schedule_date, $remarks, $no_days)
+    {
+        $this->db->where('member_id', $member_id);
+        $this->db->where('attendance_date >=', 'DATE_SUB(CURDATE(), INTERVAL ' . $this->db->escape($no_days) . ' DAY)', FALSE);
+        $this->db->where('attendance_date', $schedule_date);
+        $this->db->where('remarks', $remarks);
+        $this->db->update('attendance_record', ['is_handled' => 1]);
+    }
 }

@@ -332,26 +332,15 @@
                             <div class="d-flex align-items-center justify-content-between">
                                 <div class="d-flex align-items-center gap-2">
                                     <img class="overview-card__icon"
-                                        src="<?php echo base_url('assets/images/dashboard/event.png'); ?>" alt="
+                                        src="<?php echo base_url('assets/images/client/poll.png'); ?>" alt="
 										Registration">
-                                    <h1 class="overview-card__title mb-0">Upcoming Event</h1>
+                                    <h1 class="overview-card__title mb-0">Poll Result</h1>
                                 </div>
-
-                                <button class="events__create-btn" data-bs-target="#eventModal"
-                                    data-bs-toggle="modal"><i class="fa-solid fa-plus me-1"></i>Create</button>
                             </div>
 
                             <div class="mt-4">
-                                <div class="upcoming-sched__date-container-4">
-                                    <h1 class="upcoming-sched__weekday">Wednesday</h1>
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <div class="upcoming-sched__date"><i
-                                                class="fa-solid fa-calendar custom-text-primary me-2"></i>July 31, 2024
-                                        </div>
-                                        <div class="upcoming-sched__time"><i
-                                                class="fa-solid fa-clock custom-text-danger me-2"></i>12:00 PM - 05:00
-                                            PM</div>
-                                    </div>
+                                <div id="poll_request">
+                                    <!-- AJAX Request -->
                                 </div>
                             </div>
                         </div>
@@ -657,6 +646,16 @@ function getBiometricLogs(page) {
     });
 }
 
+function getPollRequest() {
+    $.ajax({
+        url: "<?= base_url('portal/admin_portal/main/getPollRequest')?>",
+        method: "GET",
+        dataType: "json",
+        success: function(data) {
+            $('#poll_request').html(data.poll_request);
+        }
+    });
+}
 
 $(document).ready(function() {
     getCount();
@@ -668,6 +667,7 @@ $(document).ready(function() {
     getCountSchedule();
     getBiometricLogs(0);
     loadSchedule();
+    getPollRequest();
 
     setInterval(() => {
         getScholarshipRequest();

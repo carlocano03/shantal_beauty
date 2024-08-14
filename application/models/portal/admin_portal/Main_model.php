@@ -188,5 +188,25 @@ class Main_model extends MY_Model
         return $query->num_rows();
     }
 
+    function getPollRequest()
+    {
+        $this->db->select('PQ.poll_question, PQ.poll_id, PQ.user_id, GROUP_CONCAT(PC.poll_choices_id, ":", PC.poll_choices SEPARATOR "|") as pollChoices');
+        $this->db->from('poll_choices PC');
+        $this->db->join('poll_question PQ', 'PC.poll_id = PQ.poll_id', 'left');
+        $this->db->where('PQ.status', 0);
+        $this->db->order_by('PC.poll_choices', 'ASC');
+        $this->db->limit(1);
+        $this->db->group_by('PQ.poll_question');
+        $query = $this->db->get();
+        return $query;
+    }
+
+    function get_poll_answer($poll_choices_id)
+    {
+        $this->db->where('poll_choices_id', $poll_choices_id);
+        $query = $this->db->get('poll_answer');
+        return $query;
+    }
+
 
 }
