@@ -47,15 +47,23 @@ class Main extends MY_Controller
             $url = base_url('scholarship/registration-form');
         }
         
-
         $data['link'] = $url;
         $data['church_schedule'] = $this->main_model->get_church_schedule();
 
+
 		$data['active_events'] = $this->event_management_model->get_active_events();
 		$data['closest_event_date'] = $this->event_management_model->get_closest_upcoming_event_date();
-        $this->load->view('website/partial/_header', $data);
-        $this->load->view('website/home', $data);
-        $this->load->view('website/partial/_footer', $data);
+
+        $maintenance = $this->main_model->get_row('server_maintenance', array('id' => 1));
+
+        if ($maintenance['status'] == 0) {
+            $this->load->view('website/partial/_header', $data);
+            $this->load->view('website/home', $data);
+            $this->load->view('website/partial/_footer', $data);
+        } else {
+            $this->load->view('website/maintenance');
+        }
+
     }
 	
 	public function login()

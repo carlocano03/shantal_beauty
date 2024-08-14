@@ -5,8 +5,8 @@
 }
 
 #church_schedule_chart {
-    width: 450px !important;
-    height: 450px !important;
+    width: 380px !important;
+    height: 380px !important;
 
 }
 

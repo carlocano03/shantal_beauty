@@ -406,7 +406,7 @@
             </div>
             <div class="row row-cols-1 row-cols-lg-2 gy-5 mt-lg-5 gx-5 py-2">
                 <div class="col">
-                    <div class="d-grid gap-lg-5 gap-4 mt-lg-5">
+                    <div class="d-grid gap-lg-5 gap-4">
                         <div class="p-4 bg-white shadow-sm mt-4">
                             <div class="d-flex gap-4">
                                 <i class="fa-solid fa-location-dot fs-4 mr-4" style="color:#2E3B61"></i>
@@ -445,36 +445,6 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="col">
-                    <form>
-                        <div class="card p-5 shadow-sm" style="border:none; border-radius:16px;">
-                            <h4 class="fw-bold text-center mb-4" style="color:#2E3B61">Ask Anything Here</h4>
-                            <div class="py-2">
-                                <div class="form-group mb-4">
-                                    <label for="name" class="form-label">Name</label>
-                                    <input type="text" class="form-control py-2" id="name" autocomplete="off">
-                                </div>
-                                <div class="form-group mb-4">
-                                    <label for="email" class="form-label">Email</label>
-                                    <input type="email" class="form-control py-2" id="email" autocomplete="off">
-                                </div>
-                                <div class="form-group mb-4">
-                                    <label for="name" class="form-label">Message</label>
-                                    <textarea type="text" class="form-control py-2" id="name"
-                                        autocomplete="off"></textarea>
-                                </div>
-                                <div>
-                                    <button class="contact-us__btn">Submit</button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-
-
-            </div>
-            <div class="row mt-5">
                 <div class="col">
                     <iframe id="map-canvas" class="map_part" width="100%" height="450" frameborder="0" scrolling="no"
                         marginheight="0" marginwidth="0"
@@ -483,6 +453,40 @@
                         <a href="https://embedgooglemaps.com">google maps embed</a> and
                         <a href="https://beviljaralla.se/">beviljaralla.se</a></iframe>
                 </div>
+                <!-- <div class="col">
+                    <form id="contactForm" class="needs-validation" novalidate>
+                        <div class="card p-5 shadow-sm" style="border:none; border-radius:16px;">
+                            <h4 class="fw-bold text-center mb-4" style="color:#2E3B61">Ask Anything Here</h4>
+                            <div class="py-2">
+                                <div class="form-group mb-4">
+                                    <label for="name" class="form-label">Name</label>
+                                    <input type="text" class="form-control py-2" id="name" autocomplete="off" required>
+                                    <div class="invalid-feedback">
+                                        Please provide your complete name.
+                                    </div>
+                                </div>
+                                <div class="form-group mb-4">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" class="form-control py-2" id="email" autocomplete="off" required>
+                                    <div class="invalid-feedback">
+                                        Please provide a valid email address.
+                                    </div>
+                                </div>
+                                <div class="form-group mb-4">
+                                    <label for="message" class="form-label">Message</label>
+                                    <textarea type="text" class="form-control py-2" id="message"
+                                        autocomplete="off"></textarea>
+                                    <div class="invalid-feedback">
+                                        Please provide a valid message.
+                                    </div>
+                                </div>
+                                <div>
+                                    <button type="button" id="sent_question" class="contact-us__btn">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div> -->
             </div>
         </div>
     </section>
@@ -602,7 +606,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     window.addEventListener('scroll', addAnimationClass);
-
 })
 </script>
 
