@@ -948,7 +948,7 @@
                                     </div>
                                 </div>
                             </div>
-                    </div>
+                        </div>
 
                     </form>
 
@@ -959,5 +959,27 @@
     </div>
     </div>
 </main>
+
+<script>
+    function getDeadline()
+    {
+        $.ajax({
+            url:"<?= base_url('website/registration_form/check_deadline')?>",
+            method: "GET",
+            dataType: "json",
+            success: function(data) {
+                if (data.deadline == 'Expired') {
+                    window.location.href = "<?= base_url('scholarship-closed')?>";
+                }
+            }
+        });
+    }
+    $(document).ready(function() {
+        getDeadline();
+        setInterval(() => {
+            getDeadline();
+        }, 3000);
+    });
+</script>
 
 <?php $this->load->view('website/modal/verify_email_modal');?>

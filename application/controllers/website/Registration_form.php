@@ -337,4 +337,25 @@ class Registration_form extends MY_Controller
 		echo json_encode($output);
 	}
 
+	public function check_deadline()
+	{
+		$this->load->model('main_model');
+		$deadline = $this->main_model->getDeadlineFilling();
+		$deadline_row = $deadline->row_array();
+        $dateToday = date('Y-m-d');
+
+		if ($deadline->num_rows() > 0) {
+            if ($dateToday > $deadline_row['date_deadline']) {
+				$deadline = 'Expired';
+            } else {
+                $deadline = '';
+            }
+        } else {
+            $deadline = '';
+        }
+
+		$output['deadline'] = $deadline;
+		echo json_encode($output);
+	}
+
 }

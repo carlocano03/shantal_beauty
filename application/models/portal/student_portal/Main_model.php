@@ -410,4 +410,16 @@ class Main_model extends MY_Model
         $insert = $this->db->insert('suggestion', $insert_suggestion);
         return $insert?TRUE:FALSE;
     }
+
+    function get_suggestion_count()
+    {
+        return $this->db->count_all('suggestion');
+    }
+
+    function getSuggestion($limit, $start)
+    {
+        $this->db->limit($limit, $start);
+        $query = $this->db->get('suggestion');
+        return $query;
+    }
 }

@@ -147,7 +147,7 @@
                             <div class="mt-3">
                                 <ul class="nav nav-pills mb-3 d-flex flex-column flex-lg-row" id="pills-tab"
                                     role="tablist">
-                                    <li class="nav-item" role="presentation">
+                                    <li class="nav-item chart_sched" role="presentation">
                                         <button class="nav-link active" id="pills-overview-tab" data-bs-toggle="pill"
                                             data-bs-target="#pills-overview" type="button" role="tab"
                                             aria-controls="pills-overview" aria-selected="false">
@@ -171,7 +171,7 @@
                                     </li>
                                 </ul>
                                 <div class="tab-content p-0" id="pills-tabContent">
-                                    <div class=" tab-pane fade fade show active" id="pills-overview" role="tabpanel"
+                                    <div class="tab-pane fade fade show active chart_sched" id="pills-overview" role="tabpanel"
                                         aria-labelledby="pills-overview-tab">
                                         <div class="mt-3 d-flex align-items-center justify-content-center">
                                             <canvas id="church_schedule_chart"></canvas>
@@ -401,9 +401,15 @@ function loadSchedule() {
         dataType: "json",
         success: function(data) {
             if (data.count > 0) {
+                $('.chart_sched').fadeIn(200);
+                $('#pills-home-tab').removeClass('active');
+                $('#pills-home').removeClass('fade fade show active');
                 scheduleChart.data = data.chart;
                 scheduleChart.update();
             } else {
+                $('.chart_sched').hide();
+                $('#pills-home-tab').addClass('active');
+                $('#pills-home').addClass('fade fade show active');
                 scheduleChart.data = {
                     datasets: [{
                         data: [1], // Dummy data
