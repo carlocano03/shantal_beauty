@@ -21,6 +21,8 @@ define('LATE_RULES', 6);
 define('ATTENDANCE', 7);
 define('APPROVAL_SCHOLAR', 8);
 define('BIOMETRIC_LOGS', 9);
+define('EVENT_MANAGEMENT', 10);
+define('POLL_SUGGESTION', 11);
 /*
 |--------------------------------------------------------------------------
 | Display Debug backtrace

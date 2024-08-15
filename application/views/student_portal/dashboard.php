@@ -99,6 +99,28 @@
                     <div class="d-flex align-items-center gap-2">
                         <div class="d-flex align-items-center gap-2">
                             <img class="overview-card__icon"
+                                src="<?php echo base_url('assets/images/client/poll.png'); ?>"
+                                alt="
+                                        Registration">
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between w-100">
+                            <h1 class="overview-card__title mb-0">Poll Request</h1>
+                            <button class="upcoming-sched__create-btn" data-bs-target="#suggestionModal"
+                                    data-bs-toggle="modal"><i class="fa-solid fa-plus me-1"></i>Add Suggestion</button>
+                        </div>
+
+                    </div>
+                    <div class="mt-4">
+                        <div class="row" id="poll_request">
+                            <!-- AJAX Request -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="overview-card mt-4">
+                    <div class="d-flex align-items-center gap-2">
+                        <div class="d-flex align-items-center gap-2">
+                            <img class="overview-card__icon"
                                 src="<?php echo base_url('assets/images/student_dashboard/attendance-logs.png'); ?>"
                                 alt="
 										Registration">
@@ -283,6 +305,17 @@
         });
     }
 
+    function getPollRequest() {
+        $.ajax({
+            url: "<?= base_url('portal/student_portal/main/getPollRequest')?>",
+            method: "GET",
+            dataType: "json",
+            success: function(data) {
+                $('#poll_request').html(data.poll_request);
+            }
+        });
+    }
+
     // function computeRemainingLate(total_late) {
     //     var no_late = $('#no_late').val();
     //     var days_range = $('#days_range').val();
@@ -296,7 +329,14 @@
         getAvailableSched(monthToday);
         getTotalAttendance();
         getAttendanceLogs(0);
+        getPollRequest();
         // computeRemainingLate(total_late);
+
+        $(document).on('change', '.btn-check', function() {
+            if ($('.btn-check:checked').length > 0) {
+                $('#submit_answer').prop('disabled', false);
+            }
+        });
 
         $(document).on('click', '.pagination a', function(event) {
             event.preventDefault();
@@ -417,6 +457,132 @@
                         });
                     }
 
+                });
+            }
+        });
+
+        $(document).on('click', '#submit_answer', function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            var form = $('#answerForm')[0];
+            var formData = new FormData(form);
+
+            formData.append('pollChoices', $('input[name="pollChoices"]:checked').val());
+            formData.append('poll_id', $('#pollID').val());
+            formData.append('_token', csrf_token_value);
+
+            form.classList.add('was-validated');
+            if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+            } else {
+                Swal.fire({
+                    title: 'Are you sure..',
+                    text: "You want to continue this transaction?",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, continue',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: "<?= base_url('portal/student_portal/main/submit_answer')?>",
+                            method: "POST",
+                            data: formData,
+                            contentType: false,
+                            processData: false,
+                            dataType: "json",
+                            success: function(data) {
+                                if (data.error != '') {
+                                    Swal.fire({
+                                        icon: 'warning',
+                                        title: 'Oops...',
+                                        text: data.error,
+                                    }); 
+                                    getPollRequest();
+                                } else {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Thank you!',
+                                        text: data.success,
+                                    });
+                                    getPollRequest();
+                                }
+                            },
+                            error :function() {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: 'An error occurred while processing the request.',
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+        $(document).on('click', '#save_suggestion', function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            var form = $('#suggestionForm')[0];
+            var formData = new FormData(form);
+
+            formData.append('suggestion', $('#suggestion').val());
+            formData.append('_token', csrf_token_value);
+
+            form.classList.add('was-validated');
+            if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+            } else {
+                Swal.fire({
+                    title: 'Are you sure..',
+                    text: "You want to continue this transaction?",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, continue',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: "<?= base_url('portal/student_portal/main/add_new_suggestion')?>",
+                            method: "POST",
+                            data: formData,
+                            contentType: false,
+                            processData: false,
+                            dataType: "json",
+                            success: function(data) {
+                                if (data.error != '') {
+                                    Swal.fire({
+                                        icon: 'warning',
+                                        title: 'Oops...',
+                                        text: data.error,
+                                    }); 
+                                } else {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Thank you!',
+                                        text: data.success,
+                                    });
+                                    form.reset();
+                                    form.classList.remove('was-validated');
+                                    $('#suggestionModal').modal('hide');
+                                }
+                            },
+                            error :function() {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: 'An error occurred while processing the request.',
+                                });
+                            }
+                        });
+                    }
                 });
             }
         });

@@ -22,6 +22,7 @@ class Main extends MY_Controller
         $this->load->library('form_validation');
         $this->load->library('pagination');
         $this->load->helper('language');
+        $this->load->library('cipher');
         $this->lang->load('common','english');
         $this->load->model('portal/student_portal/main_model');
 
@@ -83,13 +84,14 @@ class Main extends MY_Controller
 
         $data['late_count'] = $total_late_count;
 
-        if ($total_late_count >= $late_rules->no_late) {
-        //if ($total_late_count >= 1) {
+        //if ($total_late_count >= $late_rules->no_late) {
+        if ($total_late_count >= 1) {
             $data['show_upload_button'] = 'Show';
         } else {
             $data['show_upload_button'] = 'Hide';
         }
 
+        $data['active_poll'] = $this->main_model->check_active_poll();
         $data['home_url'] = base_url('student/portal');
         $data['active_page'] = 'dashboard_page';
         $data['card_title'] = 'Dashboard';
@@ -519,5 +521,140 @@ class Main extends MY_Controller
     }
     
 
+    public function getPollRequest()
+    {
+        $output = '';
+
+        $poll = $this->main_model->getPollRequest();
+        if ($poll->num_rows() > 0) {
+            foreach($poll->result() as $list) {
+
+                $choices = explode('|', $list->pollChoices);
+                $choicesList = '<div class="btn-group-vertical" style="width:100%;">';
+                foreach ($choices as $poll_Choices) {
+                    list($poll_choices_id, $poll_choices) = explode(':', $poll_Choices);
+                    $choicesList .= '
+                        <input type="radio" class="btn-check" name="pollChoices" id="btnradio'.$poll_choices_id.'" value="'.$poll_choices_id.'" required>
+                        <label class="btn btn-outline-primary text-start not-rounded" for="btnradio'.$poll_choices_id.'">'.ucfirst($poll_choices).'</label>
+                    ';
+                }
+                $choicesList .= '</div>';
+
+                $output .= '
+                    <div class="col-md-6">
+                        <div class="card p-3 pb-3">
+                            <div class="poll_question">
+                                <h5 style="font-size:14px;"><i class="bi bi-question-circle me-1"></i>'.ucfirst($list->poll_question).'</h5>
+                                <form id="answerForm" class="needs-validation" novalidate>
+                                    <input type="hidden" value="'.$list->poll_id.'" id="pollID"></input>
+                                    '.$choicesList.'
+                                    <hr class="mb-1">
+                                    <button type="button" class="btn btn-dark" id="submit_answer" style="width:100%;" disabled>Submit</button>
+                                </form>      
+                            </div>
+                        </div>
+                    </div>
+                ';
+
+                $poll_result = '<div class="poll_result">';
+                foreach ($choices as $poll_Choices) {
+                    list($poll_choices_id, $poll_choices) = explode(':', $poll_Choices);
+                    $poll_answer = $this->main_model->get_poll_answer($poll_choices_id);
+                    $total_answer = $poll_answer->num_rows();
+                    $totalAnswer = $poll_answer->num_rows();
+                    $totalAnswer *= 3;
+
+                    $voteTotal = 'width:'.$totalAnswer.'%';
+                    $title = 'Total Vote: '.$total_answer;
+
+                    $poll_result .= '
+                        <div class="mb-3">
+                            <div class="d-flex align-items-center justify-content-between mb-1">
+                                <h5 class="mb-0" style="font-size:13px;">'.$poll_choices.'</h5>
+                            </div>
+                            <div class="progress" style="height:16px; cursor:pointer" title="'.$title.'">
+                                <div class="progress-bar bg-info progress-bar-striped progress-bar-animate" role="progressbar" style="'.$voteTotal.'" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" title="'.$title.'">'.$total_answer.'</div>
+                            </div>
+                        </div>
+                    ';
+                }
+                $poll_result .= '<div>';
+                $output .= '
+                    <div class="col-md-6">
+                        <div class="alert alert-success p-2 d-flex align-items-center justify-content-between">
+                            <span><i class="bi bi-info-circle-fill me-2"></i>Polling Result</span>
+                        </div>
+                        '.$poll_result.'
+                    </div>
+                ';
+            }
+        } else {
+            $output .= '<div class="col-md-12 alert alert-danger"><i class="bi bi-info-circle me-2"></i>No poll request found.</div>';
+        }
+        $data['poll_request'] = $output;
+        // Return JSON data for AJAX
+        echo json_encode($data);
+    }
+
+    public function submit_answer()
+    {
+        $error = '';
+        $success = '';
+
+        $poll_id = $this->input->post('poll_id', true);
+        $pollChoices = $this->input->post('pollChoices', true);
+
+        $check_user = $this->main_model->check_submitted_user($poll_id);
+
+        if ($check_user->num_rows() > 0) {
+            $error = 'You have already submitted a poll.';
+        } else {
+            $insert_answer = array(
+                'member_id'         => $this->session->userdata('scholarIn')['member_id'],
+                'poll_id'           => $poll_id,
+                'poll_choices_id'   => $pollChoices,
+                'date_created'      => date('Y-m-d H:i:s'),
+            );
+    
+            $result = $this->main_model->submit_answer($insert_answer);
+            if ($result == TRUE) {
+                $success = 'Poll answer submitted successfully.';
+            } else {
+                $error = 'Failed to save the answer.';
+            }
+        }
+        
+        $output = array(
+            'error' => $error,
+            'success' => $success,
+        );
+        echo json_encode($output);
+    }
+
+    public function add_new_suggestion()
+    {
+        $error = '';
+        $success = '';
+
+        $suggestion = $this->input->post('suggestion', true);
+        $token = $this->cipher->encrypt($this->session->userdata('scholarIn')['member_id']);
+
+        $insert_suggestion = array(
+            'suggestion'    => $suggestion,
+            'token'         => $token,
+            'date_created'  => date('Y-m-d H:i:s'),
+        );
+        $result = $this->main_model->add_new_suggestion($insert_suggestion);
+        if ($result == TRUE) {
+            $success = 'Your suggestion is submitted successfully.';
+        } else {
+            $error = 'Failed to save the data.';
+        }
+        $output = array(
+            'error' => $error,
+            'success' => $success,
+        );
+        echo json_encode($output);
+    }
 }
 //End CI_Controller

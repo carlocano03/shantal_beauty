@@ -127,7 +127,34 @@
         }
     }
 
+    function sidebarCount()
+    {
+        $.ajax({
+            url: "<?= base_url('portal/admin_portal/main/sidebar_count');?>",
+            method: "GET",
+            dataType: "json",
+            success: function(data) {
+                if (data.settings_count > 0) {
+                    $('.settings_count').text(data.settings_count);
+                } else {
+                    $('.settings_count').text('');
+                }
+
+                if (data.suggestion_count > 0) {
+                    $('.suggestion_count').text(data.suggestion_count);
+                } else {
+                    $('.suggestion_count').text('');
+                }
+            }
+        });
+    }
+
     $(document).ready(function() {
+        sidebarCount();
+        setTimeout(() => {
+            sidebarCount();
+        }, 5000);
+
         if (temp_pass != '') {
             $('#passwordModal').modal('show');
         } else {
