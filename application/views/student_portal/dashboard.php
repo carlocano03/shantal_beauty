@@ -105,8 +105,6 @@
                         </div>
                         <div class="d-flex align-items-center justify-content-between w-100">
                             <h1 class="overview-card__title mb-0">Poll Request</h1>
-                            <button class="upcoming-sched__create-btn" data-bs-target="#suggestionModal"
-                                    data-bs-toggle="modal"><i class="fa-solid fa-plus me-1"></i>Add Suggestion</button>
                         </div>
 
                     </div>
@@ -214,6 +212,31 @@
 
                     </div>
                 </div>
+
+                <div class="overview-card mt-4">
+                    <div class="d-flex align-items-center gap-2">
+                        <div class="d-flex align-items-center gap-2">
+                            <img class="overview-card__icon"
+                                src="<?php echo base_url('assets/images/client/suggestion.png'); ?>"
+                                alt="
+                                        Registration">
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between w-100">
+                            <h1 class="overview-card__title mb-0">Suggestions</h1>
+                            <button class="upcoming-sched__create-btn" data-bs-target="#suggestionModal"
+                                    data-bs-toggle="modal"><i class="fa-solid fa-plus me-1"></i>Add Suggestion</button>
+                        </div>
+                    </div>
+                    <div class="mt-4 ps-3 pe-3">
+                        <div class="row" id="suggestion_list">
+                            <!-- AJAX Request -->
+                        </div>
+                        <div class="pagination_suggestion">
+                            <!-- AJAX Request -->
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -316,6 +339,18 @@
         });
     }
 
+    function getSuggestion(page) {
+        $.ajax({
+            url: "<?= base_url('portal/student_portal/main/getSuggestion/')?>" + page,
+            method: "GET",
+            dataType: "json",
+            success: function(data) {
+                $('#suggestion_list').html(data.suggestion_list);
+                $('.pagination_suggestion').html(data.links);
+            }
+        }); 
+    }
+
     // function computeRemainingLate(total_late) {
     //     var no_late = $('#no_late').val();
     //     var days_range = $('#days_range').val();
@@ -330,6 +365,7 @@
         getTotalAttendance();
         getAttendanceLogs(0);
         getPollRequest();
+        getSuggestion(0)
         // computeRemainingLate(total_late);
 
         $(document).on('change', '.btn-check', function() {
@@ -342,6 +378,12 @@
             event.preventDefault();
             var page = $(this).attr('href').split('/').pop();
             getAttendanceLogs(page);
+        });
+
+        $(document).on('click', '.suggestion_pagination a', function(event) {
+            event.preventDefault();
+            var page = $(this).attr('href').split('/').pop();
+            getSuggestion(page);
         });
 
         $(document).on('click', '#save_schedule', function() {

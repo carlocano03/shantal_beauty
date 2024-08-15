@@ -280,7 +280,7 @@
                             <li class="menu-item sidebar-menu-item <?= ($poll_suggestion) ? 'active' : '';?>">
                                 <a href="<?= base_url('admin/poll-suggestion');?>"
                                     class="<?= ($poll_suggestion) ? 'menu-link-active-2' : '';?> menu-link">
-                                    <div data-i18n="Account">Poll & Suggestion <span class="badge bg-danger suggestion_count"></span></div>
+                                    <div data-i18n="Account" id="view_suggestion">Poll & Suggestion <span class="badge bg-danger suggestion_count"></span></div>
                                 </a>
                             </li>
                         </ul>
@@ -397,7 +397,7 @@
                             <li class="menu-item sidebar-menu-item <?= ($poll_suggestion) ? 'active' : '';?>">
                                 <a href="<?= base_url('admin/poll-suggestion');?>"
                                     class="<?= ($poll_suggestion) ? 'menu-link-active-2' : '';?> menu-link">
-                                    <div data-i18n="Account">Poll & Suggestion <span class="badge bg-danger suggestion_count"></span></div>
+                                    <div data-i18n="Account" id="view_suggestion">Poll & Suggestion <span class="badge bg-danger suggestion_count"></span></div>
                                 </a>
                             </li>
                             <?php endif; ?>

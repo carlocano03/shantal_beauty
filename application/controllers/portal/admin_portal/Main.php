@@ -362,7 +362,5 @@ class Main extends MY_Controller
         // Return JSON data for AJAX
         echo json_encode($data);
     }
-	
-
 }
 //End CI_Controller

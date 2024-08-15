@@ -656,5 +656,69 @@ class Main extends MY_Controller
         );
         echo json_encode($output);
     }
+
+    public function getSuggestion($page = 0)
+    {
+        $output = '';
+        $config = array();
+        $config["base_url"] = base_url() . "portal/student_portal/main/getSuggestion";
+        $config["total_rows"] = $this->main_model->get_suggestion_count();
+        $config["per_page"] = 3;
+        $config["uri_segment"] = 5; // Adjusted uri_segment to match your setup
+
+        // Bootstrap 5 Pagination
+        $config['full_tag_open'] = '<nav><ul class="suggestion_pagination pagination">';
+        $config['full_tag_close'] = '</ul></nav>';
+        $config['first_tag_open'] = '<li class="page-item">';
+        $config['first_tag_close'] = '</li>';
+        $config['last_tag_open'] = '<li class="page-item">';
+        $config['last_tag_close'] = '</li>';
+        $config['next_link'] = '&raquo;';
+        $config['next_tag_open'] = '<li class="page-item">';
+        $config['next_tag_close'] = '</li>';
+        $config['prev_link'] = '&laquo;';
+        $config['prev_tag_open'] = '<li class="page-item">';
+        $config['prev_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="page-item active"><a class="page-link" href="#">';
+        $config['cur_tag_close'] = '</a></li>';
+        $config['num_tag_open'] = '<li class="page-item">';
+        $config['num_tag_close'] = '</li>';
+        $config['attributes'] = array('class' => 'page-link');
+
+        $this->pagination->initialize($config);
+
+        // Fetch data based on pagination
+        $data["links"] = $this->pagination->create_links();
+        $suggestion = $this->main_model->getSuggestion($config["per_page"], $page);
+        if ($suggestion->num_rows() > 0) {
+            foreach ($suggestion->result() as $list) {
+                $output .= '
+                <div class="card p-3 pb-3 pt-1 mb-3">
+                    <div class="text-end">
+                        <span style="font-size:10px; font-style: italic; font-weight:500; color:#b2bec3">'.date('D M j, Y h:i A', strtotime($list->date_created)).'</span>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-start">
+                        <div class="me-3">
+                            <div class="bg-polygon"
+                                style="background: linear-gradient(310.31deg, #54BA49 14.71%, #97D47D 100%);">
+                                <img src="'.base_url('assets/images/client/standard_user.png').'" style="width:42px">
+                            </div>
+                        </div>
+                        <p style="font-size:12px; text-align:justify;">
+                            '.ucfirst($list->suggestion).'
+                        </p>
+                    </div>
+                </div>
+                ';
+            }
+        } else {
+            $output .= '
+                <div class="alert alert-danger"><i class="bi bi-info-circle me-2"></i>No record found.</div>
+            ';
+        }
+        $data['suggestion_list'] = $output;
+        // Return JSON data for AJAX
+        echo json_encode($data);
+    }
 }
 //End CI_Controller
