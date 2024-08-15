@@ -45,38 +45,39 @@
                 <div class="row row-cols-1 gap-3">
                     <div class="col border-bottom pb-3">
                         <div class="row align-items-center">
-                            <div class="col modal__label">#</div>
-                            <div class="col modal__data">1</div>
-                        </div>
-                    </div>
-                    <div class="col border-bottom pb-3">
-                        <div class="row align-items-center">
                             <div class="col modal__label">Scholar No:</div>
-                            <div class="col modal__data">23423432432432</div>
+                            <div id="scho_application_no" class="col modal__data"></div>
                         </div>
                     </div>
                     <div class="col border-bottom pb-3">
                         <div class="row align-items-center">
                             <div class="col modal__label">Name:</div>
-                            <div class="col modal__data">Jake Castor</div>
+                            <div id="scho_name" class="col modal__data"></div>
                         </div>
                     </div>
                     <div class="col border-bottom pb-3">
                         <div class="row align-items-center">
                             <div class="col modal__label">School:</div>
-                            <div class="col modal__data">Neust</div>
+                            <div id="scho_school" class="col modal__data"></div>
                         </div>
                     </div>
                     <div class="col border-bottom pb-3">
                         <div class="row align-items-center">
                             <div class="col modal__label">Application Date:</div>
-                            <div class="col modal__data">Wed Jul 17, 2024 08:00 AM</div>
+                            <div id="scho_application_date" class="col modal__data"></div>
                         </div>
                     </div>
                     <div class="col border-bottom pb-3">
                         <div class="row align-items-center">
                             <div class="col modal__label">Status:</div>
-                            <div class="col modal__data">For Approval</div>
+                            <div id="scho_for_approval" class="col modal__data"></div>
+                        </div>
+                    </div>
+
+                    <div class="col border-bottom pb-3">
+                        <div class="row align-items-center">
+                            <div class="col modal__label">Action:</div>
+                            <div id="scho_action" class="col modal__data"></div>
                         </div>
                     </div>
 
@@ -84,9 +85,38 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="modal__btn--close" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="modal__btn--view">View Request</button>
-
             </div>
         </div>
     </div>
 </div>
+
+
+<script>
+$(document).on("click", '.viewScholarRequestTableDetailsBtn', function() {
+    var baseUrl = "<?php echo base_url(); ?>";
+
+
+    var application_id = $(this).data('application-id');
+    console.log(application_id)
+    $.ajax({
+        url: '<?php echo base_url('portal/admin_portal/scholar_request/get_scholar'); ?>',
+        type: "GET",
+        data: {
+            application_id: application_id
+        },
+
+        success: function(response) {
+            var data = JSON.parse(response);
+            if (data.error) {} else {
+                $("#scho_name").text(data.full_name);
+                $('#scho_application_no').text(data.application_no);
+                $('#scho_school').text(data.school_name);
+                $('#scho_application_date').text(data.application_date);
+                $('#scho_for_approval').html(data.status);
+                $('#scho_action').html(data.action);
+
+            }
+        }
+    })
+})
+</script>

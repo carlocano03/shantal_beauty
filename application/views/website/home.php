@@ -161,7 +161,17 @@
 
                     <div class="d-flex flex-column gap-2">
                         <img src="<?php echo base_url('assets/images/home/about-us-1.jpg'); ?>" alt="" />
-                        <img src="<?php echo base_url('assets/images/home/about-us-2.jpg'); ?>" alt="" />
+                    </div>
+                    <div class="d-flex flex-column position-absolute" style="right: -10px; top: 60px">
+                        <button class="about-us_img-button about-us__history-btn about-us_img-button--active mt-2">
+                            History
+                        </button>
+                        <button class="about-us_img-button about-us__vision-btn mt-2">
+                            Vision
+                        </button>
+                        <button class="about-us_img-button about-us__mission-btn mt-2">
+                            Mission
+                        </button>
                     </div>
                 </div>
 
@@ -178,42 +188,30 @@
                             Magni esse consectetur in autem hic nihil ipsum odit nostrum
                             adipisci aliquam, laboriosam itaque asperiores, animi cum
                             nobis voluptas commodi? Aliquid excepturi ut, blanditiis rerum
-                            labore iusto! Necessitatibus non velit consequatur dolor, in
-                            eos expedita eaque neque iure iste labore quis incidunt
-                            exercitationem doloribus, praesentium dicta asperiores dolore!
-                            Quis iure non est quasi omnis repudiandae veniam assumenda
-                            odio maxime repellendus veritatis laudantium mollitia
-                            dignissimos, eaque dolorem possimus, saepe id. Natus sunt sint
-                            doloribus! Consequuntur sapiente saepe minus est inventore
-                            repellendus cum, esse libero! Iusto, asperiores commodi.
-                            Optio, omnis nihil earum sit placeat, vero aspernatur
-                            asperiores, at sequi corporis eaque! Aliquam obcaecati dolores
-                            facilis nulla minus odit molestias saepe itaque aut quo omnis
-                            suscipit repellat labore consectetur ut, distinctio, deserunt,
-                            maxime culpa impedit libero reprehenderit debitis officiis?
-                            Perferendis placeat quae quam numquam dicta magni tempora,
-                            totam sapiente ratione voluptate perspiciatis facere iure
-                            commodi, ut incidunt in suscipit reprehenderit! Saepe
-                            dignissimos hic eveniet voluptates corrupti quidem ipsa facere
-                            voluptate vero ea, error eligendi vitae id consequuntur
-                            repellendus dolorem quisquam? Perferendis nihil deleniti est
-                            inventore necessitatibus consequatur tenetur delectus
-                            cupiditate a. Aliquam modi eius esse molestias dolorem culpa,
-                            ut distinctio sit quae adipisci in soluta provident quaerat
-                            numquam dicta vitae deserunt, tempore tenetur quo voluptates,
-                            vero eligendi voluptatibus praesentium? Tempore qui fugiat ut
-                            quam id aperiam error magnam quia consequatur libero
-                            Aliquam modi eius esse molestias dolorem culpa,
-                            ut distinctio sit quae adipisci in soluta provident quaerat
-                            numquam dicta vitae deserunt, tempore tenetur quo voluptates,
-                            vero eligendi voluptatibus praesentium? Tempore qui fugiat ut
-                            quam id aperiam error magnam quia consequatur libero
-                            dolorem culpa,
-                            ut distinctio sit quae adipisci in soluta provident quaerat
-                            numquam dicta vitae deserunt, tempore tenetur quo voluptates,
-                            vero eligendi
+                            labore iusto
                         </p>
-                        <button class="about-us_button">Read More</button>
+                    </div>
+
+                    <!-- Vision -->
+                    <div class="about-us__vision about-us__text-hidden">
+                        <h5 class="about-us__header-title">About Us</h5>
+                        <h1 class="text-title fw-bold mb-1">Vision</h1>
+                        <p class="text-paragraph about-us__paragraph">
+                            To Help People in reaching their potentials in order to Transform
+                            And Strengthen Families and Communities based on
+                            Biblical Standards.
+                        </p>
+                    </div>
+
+                    <!-- Mission -->
+                    <div class="about-us__mission about-us__text-hidden">
+                        <h5 class="about-us__header-title">About Us</h5>
+                        <h1 class="text-title fw-bold mb-1">Mission</h1>
+                        <p class="text-paragraph about-us__paragraph">
+                            To have a growing Church that demonstrate True Christian Community
+                            And To Lead People into Life Changing Relationship with
+                            Jesus Christ.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -537,6 +535,40 @@ document.addEventListener('DOMContentLoaded', function() {
 
     window.addEventListener('scroll', addAnimationClass);
 })
+
+const historyBtn = document.querySelector('.about-us__history-btn');
+const missionBtn = document.querySelector('.about-us__mission-btn');
+const visionBtn = document.querySelector('.about-us__vision-btn');
+
+const history = document.querySelector('.about-us__history');
+const vision = document.querySelector('.about-us__vision');
+const mission = document.querySelector('.about-us__mission');
+
+
+function showSection(element) {
+    const aboutToggle = [history, vision, mission];
+
+    aboutToggle.forEach(item => {
+        if (item === element)
+            item.classList.remove('about-us__text-hidden');
+        else
+            item.classList.add('about-us__text-hidden');
+    })
+
+}
+
+
+historyBtn.addEventListener('click', () => {
+    showSection(history);
+});
+
+visionBtn.addEventListener('click', () => {
+    showSection(vision);
+});
+
+missionBtn.addEventListener('click', () => {
+    showSection(mission);
+});
 </script>
 
 

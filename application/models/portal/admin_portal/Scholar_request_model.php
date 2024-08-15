@@ -36,6 +36,13 @@ class Scholar_request_model extends MY_Model
         return $query->result();
     }
 
+	public function get_scholar_by_id($application_id)
+	{
+		$this->db->where('application_id',$application_id);
+		$query = $this->db->get("scholarship_application");
+		return $query->row();
+	}
+
     public function count_filtered()
     {
         $this->_get_scholar_list_query();
