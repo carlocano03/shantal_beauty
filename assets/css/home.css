@@ -376,9 +376,15 @@ body {
 	color: #434875;
 	margin-top: 32px;
 	box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+	box-sizing: border-box;
+}
+.about-us_button_container{
+	right: -10px;
+	top: 60px;
 }
 .about-us_img-button--active {
 	border: 8px solid #434875;
+	box-sizing: border-box;
 }
 /* Gallery */
 .gallery__img {
@@ -652,6 +658,17 @@ body {
 	.events__custom-bg{
 		background-color:#434875;
 	}
+	.active__nav{
+		color:#b18647 !important; 
+		position:relative;
+		transition:all .3s ease-in-out;
+		max-width:40px;
+	}
+
+	.about-us_button_container{
+		right: 10px;
+		top: 60px;
+	}
 }
 
 @media (max-width: 768px) {
@@ -776,6 +793,10 @@ body {
 		transform:translateY(8px);
 		transition:all .3s ease-in-out;
 	
+	}
+	.about-us_button_container{
+		right: 10px;
+		top: 60px;
 	}
 
 

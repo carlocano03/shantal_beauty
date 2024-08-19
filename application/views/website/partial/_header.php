@@ -5,10 +5,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description"
-        content="To have a growing Church that demonstrate True Christian Community And To Lead People into Life Changing Relationship with Jesus Christ.">
+        content="Join Change Life Christian Church to experience true Christian community and build a life-changing relationship with Jesus Christ.">
     <meta property="og:title" content="Change Life Christian Church" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="http://changelifechristianchurch.org/" />
+    <meta property="og:description"
+        content="Join Change Life Christian Church to experience true Christian community and build a life-changing relationship with Jesus Christ." />
+    <meta property="og:site_name" content="Change Life Christian Church" />
+
     <title><?= $title?></title>
     <link rel="icon" type="image/png" href="<?= base_url('assets/images/clc.png')?>">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -23,7 +27,7 @@
     <script src="<?= base_url('assets/vendor/libs/jquery/jquery.js');?>"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" defer></script>
     <script src="<?= base_url('assets/js/registration.js')?>"></script>
     <!--   CSRF Token   -->
     <script src="<?php echo base_url('assets/js/csrf_generator.js'); ?>"></script>
@@ -41,5 +45,6 @@
         }
     ?>
 </head>
+
 
 <body>
