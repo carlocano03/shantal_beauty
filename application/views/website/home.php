@@ -37,7 +37,7 @@
     <nav class="navbar navbar-expand-lg" style="position: relative; z-index: 10000; background-color: #ffffff">
         <div class="container-xxl">
             <div class="d-flex gap-2 align-items-center">
-                <img class="navbar__logo" src="<?php echo base_url('assets/images/home/clc.jpg'); ?>" alt="" />
+                <img class="navbar__logo" src="<?php echo base_url('assets/images/home/clc.jpg'); ?>" alt="logo" />
                 <div>
                     <h1 class="mb-0 fw-bold text-title navbar_school-name">
                         Change Life Christian Church
@@ -80,7 +80,7 @@
 <main>
     <section id="home" class="hero-page">
         <div class="overlay"></div>
-        <img class="hero-image" src="<?php echo base_url('assets/images/home/c-hero-img.webp'); ?>"
+        <img class="hero-image" loading="lazy" src="<?php echo base_url('assets/images/home/c-hero-img.webp'); ?>"
             alt="Background Image" />
         <div class="container-xxl">
             <div class="row row-cols-1 row-cols-lg-2 hero-page__row gx-0 gx-lg-4 gy-5 gy-lg-0"
@@ -104,7 +104,7 @@
                 <div class="col">
                     <div
                         class="bg-white d-flex align-items-center justify-content-center p-2 shadow animate__animated animate__fadeInRight">
-                        <iframe
+                        <iframe title="CLCC Video"
                             src="https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2F100086204217430%2Fvideos%2F978531797214852%2F&show_text=false&width=560&t=0"
                             width="100%" class="hero-page__video" scrolling="no" frameborder="0" allowfullscreen="true"
                             allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
@@ -160,9 +160,10 @@
                 <div class="col position-relative ">
 
                     <div class="d-flex flex-column gap-2">
-                        <img src="<?php echo base_url('assets/images/home/about-us-1.jpg'); ?>" alt="" />
+                        <img src="<?php echo base_url('assets/images/home/about-us-1.jpg'); ?>" alt="about_us-img"
+                            loading="lazy" />
                     </div>
-                    <div class="d-flex flex-column position-absolute" style="right: -10px; top: 60px">
+                    <div class="d-flex flex-column position-absolute about-us_button_container">
                         <button class="about-us_img-button about-us__history-btn about-us_img-button--active mt-2">
                             History
                         </button>
@@ -253,9 +254,9 @@
                             style="box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;">
                             <div>
                                 <!-- <img src="<?php echo base_url('assets/images/home/latest-news-1.avif')?>" alt="" /> -->
-                                <img class="event__img"
+                                <img loading="lazy" class="event__img"
                                     src="<?php echo base_url('assets/uploaded_attachment/events/' . $event['event_img']); ?>"
-                                    alt="" />
+                                    alt="event_img" />
                                 <div class="bg-white px-3 pt-4 pb-5">
                                     <div class="d-flex justify-content-between">
                                         <p class="fw-bold" style="color:#616E7C">
@@ -293,33 +294,41 @@
             <div class="section-title__border"></div>
         </div>
         <div class="gallery__overlay"></div>
-        <img class="gallery__img-container" src="<?php echo base_url('assets/images/home/footer__img-1-min.webp'); ?>"
-            alt="" />
+        <img loading="lazy" class="gallery__img-container"
+            src="<?php echo base_url('assets/images/home/footer__img-1-min.webp'); ?>" alt="gallery-img" />
         <swiper-container style="z-index: 15;" class="mySwiper p-2" loop="true" slides-per-view="3" autoplay
             init="false">
             <swiper-slide>
-                <img class="gallery__img" src="<?php echo base_url('assets/images/home/clcc-gallery-img-1.webp'); ?>" />
+                <img loading="lazy" class="gallery__img"
+                    src="<?php echo base_url('assets/images/home/clcc-gallery-img-1.webp'); ?>" alt="gallery-img" />
             </swiper-slide>
             <swiper-slide>
-                <img class="gallery__img" src="<?php echo base_url('assets/images/home/clcc-gallery-img-2.webp'); ?>" />
+                <img loading="lazy" class="gallery__img"
+                    src="<?php echo base_url('assets/images/home/clcc-gallery-img-2.webp'); ?>" alt="gallery-img" />
             </swiper-slide>
             <swiper-slide>
-                <img class="gallery__img" src="<?php echo base_url('assets/images/home/clcc-gallery-img-3.webp'); ?>" />
+                <img loading="lazy" class="gallery__img"
+                    src="<?php echo base_url('assets/images/home/clcc-gallery-img-3.webp'); ?>" alt="gallery-img" />
             </swiper-slide>
             <swiper-slide>
-                <img class="gallery__img" src="<?php echo base_url('assets/images/home/clcc-gallery-img-4.webp'); ?>" />
+                <img loading="lazy" class="gallery__img"
+                    src="<?php echo base_url('assets/images/home/clcc-gallery-img-4.webp'); ?>" alt="gallery-img" />
             </swiper-slide>
             <swiper-slide>
-                <img class="gallery__img" src="<?php echo base_url('assets/images/home/clcc-gallery-img-1.webp'); ?>" />
+                <img loading="lazy" class="gallery__img"
+                    src="<?php echo base_url('assets/images/home/clcc-gallery-img-1.webp'); ?>" alt="gallery-img" />
             </swiper-slide>
             <swiper-slide>
-                <img class="gallery__img" src="<?php echo base_url('assets/images/home/clcc-gallery-img-2.webp'); ?>" />
+                <img loading="lazy" class="gallery__img"
+                    src="<?php echo base_url('assets/images/home/clcc-gallery-img-2.webp'); ?>" alt="gallery-img" />
             </swiper-slide>
             <swiper-slide>
-                <img class="gallery__img" src="<?php echo base_url('assets/images/home/clcc-gallery-img-3.webp'); ?>" />
+                <img loading="lazy" class="gallery__img"
+                    src="<?php echo base_url('assets/images/home/clcc-gallery-img-3.webp'); ?>" alt="gallery-img" />
             </swiper-slide>
             <swiper-slide>
-                <img class="gallery__img" src="<?php echo base_url('assets/images/home/clcc-gallery-img-4.webp'); ?>" />
+                <img loading="lazy" class="gallery__img"
+                    src="<?php echo base_url('assets/images/home/clcc-gallery-img-4.webp'); ?>" alt="gallery-img" />
             </swiper-slide>
         </swiper-container>
     </section>
@@ -374,8 +383,8 @@
                     </div>
                 </div>
                 <div class="col">
-                    <iframe id="map-canvas" class="map_part" width="100%" height="450" frameborder="0" scrolling="no"
-                        marginheight="0" marginwidth="0"
+                    <iframe title="Google map" id="map-canvas" class="map_part" width="100%" height="450"
+                        frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
                         src="https://www.google.com/maps/embed/v1/place?q=35+Mayor+Gil+Fernando+Ave.+Marikina,+Marikina+City,+Philippines&key=AIzaSyBFw0Qbyq9zTFTd-tUY6dZWTgaQzuU17R8">Powered
                         by
                         <a href="https://embedgooglemaps.com">google maps embed</a> and
@@ -427,8 +436,18 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // Navbar
+    const navLinks = document.getElementsByClassName('nav-link');
+    console.log(navLinks);
+    for (let i = 0; i < navLinks.length; i++) {
+        navLinks[i].addEventListener("click", function() {
+            for (let j = 0; j < navLinks.length; j++) {
+                navLinks[j].classList.remove('active__nav');
+            }
 
-
+            this.classList.add("active__nav");
+        })
+    }
     const mySwiper = document.querySelector('.mySwiper');
 
     Object.assign(mySwiper, {
@@ -480,21 +499,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-
-    // Navbar
-    const navLinks = document.getElementsByClassName('nav-link');
-    console.log(navLinks);
-    for (let i = 0; i < navLinks.length; i++) {
-        navLinks[i].addEventListener("click", function() {
-            for (let j = 0; j < navLinks.length; j++) {
-                navLinks[j].classList.remove('active__nav');
-            }
-
-            this.classList.add("active__nav");
-        })
-    }
-
-
     // Count down
 
     var closestEventDate = <?php echo json_encode($closest_event_date); ?>;
@@ -516,8 +520,6 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('events'),
         document.getElementById('gallery'),
         document.getElementById('contact'),
-
-
     ];
 
     function addAnimationClass() {
@@ -545,6 +547,9 @@ const vision = document.querySelector('.about-us__vision');
 const mission = document.querySelector('.about-us__mission');
 
 
+const aboutUsImgButton = document.querySelector('about-us_img-button');
+
+
 function showSection(element) {
     const aboutToggle = [history, vision, mission];
 
@@ -554,8 +559,18 @@ function showSection(element) {
         else
             item.classList.add('about-us__text-hidden');
     })
-
 }
+
+const buttons = document.querySelectorAll('.about-us_img-button');
+
+
+buttons.forEach(button => {
+    button.addEventListener('click', () => {
+        buttons.forEach(btn => btn.classList.remove('about-us_img-button--active'));
+
+        button.classList.add('about-us_img-button--active');
+    });
+});
 
 
 historyBtn.addEventListener('click', () => {
@@ -570,6 +585,7 @@ missionBtn.addEventListener('click', () => {
     showSection(mission);
 });
 </script>
+
 
 
 
