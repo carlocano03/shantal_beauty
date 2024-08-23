@@ -42,6 +42,27 @@ class Student_attendance extends MY_Controller
         $this->load->view('student_portal/partial/_footer', $data);
     }
 
+    public function no_time_in_out()
+    {
+        $data['home_url'] = base_url('student/portal');
+        $data['active_page'] = 'out_in_record_page';
+        $data['card_title'] = 'No Time In/Out Record';
+        $data['icon'] = 'bi bi-calendar-week-fill';
+        $data['attendance'] = $this->student_attendance_model->get_scholar_schedule();
+        $data['header_contents'] = array(
+            '<link href="https://cdn.datatables.net/1.13.2/css/dataTables.bootstrap4.min.css" rel="stylesheet">',
+            '<script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>',
+            '<script src="https://cdn.datatables.net/1.13.2/js/dataTables.bootstrap4.min.js"></script>',
+            '<script>
+                var csrf_token_name = "'.$this->security->get_csrf_token_name().'";
+                var csrf_token_value = "'.$this->security->get_csrf_hash().'";
+            </script>'
+        );
+        $this->load->view('student_portal/partial/_header', $data);
+        $this->load->view('student_portal/no_in_out_record', $data);
+        $this->load->view('student_portal/partial/_footer', $data);
+    }
+
     public function getAttendanceRecord()
     {
         $output = '';
@@ -1080,4 +1101,107 @@ class Student_attendance extends MY_Controller
         $objWriter->save('php://output');
     }
 
+    //==========No Time In/Out Record=========================
+
+    public function get_explanation_letter()
+    {
+        $letter = $this->student_attendance_model->get_explanation_letter();
+        $data = array();
+        $no = $_POST['start'];
+        foreach ($letter as $list) {
+            $no++;
+            $row = array();
+
+            $row[] = date('F j, Y', strtotime($list->attendance_date));
+
+            $color_mapping = [
+                'No Time-In' => 'bg-primary',
+                'No Time-Out' => 'bg-danger',
+            ];
+            $badge_color = isset($color_mapping[$list->remarks]) ? $color_mapping[$list->remarks] : 'bg-primary';
+            $row[] = '<div class="badge ' . $badge_color . ' px-3">' . $list->remarks . '</div>';
+            $row[] = date('D M j, Y h:i A', strtotime($list->date_created));
+
+            $status_mapping = [
+                'For Approval' => 'bg-warning',
+                'Valid Letter' => 'bg-success',
+                'Invalid Letter' => 'bg-danger',
+            ];
+            $status_color = isset($status_mapping[$list->request_status]) ? $status_mapping[$list->request_status] : 'bg-warning';
+            $row[] = '<div class="badge ' . $status_color . ' px-3">' . $list->request_status . '</div>';
+            $row[] = date('h:i A', strtotime($list->time_in_out));
+            $row[] = '<button class="btn btn-outline-danger btn-sm delete_request" data-id="'.$list->letter_id.'"><i class="bi bi-trash3-fill me-1"></i>Delete</button>';
+
+            $data[] = $row;
+        }
+        $output = array(
+            "draw" => $_POST['draw'],
+            "recordsTotal" => $this->student_attendance_model->count_all(),
+            "recordsFiltered" => $this->student_attendance_model->count_filtered(),
+            "data" => $data,
+            "csrf_token_value" => $this->security->get_csrf_hash(),
+            "csrf_token_name" => $this->security->get_csrf_token_name(),
+        );
+        echo json_encode($output);
+    }
+
+    public function save_explanation_letter()
+    {
+        $success = '';
+        $error = '';
+        $attendance_date = $this->input->post('attendance_date', true);
+        $options = $this->input->post('options', true);
+        $est_in_out = $this->input->post('est_in_out', true);
+        $attachment = $this->upload_attachment();
+
+        $check_request = $this->student_attendance_model->check_existing_request($attendance_date, $options);
+        if ($check_request->num_rows() > 0) {
+            $error = 'Your request already exist.';
+        } else {
+            $insert_explanation = array(
+                'member_id'         => $this->session->userdata('scholarIn')['member_id'],
+                'attendance_date'   => $attendance_date,
+                'remarks'           => $options,
+                'date_created'      => date('Y-m-d H:i:s'),
+                'time_in_out'       => $est_in_out,
+                'request_status'    => 'For Approval',
+                'attachment'        => $attachment,
+            );  
+            $result = $this->student_attendance_model->save_explanation($insert_explanation);
+            if ($result == TRUE) {
+                $success = 'Your request is successfully submitted.';
+            } else {
+                $error = 'Failed to submit your request.';
+            }
+        }
+        $output = array(
+            'error' => $error,
+            'success' => $success,
+        );
+        echo json_encode($output);
+    }
+
+    public function delete_explanation_letter()
+    {
+        $success = '';
+        $error = '';
+        $letter_id = $this->input->post('letter_id', true);
+
+        $delete_request = array(
+            'status' => 1,
+        );
+        $result = $this->student_attendance_model->delete_explanation_letter($delete_request, $letter_id);
+        if ($result == TRUE) {
+            $success = 'Your request is successfully deleted.';
+        } else {
+            $error = 'Failed to delete your request.';
+        }
+        $output = array(
+            'error' => $error,
+            'success' => $success,
+        );
+        echo json_encode($output);
+    }
+
+    //==========End No Time In/Out Record=========================
 }
