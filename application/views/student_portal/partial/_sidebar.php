@@ -1,10 +1,13 @@
 <?php
     $dashboard = FALSE;
     $attendance = FALSE;
+    $out_in_record = FALSE;
     if ($active_page == 'dashboard_page') {
         $dashboard = TRUE;
     } elseif ($active_page == 'attendance_page') {
         $attendance = TRUE;
+    } elseif ($active_page == 'out_in_record_page') {
+        $out_in_record = TRUE;
     }
 
 ?>
@@ -176,6 +179,14 @@
                         class="<?= ($attendance) ? 'menu-link-active' : '';?> menu-link">
                         <i class="menu-icon tf-icons bi bi-calendar-week-fill"></i>
                         <div data-i18n="Analytics">Attendance Record</div>
+                    </a>
+                </li>
+
+                <li class="menu-item ">
+                    <a href="<?= base_url('scholar/no-time-in-out');?>"
+                        class="<?= ($out_in_record) ? 'menu-link-active' : '';?> menu-link">
+                        <i class="menu-icon tf-icons bi bi-calendar2-check"></i>
+                        <div data-i18n="Analytics">No Time In/Out Record</div>
                     </a>
                 </li>
             </ul>

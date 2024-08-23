@@ -78,9 +78,7 @@ $route['scholar/my-profile'] = 'portal/student_portal/main/myProfile';
 $route['scholar/attendance'] = 'portal/student_portal/student_attendance/index';
 $route['scholar/attendance-record/print'] = 'portal/student_portal/student_attendance/print_attendance';
 $route['scholar/attendance-record/excel'] = 'portal/student_portal/student_attendance/excel_attendance';
-
-
-
+$route['scholar/no-time-in-out'] = 'portal/student_portal/student_attendance/no_time_in_out';
 
 
 // Custom Table
