@@ -1119,6 +1119,7 @@ class Student_attendance extends MY_Controller
                 'No Time-Out' => 'bg-danger',
             ];
             $badge_color = isset($color_mapping[$list->remarks]) ? $color_mapping[$list->remarks] : 'bg-primary';
+
             $row[] = '<div class="badge ' . $badge_color . ' px-3">' . $list->remarks . '</div>';
             $row[] = date('D M j, Y h:i A', strtotime($list->date_created));
 
@@ -1130,7 +1131,15 @@ class Student_attendance extends MY_Controller
             $status_color = isset($status_mapping[$list->request_status]) ? $status_mapping[$list->request_status] : 'bg-warning';
             $row[] = '<div class="badge ' . $status_color . ' px-3">' . $list->request_status . '</div>';
             $row[] = date('h:i A', strtotime($list->time_in_out));
-            $row[] = '<button class="btn btn-outline-danger btn-sm delete_request" data-id="'.$list->letter_id.'"><i class="bi bi-trash3-fill me-1"></i>Delete</button>';
+            $row[] = '
+			<div class="d-block d-lg-none">
+				  	 <i class="fa-solid fa-circle-plus viewTimeInOutRecordBtn" data-bs-toggle="modal"  data-id="'.$list->letter_id.'" data-bs-target="#viewTimeInOutRecord"
+                        ></i>
+					</div>
+				
+			<button class="btn d-none d-lg-block btn-outline-danger btn-sm delete_request" data-id="'.$list->letter_id.'"><i class="bi bi-trash3-fill me-1"></i>Delete</button>
+			
+			';
 
             $data[] = $row;
         }
@@ -1144,6 +1153,60 @@ class Student_attendance extends MY_Controller
         );
         echo json_encode($output);
     }
+
+	public function get_explanation_letter_by_id(){
+		$letter_id = $this->input->get('id'); 
+
+		$letter = $this->student_attendance_model->get_explanation_letter_by_id($letter_id);
+
+		if(!$letter){
+			$output = array(
+				"status" => "error",
+				"message" => "Letter not found",
+				"csrf_token_value" => $this->security->get_csrf_hash(),
+				"csrf_token_name" => $this->security->get_csrf_token_name()
+			);
+			echo json_encode($output);
+			return;
+		}
+
+		$row = array();
+		$row['attendance_date'] = date('F j, Y', strtotime($letter->attendance_date));
+
+		$color_mapping = [
+			'No Time-In' => 'bg-primary',
+			'No Time-Out' => 'bg-danger',
+		];
+
+		$badge_color = isset($color_mapping[$letter->remarks]) ? $color_mapping[$letter->remarks] : 'bg-primary';
+
+		$row['remarks'] = '<div class="badge ' . $badge_color . ' px-3">' . $letter->remarks . '</div>';
+
+		$row['date_created'] = date('D M j, Y h:i A', strtotime($letter->date_created));
+
+		$status_mapping = [
+			'For Approval' => 'bg-warning',
+			'Valid Letter' => 'bg-success',
+			'Invalid Letter' => 'bg-danger',
+		];
+
+		$status_color = isset($status_mapping[$letter->request_status]) ? $status_mapping[$letter->request_status] : 'bg-warning';
+
+		$row['status'] = '<div class="badge ' . $status_color . ' px-3">' . $letter->request_status . '</div>';
+
+		$row["time_in_out"] = date('h:i A', strtotime($letter->time_in_out));
+
+		$row["action"] = '<button class="btn btn-outline-danger btn-sm delete_request" data-id="'.$letter->letter_id.'"><i class="bi bi-trash3-fill me-1"></i>Delete</button>';
+
+		$output = array(
+			"status" => "success",
+			"data" => $row,
+			"csrf_token_value" => $this->security->get_csrf_hash(),
+            "csrf_token_name" => $this->security->get_csrf_token_name()
+
+		);
+		echo json_encode($output);
+	}
 
     public function save_explanation_letter()
     {
