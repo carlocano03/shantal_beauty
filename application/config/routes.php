@@ -67,6 +67,7 @@ $route['admin/church-schedule'] = 'portal/admin_portal/church_schedule/index';
 $route['admin/late-rules-setup'] = 'portal/admin_portal/late_rules/index';
 $route['admin/attendance-record'] = 'portal/admin_portal/attendance_record/index';
 $route['admin/attendance-record/manage-record'] = 'portal/admin_portal/attendance_record/manage_attendance';
+$route['admin/attendance-record/request'] = 'portal/admin_portal/attendance_record/no_in_out_request';
 $route['admin/attendance-record/print'] = 'portal/admin_portal/attendance_record/print_attendance';
 $route['admin/attendance-record/excel'] = 'portal/admin_portal/attendance_record/excel_attendance';
 $route['admin/biometric-logs'] = 'portal/admin_portal/biometric_logs/index';
