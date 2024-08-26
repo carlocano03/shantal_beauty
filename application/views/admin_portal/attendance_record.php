@@ -149,7 +149,26 @@
     <?php $this->load->view('/admin_portal/modal/attendance_record_tbl_modal');?>
 
 <script>
+    function requestCount()
+    {
+        $.ajax({
+            url: "<?= base_url('portal/admin_portal/attendance_record/requestCount')?>",
+            method: "GET",
+            dataType: "json",
+            success: function(data) {
+                if (data.request_count > 0) {
+                    $('.request_count').text(data.request_count);
+                }
+            }
+        });
+    }
+
     $(document).ready(function() {
+        requestCount();
+        setInterval(() => {
+            requestCount();
+        }, 5000);
+
         var tbl_student = $('#tbl_student').DataTable({
             language: {
                 search: '',
@@ -175,6 +194,10 @@
                 }
             },
         });
+
+        $('#tbl_student_filter').prepend(
+            '<a href="<?= base_url('admin/attendance-record/request')?>" class="btn btn-dark btn-sm"><i class="bi bi-watch me-1"></i>No Time In/Out Request <span class="badge bg-danger request_count"></span></a>'
+        );
 
         $(document).on('click', '.manage_attendance', function() {
             var member_id = $(this).data('id');

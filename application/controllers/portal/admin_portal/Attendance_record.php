@@ -1438,4 +1438,129 @@ class Attendance_record extends MY_Controller
         );
         echo json_encode($output);
     }
+
+    //====================No Time In/Out Request=========================
+
+    public function no_in_out_request()
+    {
+        $data['role_permissions'] = $this->role_permissions();
+        $data['home_url'] = base_url('admin/portal');
+        $data['active_page'] = 'attendance_page';
+        $data['card_title'] = 'No Time In/Out Request';
+        $data['icon'] = 'bi bi-calendar-week-fill';
+        $data['header_contents'] = array(
+            '<link href="https://cdn.datatables.net/1.13.2/css/dataTables.bootstrap4.min.css" rel="stylesheet">',
+            '<script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>',
+            '<script src="https://cdn.datatables.net/1.13.2/js/dataTables.bootstrap4.min.js"></script>',
+            '<script>
+                var csrf_token_name = "'.$this->security->get_csrf_token_name().'";
+                var csrf_token_value = "'.$this->security->get_csrf_hash().'";
+            </script>'
+        );
+        $this->load->view('admin_portal/partial/_header', $data);
+        $this->load->view('admin_portal/no_in_out_request', $data);
+        $this->load->view('admin_portal/partial/_footer', $data);
+    }
+
+    public function requestCount()
+    {
+        $request = $this->attendance_record_model->get_request_count();
+
+        $output = array(
+            'request_count' => $request->num_rows(),
+        );
+        echo json_encode($output);
+    }
+
+    public function get_explanation_letter()
+    {
+        $letter = $this->attendance_record_model->get_explanation_letter();
+        $data = array();
+        $no = $_POST['start'];
+        foreach ($letter as $list) {
+            $no++;
+            $row = array();
+
+            $img = base_url()."assets/images/avatar-default-0.png";
+            if(!empty($list->personal_photo)){
+				if(file_exists('./assets/uploaded_attachment/personal_photo/'.$list->personal_photo)){
+					$img = base_url()."assets/uploaded_attachment/personal_photo/".$list->personal_photo;
+                }
+            }
+            $row[] = '<img class="img-profile" src="' . $img . '" alt="Profile-Picture">';
+            $row[] = ucwords($list->student_name);
+
+            $color_mapping = [
+                'No Time-In' => 'bg-primary',
+                'No Time-Out' => 'bg-danger',
+            ];
+            $badge_color = isset($color_mapping[$list->remarks]) ? $color_mapping[$list->remarks] : 'bg-primary';
+            $row[] = '<div class="badge ' . $badge_color . ' px-3 mb-1">' . $list->remarks . '</div>' . 
+                     '<div style="font-size:11px; font-weight:500; color:red;">Attendance Date: '.date('F j, Y', strtotime($list->attendance_date)).'</div>';
+            $row[] = date('D M j, Y h:i A', strtotime($list->date_created));
+
+            $status_mapping = [
+                'For Approval' => 'bg-warning',
+                'Valid Letter' => 'bg-success',
+                'Invalid Letter' => 'bg-danger',
+            ];
+            $status_color = isset($status_mapping[$list->request_status]) ? $status_mapping[$list->request_status] : 'bg-warning';
+            $row[] = '<div class="badge ' . $status_color . ' px-3 mb-1">' . $list->request_status . '</div>' .
+                     '<div class="open_link" style="font-size:11px;" id="download_explanation" data-id="'.$list->letter_id.'"><i class="bi bi-download me-1"></i>Download Attachment</div>';
+            $row[] = date('h:i A', strtotime($list->time_in_out));
+
+            $row[] = '<button class="btn btn-outline-info btn-sm approval_modal" data-id="'.$list->letter_id.'"><i class="bi bi-subtract me-1"></i>Approval</button>';
+
+            $data[] = $row;
+        }
+        $output = array(
+            "draw" => $_POST['draw'],
+            "recordsTotal" => $this->attendance_record_model->count_all_request(),
+            "recordsFiltered" => $this->attendance_record_model->count_filtered_request(),
+            "data" => $data,
+            "csrf_token_value" => $this->security->get_csrf_hash(),
+            "csrf_token_name" => $this->security->get_csrf_token_name(),
+        );
+        echo json_encode($output);
+    }
+
+    public function download_explanation_letter()
+    {
+        $this->load->helper('url');
+        $this->load->helper('download');
+
+        $letter_id = $this->input->post('letter_id', true);
+
+        $fileinfo = $this->attendance_record_model->download_explanation_letter($letter_id); 
+        if (!$fileinfo) {
+            $this->output
+                ->set_status_header(404)
+                ->set_output(json_encode(array('error' => 'File not found')));
+            return;
+        }
+
+        $filename = $fileinfo['attachment'];
+        $file_path = FCPATH . 'assets/uploaded_attachment/excuse_letter/' . $filename;
+
+        if (file_exists($file_path)) {
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/pdf');
+            header('Content-Disposition: inline; filename=' . $filename);
+            header('Content-Transfer-Encoding: binary');
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate');
+            header('Pragma: public');
+            header('Content-Length: ' . filesize($file_path));
+            ob_clean();
+            flush();
+            readfile($file_path);
+            exit;
+        } else {
+            $this->output
+                ->set_status_header(404)
+                ->set_output(json_encode(array('error' => 'File not found')));
+        }
+    }
+
+    //====================End No Time In/Out Request=========================
 }

@@ -15,6 +15,11 @@ class Attendance_record_model extends MY_Model
     var $scholar_search = array('scholarship_no', 'student_last_name', 'student_first_name', 'student_middle_name', 'year_level', 'course'); //set column field database for datatable searchable just article , description , serial_num, property_num, department are searchable
     var $order = array('member_id' => 'ASC'); // default order
 
+    var $letter = 'explanation_letter';
+    var $letter_order = array('SM.personal_photo','SM.student_first_name','SM.student_middle_name','SM.student_last_name','EL.attendance_date','EL.remarks','EL.date_created','EL.request_status','EL.time_in_out');
+    var $letter_search = array('SM.personal_photo','SM.student_first_name','SM.student_middle_name','SM.student_last_name','EL.attendance_date','EL.remarks','EL.date_created','EL.request_status','EL.time_in_out'); //set column field database for datatable searchable just article , description , serial_num, property_num, department are searchable
+    var $order_letter = array('EL.letter_id' => 'DESC'); // default order
+
     /**
      * __construct function.
      * 
@@ -288,4 +293,90 @@ class Attendance_record_model extends MY_Model
         $this->db->where('remarks', $remarks);
         $this->db->update('attendance_record', ['is_handled' => 1]);
     }
+
+    //====================No Time In/Out Request=========================
+
+    function get_request_count()
+    {
+        $this->db->where('status', 0);
+        $this->db->where('request_status', 'For Approval');
+        $query = $this->db->get('explanation_letter');
+        return $query;
+    }
+
+    public function get_explanation_letter()
+    {
+        $this->_get_explanation_letter_query();
+        if ($_POST['length'] != -1)
+        $this->db->limit($_POST['length'], $_POST['start']);
+        $query = $this->db->get();
+        return $query->result();
+    }
+	
+
+    public function count_filtered_request()
+    {
+        $this->_get_explanation_letter_query();
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+    public function count_all_request()
+    {
+        $this->db->select('EL.*, SM.personal_photo');
+        $this->db->select("CONCAT(SM.student_last_name,', ',SM.student_first_name,' ',SM.student_middle_name) as student_name");
+        $this->db->from($this->letter.' EL');
+        $this->db->join('scholarship_member SM','EL.member_id = SM.member_id', 'left');
+        $this->db->where('EL.status', 0);
+        $this->db->where('EL.request_status', 'For Approval');
+        return $this->db->count_all_results();
+    }
+
+    private function _get_explanation_letter_query()
+    {
+        $this->db->select('EL.*, SM.personal_photo');
+        $this->db->select("CONCAT(SM.student_last_name,', ',SM.student_first_name,' ',SM.student_middle_name) as student_name");
+        $this->db->from($this->letter.' EL');
+        $this->db->join('scholarship_member SM','EL.member_id = SM.member_id', 'left');
+        $this->db->where('EL.status', 0);
+        $this->db->where('EL.request_status', 'For Approval');
+
+        $i = 0;
+        foreach ($this->letter_search as $item) // loop column 
+        {
+            if ($_POST['search']['value']) // if datatable send POST for search
+            {
+                if ($i === 0) // first loop
+                {
+                    $this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
+                    $this->db->like($item, $_POST['search']['value']);
+                } else {
+                    $this->db->or_like($item, $_POST['search']['value']);
+                }
+
+                if (count($this->letter_search) - 1 == $i) //last loop
+                    $this->db->group_end(); //close bracket
+            }
+            $i++;
+        }
+        if (isset($_POST['order'])) // here order processing
+        {
+            $this->db->order_by($this->letter_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+        } else if (isset($this->order_letter)) {
+            $order = $this->order_letter;
+            $this->db->order_by(key($order), $order[key($order)]);
+        }
+    }
+
+    function download_explanation_letter($letter_id)
+    {
+        $this->db->select('attachment');
+        $this->db->from('explanation_letter');
+        $this->db->where('letter_id', $letter_id);
+        $this->db->where('status', 0);
+        $query = $this->db->get();
+        return $query->row_array();
+    }
+    
+    //====================End No Time In/Out Request=========================
 }
