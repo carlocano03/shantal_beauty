@@ -1,32 +1,54 @@
 <style>
-    #tbl_in_out th:nth-child(2),
+#tbl_in_out th:nth-child(2),
+#tbl_in_out td:nth-child(2),
+#tbl_in_out th:nth-child(3),
+#tbl_in_out td:nth-child(3),
+#tbl_in_out th:nth-child(4),
+#tbl_in_out td:nth-child(4),
+#tbl_in_out th:nth-child(5),
+#tbl_in_out td:nth-child(5),
+#tbl_in_out th:nth-child(6),
+#tbl_in_out td:nth-child(6) {
+    text-align: center;
+}
+
+#tbl_in_out td:nth-child(2),
+#tbl_in_out td:nth-child(3),
+#tbl_in_out td:nth-child(5) {
+    display: none;
+}
+
+@media (min-width: 992px) {
+
     #tbl_in_out td:nth-child(2),
-    #tbl_in_out th:nth-child(3),
     #tbl_in_out td:nth-child(3),
-    #tbl_in_out th:nth-child(4),
-    #tbl_in_out td:nth-child(4),
-    #tbl_in_out th:nth-child(5),
-    #tbl_in_out td:nth-child(5),
-    #tbl_in_out th:nth-child(6),
-    #tbl_in_out td:nth-child(6) {
-        text-align: center;
-    }
-
-    .table__title {
-        font-size: 20px;
-        font-weight: 500;
-        color: #434875 !important;
-        padding: 8px 0;
-        margin-bottom: 0;
+    #tbl_in_out td:nth-child(5) {
+        display: table-cell;
 
     }
+}
 
-    .card {
-        background: #ffffff;
-        border-radius: 8px;
-        color: #434875;
-        box-shadow: 0 9px 20px rgba(46, 35, 94, .07);
-    }
+
+
+.table__title {
+    font-size: 20px;
+    font-weight: 500;
+    color: #434875 !important;
+    padding: 8px 0;
+    margin-bottom: 0;
+
+}
+
+.card {
+    background: #ffffff;
+    border-radius: 8px;
+    color: #434875;
+    box-shadow: 0 9px 20px rgba(46, 35, 94, .07);
+}
+
+.no-wrap {
+    white-space: nowrap;
+}
 </style>
 <!-- Content wrapper -->
 <div class="content-wrapper">
@@ -37,21 +59,22 @@
             <div
                 class="card-header mb-3 pb-3 d-flex align-items-center flex-column justify-content-between gap-3 gap-md-0 flex-md-row ">
                 <div class="d-flex gap-2 align-items-center">
-                    <img src="<?php echo base_url('assets/images/student_dashboard/in_out.png'); ?>"
-                        width="36px" alt="Calendar" />
+                    <img src="<?php echo base_url('assets/images/student_dashboard/in_out.png'); ?>" width="36px"
+                        alt="Calendar" />
                     <h5 class="table__title"><?= $card_title?></h5>
                 </div>
 
             </div>
             <div class="card-body">
+
                 <table class="table" width="100%" id="tbl_in_out">
                     <thead>
                         <tr>
-                            <th>Attendance Date</th>
-                            <th>Remarks</th>
-                            <th>Date Submitted</th>
+                            <th class="no-wrap">Attendance Date</th>
+                            <th class="d-none d-lg-table-cell">Remarks</th>
+                            <th class="d-none d-lg-table-cell">Date Submitted</th>
                             <th>Status</th>
-                            <th>Time In/Out</th>
+                            <th class="d-none d-lg-table-cell">Time In/Out</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -60,14 +83,16 @@
                     </tbody>
                 </table>
 
+
             </div>
         </div>
     </div>
     <!-- / Content -->
 
     <?php $this->load->view('student_portal/modal/in_out_modal');?>
+    <?php $this->load->view('student_portal/modal/in_out_tbl_modal');?>
 
-<script>
+    <script>
     $(document).ready(function() {
         var tbl_in_out = $('#tbl_in_out').DataTable({
             language: {
@@ -96,7 +121,8 @@
         });
 
         $('#tbl_in_out_filter').prepend(
-            `<button class="btn btn-dark btn-sm" data-bs-toggle="modal" data-bs-target="#letterModal"><i class="bi bi-ui-radios me-1"></i>Submit Explanation Letter</button>`
+            `<button class="btn btn-dark btn-sm" data-bs-toggle="modal" data-bs-target="#letterModal"><i
+                class="bi bi-ui-radios me-1"></i>Submit Explanation Letter</button>`
         );
 
         $(document).on('click', '#save_explanation_letter', function(event) {
@@ -160,11 +186,11 @@
                                     text: 'An error occurred while processing the request.',
                                 });
                             }
-                        }); 
+                        });
                     }
                 });
             }
-        }); 
+        });
 
         $(document).on('click', '.delete_request', function() {
             var letter_id = $(this).data('id');
@@ -215,4 +241,4 @@
             });
         });
     });
-</script>
+    </script>

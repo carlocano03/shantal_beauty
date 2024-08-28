@@ -113,6 +113,12 @@ class Student_attendance_model extends MY_Model
         $query = $this->db->get();
         return $query->result();
     }
+
+	public function get_explanation_letter_by_id($letter_id){
+		$this->db->where("letter_id",$letter_id);
+		$query = $this->db->get('explanation_letter');
+		return $query->row();
+	}
 	
 
     public function count_filtered()
