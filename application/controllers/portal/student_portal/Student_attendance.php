@@ -1131,13 +1131,19 @@ class Student_attendance extends MY_Controller
             $status_color = isset($status_mapping[$list->request_status]) ? $status_mapping[$list->request_status] : 'bg-warning';
             $row[] = '<div class="badge ' . $status_color . ' px-3">' . $list->request_status . '</div>';
             $row[] = date('h:i A', strtotime($list->time_in_out));
+
+            if ($list->request_status == 'For Approval') {
+                $disabled = '';
+            } else {
+                $disabled = 'disabled';
+            }
             $row[] = '
 			<div class="d-block d-lg-none">
 				  	 <i class="fa-solid fa-circle-plus viewTimeInOutRecordBtn" data-bs-toggle="modal"  data-id="'.$list->letter_id.'" data-bs-target="#viewTimeInOutRecord"
                         ></i>
 					</div>
 				
-			<button class="btn d-none d-lg-block btn-outline-danger btn-sm delete_request" data-id="'.$list->letter_id.'"><i class="bi bi-trash3-fill me-1"></i>Delete</button>
+			<button class="btn d-none d-lg-block btn-outline-danger btn-sm delete_request" '.$disabled.' data-id="'.$list->letter_id.'"><i class="bi bi-trash3-fill me-1"></i>Delete</button>
 			
 			';
 

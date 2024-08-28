@@ -9,6 +9,10 @@
             <div class="modal-body">
                 <form id="approvalForm" class="needs-validation" novalidate>
                     <input type="hidden" id="letter_id">
+                    <input type="hidden" id="attendance_date">
+                    <input type="hidden" id="remarks">
+                    <input type="hidden" id="time_in_out">
+                    <input type="hidden" id="member_id">
                     <div class="form-group mb-3">
                         <label class="form-label">Request Validation</label>
                         <select name="request_validation" id="request_validation" class="form-select" required>

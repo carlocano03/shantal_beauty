@@ -29,6 +29,17 @@
         color: #434875;
         box-shadow: 0 9px 20px rgba(46, 35, 94, .07);
     }
+
+    .filter_option {
+        width: 130px;
+        height: 35px;
+        border-radius: 5px;
+        border: 1.5px solid #b2bec3;
+        color: #2d3436;
+        font-size: 14px;
+        outline: none !important;
+        padding-left: 6px;
+    }
 </style>
 <!-- Content wrapper -->
 <div class="content-wrapper">
@@ -90,12 +101,26 @@
                 "type": "POST",
                 "data": function(d) {
                     d[csrf_token_name] = csrf_token_value;
+                    d.filter = $('.filter_option').val();
                 },
                 "complete": function(res) {
                     csrf_token_name = res.responseJSON.csrf_token_name;
                     csrf_token_value = res.responseJSON.csrf_token_value;
                 }
             }
+        });
+
+        $('#tbl_in_out_filter').prepend(
+            `<select class="filter_option">
+                <option value="">Filter Options</option>
+                <option value="For Approval">For Approval</option>
+                <option value="Valid Letter">Valid Letter</option>
+                <option value="Invalid Letter">Invalid Letter</option>
+            </select>`
+        );
+
+        $(document).on('change', '.filter_option', function() {
+            tbl_in_out.draw();
         });
 
         $(document).on('click', '#download_explanation', function() {
@@ -144,8 +169,16 @@
 
         $(document).on('click', '.approval_modal', function() {
             var letter_id = $(this).data('id');
+            var attendance_date = $(this).data('attendance_date');
+            var remarks = $(this).data('remarks');
+            var time_in_out = $(this).data('time_in_out');
+            var member_id = $(this).data('member_id');
 
             $('#letter_id').val(letter_id);
+            $('#attendance_date').val(attendance_date);
+            $('#remarks').val(remarks);
+            $('#time_in_out').val(time_in_out);
+            $('#member_id').val(member_id);
             $('#letterModal').modal('show');
         });
 
@@ -155,6 +188,11 @@
 
             var form = $('#approvalForm')[0];
             var formData = new FormData(form);
+            formData.append('letter_id', $('#letter_id').val());
+            formData.append('attendance_date', $('#attendance_date').val());
+            formData.append('remarks', $('#remarks').val());
+            formData.append('time_in_out', $('#time_in_out').val());
+            formData.append('member_id', $('#member_id').val());
             formData.append('request_validation', $('#request_validation').val());
             formData.append('comment', $('#comment').val());
             formData.append('_token', csrf_token_value);
@@ -174,7 +212,40 @@
                     confirmButtonText: 'Yes, continue',
                 }).then((result) => {
                     if (result.isConfirmed) {
-
+                        $.ajax({
+                            url: "<?= base_url('portal/admin_portal/attendance_record/approval_explanation_letter');?>",
+                            method: "POST",
+                            data: formData,
+                            contentType: false,
+                            processData: false,
+                            dataType: "json",
+                            success: function(data) {
+                                if (data.error != '') {
+                                    Swal.fire({
+                                        icon: 'warning',
+                                        title: 'Ooops...',
+                                        text: data.error,
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Thank You!',
+                                        text: data.success,
+                                    });
+                                    $('#letterModal').modal('hide');
+                                    form.reset();
+                                    form.classList.remove('was-validated');
+                                    tbl_in_out.draw();
+                                }
+                            },
+                            error: function() {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Ooops...',
+                                    text: 'An error occurred while processing the request.',
+                                });
+                            }
+                        });
                     }
                 });
             }

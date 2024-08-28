@@ -18,7 +18,7 @@ class Attendance_record_model extends MY_Model
     var $letter = 'explanation_letter';
     var $letter_order = array('SM.personal_photo','SM.student_first_name','SM.student_middle_name','SM.student_last_name','EL.attendance_date','EL.remarks','EL.date_created','EL.request_status','EL.time_in_out');
     var $letter_search = array('SM.personal_photo','SM.student_first_name','SM.student_middle_name','SM.student_last_name','EL.attendance_date','EL.remarks','EL.date_created','EL.request_status','EL.time_in_out'); //set column field database for datatable searchable just article , description , serial_num, property_num, department are searchable
-    var $order_letter = array('EL.letter_id' => 'DESC'); // default order
+    var $order_letter = array('EL.request_status' => 'DESC', 'EL.letter_id' => 'DESC'); // default order
 
     /**
      * __construct function.
@@ -328,7 +328,9 @@ class Attendance_record_model extends MY_Model
         $this->db->from($this->letter.' EL');
         $this->db->join('scholarship_member SM','EL.member_id = SM.member_id', 'left');
         $this->db->where('EL.status', 0);
-        $this->db->where('EL.request_status', 'For Approval');
+        if ($this->input->post('filter', true)) {
+            $this->db->where('EL.request_status', $this->input->post('filter', true));
+        }
         return $this->db->count_all_results();
     }
 
@@ -339,7 +341,10 @@ class Attendance_record_model extends MY_Model
         $this->db->from($this->letter.' EL');
         $this->db->join('scholarship_member SM','EL.member_id = SM.member_id', 'left');
         $this->db->where('EL.status', 0);
-        $this->db->where('EL.request_status', 'For Approval');
+        if ($this->input->post('filter', true)) {
+            $this->db->where('EL.request_status', $this->input->post('filter', true));
+        }
+        
 
         $i = 0;
         foreach ($this->letter_search as $item) // loop column 
@@ -376,6 +381,13 @@ class Attendance_record_model extends MY_Model
         $this->db->where('status', 0);
         $query = $this->db->get();
         return $query->row_array();
+    }
+
+    function approval_explanation_letter($update_request, $letter_id)
+    {
+        $this->db->where('letter_id', $letter_id);
+        $update = $this->db->update('explanation_letter', $update_request);
+        return $update?TRUE:FALSE;
     }
     
     //====================End No Time In/Out Request=========================

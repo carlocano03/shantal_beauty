@@ -13,7 +13,7 @@
                         <select name="attendance_date" id="attendance_date" class="form-select" required>
                             <option value="">Please select the attendance date</option>
                             <?php foreach($attendance as $row) : ?>
-                                <option value="<?= $row->schedule_date?>"><?= $row->schedule_date?></option>
+                                <option value="<?= $row->schedule_date?>"><?= date('F j, Y', strtotime($row->schedule_date))?></option>
                             <?php endforeach;?>
                         </select>
                         <div class="invalid-feedback">

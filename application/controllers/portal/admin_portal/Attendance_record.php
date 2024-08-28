@@ -1509,7 +1509,18 @@ class Attendance_record extends MY_Controller
                      '<div class="open_link" style="font-size:11px;" id="download_explanation" data-id="'.$list->letter_id.'"><i class="bi bi-download me-1"></i>Download Attachment</div>';
             $row[] = date('h:i A', strtotime($list->time_in_out));
 
-            $row[] = '<button class="btn btn-outline-info btn-sm approval_modal" data-id="'.$list->letter_id.'"><i class="bi bi-subtract me-1"></i>Approval</button>';
+            if ($list->request_status == 'For Approval') {
+                $disabled = '';
+            } else {
+                $disabled = 'disabled';
+            }
+            $row[] = '<button '.$disabled.' class="btn btn-outline-info btn-sm approval_modal" 
+                        data-id="'.$list->letter_id.'"
+                        data-attendance_date="'.$list->attendance_date.'"
+                        data-remarks="'.$list->remarks.'"
+                        data-time_in_out="'.$list->time_in_out.'"
+                        data-member_id="'.$list->member_id.'"
+                      ><i class="bi bi-subtract me-1"></i>Approval</button>';
 
             $data[] = $row;
         }
@@ -1560,6 +1571,73 @@ class Attendance_record extends MY_Controller
                 ->set_status_header(404)
                 ->set_output(json_encode(array('error' => 'File not found')));
         }
+    }
+
+    public function approval_explanation_letter()
+    {
+        $error = '';
+        $success = '';
+        $request_validation = $this->input->post('request_validation', true);
+        $comment = $this->input->post('comment', true);
+        
+        $letter_id = $this->input->post('letter_id', true);
+        $attendance_date = $this->input->post('attendance_date', true);
+        $remarks = $this->input->post('remarks', true);
+        $time_in_out = $this->input->post('time_in_out', true);
+        $member_id = $this->input->post('member_id', true);
+
+        $member = $this->attendance_record_model->get_row('scholarship_member', array('member_id' => $member_id));
+
+        $update_request = array(
+            'request_status' => $request_validation,
+            'comment'        => $comment,
+        );
+
+        $result = $this->attendance_record_model->approval_explanation_letter($update_request, $letter_id);
+        if ($result == TRUE) {
+            //Insert attendance record
+            if ($remarks == 'No Time-In') {
+                $remark = 'Time-In';
+            } else {
+                $remark = 'Time-Out';
+            }
+            $insert_attendance = array(
+                'member_id'         => $member_id,
+                'attendance_date'   => $attendance_date,
+                'time_transaction'  => $time_in_out,
+                'remarks'           => $remark,
+            );
+            $this->db->insert('attendance_record', $insert_attendance);
+
+            // if($letter_verification == 'Valid Letter') {
+            //     $subject = 'Letter Verification [Valid]';
+            //     $template = 'email_template/approved_letter';
+            // } else {
+            //     $subject = 'Letter Verification [Invalid]';
+            //     $template = 'email_template/invalid_letter';
+            // }
+
+            // $mail_data = [
+            //     'name_to'   => $member['student_first_name'],
+            //     'comment'   => $this->input->post('comment', true),
+            // ];
+
+            // $this->send_email_html([
+            //     'mail_to'       => $member['email_address'],
+            //     'cc'            => [],
+            //     'subject'       => $subject,
+            //     'template_path' => $template,
+            //     'mail_data'     => $mail_data,
+            // ]);
+            $success = 'Letter verification successfully submitted.'; 
+        } else {
+            $error = 'Failed to verify the letter.';
+        }
+        $output = array(
+            'error' => $error,
+            'success' => $success,
+        );
+        echo json_encode($output);
     }
 
     //====================End No Time In/Out Request=========================
