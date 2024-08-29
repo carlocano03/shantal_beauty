@@ -30,7 +30,7 @@ if (isset($_SERVER['HTTP_HOST'])) {
     $config['base_url'] .= '://' . $_SERVER['HTTP_HOST'];
     $config['base_url'] .= str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
 } else {
-    $config['base_url']    = 'http://127.0.0.1/clcc/';
+    $config['base_url']    = 'http://127.0.0.1/shantal-shop/';
 }
 
 $config['composer_autoload'] = 'vendor/autoload.php';

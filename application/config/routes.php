@@ -49,47 +49,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
-
-$route['login'] = 'main/login';
-$route['scholarship/registration-form'] = 'website/registration_form/index';
-$route['scholarship/registration-form/success-registration'] = 'website/registration_form/success_registration';
-$route['admin/dashboard'] = 'portal/admin_portal/main/index';
-$route['admin/scholarship-approval'] = 'portal/admin_portal/scholar_request/index';
-$route['admin/scholarship-approval/scholar-information'] = 'portal/admin_portal/scholar_request/scholar_information';
-$route['admin/scholars-record'] = 'portal/admin_portal/student_record/index';
-$route['admin/scholars-record/export-data'] = 'portal/admin_portal/student_record/export_data';
-$route['admin/student-record/details'] = 'portal/admin_portal/student_record/student_information';
-$route['admin/account-management'] = 'portal/admin_portal/account_management/index';
-$route['admin/event-management'] = 'portal/admin_portal/event_management/index';
-
-$route['admin/account-management/account-list'] = 'portal/admin_portal/account_management/account_list';
-$route['admin/church-schedule'] = 'portal/admin_portal/church_schedule/index';
-$route['admin/late-rules-setup'] = 'portal/admin_portal/late_rules/index';
-$route['admin/attendance-record'] = 'portal/admin_portal/attendance_record/index';
-$route['admin/attendance-record/manage-record'] = 'portal/admin_portal/attendance_record/manage_attendance';
-$route['admin/attendance-record/request'] = 'portal/admin_portal/attendance_record/no_in_out_request';
-$route['admin/attendance-record/print'] = 'portal/admin_portal/attendance_record/print_attendance';
-$route['admin/attendance-record/excel'] = 'portal/admin_portal/attendance_record/excel_attendance';
-$route['admin/biometric-logs'] = 'portal/admin_portal/biometric_logs/index';
-$route['admin/poll-suggestion'] = 'portal/admin_portal/poll_suggestion/index';
-
-// Student Portal
-$route['scholar/dashboard'] = 'portal/student_portal/main/index';
-$route['scholar/my-profile'] = 'portal/student_portal/main/myProfile';
-$route['scholar/attendance'] = 'portal/student_portal/student_attendance/index';
-$route['scholar/attendance-record/print'] = 'portal/student_portal/student_attendance/print_attendance';
-$route['scholar/attendance-record/excel'] = 'portal/student_portal/student_attendance/excel_attendance';
-$route['scholar/no-time-in-out'] = 'portal/student_portal/student_attendance/no_time_in_out';
-
-
-// Custom Table
-$route['custom-table'] = 'main/custom_table';
-
-// Scholarship Closed
-$route['scholarship-closed'] = 'main/scholarship_closed';
-// Maintenance
-$route['maintenance'] = 'main/index';
-
 $route['default_controller'] = 'main';
 $route['404_override'] = 'main/page404';
 $route['(:any)'] = 'main/index/$1';
