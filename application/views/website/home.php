@@ -31,7 +31,7 @@
 <!-- Modal -->
 <div class="modal fade" id="signup" tabindex="-1" aria-labelledby="signup" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content p-5">
+        <div class="modal-content signup_modal-content">
             <h1 class="signup__title">Sign up</h1>
             <p class="signup__p">Enter your details below to create your account and get started.</p>
 
@@ -84,7 +84,7 @@
 <!-- Modal -->
 <div class="modal fade" id="login" tabindex="-1" aria-labelledby="login" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content p-5">
+        <div class="modal-content login_modal-content">
             <h1 class="login__greeting">Welcome Back!</h1>
             <h1 class="login__title">Log In to Your Account</h1>
             <p class="login__p">We're glad to see you again! Please enter your details below to log in.</p>
