@@ -31,9 +31,9 @@ class Main extends MY_Controller
     public function index()
     {
         $data['title'] = 'Become a Reseller - Shantal`s Shop';
-        $this->load->view('website/partial/_header', $data);
+        $this->load->view('website/reseller/partial/_header', $data);
         $this->load->view('website/reseller/auth', $data);
-        $this->load->view('website/partial/_footer', $data);
+        $this->load->view('website/reseller/partial/_footer', $data);
     }
 
 
