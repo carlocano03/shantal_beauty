@@ -30,9 +30,9 @@ class Main extends MY_Controller
 
     public function index()
     {
-        $data['title'] = 'Shantal`s Shop';
+        $data['title'] = 'Become a Reseller - Shantal`s Shop';
         $this->load->view('website/partial/_header', $data);
-        $this->load->view('website/home', $data);
+        $this->load->view('website/reseller/auth', $data);
         $this->load->view('website/partial/_footer', $data);
     }
 
