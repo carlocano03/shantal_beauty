@@ -15,8 +15,9 @@
                         </ul>
                     </div>
                     <div class="d-flex gap-4">
-                        <button type="button" data-bs-toggle="modal" data-bs-target="#reseller"
-                            class="navbar__button__reseller">Reseller</button>
+                        <a href="<?php echo base_url('/reseller'); ?>" class="navbar__button__reseller">
+                            Reseller
+                        </a>
                         <button type="button" data-bs-toggle="modal" data-bs-target="#login"
                             class="navbar__button__shop">Shop
                             Now</button>
