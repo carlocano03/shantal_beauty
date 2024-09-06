@@ -49,6 +49,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
+
+//ADMINISTRATOR PORTAL
+$route['admin/dashboard'] = 'admin_portal/main/index';
+$route['admin/reseller-application'] = 'admin_portal/main/reseller_application';
+$route['admin/reseller-account'] = 'admin_portal/main/reseller_account';
+$route['admin/user-account'] = 'admin_portal/main/user_account';
+$route['admin/product-management'] = 'admin_portal/main/product_management';
+
+
 $route['reseller'] = 'reseller/main/index';
 
 $route['default_controller'] = 'main';
