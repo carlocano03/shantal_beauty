@@ -13,8 +13,8 @@
         content="Join Change Life Christian Church to experience true Christian community and build a life-changing relationship with Jesus Christ." />
     <meta property="og:site_name" content="Change Life Christian Church" />
 
-    <title><?= $title?></title>
-    <link rel="icon" type="image/png" href="<?= base_url('assets/images/clc.png')?>">
+    <title>Shantal Beauty & Wellness</title>
+    <link rel="icon" type="image/png" href="<?= base_url('assets/images/home/shantal-logo.png')?>">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
