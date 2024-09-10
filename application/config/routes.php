@@ -56,7 +56,7 @@ $route['admin/reseller-application'] = 'admin_portal/main/reseller_application';
 $route['admin/reseller-account'] = 'admin_portal/main/reseller_account';
 $route['admin/user-account'] = 'admin_portal/main/user_account';
 $route['admin/product-management'] = 'admin_portal/main/product_management';
-
+$route['admin/product-management/stock-in'] = 'admin_portal/main/stock_in';
 
 $route['reseller'] = 'reseller/main/index';
 
