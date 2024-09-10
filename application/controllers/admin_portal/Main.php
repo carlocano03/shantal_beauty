@@ -141,4 +141,31 @@ class Main extends MY_Controller
         $this->load->view('admin_portal/partial/_footer', $data);
     }
 
+    public function stock_in()
+    {
+        //$data['role_permissions'] = $this->role_permissions();
+        $this->load->model('admin_portal/inventory/product_management_model', 'product_management');
+        $product_id = $this->cipher->decrypt($this->input->get('product', true));
+
+        $data['product'] = $this->product_management->get_row('product', array('product_id' => $product_id, 'status' => 0));
+
+        $data['home_url'] = base_url('admin/dashboard');
+        $data['active_page'] = 'product_page';
+        $data['card_title'] = 'Stock-In Management';
+        $data['icon'] = 'bi bi-speedometer2';
+        $data['header_contents'] = array(
+            '<link href="https://cdn.datatables.net/1.13.2/css/dataTables.bootstrap4.min.css" rel="stylesheet">',
+            '<script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>',
+            '<script src="https://cdn.datatables.net/1.13.2/js/dataTables.bootstrap4.min.js"></script>',
+            '<script>
+                var csrf_token_name = "'.$this->security->get_csrf_token_name().'";
+                var csrf_token_value = "'.$this->security->get_csrf_hash().'";
+            </script>'
+        );
+	
+        $this->load->view('admin_portal/partial/_header', $data);
+        $this->load->view('admin_portal/stock_in', $data);
+        $this->load->view('admin_portal/partial/_footer', $data);
+    }
+
 }
