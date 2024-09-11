@@ -129,6 +129,10 @@ textarea {
 }
 
 /* Auth Page */
+
+#auth-page__cta__signupForm{
+	margin-top:20px;
+}
 .auth-page__container{
 	position:relative;
 	min-height: 100vh;
@@ -160,7 +164,7 @@ textarea {
 	grid-template-columns: repeat(2, 1fr);
 	z-index:100;
 	position:relative;
-	padding:92px 0;
+	padding:48px 0;
 	width:100%;
 }
 
@@ -216,7 +220,7 @@ textarea {
 	padding:8px 12px;
 }
 
-.reseller_signup__btn,.reseller_login__btn{
+.reseller_signup__btn,.reseller_login__btn,.reseller_signup__next-btn-1,.reseller_signup__next-btn-2,.check-status__btn{
 	color:var(--secondary-white);
 	background-color:var(--primary-black);
 	font-size:1.4rem;
@@ -228,8 +232,25 @@ textarea {
 	margin-top:16px;
 	transition: all 0.3s;
 }
-.reseller_signup__btn:hover,.reseller_login__btn:hover{
+.reseller_signup__btn:hover,.reseller_login__btn:hover,.reseller_signup__next-btn-1:hover,.reseller_signup__next-btn-2:hover,.check-status__btn:hover{
 	opacity:0.8;
+}
+
+.reseller_signup__back-btn-2{
+	color:var(--primary-black);
+	background-color:var(--secondary-white);
+	border:1px solid var(--primary-black);
+	font-size:1.4rem;
+	display:block;
+	padding:8px 0;
+	font-weight:600;
+	border-radius:8px;
+	width:100%;
+	margin-top:16px;
+	transition: all 0.3s;
+}
+.reseller_signup__back-btn-2:hover{
+	opacity:0.6;
 }
 
 .signup__account,.login__account {
@@ -257,5 +278,44 @@ textarea {
 	visibility:hidden;
 }
 
+.auth-page__cta__indicator-container{
+	margin-top:20px;
+}
+
+.auth-page__cta__indicator-title{
+	font-weight:600;
+	font-size:1.2rem;
+	color:var(--accent-2);
+}
+.auth-page__cta__indicator{
+	font-size:1.2rem;
+	font-weight:600;
+}
 
 
+.signUp__form--hidden{
+	display:none;
+	visibility:hidden;
+}
+
+.auth-page__cta__card__signup-status{
+	font-weight:600;
+	color:var(--primary-gold);
+	font-size:1.2rem;
+	text-decoration:underline;
+	cursor:pointer;
+}
+
+.check-status__modal-content{
+	padding: 32px;
+}
+.check-status__title{
+	color: var(--primary-black);
+    font-size: 2.5rem;
+	font-weight:600;
+}
+.check-status__p{
+	color: var(--accent-2); 
+	font-size:1.2rem;
+	margin-top:8px;
+}
