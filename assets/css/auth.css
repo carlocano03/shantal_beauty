@@ -319,3 +319,10 @@ textarea {
 	font-size:1.2rem;
 	margin-top:8px;
 }
+.ageConfirmation__error-message{
+	color:red;
+}
+.ageConfirmation__hidden{
+	display:none;
+	visibility:hidden;
+}

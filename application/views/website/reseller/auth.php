@@ -31,15 +31,15 @@
                             <form id="auth-page__cta__loginForm" class="row g-3 mt-3 needs-validation" novalidate>
                                 <div class="col-12">
                                     <label for="signupEmail" class="form-label signup__label">Email</label>
-                                    <input type="email" class="form-control signup__input" id="signupEmail"
-                                        placeholder="Enter your email" required>
+                                    <input type="email" name="loginEmail" class="form-control signup__input"
+                                        id="signupEmail" placeholder="Enter your email" required>
                                     <div class="invalid-feedback">Please enter a valid email address.</div>
                                 </div>
 
                                 <div class="col-12">
                                     <label for="loginPassword" class="form-label login__label">Password</label>
-                                    <input type="password" class="form-control login__input" id="loginPassword"
-                                        placeholder="Enter your password" required>
+                                    <input type="password" name="loginPassword" class="form-control login__input"
+                                        id="loginPassword" placeholder="Enter your password" required>
                                     <div class="invalid-feedback">Your password is required</div>
                                 </div>
                                 <div class="col-12 mb-4">
@@ -77,151 +77,152 @@
                             </div>
 
                             <!-- Basic Information 1 -->
-                            <form id="auth-page__cta__signupForm-1" class="needs-validation" novalidate>
-                                <div class="row mt-3">
-                                    <div class="col-6">
-                                        <label for="firstName" class="form-label signup__label">First Name</label>
-                                        <input type="text" class="form-control signup__input" id="firstName"
-                                            placeholder="Enter your first name" required>
-                                        <div class="invalid-feedback">Please enter your first name.</div>
-                                    </div>
-                                    <div class="col-6">
-                                        <label for="lastName" class="form-label signup__label">Last Name</label>
-                                        <input type="text" class="form-control signup__input" id="lastName"
-                                            placeholder="Enter your last name" required>
-                                        <div class="invalid-feedback">Please enter your last name.</div>
-                                    </div>
-                                    <div class="col-12 mt-3">
-                                        <label for="signupEmail" class="form-label signup__label">Email</label>
-                                        <input type="email" class="form-control signup__input" id="signupEmail"
-                                            placeholder="Enter your email" required>
-                                        <div class="invalid-feedback">Please enter a valid email address.</div>
+                            <form id="auth-page__cta__signupForm" class="needs-validation" novalidate>
+                                <div id="form1" class="">
+                                    <div class="row mt-3">
+                                        <div class="col-6">
+                                            <label for="firstName" class="form-label signup__label">First Name</label>
+                                            <input type="text" name="firstName" class="form-control signup__input"
+                                                id="firstName" placeholder="Enter your first name" required>
+                                            <div class="invalid-feedback">Please enter your first name.</div>
+                                        </div>
+                                        <div class="col-6">
+                                            <label for="lastName" class="form-label signup__label">Last Name</label>
+                                            <input type="text" name="lastName" class="form-control signup__input"
+                                                id="lastName" placeholder="Enter your last name" required>
+                                            <div class="invalid-feedback">Please enter your last name.</div>
+                                        </div>
+                                        <div class="col-12 mt-3">
+                                            <label for="signupEmail" class="form-label signup__label">Email</label>
+                                            <input type="email" name="signupEmail" class="form-control signup__input"
+                                                id="signupEmail" placeholder="Enter your email" required>
+                                            <div class="invalid-feedback">Please enter a valid email address.</div>
+                                        </div>
+
                                     </div>
 
-                                </div>
+                                    <div class="row mt-3">
+                                        <div class="col-12">
+                                            <label for="streetAddress" class="form-label signup__label">Street
+                                                Address</label>
+                                            <input type="text" name="streetAddress" class="form-control signup__input"
+                                                id="streetAddress" placeholder="Enter your address" required>
+                                            <div class="invalid-feedback">Please enter your street address.</div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-6">
+                                            <label for="city" class="form-label signup__label">City</label>
+                                            <input type="text" name="city" class="form-control signup__input" id="city"
+                                                placeholder="Enter your city" required>
+                                            <div class="invalid-feedback">Please enter your city.</div>
+                                        </div>
+                                        <div class="col-6">
+                                            <label for="stateProvince"
+                                                class="form-label signup__label">State/Province</label>
+                                            <input type="text" name="stateProvince" class="form-control signup__input"
+                                                id="stateProvince" placeholder="Enter your state/province" required>
+                                            <div class="invalid-feedback">Please enter your state/province.</div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-12">
+                                            <label for="phoneNumber" class="form-label signup__label">Phone
+                                                Number</label>
+                                            <input type="text" name="phoneNumber" class="form-control signup__input"
+                                                id="phoneNumber" placeholder="Enter your phone number" required>
+                                            <div class="invalid-feedback">Please enter a valid 10-digit phone number.
+                                            </div>
+                                        </div>
+                                        <div class="col-12 mt-3">
+                                            <label for="signupReferralCode" class="form-label signup__label">Referral
+                                                Code</label>
+                                            <input type="text" name="signupReferralCode"
+                                                class="form-control signup__input" id="signupReferralCode">
+                                        </div>
+                                    </div>
 
-                                <div class="row mt-3">
+                                    <div class="col-12 my-5">
+                                        <button type="button" class="reseller_signup__next-btn-1">Next</button>
+                                    </div>
+
                                     <div class="col-12">
-                                        <label for="streetAddress" class="form-label signup__label">Street
-                                            Address</label>
-                                        <input type="text" class="form-control signup__input" id="streetAddress"
-                                            placeholder="Enter your address" required>
-                                        <div class="invalid-feedback">Please enter your street address.</div>
-                                    </div>
-                                </div>
-                                <div class="row mt-3">
-                                    <div class="col-6">
-                                        <label for="city" class="form-label signup__label">City</label>
-                                        <input type="text" class="form-control signup__input" id="city"
-                                            placeholder="Enter your city" required>
-                                        <div class="invalid-feedback">Please enter your city.</div>
-                                    </div>
-                                    <div class="col-6">
-                                        <label for="stateProvince"
-                                            class="form-label signup__label">State/Province</label>
-                                        <input type="text" class="form-control signup__input" id="stateProvince"
-                                            placeholder="Enter your state/province" required>
-                                        <div class="invalid-feedback">Please enter your state/province.</div>
-                                    </div>
-                                </div>
-                                <div class="row mt-3">
-                                    <div class="col-12">
-                                        <label for="phoneNumber" class="form-label signup__label">Phone Number</label>
-                                        <input type="text" class="form-control signup__input" id="phoneNumber"
-                                            placeholder="Enter your phone number" required>
-                                        <div class="invalid-feedback">Please enter a valid 10-digit phone number.</div>
-                                    </div>
-                                    <div class="col-12 mt-3">
-                                        <label for="signupReferralCode" class="form-label signup__label">Referral
-                                            Code</label>
-                                        <input type="text" class="form-control signup__input" id="signupReferralCode">
+                                        <p class="signup__account">
+                                            Already have an account? <span class="login__link" type="button"
+                                                id="login__link">Login</span>
+                                        </p>
                                     </div>
                                 </div>
 
-                                <div class="col-12 my-5">
-                                    <button type="button" class="reseller_signup__next-btn-1">Next</button>
-                                </div>
 
-                                <div class="col-12">
-                                    <p class="signup__account">
-                                        Already have an account? <span class="login__link" type="button"
-                                            id="login__link">Login</span>
-                                    </p>
-                                </div>
-                            </form>
 
-                            <!-- 2 -->
-                            <form id="auth-page__cta__signupForm-2" class="signUp__form--hidden needs-validation"
-                                novalidate>
-                                <div class="row gap-3 mt-3">
-                                    <div class="col-12">
-                                        <label for="typeOfId" class="form-label signup__label">Select Type of ID</label>
-                                        <select id="typeOfId" class="form-select signup__input"
-                                            aria-label="Default select example" required>
-                                            <option value="" selected disabled>Select an ID type</option>
-                                            <option value="1">Driver's License</option>
-                                            <option value="2">Passport</option>
-                                            <option value="3">PhilSys</option>
-                                            <option value="4">Other</option>
+                                <!-- 2 -->
+                                <div id="form2" class="signUp__form--hidden">
+                                    <div class="row gap-3 mt-3 ">
+                                        <div class="col-12">
+                                            <label for="typeOfId" class="form-label signup__label">Select Type of
+                                                ID</label>
+                                            <select id="typeOfId" name="typeOfId" class="form-select signup__input"
+                                                aria-label="Default select example" required>
+                                                <option value="" selected disabled>Select an ID type</option>
+                                                <option value="1">Driver's License</option>
+                                                <option value="2">Passport</option>
+                                                <option value="3">PhilSys</option>
+                                                <option value="4">Other</option>
 
-                                        </select>
-                                        <div class="invalid-feedback">Please select type of ID.</div>
+                                            </select>
+                                            <div class="invalid-feedback">Please select type of ID.</div>
+                                        </div>
+                                        <div class="col-12">
+                                            <label for="validId" class="form-label signup__label">Upload Valid
+                                                ID</label>
+                                            <input type="file" name="validId" class="form-control signup__input"
+                                                id="validId" required disabled>
+                                            <div class="invalid-feedback">Please upload a valid ID.</div>
+                                        </div>
                                     </div>
-                                    <div class="col-12">
-                                        <label for="validId" class="form-label signup__label">Upload Valid ID</label>
-                                        <input type="file" class="form-control signup__input" id="validId" required
-                                            disabled>
-                                        <div class="invalid-feedback">Please upload a valid ID.</div>
+                                    <div class="row mt-3">
+                                        <div class="col-12">
+                                            <label for="tin" class="form-label signup__label">Tax Identification
+                                                Number (TIN)</label>
+                                            <input type="number" name="tin" class="form-control signup__input" id="tin"
+                                                placeholder="Enter your TIN number" required>
+                                            <div class="invalid-feedback">Please enter your TIN number.</div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="row mt-3">
-                                    <div class="col-12">
-                                        <label for="tin" class="form-label signup__label">Tax Identification
-                                            Number (TIN)</label>
-                                        <input type="number" class="form-control signup__input" id="tin"
-                                            placeholder="Enter your TIN number" required>
-                                        <div class="invalid-feedback">Please enter your TIN number.</div>
+                                    <div class="row mt-3 gap-3">
+                                        <div class="col-12">
+                                            <label for="typeOfId" class="form-label signup__label">Select Bank Account
+                                                for
+                                                Commission</label>
+                                            <select id="typeOfId" name="typeOfId" class="form-select signup__input"
+                                                aria-label="Default select example" required>
+                                                <option value="" selected disabled>Select a account type</option>
+                                                <option value="1">Debit Card</option>
+                                                <option value="2">GCash</option>
+                                                <option value="3">Paymaya</option>
+                                            </select>
+                                            <div class="invalid-feedback">Please select accoun type.</div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="row mt-3 gap-3">
-                                    <div class="col-12">
-                                        <label for="typeOfId" class="form-label signup__label">Select Bank Account for
-                                            Commission</label>
-                                        <select id="typeOfId" class="form-select signup__input"
-                                            aria-label="Default select example" required>
-                                            <option value="" selected disabled>Select a account type</option>
-                                            <option value="1">Debit Card</option>
-                                            <option value="2">GCash</option>
-                                            <option value="3">Paymaya</option>
-                                        </select>
-                                        <div class="invalid-feedback">Please select accoun type.</div>
+
+                                    <div class="row mt-3">
+                                        <div class="col-12 mt-3">
+                                            <label for="ageConfirmation" class="form-label signup__label">
+                                                <input type="checkbox" id="ageConfirmation" name="ageConfirmation"
+                                                    required>
+                                                I confirm that I am at least 18 years old.
+                                            </label>
+                                            <div id="ageConfirmation__error"
+                                                class="ageConfirmation__error-message ageConfirmation__hidden">You must
+                                                confirm that you are at least 18 years old.</div>
+                                        </div>
                                     </div>
-                                    <!-- <div class="col-12">
-                                        <label for="validId" class="form-label signup__label">Upload Valid ID</label>
-                                        <input type="file" class="form-control signup__input" id="validId" required>
-                                        <div class="invalid-feedback">Please upload a valid ID.</div>
-                                    </div> -->
 
-                                    <!-- <label for="ageConfirmation"> </label>
-                                        <input type="checkbox" id="ageConfirmation" name="ageConfirmation" required>
-                                        I confirm that I am 18 years old or older. -->
-                                </div>
-
-
-                                <div class="row mt-3">
-                                    <div class="col-12 mt-3">
-                                        <label for="ageConfirmation" class="form-label signup__label">
-                                            <input type="checkbox" id="ageConfirmation" name="ageConfirmation" required>
-                                            I confirm that I am 18 years old or older.
-                                        </label>
-                                        <div class="invalid-feedback">You must confirm that you are 18 years old or
-                                            older.</div>
+                                    <div class="col-12 mb-3 mt-5">
+                                        <button type="button" class="reseller_signup__next-btn-2">Submit</button>
+                                        <button type="button" class="reseller_signup__back-btn-2">Back</button>
                                     </div>
-                                </div>
-
-                                <div class="col-12 mb-3 mt-5">
-                                    <button type="button" class="reseller_signup__next-btn-2">Submit</button>
-                                    <button type="button" class="reseller_signup__back-btn-2">Back</button>
                                 </div>
                             </form>
                         </div>
@@ -263,45 +264,61 @@ $(document).ready(function() {
 
     // Sign Up 
     $('.reseller_signup__next-btn-1').on('click', function(event) {
+        const $form1 = $('#form1');
+        // Validate only the visible fields in Section 1
+        const isValid = $('#form1 input').filter('[required]').toArray().every(function(input) {
+            return input.checkValidity();
+        });
 
-        const $form = $('#auth-page__cta__signupForm-1');
-
-        if (!$form[0].checkValidity()) {
+        if (!isValid) {
             event.preventDefault();
             event.stopPropagation();
-            $form.addClass('was-validated');
-            return;
+            $form1.addClass('was-validated');
+        } else {
+            // Move to Section 2
+            $("#form2").removeClass("signUp__form--hidden");
+            $("#form1").addClass("signUp__form--hidden");
+            $('.auth-page__cta__indicator').text('2/2');
         }
-
-        const formData = new FormData($form[0]);
-        $("#auth-page__cta__signupForm-2").removeClass("signUp__form--hidden");
-        $("#auth-page__cta__signupForm-1").addClass("signUp__form--hidden");
-        $('.auth-page__cta__indicator').text('2/2');
-
-        // AJAX request 
-
     });
 
     $('.reseller_signup__next-btn-2').on('click', function(event) {
 
-        const $form = $('#auth-page__cta__signupForm-2');
+        const $form2 = $('#form2');
+        const $ageConfirmation = $('#ageConfirmation');
+        const isAgeConfirmed = $ageConfirmation.is(':checked');
 
-        if (!$form[0].checkValidity()) {
+        // Validate only the visible fields in Section 2
+        const isValid = $('#form2 input, #form2 select').filter('[required]').toArray().every(function(
+            input) {
+            return input.checkValidity();
+        });
+
+        if (!isValid) {
             event.preventDefault();
             event.stopPropagation();
-            $form.addClass('was-validated');
-            return;
+            if (!isAgeConfirmed) {
+                $("#ageConfirmation__error").removeClass('ageConfirmation__hidden');
+            } else {
+                $("#ageConfirmation__error").addClass('ageConfirmation__hidden');
+            }
+
+            $form2.addClass('was-validated');
+        } else {
+            const formData = new FormData($('#auth-page__cta__signupForm')[0]);
+
+            // Display all data
+            // for (let [key, value] of formData.entries()) {
+            //     console.log(`${key}: ${value}`);
+            // }
+            // AJAX request 
         }
-
-        const formData = new FormData($form[0]);
-
-        // AJAX request 
 
     });
 
     $(".reseller_signup__back-btn-2").on("click", function(event) {
-        $("#auth-page__cta__signupForm-1").removeClass("signUp__form--hidden");
-        $("#auth-page__cta__signupForm-2").addClass("signUp__form--hidden");
+        $("#form1").removeClass("signUp__form--hidden");
+        $("#form2").addClass("signUp__form--hidden");
         $('.auth-page__cta__indicator').text('1/2');
     })
 
@@ -310,6 +327,16 @@ $(document).ready(function() {
             $('#validId').prop('disabled', false);
         }
     });
+
+    $('#ageConfirmation').on("change", function(event) {
+        const isAgeConfirmed = $(this).is(':checked');
+
+        if (!isAgeConfirmed) {
+            $("#ageConfirmation__error").removeClass('ageConfirmation__hidden');
+        } else {
+            $("#ageConfirmation__error").addClass('ageConfirmation__hidden');
+        }
+    })
 
     // Log In 
     $('.reseller_login__btn').on('click', function(event) {
@@ -341,6 +368,7 @@ $(document).ready(function() {
     });
 
     // Next Button
+
 
 
 });
