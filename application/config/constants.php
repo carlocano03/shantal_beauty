@@ -3,26 +3,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 define('TIMEZONE', 'Asia/Manila');
 
 //counter
-define("SCHOLARSHIP_APP", 1);
-define("SCHOLAR_MEMBER", 2);
+define("RESELLER_APP", 1);
 
-//User Type
-define("ADMINISTRATOR", 1);
-define("ADMIN_STAFF", 2);
-define("STUDENT", 3);
 
-//Permission
-define('DASHBOARD', 1);
-define('SCHOLAR_APPLICATION', 2);
-define('STUDENT_RECORD', 3);
-define('ACCOUNT_MANAGEMENT', 4);
-define('CHURCH_SCHEDULE', 5);
-define('LATE_RULES', 6);
-define('ATTENDANCE', 7);
-define('APPROVAL_SCHOLAR', 8);
-define('BIOMETRIC_LOGS', 9);
-define('EVENT_MANAGEMENT', 10);
-define('POLL_SUGGESTION', 11);
 /*
 |--------------------------------------------------------------------------
 | Display Debug backtrace
