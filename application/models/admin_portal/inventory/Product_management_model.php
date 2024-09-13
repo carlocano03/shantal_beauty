@@ -225,4 +225,11 @@ class Product_management_model extends MY_Model
         }
     }
 
+    function delete_product($delete_product, $product_id)
+    {
+        $this->db->where('product_id', $product_id);
+        $delete = $this->db->update('product', $delete_product);
+        return $delete?TRUE:FALSE;
+    }
+
 }

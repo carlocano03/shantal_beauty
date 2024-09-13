@@ -363,7 +363,9 @@ class Product_management extends MY_Controller
                             data-net_wt="'.$list->net_weight.'"
                             data-price="'.$list->selling_price.'"
                         ><i class="bi bi-pencil-square me-2"></i>Update Product</a></li>
-                        <li><a class="dropdown-item link-cursor text-danger delete"><i class="bi bi-trash3-fill me-2"></i>Delete Product</a></li>
+                        <li><a class="dropdown-item link-cursor text-danger delete_product"
+                            data-product_id="'.$list->product_id.'"
+                        ><i class="bi bi-trash3-fill me-2"></i>Delete Product</a></li>
                     </ul>
                 </div>
             ';
@@ -379,6 +381,31 @@ class Product_management extends MY_Controller
             "data" => $data,
             "csrf_token_value" => $this->security->get_csrf_hash(),
             "csrf_token_name" => $this->security->get_csrf_token_name(),
+        );
+        echo json_encode($output);
+    }
+
+    public function delete_product()
+    {
+        $success = '';
+        $error = '';
+
+        $product_id = $this->input->post('product_id', true);
+
+        $delete_product = array(
+            'date_deleted' => date('Y-m-d H:i:s'),
+            'status' => 2, //Deleted
+        );
+
+        $result = $this->product_management->delete_product($delete_product, $product_id);
+        if ($result == TRUE) {
+            $success = 'Product successfully deleted.';
+        } else {
+            $error = 'Failed to delete the product.';
+        }
+        $output = array(
+            'error' => $error,
+            'success' => $success,
         );
         echo json_encode($output);
     }

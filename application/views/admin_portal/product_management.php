@@ -296,6 +296,55 @@
                 }
             });
         }
+
+        $(document).on('click', '.delete_product', function() {
+            var product_id = $(this).data('product_id');
+            Swal.fire({
+                title: 'Are you sure..',
+                text: "You want to delete this product?",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, continue',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "<?= base_url('admin_portal/inventory/product_management/delete_product')?>",
+                        method: "POST",
+                        data: {
+                            product_id: product_id,
+                            '_token': csrf_token_value,
+                        },
+                        dataType: "json",
+                        success: function(data) {
+                            if (data.error != '') {
+                                Swal.fire({
+                                    icon: 'warning',
+                                    title: 'Oops...',
+                                    text: data.error,
+                                }); 
+                            } else {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Thank you!',
+                                    text: data.success,
+                                });
+                                tbl_product.draw();
+                            }
+                        },
+                        error :function() {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: 'An error occurred while processing the request.',
+                            });
+                        }
+                    });
+                }
+            });
+
+        });
     });
 </script>
 

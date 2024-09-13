@@ -30,6 +30,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" defer></script>
     <!--   CSRF Token   -->
+    <script src="<?php echo base_url('assets/js/form-validate.js'); ?>"></script>
     <script src="<?php echo base_url('assets/js/csrf_generator.js'); ?>"></script>
     <script>
     var csrf_token_name = "<?php echo $this->security->get_csrf_token_name(); ?>";
@@ -44,6 +45,24 @@
             endforeach;
         }
     ?>
+
+    <style>
+        .loading-screen {
+            overflow: hidden;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            /* background-color: #fff; */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            /* Make sure it appears on top of other elements */
+        }
+    </style>
 </head>
 
 
