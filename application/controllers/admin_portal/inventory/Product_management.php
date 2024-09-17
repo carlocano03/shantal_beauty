@@ -30,7 +30,7 @@ class Product_management extends MY_Controller
         $this->output->set_header('Cache-Control: no-store, no-cache');
         
         //Check Session
-        // $this->check_session('adminIn', 'login');
+        $this->check_session('adminIn', 'admin/login');
     } //End __construct
 
     private function upload_product_image()

@@ -207,7 +207,9 @@
                                             <input type="file" name="validId" class="form-control signup__input"
                                                 id="validId" accept="image/*" required disabled>
                                             <div class="invalid-feedback">Please upload a valid ID.</div>
+                                            <img id="image_preview" style="display: none; max-width: 70%;" alt="Image Preview"/>
                                         </div>
+                                        
                                     </div>
                                     <div class="row mt-3">
                                         <div class="col-12">
@@ -315,6 +317,40 @@
 <script>
 $(document).ready(function() {
     var age_confirmation = 0;
+    const imagePreview = $('#image_preview');
+    let cropper;
+
+    $('#validId').on('change', function(e) {
+        const file = e.target.files[0];  
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                imagePreview.attr('src', e.target.result).show(); // Set and show the image preview
+
+                // Destroy the existing cropper instance if there is one
+                if (cropper) {
+                    cropper.destroy();
+                }
+
+                // Initialize the cropper on the preview image
+                cropper = new Cropper(imagePreview[0], {
+                    aspectRatio: 86 / 54,  // Aspect ratio for an ID card
+                    viewMode: 1,           // Limit the crop box within the container
+                    dragMode: 'move',      // Enable moving the image
+                    cropBoxMovable: true,  // Allow the crop box to be moved
+                    cropBoxResizable: true,// Allow resizing the crop box
+                    zoomable: true,        // Enable zooming
+                    scalable: true, 
+                    autoCropArea: 1.0,
+                });
+            };
+            reader.readAsDataURL(file); // Read the file as a data URL
+        } else {
+            imagePreview.hide();
+        }
+    });
+
+
     // Sign Up 
     $('.reseller_signup__next-btn-1').on('click', function(event) {
         const $form1 = $('#form1');
@@ -333,7 +369,12 @@ $(document).ready(function() {
             $("#form1").addClass("signUp__form--hidden");
             $('.auth-page__cta__indicator').text('2/2');
         }
+
+        // $("#form2").removeClass("signUp__form--hidden");
+        // $("#form1").addClass("signUp__form--hidden");
+        // $('.auth-page__cta__indicator').text('2/2');
     });
+    
 
     $('.reseller_signup__next-btn-2').on('click', function(event) {
         event.preventDefault();
@@ -372,7 +413,6 @@ $(document).ready(function() {
             formData.append('phoneNumber', $('#phoneNumber').val());
             formData.append('signupReferralCode', $('#signupReferralCode').val());
             formData.append('typeOfId', $('#typeOfId').val());
-            formData.append('validId', $('#validId')[0].files[0]);
             formData.append('tin', $('#tin').val());
             formData.append('account_commission', $('#account_commission').val());
             formData.append('bank_name', $('#bank_name').val());
@@ -390,45 +430,52 @@ $(document).ready(function() {
                 confirmButtonText: 'Yes, continue',
             }).then((result) => {
                 if (result.isConfirmed) {
-                    $.ajax({
-                        url: "<?= base_url('reseller/reseller_application/save_application')?>",
-                        method: "POST",
-                        data: formData,
-                        contentType: false,
-                        processData: false,
-                        dataType: "json",
-                        beforeSend: function () {
-                            $('.loading-screen').show();
-                        },
-                        success: function(data) {
-                            if (data.error != '') {
+                    cropper.getCroppedCanvas({
+                        width: 639,  // Width in pixels for 2.13 inches at 300dpi
+                        height: 1014
+                    }).toBlob(function(blob) {
+                        formData.append('validId', blob, 'cropped_image.png');
+                        
+                        $.ajax({
+                            url: "<?= base_url('reseller/reseller_application/save_application')?>",
+                            method: "POST",
+                            data: formData,
+                            contentType: false,
+                            processData: false,
+                            dataType: "json",
+                            beforeSend: function () {
+                                $('.loading-screen').show();
+                            },
+                            success: function(data) {
+                                if (data.error != '') {
+                                    Swal.fire({
+                                        icon: 'warning',
+                                        title: 'Oops...',
+                                        text: data.error,
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Thank you!',
+                                        text: data.success,
+                                    });
+                                    setTimeout(() => {
+                                        location.reload();
+                                    }, 2000);
+                                }
+                            },
+                            complete: function () {
+                                $('.loading-screen').hide();
+                            },
+                            error: function () {
+                                $('.loading-screen').hide();
                                 Swal.fire({
-                                    icon: 'warning',
-                                    title: 'Oops...',
-                                    text: data.error,
+                                    icon: 'error',
+                                    title: 'Ooops...',
+                                    text: 'An error occurred while processing the request.',
                                 });
-                            } else {
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Thank you!',
-                                    text: data.success,
-                                });
-                                setTimeout(() => {
-                                    location.reload();
-                                }, 2000);
                             }
-                        },
-                        complete: function () {
-                            $('.loading-screen').hide();
-                        },
-                        error: function () {
-                            $('.loading-screen').hide();
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Ooops...',
-                                text: 'An error occurred while processing the request.',
-                            });
-                        }
+                        });
                     });
                 }
             });

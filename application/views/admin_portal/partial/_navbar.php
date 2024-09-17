@@ -43,8 +43,8 @@
                                 </div>
                             </div>
                             <div class="flex-grow-1">
-                                <span class="fw-semibold d-block">Sample Name</span>
-                                <small class="text-muted"><i>carlocano03@gmail.com</i></small>
+                                <span class="fw-semibold d-block"><?= $this->session->userdata('adminIn')['fullname']?></span>
+                                <small class="text-muted"><i><?= $this->session->userdata('adminIn')['email_add']?></i></small>
                             </div>
                         </div>
                     </a>
@@ -62,7 +62,7 @@
                     <div class="dropdown-divider"></div>
                 </li>
                 <li>
-                    <a class="dropdown-item" href="<?= base_url('main/logout/adminIn');?>">
+                    <a class="dropdown-item" href="<?= base_url('admin_portal/login/logout/adminIn');?>">
                         <i class="bx bx-power-off me-2"></i>
                         <span class="align-middle">Log Out</span>
                     </a>

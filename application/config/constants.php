@@ -4,8 +4,19 @@ define('TIMEZONE', 'Asia/Manila');
 
 //counter
 define("RESELLER_APP", 1);
+define("RESELLER", 2);
 
+//User Type
+define("ADMINISTRATOR", 1);
+define("ADMIN_STAFF", 2);
+define("RESELLER_USER", 3);
 
+//Permissions
+define("RESELLERS", 1);
+define("RESELLER_ACCT", 2);
+define("USER_ACCT", 3);
+define("PRODUCT", 4);
+define("ACCOUNT_MANAGEMENT", 5);
 /*
 |--------------------------------------------------------------------------
 | Display Debug backtrace

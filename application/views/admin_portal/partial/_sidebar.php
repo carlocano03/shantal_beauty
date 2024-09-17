@@ -24,6 +24,9 @@
     } elseif ($active_page == 'product_page') {
         $inventory = TRUE;
         $product_management = TRUE;
+    } elseif ($active_page == 'account_management_page') {
+        $settings = TRUE;
+        $account_management = TRUE;
     }
 
 
