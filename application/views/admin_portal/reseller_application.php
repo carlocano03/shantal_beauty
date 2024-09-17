@@ -13,6 +13,18 @@
         color: #434875;
         box-shadow: 0 9px 20px rgba(46, 35, 94, .07);
     }
+
+    #tbl_reseller th:nth-child(1),
+    #tbl_reseller td:nth-child(1),
+    #tbl_reseller th:nth-child(4),
+    #tbl_reseller td:nth-child(4),
+    #tbl_reseller th:nth-child(5),
+    #tbl_reseller td:nth-child(5),
+    #tbl_reseller th:nth-child(6),
+    #tbl_reseller td:nth-child(6) {
+        text-align: center;
+    }
+
 </style>
 <!-- Content wrapper -->
 <div class="content-wrapper">
@@ -28,6 +40,7 @@
                 <table class="table" width="100%" id="tbl_reseller">
                     <thead>
                         <tr>
+                            <th>No.</th>
                             <th>Reference No</th>
                             <th>Complete Name</th>
                             <th>Application Date</th>
@@ -56,20 +69,20 @@
                 }
             },
             "ordering": false,
-            // "serverSide": true,
-            // "processing": true,
-            // "deferRender": true,
-            // "ajax": {
-            //     "url": "<?= base_url('portal/admin_portal/biometric_logs/get_biometric_logs')?>",
-            //     "type": "POST",
-            //     "data": function(d) {
-            //         d[csrf_token_name] = csrf_token_value;
-            //     },
-            //     "complete": function(res) {
-            //         csrf_token_name = res.responseJSON.csrf_token_name;
-            //         csrf_token_value = res.responseJSON.csrf_token_value;
-            //     }
-            // }
+            "serverSide": true,
+            "processing": true,
+            "deferRender": true,
+            "ajax": {
+                "url": "<?= base_url('admin_portal/reseller_application/get_reseller_application')?>",
+                "type": "POST",
+                "data": function(d) {
+                    d[csrf_token_name] = csrf_token_value;
+                },
+                "complete": function(res) {
+                    csrf_token_name = res.responseJSON.csrf_token_name;
+                    csrf_token_value = res.responseJSON.csrf_token_value;
+                }
+            }
         });
     });
 </script>
