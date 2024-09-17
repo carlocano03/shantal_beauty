@@ -52,6 +52,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 //ADMINISTRATOR PORTAL
 $route['admin/dashboard'] = 'admin_portal/main/index';
+$route['admin/login'] = 'admin_portal/main/login';
+
 $route['admin/reseller-application'] = 'admin_portal/main/reseller_application';
 $route['admin/reseller-account'] = 'admin_portal/main/reseller_account';
 $route['admin/user-account'] = 'admin_portal/main/user_account';
@@ -59,6 +61,11 @@ $route['admin/product-management'] = 'admin_portal/main/product_management';
 $route['admin/product-management/stock-in'] = 'admin_portal/main/stock_in';
 
 $route['reseller'] = 'reseller/main/index';
+
+$route['shop'] = 'shop/main/index';
+$route['shop/product-details'] = 'shop/main/product_details';
+
+
 
 $route['default_controller'] = 'main';
 $route['404_override'] = 'main/page404';

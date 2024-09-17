@@ -53,6 +53,10 @@ class Main extends MY_Controller
         $this->load->view('admin_portal/partial/_footer', $data);
     }
 
+	public function login(){
+        $this->load->view('admin_portal/login');
+	}
+
     public function reseller_application()
     {
         //$data['role_permissions'] = $this->role_permissions();
