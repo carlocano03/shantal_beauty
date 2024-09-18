@@ -1,7 +1,7 @@
 <?php
     $dashboard = FALSE;
-    $request = FALSE;
-    $reseller = FALSE;
+    $settings = FALSE;
+    $voucher = FALSE;
     $inventory = FALSE;
 
     if ($active_page == 'dashboard_page') {
@@ -11,6 +11,9 @@
         $reseller = TRUE;
     } elseif ($active_page == 'inventory_page') {
         $inventory = TRUE;
+    } elseif ($active_page == 'voucher_page') {
+        $settings = TRUE;
+        $voucher = TRUE;
     }
 
 
@@ -188,24 +191,24 @@
                 </li>
 
                 <!-- Request -->
-                <li class="menu-header  btn btn-toggle" data-bs-toggle="collapse" data-bs-target="#request"
-                    aria-expanded="<?= ($request) ? 'true' : '';?>">
+                <li class="menu-header  btn btn-toggle" data-bs-toggle="collapse" data-bs-target="#settings"
+                    aria-expanded="<?= ($settings) ? 'true' : '';?>">
                     <div class="d-flex justify-content-between align-items-center ">
                         <div class="d-flex align-items-center">
-                            <i class="menu-icon tf-icons bi bi-window-stack" style="color:#ffffff;"></i>
-                            <div class="menu-header-text">Application Request <span class="badge bg-danger application_request"></span></div>
+                            <i class="menu-icon tf-icons bi bi-gear-fill" style="color:#ffffff;"></i>
+                            <div class="menu-header-text">Manage Settings</div>
                         </div>
                         <div class="icon-chevron"></div>
                     </div>
                 </li>
 
                 <div>
-                    <div class="collapse <?= ($request) ? 'show' : '';?>" id="request" style="">
+                    <div class="collapse <?= ($settings) ? 'show' : '';?>" id="settings" style="">
                         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small sidebar-menu">
-                            <li class="menu-item sidebar-menu-item <?= ($reseller) ? 'active' : '';?>">
-                                <a href="<?= base_url('admin/reseller-application');?>"
-                                    class="<?= ($reseller) ? 'menu-link-active-2' : '';?> menu-link">
-                                    <div data-i18n="Account">Resellers <span class="badge bg-danger reseller_request"></span></div>
+                            <li class="menu-item sidebar-menu-item <?= ($voucher) ? 'active' : '';?>">
+                                <a href="<?= base_url('reseller/voucher-creation');?>"
+                                    class="<?= ($voucher) ? 'menu-link-active-2' : '';?> menu-link">
+                                    <div data-i18n="Account">Voucher Creation</div>
                                 </a>
                             </li>
                         </ul>

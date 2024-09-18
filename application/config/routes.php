@@ -67,6 +67,7 @@ $route['reseller'] = 'reseller/main/index';
 $route['reseller/dashboard'] = 'reseller/dashboard/index';
 $route['reseller/inventory'] = 'reseller/dashboard/inventory';
 $route['reseller/inventory/product-information'] = 'reseller/dashboard/product_information';
+$route['reseller/voucher-creation'] = 'reseller/dashboard/voucher_creation';
 
 $route['shop'] = 'shop/main/index';
 $route['shop/product-details'] = 'shop/main/product_details';
