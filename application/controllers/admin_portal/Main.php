@@ -34,7 +34,7 @@ class Main extends MY_Controller
 
     public function index()
     {
-        //$data['role_permissions'] = $this->role_permissions();
+        $data['role_permissions'] = $this->role_permissions();
         $data['home_url'] = base_url('admin/dashboard');
         $data['active_page'] = 'dashboard_page';
         $data['card_title'] = 'Dashboard';
@@ -56,7 +56,7 @@ class Main extends MY_Controller
 
     public function reseller_application()
     {
-        //$data['role_permissions'] = $this->role_permissions();
+        $data['role_permissions'] = $this->role_permissions();
         $data['home_url'] = base_url('admin/dashboard');
         $data['active_page'] = 'reseller_page';
         $data['card_title'] = 'Resellers Application';
@@ -78,7 +78,7 @@ class Main extends MY_Controller
 
     public function reseller_application_info()
     {
-        //$data['role_permissions'] = $this->role_permissions();
+        $data['role_permissions'] = $this->role_permissions();
         $this->load->model('admin_portal/reseller_application_model', 'reseller_application');
         $application_id = $this->cipher->decrypt($this->input->get('application', true));
 
@@ -106,7 +106,7 @@ class Main extends MY_Controller
 
     public function reseller_account()
     {
-        //$data['role_permissions'] = $this->role_permissions();
+        $data['role_permissions'] = $this->role_permissions();
         $data['home_url'] = base_url('admin/dashboard');
         $data['active_page'] = 'reseller_account_page';
         $data['card_title'] = 'Resellers Account';
@@ -128,7 +128,7 @@ class Main extends MY_Controller
 
     public function reseller_account_info()
     {
-        //$data['role_permissions'] = $this->role_permissions();
+        $data['role_permissions'] = $this->role_permissions();
         $this->load->model('admin_portal/reseller_application_model', 'reseller_application');
         $reseller_id = $this->cipher->decrypt($this->input->get('id', true));
 
@@ -156,7 +156,7 @@ class Main extends MY_Controller
 
     public function user_account()
     {
-        //$data['role_permissions'] = $this->role_permissions();
+        $data['role_permissions'] = $this->role_permissions();
         $data['home_url'] = base_url('admin/dashboard');
         $data['active_page'] = 'user_account_page';
         $data['card_title'] = 'Users Account';
@@ -178,7 +178,7 @@ class Main extends MY_Controller
 
     public function product_management()
     {
-        //$data['role_permissions'] = $this->role_permissions();
+        $data['role_permissions'] = $this->role_permissions();
         $data['home_url'] = base_url('admin/dashboard');
         $data['active_page'] = 'product_page';
         $data['card_title'] = 'Product Management';
@@ -200,7 +200,7 @@ class Main extends MY_Controller
 
     public function stock_in()
     {
-        //$data['role_permissions'] = $this->role_permissions();
+        $data['role_permissions'] = $this->role_permissions();
         $this->load->model('admin_portal/inventory/product_management_model', 'product_management');
         $product_id = $this->cipher->decrypt($this->input->get('product', true));
 
@@ -227,7 +227,7 @@ class Main extends MY_Controller
 
     public function account_management()
     {
-        //$data['role_permissions'] = $this->role_permissions();
+        $data['role_permissions'] = $this->role_permissions();
         $data['home_url'] = base_url('admin/dashboard');
         $data['active_page'] = 'account_management_page';
         $data['card_title'] = 'Admin Staff Account';
@@ -258,6 +258,44 @@ class Main extends MY_Controller
             'reseller_request' => $reseller,
         );
 
+        echo json_encode($output);
+    }
+
+    public function check_old_pass()
+    {
+        $success = '';
+        $error = '';
+        $old_pass = $this->input->post('old_pass', true);
+
+        $checkPass = $this->main_model->check_old_pass($old_pass);
+        if ($checkPass) {
+            $success == 'Success';
+        } else {
+            $error = 'Please input the correct password';
+        }
+        $output = array(
+            'success' => $success,
+            'error' => $error,
+        );
+        echo json_encode($output);
+    }
+
+    public function update_password()
+    {
+        $message = '';
+        $new_password = $this->input->post('password', true);
+
+        $update_password = array(
+            'password' => password_hash($new_password, PASSWORD_DEFAULT),
+            'temp_password' => '',
+        );
+        $result = $this->main_model->update_password($update_password);
+        if ($result == TRUE) {
+            $message = 'Success';
+        } else {
+            $message = 'Error';
+        }
+        $output['message'] = $message;
         echo json_encode($output);
     }
 

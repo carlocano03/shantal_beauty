@@ -111,7 +111,7 @@
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 
 <script>
-    var temp_pass = "<?= $this->session->userdata('adminIn')['temp_pass']?>";
+    var temp_pass = "<?= $this->session->userdata('resellerIn')['temp_pass']?>";
 
     function checkPasswordMatch() {
         var password = $("#new_password").val();
@@ -129,34 +129,7 @@
         }
     }
 
-    function sidebarCount() {
-        $.ajax({
-            url: "<?= base_url('admin_portal/main/get_sidebar_count')?>",
-            method: "GET",
-            dataType: "json",
-            success: function(data) {
-                if (data.application_request > 0) {
-                    $('.application_request').text(data.application_request);
-                } else {
-                    $('.application_request').text('');
-                }
-
-                if (data.application_request > 0) {
-                    $('.reseller_request').text(data.reseller_request);
-                } else {
-                    $('.reseller_request').text('');
-                }
-                
-            }
-        });
-    }
     $(document).ready(function() {
-        sidebarCount();
-
-        setInterval(() => {
-            sidebarCount();
-        }, 5000);
-
         if (temp_pass != '') {
             $('#passwordModal').modal('show');
         } else {
@@ -167,7 +140,7 @@
             var old_pass = $(this).val();
 
             $.ajax({
-                url: "<?= base_url('admin_portal/main/check_old_pass')?>",
+                url: "<?= base_url('reseller/dashboard/check_old_pass')?>",
                 method: "POST",
                 data: {
                     old_pass: old_pass,
@@ -223,7 +196,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
-                            url: "<?= base_url('admin_portal/main/update_password')?>",
+                            url: "<?= base_url('reseller/dashboard/update_password')?>",
                             method: "POST",
                             data: formData,
                             contentType: false,
@@ -238,7 +211,7 @@
                                     });
                                     setTimeout(() => {
                                         window.location.href =
-                                            "<?= base_url('admin_portal/login/logout/adminIn');?>";
+                                            "<?= base_url('reseller/main/logout/resellerIn');?>";
                                     }, 2000);
                                 } else {
                                     Swal.fire({

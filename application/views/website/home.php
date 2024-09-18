@@ -29,7 +29,7 @@
 </main>
 
 <!-- Modal -->
-<div class="modal fade" id="signup" tabindex="-1" aria-labelledby="signup" aria-hidden="true">
+<div class="modal fade" id="signup" data-bs-backdrop="static" tabindex="-1" aria-labelledby="signup" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content signup_modal-content">
             <h1 class="signup__title">Sign up</h1>
@@ -44,24 +44,31 @@
                 </div>
 
                 <div class="col-12">
-                    <label for="signupAddress" class="form-label signup__label">Address</label>
+                    <label for="signupAddress" class="form-label signup__label">Complete Address</label>
                     <input type="text" class="form-control signup__input" id="signupAddress"
-                        placeholder="Enter your address" required>
-                    <div class="invalid-feedback">Please enter your address.</div>
+                        placeholder="Enter your complete address" required>
+                    <div class="invalid-feedback">Please enter your complete address.</div>
                 </div>
 
                 <div class="col-12">
-                    <label for="signupPhoneNumber" class="form-label signup__label">Phone Number</label>
-                    <input type="text" class="form-control signup__input" id="signupPhoneNumber"
+                    <label for="signupPhoneNumber" class="form-label signup__label">Mobile Number</label>
+                    <input type="text" class="form-control signup__input number-input" id="signupPhoneNumber"
                         placeholder="Enter your phone number" required>
                     <div class="invalid-feedback">Please enter a valid 10-digit phone number.</div>
                 </div>
 
                 <div class="col-12">
-                    <label for="signupEmail" class="form-label signup__label">Email</label>
+                    <label for="signupEmail" class="form-label signup__label">Email Address</label>
                     <input type="email" class="form-control signup__input" id="signupEmail"
-                        placeholder="Enter your email" required>
+                        placeholder="Enter your email address" required>
                     <div class="invalid-feedback">Please enter a valid email address.</div>
+                </div>
+
+                <div class="col-12">
+                    <label for="signupPassword" class="form-label signup__label">Password</label>
+                    <input type="password" class="form-control signup__input" id="signupPassword"
+                        placeholder="Enter your password" required>
+                    <div class="invalid-feedback">Please enter a valid password.</div>
                 </div>
 
                 <div class="col-12 mb-4">
@@ -82,7 +89,7 @@
 
 
 <!-- Modal -->
-<div class="modal fade" id="login" tabindex="-1" aria-labelledby="login" aria-hidden="true">
+<div class="modal fade" id="login" data-bs-backdrop="static" tabindex="-1" aria-labelledby="login" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content login_modal-content">
             <h1 class="login__greeting">Welcome Back!</h1>
@@ -121,27 +128,169 @@
     </div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="otpModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="login" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content login_modal-content">
+            <h1 class="login__title">Email Verification</h1>
+            <p class="login__p">Please check your email to get the OTP to verify your account.</p>
+            <hr>
+            <div class="message"></div>
+            <div class="col-12">
+                <input type="text" class="form-control login__input" id="otp_number" placeholder="Enter OTP Number">
+            </div>
+
+            <div class="col-12 mb-4">
+                <button type="button" class="verify__button">Verify Account</button>
+            </div>
+            <hr>
+            <div class="col-12">
+                <p class="login__account">
+                    Didn't receive the OTP? <span type="button" class="signup__link" id="resend_otp">Resend OTP</span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="loading-screen text-center" style="display: none;">
+    <div class="spinner-border text-dark" role="status">
+
+    </div>
+</div>
 
 <script>
 const signUpBtn = document.querySelector('.signup__button');
 const loginBtn = document.querySelector('.login__button');
 
 // Sign Up 
-signUpBtn.addEventListener('click', function(event) {
+$(document).ready(function() {
+    var user_details_id = 0;
+    var email_address = '';
 
-    const form = document.getElementById('signupForm');
-
-    if (!form.checkValidity()) {
+    $(document).on('click', '.signup__button', function(event) {
         event.preventDefault();
         event.stopPropagation();
+
+        var form = $('#signupForm')[0];
+        var formData = new FormData(form);
+        formData.append('full_name', $('#signupFullName').val());
+        formData.append('complete_address', $('#signupAddress').val());
+        formData.append('contact_no', $('#signupPhoneNumber').val());
+        formData.append('email_address', $('#signupEmail').val());
+        formData.append('password', $('#signupPassword').val());
+        formData.append('_token', csrf_token_value);
+
         form.classList.add('was-validated');
-        return;
-    }
+        if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+        } else {
+            Swal.fire({
+                title: 'Are you sure..',
+                text: "You want to continue this transaction?",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, continue',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "<?= base_url('shop/login_process/signup_user')?>",
+                        method: "POST",
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        dataType: "json",
+                        beforeSend: function () {
+                            $('.loading-screen').show();
+                        },
+                        success: function(data) {
+                            if (data.error != '') {
+                                Swal.fire({
+                                    icon: 'warning',
+                                    title: 'Ooops...',
+                                    text: data.error,
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Thank You!',
+                                    text: data.success,
+                                });
+                                $('#signup').modal('hide');
+                                form.reset();
+                                form.classList.remove('was-validated');
 
-    const formData = new FormData(form);
+                                user_details_id = data.user_details_id;
+                                email_address = data.email_address;
+                                //Email OTP
+                                $('#otpModal').modal('show');
+                            }
+                        },
+                        complete: function () {
+                            $('.loading-screen').hide();
+                        },
+                        error: function () {
+                            $('.loading-screen').hide();
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Ooops...',
+                                text: 'An error occurred while processing the request.',
+                            });
+                        }
+                    });
+                }
+            });
+        }
+    });
 
+    $(document).on('click', '.verify__button', function() {
+        var otp_no = $('#otp_number').val();
 
-
+        if (otp_no != '') {
+            $.ajax({
+                url: "<?= base_url('shop/login_process/verify_account')?>",
+                method: "POST",
+                data: {
+                    user_details_id: user_details_id,
+                    email_address: email_address,
+                    otp_no: otp_no,
+                    '_token': csrf_token_value,
+                },
+                dataType: "json",
+                success: function (data) {
+                    if (data.error != '') {
+                        $('.message').html(data.error);
+                        setTimeout(() => {
+                            $('.message').html('');
+                        }, 3000);
+                    } else {
+                        $('.message').html(data.success);
+                        setTimeout(() => {
+                            $('.message').html('');
+                            $('#otp_number').val('');
+                            $('#login').modal('show');
+                            $('#otpModal').modal('hide');
+                        }, 3000);
+                        
+                    }
+                },
+				error: function () {
+                    $('.message').html('<div class="alert alert-danger"><i class="bi bi-info-circle-fill me-2"></i>An error occurred while processing the request.</div>');
+                    setTimeout(() => {
+                        $('.message').html('');
+                    }, 3000);
+				}
+            });
+        } else {
+            $('.message').html('<div class="alert alert-danger"><i class="bi bi-info-circle-fill me-2"></i>Please provide a valid OTP.</div>');
+            setTimeout(() => {
+                $('.message').html('');
+            }, 3000);
+        }
+    });
 });
 
 // Login 
