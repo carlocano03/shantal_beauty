@@ -63,6 +63,7 @@ class Main extends MY_Controller
                         'fullname'      => $user_details['first_name'] .' '. $user_details['last_name'],
                         'email_add'     => $user_details['email_address'],
                         'referral_code' => $user_details['referral_code'],
+                        'reseller_id'   => $user_details['reseller_id'],
                         'temp_pass'     => $session['temp_password'],
                     );
                     $this->session->set_userdata('resellerIn', $sess_array);
