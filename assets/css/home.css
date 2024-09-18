@@ -116,12 +116,12 @@ textarea {
 	font-size:1.2rem;
 }
 
-.signup__input,.login__input{
+.signup__input,.login__input,.verify__button{
 	font-size:1.1rem;
 	padding:8px 12px;
 }
 
-.signup__button,.login__button{
+.signup__button,.login__button,.verify__button{
 	color:var(--secondary-white);
 	background-color:var(--primary-black);
 	font-size:1.4rem;
@@ -133,7 +133,7 @@ textarea {
 	margin-top:16px;
 	transition: all 0.3s;
 }
-.signup__button:hover,.login__button:hover{
+.signup__button:hover,.login__button:hover,.verify__button:hover{
 	opacity:0.8;
 }
 

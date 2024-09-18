@@ -338,7 +338,7 @@ class Product_management extends MY_Controller
 
             $row[] = ucwords($list->product_name);
             $row[] = $list->net_weight;
-            $row[] = number_format($list->selling_price);
+            $row[] = number_format($list->selling_price,2);
             $row[] = number_format($list->available_stocks);
             
             if ($list->available_stocks > 0) {

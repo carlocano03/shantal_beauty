@@ -64,10 +64,12 @@ $route['admin/product-management/stock-in'] = 'admin_portal/main/stock_in';
 $route['admin/account-management'] = 'admin_portal/main/account_management';
 
 $route['reseller'] = 'reseller/main/index';
+$route['reseller/dashboard'] = 'reseller/dashboard/index';
+$route['reseller/inventory'] = 'reseller/dashboard/inventory';
+$route['reseller/inventory/product-information'] = 'reseller/dashboard/product_information';
 
 $route['shop'] = 'shop/main/index';
 $route['shop/product-details'] = 'shop/main/product_details';
-
 
 
 $route['default_controller'] = 'main';

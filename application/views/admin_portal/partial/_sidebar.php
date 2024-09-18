@@ -187,124 +187,274 @@
             <div class="menu-inner-shadow"></div>
 
             <ul class="menu-inner py-1">
-                <li class="menu-item ">
-                    <a href="<?= base_url('admin/dashboard');?>"
-                        class="<?= ($dashboard) ? 'menu-link-active' : '';?> menu-link">
-                        <i class="menu-icon tf-icons bx bxs-dashboard"></i>
-                        <div data-i18n="Analytics">Dashboard</div>
-                    </a>
-                </li>
 
-                <!-- Request -->
-                <li class="menu-header  btn btn-toggle" data-bs-toggle="collapse" data-bs-target="#request"
-                    aria-expanded="<?= ($request) ? 'true' : '';?>">
-                    <div class="d-flex justify-content-between align-items-center ">
-                        <div class="d-flex align-items-center">
-                            <i class="menu-icon tf-icons bi bi-window-stack" style="color:#ffffff;"></i>
-                            <div class="menu-header-text">Application Request <span class="badge bg-danger application_request"></span></div>
+                <!-- ADMINISTRATOR MENU -->
+                <?php if ($this->session->userdata('adminIn')['user_type_id'] == ADMINISTRATOR) : ?>
+                    <li class="menu-item ">
+                        <a href="<?= base_url('admin/dashboard');?>"
+                            class="<?= ($dashboard) ? 'menu-link-active' : '';?> menu-link">
+                            <i class="menu-icon tf-icons bx bxs-dashboard"></i>
+                            <div data-i18n="Analytics">Dashboard</div>
+                        </a>
+                    </li>
+
+                    <!-- Request -->
+                    <li class="menu-header  btn btn-toggle" data-bs-toggle="collapse" data-bs-target="#request"
+                        aria-expanded="<?= ($request) ? 'true' : '';?>">
+                        <div class="d-flex justify-content-between align-items-center ">
+                            <div class="d-flex align-items-center">
+                                <i class="menu-icon tf-icons bi bi-window-stack" style="color:#ffffff;"></i>
+                                <div class="menu-header-text">Application Request <span class="badge bg-danger application_request"></span></div>
+                            </div>
+                            <div class="icon-chevron"></div>
                         </div>
-                        <div class="icon-chevron"></div>
-                    </div>
-                </li>
+                    </li>
 
-                <div>
-                    <div class="collapse <?= ($request) ? 'show' : '';?>" id="request" style="">
-                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small sidebar-menu">
-                            <li class="menu-item sidebar-menu-item <?= ($reseller) ? 'active' : '';?>">
-                                <a href="<?= base_url('admin/reseller-application');?>"
-                                    class="<?= ($reseller) ? 'menu-link-active-2' : '';?> menu-link">
-                                    <div data-i18n="Account">Resellers <span class="badge bg-danger reseller_request"></span></div>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- End -->
-
-                <!-- Request -->
-                <li class="menu-header  btn btn-toggle" data-bs-toggle="collapse" data-bs-target="#user"
-                    aria-expanded="<?= ($active_user) ? 'true' : '';?>">
-                    <div class="d-flex justify-content-between align-items-center ">
-                        <div class="d-flex align-items-center">
-                            <i class="menu-icon tf-icons bi bi-people" style="color:#ffffff;"></i>
-                            <div class="menu-header-text">Active Users</div>
+                    <div>
+                        <div class="collapse <?= ($request) ? 'show' : '';?>" id="request" style="">
+                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small sidebar-menu">
+                                <li class="menu-item sidebar-menu-item <?= ($reseller) ? 'active' : '';?>">
+                                    <a href="<?= base_url('admin/reseller-application');?>"
+                                        class="<?= ($reseller) ? 'menu-link-active-2' : '';?> menu-link">
+                                        <div data-i18n="Account">Resellers <span class="badge bg-danger reseller_request"></span></div>
+                                    </a>
+                                </li>
+                            </ul>
                         </div>
-                        <div class="icon-chevron"></div>
                     </div>
-                </li>
+                    <!-- End -->
 
-                <div>
-                    <div class="collapse <?= ($active_user) ? 'show' : '';?>" id="user" style="">
-                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small sidebar-menu">
-                            <li class="menu-item sidebar-menu-item <?= ($reseller_account) ? 'active' : '';?>">
-                                <a href="<?= base_url('admin/reseller-account');?>"
-                                    class="<?= ($reseller_account) ? 'menu-link-active-2' : '';?> menu-link">
-                                    <div data-i18n="Account">Resellers Account</div>
-                                </a>
-                            </li>
-
-                            <li class="menu-item sidebar-menu-item <?= ($user_account) ? 'active' : '';?>">
-                                <a href="<?= base_url('admin/user-account');?>"
-                                    class="<?= ($user_account) ? 'menu-link-active-2' : '';?> menu-link">
-                                    <div data-i18n="Account">User Account</div>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- End -->
-
-                <!-- Inventory management -->
-                <li class="menu-header  btn btn-toggle" data-bs-toggle="collapse" data-bs-target="#inventory"
-                    aria-expanded="<?= ($inventory) ? 'true' : '';?>">
-                    <div class="d-flex justify-content-between align-items-center ">
-                        <div class="d-flex align-items-center">
-                            <i class="menu-icon tf-icons bi bi-box-seam-fill" style="color:#ffffff;"></i>
-                            <div class="menu-header-text">Inventory Management</div>
+                    <!-- Request -->
+                    <li class="menu-header  btn btn-toggle" data-bs-toggle="collapse" data-bs-target="#user"
+                        aria-expanded="<?= ($active_user) ? 'true' : '';?>">
+                        <div class="d-flex justify-content-between align-items-center ">
+                            <div class="d-flex align-items-center">
+                                <i class="menu-icon tf-icons bi bi-people" style="color:#ffffff;"></i>
+                                <div class="menu-header-text">Active Users</div>
+                            </div>
+                            <div class="icon-chevron"></div>
                         </div>
-                        <div class="icon-chevron"></div>
-                    </div>
-                </li>
+                    </li>
 
-                <div>
-                    <div class="collapse <?= ($inventory) ? 'show' : '';?>" id="inventory" style="">
-                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small sidebar-menu">
-                            <li class="menu-item sidebar-menu-item <?= ($product_management) ? 'active' : '';?>">
-                                <a href="<?= base_url('admin/product-management');?>"
-                                    class="<?= ($product_management) ? 'menu-link-active-2' : '';?> menu-link">
-                                    <div data-i18n="Account">Product Management</div>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- End -->
+                    <div>
+                        <div class="collapse <?= ($active_user) ? 'show' : '';?>" id="user" style="">
+                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small sidebar-menu">
+                                <li class="menu-item sidebar-menu-item <?= ($reseller_account) ? 'active' : '';?>">
+                                    <a href="<?= base_url('admin/reseller-account');?>"
+                                        class="<?= ($reseller_account) ? 'menu-link-active-2' : '';?> menu-link">
+                                        <div data-i18n="Account">Resellers Account</div>
+                                    </a>
+                                </li>
 
-                <!-- Settings -->
-                <li class="menu-header  btn btn-toggle" data-bs-toggle="collapse" data-bs-target="#sample"
-                    aria-expanded="<?= ($settings) ? 'true' : '';?>">
-                    <div class="d-flex justify-content-between align-items-center ">
-                        <div class="d-flex align-items-center">
-                            <i class="menu-icon tf-icons bi bi-gear" style="color:#ffffff;"></i>
-                            <div class="menu-header-text">Manage Settings <span class="badge bg-danger settings_count"></span></div>
+                                <li class="menu-item sidebar-menu-item <?= ($user_account) ? 'active' : '';?>">
+                                    <a href="<?= base_url('admin/user-account');?>"
+                                        class="<?= ($user_account) ? 'menu-link-active-2' : '';?> menu-link">
+                                        <div data-i18n="Account">User Account</div>
+                                    </a>
+                                </li>
+                            </ul>
                         </div>
-                        <div class="icon-chevron"></div>
                     </div>
-                </li>
+                    <!-- End -->
 
-                <div>
-                    <div class="collapse <?= ($settings) ? 'show' : '';?>" id="sample" style="">
-                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small sidebar-menu">
-                            <li class="menu-item sidebar-menu-item <?= ($account_management) ? 'active' : '';?>">
-                                <a href="<?= base_url('admin/account-management');?>"
-                                    class="<?= ($account_management) ? 'menu-link-active-2' : '';?> menu-link">
-                                    <div data-i18n="Account">Account Management</div>
-                                </a>
-                            </li>
-                        </ul>
+                    <!-- Inventory management -->
+                    <li class="menu-header  btn btn-toggle" data-bs-toggle="collapse" data-bs-target="#inventory"
+                        aria-expanded="<?= ($inventory) ? 'true' : '';?>">
+                        <div class="d-flex justify-content-between align-items-center ">
+                            <div class="d-flex align-items-center">
+                                <i class="menu-icon tf-icons bi bi-box-seam-fill" style="color:#ffffff;"></i>
+                                <div class="menu-header-text">Inventory Management</div>
+                            </div>
+                            <div class="icon-chevron"></div>
+                        </div>
+                    </li>
+
+                    <div>
+                        <div class="collapse <?= ($inventory) ? 'show' : '';?>" id="inventory" style="">
+                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small sidebar-menu">
+                                <li class="menu-item sidebar-menu-item <?= ($product_management) ? 'active' : '';?>">
+                                    <a href="<?= base_url('admin/product-management');?>"
+                                        class="<?= ($product_management) ? 'menu-link-active-2' : '';?> menu-link">
+                                        <div data-i18n="Account">Product Management</div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
-                <!-- End -->
+                    <!-- End -->
+
+                    <!-- Settings -->
+                    <li class="menu-header  btn btn-toggle" data-bs-toggle="collapse" data-bs-target="#sample"
+                        aria-expanded="<?= ($settings) ? 'true' : '';?>">
+                        <div class="d-flex justify-content-between align-items-center ">
+                            <div class="d-flex align-items-center">
+                                <i class="menu-icon tf-icons bi bi-gear" style="color:#ffffff;"></i>
+                                <div class="menu-header-text">Manage Settings <span class="badge bg-danger settings_count"></span></div>
+                            </div>
+                            <div class="icon-chevron"></div>
+                        </div>
+                    </li>
+
+                    <div>
+                        <div class="collapse <?= ($settings) ? 'show' : '';?>" id="sample" style="">
+                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small sidebar-menu">
+                                <li class="menu-item sidebar-menu-item <?= ($account_management) ? 'active' : '';?>">
+                                    <a href="<?= base_url('admin/account-management');?>"
+                                        class="<?= ($account_management) ? 'menu-link-active-2' : '';?> menu-link">
+                                        <div data-i18n="Account">Account Management</div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- End -->
+                <!-- END OF ADMINISTRATOR -->
+
+
+                <!-- ADMIN STAFF MENU -->
+                <?php else : ?>
+
+                    <li class="menu-item ">
+                        <a href="<?= base_url('admin/dashboard');?>"
+                            class="<?= ($dashboard) ? 'menu-link-active' : '';?> menu-link">
+                            <i class="menu-icon tf-icons bx bxs-dashboard"></i>
+                            <div data-i18n="Analytics">Dashboard</div>
+                        </a>
+                    </li>
+
+                    <!-- Request -->
+                    <?php if (array_intersect([RESELLERS], $role_permissions)): ?>
+                    <li class="menu-header  btn btn-toggle" data-bs-toggle="collapse" data-bs-target="#request"
+                        aria-expanded="<?= ($request) ? 'true' : '';?>">
+                        <div class="d-flex justify-content-between align-items-center ">
+                            <div class="d-flex align-items-center">
+                                <i class="menu-icon tf-icons bi bi-window-stack" style="color:#ffffff;"></i>
+                                <div class="menu-header-text">Application Request <span class="badge bg-danger application_request"></span></div>
+                            </div>
+                            <div class="icon-chevron"></div>
+                        </div>
+                    </li>
+
+                    <div>
+                        <div class="collapse <?= ($request) ? 'show' : '';?>" id="request" style="">
+                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small sidebar-menu">
+                                <?php if (in_array(RESELLERS, $role_permissions)): ?>
+                                <li class="menu-item sidebar-menu-item <?= ($reseller) ? 'active' : '';?>">
+                                    <a href="<?= base_url('admin/reseller-application');?>"
+                                        class="<?= ($reseller) ? 'menu-link-active-2' : '';?> menu-link">
+                                        <div data-i18n="Account">Resellers <span class="badge bg-danger reseller_request"></span></div>
+                                    </a>
+                                </li>
+                                <?php endif;?>
+                            </ul>
+                        </div>
+                    </div>
+                    <?php endif;?>
+                    <!-- End -->
+
+                    <?php if (array_intersect([RESELLER_ACCT, USER_ACCT], $role_permissions)): ?>
+                    <!-- Active Users -->
+                    <li class="menu-header  btn btn-toggle" data-bs-toggle="collapse" data-bs-target="#user"
+                        aria-expanded="<?= ($active_user) ? 'true' : '';?>">
+                        <div class="d-flex justify-content-between align-items-center ">
+                            <div class="d-flex align-items-center">
+                                <i class="menu-icon tf-icons bi bi-people" style="color:#ffffff;"></i>
+                                <div class="menu-header-text">Active Users</div>
+                            </div>
+                            <div class="icon-chevron"></div>
+                        </div>
+                    </li>
+
+                    <div>
+                        <div class="collapse <?= ($active_user) ? 'show' : '';?>" id="user" style="">
+                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small sidebar-menu">
+                                <?php if (in_array(RESELLER_ACCT, $role_permissions)): ?>
+                                <li class="menu-item sidebar-menu-item <?= ($reseller_account) ? 'active' : '';?>">
+                                    <a href="<?= base_url('admin/reseller-account');?>"
+                                        class="<?= ($reseller_account) ? 'menu-link-active-2' : '';?> menu-link">
+                                        <div data-i18n="Account">Resellers Account</div>
+                                    </a>
+                                </li>
+                                <?php endif;?>
+
+                                <?php if (in_array(USER_ACCT, $role_permissions)): ?>
+                                <li class="menu-item sidebar-menu-item <?= ($user_account) ? 'active' : '';?>">
+                                    <a href="<?= base_url('admin/user-account');?>"
+                                        class="<?= ($user_account) ? 'menu-link-active-2' : '';?> menu-link">
+                                        <div data-i18n="Account">User Account</div>
+                                    </a>
+                                </li>
+                                <?php endif;?>
+                            </ul>
+                        </div>
+                    </div>
+                    <?php endif;?>
+                    <!-- End -->
+
+                    <?php if (array_intersect([PRODUCT], $role_permissions)): ?>
+                    <!-- Inventory management -->
+                    <li class="menu-header  btn btn-toggle" data-bs-toggle="collapse" data-bs-target="#inventory"
+                        aria-expanded="<?= ($inventory) ? 'true' : '';?>">
+                        <div class="d-flex justify-content-between align-items-center ">
+                            <div class="d-flex align-items-center">
+                                <i class="menu-icon tf-icons bi bi-box-seam-fill" style="color:#ffffff;"></i>
+                                <div class="menu-header-text">Inventory Management</div>
+                            </div>
+                            <div class="icon-chevron"></div>
+                        </div>
+                    </li>
+
+                    <div>
+                        <div class="collapse <?= ($inventory) ? 'show' : '';?>" id="inventory" style="">
+                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small sidebar-menu">
+                                <?php if (in_array(PRODUCT, $role_permissions)): ?>
+                                <li class="menu-item sidebar-menu-item <?= ($product_management) ? 'active' : '';?>">
+                                    <a href="<?= base_url('admin/product-management');?>"
+                                        class="<?= ($product_management) ? 'menu-link-active-2' : '';?> menu-link">
+                                        <div data-i18n="Account">Product Management</div>
+                                    </a>
+                                </li>
+                                <?php endif;?>
+                            </ul>
+                        </div>
+                    </div>
+                    <?php endif;?>
+                    <!-- End -->
+
+                    <?php if (array_intersect([ACCOUNT_MANAGEMENT], $role_permissions)): ?>
+                    <!-- Settings -->
+                    <li class="menu-header  btn btn-toggle" data-bs-toggle="collapse" data-bs-target="#sample"
+                        aria-expanded="<?= ($settings) ? 'true' : '';?>">
+                        <div class="d-flex justify-content-between align-items-center ">
+                            <div class="d-flex align-items-center">
+                                <i class="menu-icon tf-icons bi bi-gear" style="color:#ffffff;"></i>
+                                <div class="menu-header-text">Manage Settings <span class="badge bg-danger settings_count"></span></div>
+                            </div>
+                            <div class="icon-chevron"></div>
+                        </div>
+                    </li>
+
+                    <div>
+                        <div class="collapse <?= ($settings) ? 'show' : '';?>" id="sample" style="">
+                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small sidebar-menu">
+                                <?php if (in_array(ACCOUNT_MANAGEMENT, $role_permissions)): ?>
+                                <li class="menu-item sidebar-menu-item <?= ($account_management) ? 'active' : '';?>">
+                                    <a href="<?= base_url('admin/account-management');?>"
+                                        class="<?= ($account_management) ? 'menu-link-active-2' : '';?> menu-link">
+                                        <div data-i18n="Account">Account Management</div>
+                                    </a>
+                                </li>
+                                <?php endif;?>
+                            </ul>
+                        </div>
+                    </div>
+                    <?php endif;?>
+                    <!-- End -->
+
+                <!-- END OF ADMIN STAFF -->
+
+                <?php endif;?>
+                
             </ul>
         </aside>
 

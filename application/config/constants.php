@@ -10,6 +10,7 @@ define("RESELLER", 2);
 define("ADMINISTRATOR", 1);
 define("ADMIN_STAFF", 2);
 define("RESELLER_USER", 3);
+define("CUSTOMER", 4);
 
 //Permissions
 define("RESELLERS", 1);

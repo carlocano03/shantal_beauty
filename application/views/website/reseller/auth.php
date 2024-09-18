@@ -38,18 +38,19 @@
                         <h1 class="auth-page__hero__sub">Elevate Your Business with Premium Beauty Products</h1>
                     </div>
                     <!-- Login -->
-                    <div id="card__login" class="auth-page__cta auth__card--hidden">
+                    <div id="card__login" class="auth-page__cta">
                         <div class="auth-page__cta__card">
                             <h1 class="auth-page__cta__card__signup-title">Log In</h1>
                             <p class="auth-page__cta__card__signup-sub">Lorem ipsum dolor, sit amet consectetur
                                 adipisicing elit. A voluptatum</p>
 
+                            <div class="error-message"></div>
                             <form id="auth-page__cta__loginForm" class="row g-3 mt-3 needs-validation" novalidate>
                                 <div class="col-12">
-                                    <label for="loginEmail" class="form-label signup__label">Email</label>
-                                    <input type="email" name="loginEmail" class="form-control signup__input"
-                                        id="loginEmail" placeholder="Enter your email" required>
-                                    <div class="invalid-feedback">Please enter a valid email address.</div>
+                                    <label for="loginUser" class="form-label signup__label">Username</label>
+                                    <input type="text" name="loginUser" class="form-control signup__input"
+                                        id="loginUser" placeholder="Enter your username" required>
+                                    <div class="invalid-feedback">Please enter a valid username.</div>
                                 </div>
 
                                 <div class="col-12">
@@ -73,7 +74,7 @@
                         </div>
                     </div>
                     <!-- Sign up -->
-                    <div id="card__signup" class="auth-page__cta">
+                    <div id="card__signup" class="auth-page__cta auth__card--hidden">
                         <div class="auth-page__cta__card">
                             <div class="d-flex justify-content-between align-items-center">
                                 <h1 class="auth-page__cta__card__signup-title">Sign Up</h1>
@@ -564,22 +565,67 @@ $(document).ready(function() {
     });
 
 
-
     // Log In 
-    $('.reseller_login__btn').on('click', function(event) {
+    function handleLogin() {
+        var form = $('#auth-page__cta__loginForm')[0];
+        var formData = new FormData(form);
 
-        const $form = $('#auth-page__cta__loginForm');
+        formData.append('username', $('#loginUser').val());
+        formData.append('password', $('#loginPassword').val());
+        formData.append('_token', csrf_token_value);
 
-        if (!$form[0].checkValidity()) {
+        form.classList.add('was-validated');
+        if (form.checkValidity() === false) {
             event.preventDefault();
             event.stopPropagation();
-            $form.addClass('was-validated');
-            return;
+        } else {
+            $.ajax({
+                url: "<?= base_url('reseller/main/login_process');?>",
+                method: "POST",
+                data: formData,
+                contentType: false,
+                processData: false,
+                dataType: "json",
+                beforeSend: function() {
+                    $('.loading-screen').show();
+                },
+                success: function(data) { 
+                    if (data.error != '') {
+                        $('.error-message').html(data.error);
+                        setTimeout(function() {
+                            $('.error-message').html('');
+                        }, 3000)
+                    } else {
+                        $('.error-message').html(data.success);
+                        setTimeout(function() {
+                            $('.error-message').html('');
+                            window.location.href = data.main_url;
+                        }, 3000);
+                    }
+                },
+                complete: function() {
+                    $('.loading-screen').hide();
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.error("AJAX request failed:", textStatus, errorThrown);
+                    $('.error-message').html('<div class="alert alert-danger p-2 text-dark text-sm">An error occurred while processing the request.</div>');
+                }
+            });
         }
+    }
 
-        const formData = new FormData($form[0]);
-        // AJAX request 
+    $(document).on('click', '.reseller_login__btn', function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        handleLogin();
+    });
 
+    $(document).on('keypress', '#loginPassword', function(event) {
+        if (event.which === 13) {
+            event.preventDefault();
+            event.stopPropagation();
+            handleLogin();
+        }
     });
 
 
