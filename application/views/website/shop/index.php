@@ -25,7 +25,8 @@
                         <div>
                             <i class="fa-regular fa-heart navbar__right-side--icon"></i>
                         </div>
-                        <div class="navbar__right-side--container">
+                        <div class="navbar__right-side--container" type="button" data-bs-toggle="offcanvas"
+                            data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
                             <div class="navbar__right-side--indicator">0</div>
                             <i class="fa-solid fa-cart-shopping navbar__right-side--icon"></i>
                         </div>
@@ -75,8 +76,7 @@
                 <div class="row g-3 row-cols-lg-3 row-cols-md-2 row-cols-1">
                     <div class="col">
                         <div class="product__item">
-                            <i class="bi bi-heart-fill product__item--heart product__item--heart--active	"></i>
-
+                            <i class="bi bi-heart product__item--heart"></i>
                             <div class="product__item__img-container">
                                 <img class="product__item--img"
                                     src="<?php echo base_url('assets/images/shop/product-1.webp'); ?>" alt="Product 1">
@@ -104,8 +104,8 @@
                                     <div class="product__item--price">₱ 125.00</div>
                                     <div class="product__item__quantity-selector">
                                         <i class="fa-solid fa-minus product__item__quantity-selector__minus"></i>
-                                        <input type="text" disabled value="8"
-                                            class="product__item__quantity-selector__input">
+                                        <input type="text" value="1"
+                                            class="product__item__quantity-selector__input input" readonly>
                                         <i class="fa-solid fa-plus product__item__quantity-selector__plus"></i>
                                     </div>
                                 </div>
@@ -113,7 +113,6 @@
                             <div class="product__item--btn">Add to cart</div>
                         </div>
                     </div>
-
                     <div class="col">
                         <div class="product__item">
                             <i class="bi bi-heart product__item--heart"></i>
@@ -144,7 +143,8 @@
                                     <div class="product__item--price">₱ 125.00</div>
                                     <div class="product__item__quantity-selector">
                                         <i class="fa-solid fa-minus product__item__quantity-selector__minus"></i>
-                                        <input type="text" class="product__item__quantity-selector__input">
+                                        <input type="text" value="1" class="product__item__quantity-selector__input"
+                                            readonly>
                                         <i class="fa-solid fa-plus product__item__quantity-selector__plus"></i>
                                     </div>
                                 </div>
@@ -152,7 +152,6 @@
                             <div class="product__item--btn">Add to cart</div>
                         </div>
                     </div>
-
                     <div class="col">
                         <div class="product__item">
                             <i class="bi bi-heart product__item--heart"></i>
@@ -183,7 +182,8 @@
                                     <div class="product__item--price">₱ 125.00</div>
                                     <div class="product__item__quantity-selector">
                                         <i class="fa-solid fa-minus product__item__quantity-selector__minus"></i>
-                                        <input type="text" class="product__item__quantity-selector__input">
+                                        <input type="text" value="1" class="product__item__quantity-selector__input"
+                                            readonly>
                                         <i class="fa-solid fa-plus product__item__quantity-selector__plus"></i>
                                     </div>
                                 </div>
@@ -191,7 +191,6 @@
                             <div class="product__item--btn">Add to cart</div>
                         </div>
                     </div>
-
                     <div class="col">
                         <div class="product__item">
                             <i class="bi bi-heart product__item--heart"></i>
@@ -222,7 +221,8 @@
                                     <div class="product__item--price">₱ 125.00</div>
                                     <div class="product__item__quantity-selector">
                                         <i class="fa-solid fa-minus product__item__quantity-selector__minus"></i>
-                                        <input type="text" class="product__item__quantity-selector__input">
+                                        <input type="text" value="1" class="product__item__quantity-selector__input"
+                                            readonly>
                                         <i class="fa-solid fa-plus product__item__quantity-selector__plus"></i>
                                     </div>
                                 </div>
@@ -234,4 +234,42 @@
             </div>
         </div>
     </section>
+
+    <d class="offcanvas offcanvas-end " tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+        <div class="offcanvas-header border-bottom p-5">
+            <h5 id="offcanvasRightLabel" class="cart__title">Cart</h5>
+            <button type="button" class="btn-close cart__close-btn text-reset" data-bs-dismiss="offcanvas"
+                aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body cart__container">
+            <div class="cart__items p-4 py-0">
+                <div class="cart__item">
+                    <img class="cart__product-img"
+                        src="<?php echo base_url('assets/images/shop/product-cart-1.webp'); ?>" alt="Product 1">
+                    <div class="d-flex flex-column justify-content-between">
+                        <div>
+                            <h1 class="cart__product-name">Shantal's Temptation Cofee</h1>
+                            <p class="cart__product-p">product category</p>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="cart__item__quantity-selector">
+                                <i class="fa-solid fa-minus cart__item__quantity-selector__minus"></i>
+                                <input readonly value="1" type="text" class="cart__item__quantity-selector__input">
+                                <i class="fa-solid fa-plus cart__item__quantity-selector__plus"></i>
+                            </div>
+                            <div class="cart__product-price" data-price="125.00">₱125.00</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cart__subtotal-container p-4 py-5">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="cart__subtotal-name">Subtotal</div>
+                    <div class="cart__subtotal-price">₱125.00</div>
+                </div>
+                <button type="button" class="cart__checkout">Check out</button>
+            </div>
+        </div>
+    </d iv>
 </main>
