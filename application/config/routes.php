@@ -64,6 +64,8 @@ $route['reseller'] = 'reseller/main/index';
 
 $route['shop'] = 'shop/main/index';
 $route['shop/product-details'] = 'shop/main/product_details';
+$route['shop/checkout'] = 'shop/main/checkout';
+
 
 
 

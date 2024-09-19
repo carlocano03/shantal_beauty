@@ -237,12 +237,30 @@
 
     <d class="offcanvas offcanvas-end " tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
         <div class="offcanvas-header border-bottom p-5">
-            <h5 id="offcanvasRightLabel" class="cart__title">Cart</h5>
+            <h5 id="offcanvasRightLabel" class="cart__title">Your Cart</h5>
             <button type="button" class="btn-close cart__close-btn text-reset" data-bs-dismiss="offcanvas"
                 aria-label="Close"></button>
         </div>
         <div class="offcanvas-body cart__container">
             <div class="cart__items p-4 py-0">
+                <div class="cart__item">
+                    <img class="cart__product-img"
+                        src="<?php echo base_url('assets/images/shop/product-cart-1.webp'); ?>" alt="Product 1">
+                    <div class="d-flex flex-column justify-content-between">
+                        <div>
+                            <h1 class="cart__product-name">Shantal's Temptation Cofee</h1>
+                            <p class="cart__product-p">product category</p>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="cart__item__quantity-selector">
+                                <i class="fa-solid fa-minus cart__item__quantity-selector__minus"></i>
+                                <input readonly value="1" type="text" class="cart__item__quantity-selector__input">
+                                <i class="fa-solid fa-plus cart__item__quantity-selector__plus"></i>
+                            </div>
+                            <div class="cart__product-price" data-price="125.00">₱125.00</div>
+                        </div>
+                    </div>
+                </div>
                 <div class="cart__item">
                     <img class="cart__product-img"
                         src="<?php echo base_url('assets/images/shop/product-cart-1.webp'); ?>" alt="Product 1">

@@ -52,15 +52,69 @@
         <!-- Product Details -->
         <div id="product-details">
             <div class="container">
-                <div class="row g-5">
-                    <div class="col-6">
-                        <div class="product-details__img-container">
-                            <img class="product-details__img"
-                                src="<?php echo base_url('assets/images/shop/product-details-1.webp'); ?>"
-                                alt="Product 1">
+                <div class="row row-cols-lg-2 row-cols-1 g-5">
+                    <div class="col">
+                        <!-- 
+                      
+                        </div> -->
+                        <div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff"
+                            class="swiper mySwiper2">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide">
+                                    <div class="product-details__img-container">
+                                        <img class="product-details__img"
+                                            src="<?php echo base_url('assets/images/shop/product-details-1.webp'); ?>"
+                                            alt="Product 1">
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="product-details__img-container">
+                                        <img class="product-details__img"
+                                            src="<?php echo base_url('assets/images/shop/product-details-1.webp'); ?>"
+                                            alt="Product 1">
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="product-details__img-container">
+                                        <img class="product-details__img"
+                                            src="<?php echo base_url('assets/images/shop/product-details-1.webp'); ?>"
+                                            alt="Product 1">
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="product-details__img-container">
+                                        <img class="product-details__img"
+                                            src="<?php echo base_url('assets/images/shop/product-details-1.webp'); ?>"
+                                            alt="Product 1">
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="swiper-button-next"></div>
+                            <div class="swiper-button-prev"></div>
+                        </div>
+                        <div thumbsSlider="" class="swiper mySwiper">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide">
+                                    <div class="product-details__img-container--small">
+                                        <img class="product-details__img--small"
+                                            src="<?php echo base_url('assets/images/shop/product-cart-1.webp'); ?>"
+                                            alt="Product 1">
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
+                                </div>
+                                <div class="swiper-slide">
+                                    <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
+                                </div>
+                                <div class="swiper-slide">
+                                    <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-6 py-2">
+                    <div class="col py-2">
                         <div class="product-details__badge">Best Seller</div>
 
                         <h1 class="product-details__title">Shantal's Temptation Coffee</h1>
@@ -253,4 +307,26 @@
             </div>
         </div>
     </section>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <script>
+    var swiper = new Swiper(".mySwiper", {
+        loop: true,
+        spaceBetween: 10,
+        slidesPerView: 4,
+        freeMode: true,
+        watchSlidesProgress: true,
+    });
+    var swiper2 = new Swiper(".mySwiper2", {
+        loop: true,
+        spaceBetween: 10,
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+        thumbs: {
+            swiper: swiper,
+        },
+    });
+    </script>
 </main>
