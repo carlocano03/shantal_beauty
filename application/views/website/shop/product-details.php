@@ -62,9 +62,15 @@
                             <div class="swiper-wrapper">
                                 <div class="swiper-slide">
                                     <div class="product-details__img-container">
-                                        <img class="product-details__img"
+                                        <!-- <img class="product-details__img"
                                             src="<?php echo base_url('assets/images/shop/product-details-1.webp'); ?>"
-                                            alt="Product 1">
+                                            alt="Product 1"> -->
+                                        <iframe width="560" height="315"
+                                            src="https://www.youtube.com/embed/xKQy4Im0wKA?si=oCx3dGClr590oa8L"
+                                            title="YouTube video player" frameborder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
                                     </div>
                                 </div>
                                 <div class="swiper-slide">
@@ -325,6 +331,8 @@
             prevEl: ".swiper-button-prev",
         },
         thumbs: {
+
+
             swiper: swiper,
         },
     });
