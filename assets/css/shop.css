@@ -262,8 +262,12 @@ textarea {
 .product__item--p{
 	color:var(--primary-black);
 	font-size:1.2rem;
-
+	white-space: nowrap; 
+	width: 100%; 
+	overflow: hidden;
+	text-overflow: ellipsis; 
 }
+
 .product__item--price{
 	margin-top:24px;
 	margin-bottom:20px;

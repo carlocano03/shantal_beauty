@@ -232,4 +232,10 @@ class Product_management_model extends MY_Model
         return $delete?TRUE:FALSE;
     }
 
+    function save_additional_image($insert_image)
+    {
+        $insert = $this->db->insert('product_img', $insert_image);
+        return $insert?TRUE:FALSE;
+    }
+
 }

@@ -147,8 +147,8 @@
                     <input type="hidden" id="edit_stock_id">
                     <input type="hidden" id="edit_product_id">
                     <div class="form-group mb-3">
-                        <label for="product_name" class="form-label">Product Name</label>
-                        <input type="text" class="form-control" readonly id="product_name" autocomplete="off" value="<?= isset($product['product_name']) ? $product['product_name'] : '';?>">
+                        <label for="stock_product_name" class="form-label">Product Name</label>
+                        <input type="text" class="form-control" readonly id="stock_product_name" autocomplete="off" value="<?= isset($product['product_name']) ? $product['product_name'] : '';?>">
                         <div class="invalid-feedback">
                             Please provide a valid product name.
                         </div>
@@ -178,8 +178,63 @@
     </div>
 </div>
 
+<div class="modal fade" id="imageModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel"><i class="bi bi-box-seam-fill me-2"></i>Add New Products</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="imageForm" class="needs-validation" novalidate>
+                    <input type="hidden"  id="add_product_id">
+                    <div class="form-group mb-3">
+                        <label for="upload_file" class="form-label">Upload File</label>
+                        <select name="upload_file" id="upload_file" class="form-select" required>
+                            <option value="">Please choose on the following options</option>
+                            <option value="Image">Upload Image Only</option>
+                            <option value="Video">Upload Video Only</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Please provide a valid options.
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="upload_image" style="display:none;">
+                        <div class="alert alert-primary text-uppercase">
+                            <i class="bi bi-upload me-2"></i>Upload the image of product
+                        </div>
+                        <div class="mb-3">
+                            <input class="form-control mb-2" type="file" id="image_input_add" accept="image/png, image/jpg, image/jpeg">
+                            <img id="image_preview_add" style="display: none; max-width: 60%;" alt="Image Preview"/>
+                        </div>
+                    </div>
+
+                    <div class="upload_video" style="display:none;">
+                        <div class="alert alert-info text-uppercase">
+                            <i class="bi bi-upload me-2"></i>Upload the video of product
+                        </div>
+                        <div class="mb-3">
+                            <input class="form-control mb-2" type="file" id="video_input_add" accept="video/*">
+                            <video id="video_preview" width="100%" height="300" controls style="display:none;">
+                                <source id="video_source" src="" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="save_product_image">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     $(document).ready(function() {
+        let cropperNew;
         const imagePreview = $('#image_preview');
         
         $('#image_input').on('change', function(e) {
@@ -191,12 +246,12 @@
                     imagePreview.attr('src', e.target.result).show(); // Set and show the image preview
 
                     // Destroy the existing cropper instance if there is one
-                    if (cropper) {
-                        cropper.destroy();
+                    if (cropperNew) {
+                        cropperNew.destroy();
                     }
 
                     // Initialize the cropper on the preview image
-                    cropper = new Cropper(imagePreview[0], {
+                    cropperNew = new Cropper(imagePreview[0], {
                         aspectRatio: 1, // Adjust as needed (1 for square, 4/3, etc.)
                         viewMode: 1
                     });
@@ -204,6 +259,77 @@
                 reader.readAsDataURL(file); // Read the file as a data URL
             } else {
                 imagePreview.hide();
+            }
+        });
+
+        $(document).on('click', '#save_product', function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            var form = $('#addForm')[0];
+            var formData = new FormData(form);
+            
+            formData.append('product_name', $('#product_name').val());
+            formData.append('product_desc', $('#product_desc').val());
+            formData.append('net_weight', $('#net_weight').val());
+            formData.append('selling_price', $('#selling_price').val());
+            formData.append('_token', csrf_token_value);
+
+            form.classList.add('was-validated');
+            if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+            } else {
+                Swal.fire({
+                    title: 'Are you sure..',
+                    text: "You want to continue this transaction?",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, continue',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        cropperNew.getCroppedCanvas().toBlob(function(blob) {
+                            formData.append('cropped_image', blob, 'cropped_image.png');
+
+                            $.ajax({
+                                url: "<?= base_url('admin_portal/inventory/product_management/save_new_product')?>",
+                                method: "POST",
+                                data: formData,
+                                contentType: false,
+                                processData: false,
+                                dataType: "json",
+                                success: function(data) {
+                                    if (data.error != '') {
+                                        Swal.fire({
+                                            icon: 'warning',
+                                            title: 'Oops...',
+                                            text: data.error,
+                                        }); 
+                                    } else {
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: 'Thank you!',
+                                            text: data.success,
+                                        });
+                                        $('#addModal').modal('hide');
+                                        setTimeout(() => {
+                                            window.location.href = data.redirectLink;
+                                        }, 2000);
+                                    }
+                                },
+                                error :function() {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Oops...',
+                                        text: 'An error occurred while processing the request.',
+                                    });
+                                }
+                            });
+                        });
+                    }
+                });
             }
         });
 
@@ -309,6 +435,24 @@
                         });
                     }
                 });
+            }
+        });
+
+        $(document).on('change', '#upload_file', function() {
+            var options = $(this).val();
+
+            if (options == 'Image') {
+                $('.upload_image').fadeIn(200);
+                $('#image_input_add').attr('required', true);
+
+                $('.upload_video').hide();
+                $('#video_input_add').attr('required', false);
+            } else {
+                $('.upload_video').fadeIn();
+                $('#video_input_add').attr('required', true);
+
+                $('.upload_image').hide();
+                $('#image_input_add').attr('required', false);
             }
         });
     });

@@ -73,164 +73,10 @@
         <!-- Products -->
         <div id="product">
             <div class="container">
-                <div class="row g-3 row-cols-lg-3 row-cols-md-2 row-cols-1">
-                    <div class="col">
-                        <div class="product__item">
-                            <i class="bi bi-heart product__item--heart"></i>
-                            <div class="product__item__img-container">
-                                <img class="product__item--img"
-                                    src="<?php echo base_url('assets/images/shop/product-1.webp'); ?>" alt="Product 1">
-                            </div>
-                            <div class="product__item--content">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="d-flex align-items-center gap-3">
-                                        <div class="product__item__ratings__container">
-                                            <i class="bi bi-star-fill product__item__ratings__item"></i>
-                                            <i class="bi bi-star-fill product__item__ratings__item"></i>
-                                            <i class="bi bi-star-fill product__item__ratings__item"></i>
-                                            <i class="bi bi-star-fill product__item__ratings__item"></i>
-                                            <i class="bi bi-star-fill product__item__ratings__item"></i>
-                                        </div>
-                                        <div class="product__item__review">(100 reviews)</div>
-                                    </div>
-
-                                    <div class="product__item__status">
-                                        Best seller
-                                    </div>
-                                </div>
-                                <h1 class="product__item--name">Shantal's Temptation Cofee</h1>
-                                <p class="product__item--p">Blend of Rich Aroma And Smooth...</p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="product__item--price">₱ 125.00</div>
-                                    <div class="product__item__quantity-selector">
-                                        <i class="fa-solid fa-minus product__item__quantity-selector__minus"></i>
-                                        <input type="text" value="1"
-                                            class="product__item__quantity-selector__input input" readonly>
-                                        <i class="fa-solid fa-plus product__item__quantity-selector__plus"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product__item--btn">Add to cart</div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="product__item">
-                            <i class="bi bi-heart product__item--heart"></i>
-                            <div class="product__item__img-container">
-                                <img class="product__item--img"
-                                    src="<?php echo base_url('assets/images/shop/product-1.webp'); ?>" alt="Product 1">
-                            </div>
-                            <div class="product__item--content">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="d-flex align-items-center gap-3">
-                                        <div class="product__item__ratings__container">
-                                            <i class="bi bi-star-fill product__item__ratings__item"></i>
-                                            <i class="bi bi-star-fill product__item__ratings__item"></i>
-                                            <i class="bi bi-star-fill product__item__ratings__item"></i>
-                                            <i class="bi bi-star-fill product__item__ratings__item"></i>
-                                            <i class="bi bi-star-fill product__item__ratings__item"></i>
-                                        </div>
-                                        <div class="product__item__review">(100 reviews)</div>
-                                    </div>
-
-                                    <div class="product__item__status">
-                                        Best seller
-                                    </div>
-                                </div>
-                                <h1 class="product__item--name">Shantal's Temptation Cofee</h1>
-                                <p class="product__item--p">Blend of Rich Aroma And Smooth...</p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="product__item--price">₱ 125.00</div>
-                                    <div class="product__item__quantity-selector">
-                                        <i class="fa-solid fa-minus product__item__quantity-selector__minus"></i>
-                                        <input type="text" value="1" class="product__item__quantity-selector__input"
-                                            readonly>
-                                        <i class="fa-solid fa-plus product__item__quantity-selector__plus"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product__item--btn">Add to cart</div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="product__item">
-                            <i class="bi bi-heart product__item--heart"></i>
-                            <div class="product__item__img-container">
-                                <img class="product__item--img"
-                                    src="<?php echo base_url('assets/images/shop/product-1.webp'); ?>" alt="Product 1">
-                            </div>
-                            <div class="product__item--content">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="d-flex align-items-center gap-3">
-                                        <div class="product__item__ratings__container">
-                                            <i class="bi bi-star-fill product__item__ratings__item"></i>
-                                            <i class="bi bi-star-fill product__item__ratings__item"></i>
-                                            <i class="bi bi-star-fill product__item__ratings__item"></i>
-                                            <i class="bi bi-star-fill product__item__ratings__item"></i>
-                                            <i class="bi bi-star-fill product__item__ratings__item"></i>
-                                        </div>
-                                        <div class="product__item__review">(100 reviews)</div>
-                                    </div>
-
-                                    <div class="product__item__status">
-                                        Best seller
-                                    </div>
-                                </div>
-                                <h1 class="product__item--name">Shantal's Temptation Cofee</h1>
-                                <p class="product__item--p">Blend of Rich Aroma And Smooth...</p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="product__item--price">₱ 125.00</div>
-                                    <div class="product__item__quantity-selector">
-                                        <i class="fa-solid fa-minus product__item__quantity-selector__minus"></i>
-                                        <input type="text" value="1" class="product__item__quantity-selector__input"
-                                            readonly>
-                                        <i class="fa-solid fa-plus product__item__quantity-selector__plus"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product__item--btn">Add to cart</div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="product__item">
-                            <i class="bi bi-heart product__item--heart"></i>
-                            <div class="product__item__img-container">
-                                <img class="product__item--img"
-                                    src="<?php echo base_url('assets/images/shop/product-1.webp'); ?>" alt="Product 1">
-                            </div>
-                            <div class="product__item--content">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="d-flex align-items-center gap-3">
-                                        <div class="product__item__ratings__container">
-                                            <i class="bi bi-star-fill product__item__ratings__item"></i>
-                                            <i class="bi bi-star-fill product__item__ratings__item"></i>
-                                            <i class="bi bi-star-fill product__item__ratings__item"></i>
-                                            <i class="bi bi-star-fill product__item__ratings__item"></i>
-                                            <i class="bi bi-star-fill product__item__ratings__item"></i>
-                                        </div>
-                                        <div class="product__item__review">(100 reviews)</div>
-                                    </div>
-
-                                    <div class="product__item__status">
-                                        Best seller
-                                    </div>
-                                </div>
-                                <h1 class="product__item--name">Shantal's Temptation Cofee</h1>
-                                <p class="product__item--p">Blend of Rich Aroma And Smooth...</p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="product__item--price">₱ 125.00</div>
-                                    <div class="product__item__quantity-selector">
-                                        <i class="fa-solid fa-minus product__item__quantity-selector__minus"></i>
-                                        <input type="text" value="1" class="product__item__quantity-selector__input"
-                                            readonly>
-                                        <i class="fa-solid fa-plus product__item__quantity-selector__plus"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product__item--btn">Add to cart</div>
-                        </div>
-                    </div>
+                <div class="row g-3 row-cols-lg-3 row-cols-md-2 row-cols-1 mb-3" id="product_list">
+                    <!-- AJAX REQUEST -->
                 </div>
+                <div class="pagination_link"></div>
             </div>
         </div>
     </section>
@@ -291,3 +137,58 @@
         </div>
     </d iv>
 </main>
+
+<script>
+    function productList(page) {
+        $.ajax({
+            url: "<?= base_url('shop/products/get_product_list/')?>" + page,
+            method: "GET",
+            dataType: "json",
+            success: function(data) {
+                $('#product_list').html(data.product_list);
+                $('.pagination_link').html(data.links);
+            }
+        }); 
+    }
+    $(document).ready(function(){
+        productList(0);
+
+        $(document).on('click', '.pagination a', function(event) {
+            event.preventDefault();
+            var page = $(this).attr('href').split('/').pop();
+            productList(page);
+        });
+
+        document.addEventListener("click", function(event) {
+            if (event.target.classList.contains('product__item__quantity-selector__minus')) {
+                const input = event.target.closest(".product__item__quantity-selector").querySelector('.product__item__quantity-selector__input');
+                let quantity = parseInt(input.value);
+                if (quantity > 1) {
+                    quantity -= 1;
+                    input.value = quantity;
+                }
+            }
+
+            if (event.target.classList.contains('product__item__quantity-selector__plus')) {
+                const input = event.target.closest(".product__item__quantity-selector").querySelector('.product__item__quantity-selector__input');
+                let quantity = parseInt(input.value);
+                quantity += 1;
+                input.value = quantity;
+            }
+        });
+
+        $(document).on('click', '.view_product', function() {
+            var product_id = $(this).data('id');
+            var url = "<?= base_url('shop/product-details?id=')?>" + product_id;
+            window.location.href = url;
+        });
+        $(document).on('click', '#add_cart', function() {
+            var product_id = $(this).data('id');
+            var qty = $(this).closest('.product__item').find('.qty_input').val();
+
+            console.log(product_id)
+            console.log(qty)
+        });
+
+    });
+</script>
