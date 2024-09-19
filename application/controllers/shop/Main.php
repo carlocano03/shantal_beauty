@@ -21,7 +21,9 @@ class Main extends MY_Controller
         $this->load->helper('url');
         $this->load->library('form_validation');
         $this->load->helper('language');
+        $this->load->library('cipher');
         $this->lang->load('common','english');
+        $this->load->model('shop/product_model');
 
         $this->output->set_header("X-Robots-Tag: noindex");
         $this->output->set_header('Cache-Control: no-store, no-cache');
@@ -36,6 +38,10 @@ class Main extends MY_Controller
         $this->load->view('website/shop/partial/_footer', $data);
     }
 	public function product_details(){
+        $product_id = $this->cipher->decrypt($this->input->get('id', true));
+        $data['product'] = $this->product_model->get_row('product', array('product_id' => $product_id));
+        $data['product_img'] = $this->product_model->get_result('product_img', array('product_id' => $product_id));
+
 		$data['title'] = 'Shantal`s Shop';
         $this->load->view('website/shop/partial/_header', $data);
         $this->load->view('website/shop/product-details', $data);

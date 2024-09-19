@@ -108,11 +108,11 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <form id="addForm" class="needs-validation" novalidate>
+                        <form id="addFormNewLot" class="needs-validation" novalidate>
                             <input type="hidden" id="product_id" value="<?= isset($product['product_id']) ? $product['product_id'] : '';?>">
                             <div class="form-group mb-3">
-                                <label for="product_name" class="form-label">Product Name</label>
-                                <input type="text" class="form-control" id="product_name" readonly>
+                                <label for="new_product_name" class="form-label">Product Name</label>
+                                <input type="text" class="form-control" id="new_product_name" readonly>
                             </div>
                             <div class="form-group mb-3">
                                 <label for="net_wt" class="form-label">Net Wt.</label>
@@ -192,12 +192,12 @@
             $('#cancel').attr('disabled', false);
             $('#add_stocks').attr('disabled', false);
 
-            $('#product_name').val(product_name);
+            $('#new_product_name').val(product_name);
             $('#net_wt').val(net_wt);
         });
 
         $(document).on('click', '#cancel', function() {
-            $('#addForm')[0].reset();
+            $('#addFormNewLot')[0].reset();
             $('#lot_number').attr('readonly', true);
             $('#expiration_date').attr('readonly', true);
             $('#qty_in').attr('readonly', true);
@@ -209,7 +209,7 @@
             event.preventDefault();
             event.stopPropagation();
 
-            var form = $('#addForm')[0];
+            var form = $('#addFormNewLot')[0];
             var formData = new FormData(form);
 
             formData.append('product_id', $('#product_id').val());
@@ -276,7 +276,7 @@
             event.preventDefault();
             event.stopPropagation();
 
-            var form = $('#addForm')[0];
+            var form = $('#addStockForm')[0];
             var formData = new FormData(form);
 
             formData.append('stock_id', $('#edit_stock_id').val());
