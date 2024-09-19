@@ -41,6 +41,12 @@ class Main extends MY_Controller
         $this->load->view('website/shop/product-details', $data);
         $this->load->view('website/shop/partial/_footer', $data);
 	}
+	public function checkout(){
+		$data['title'] = 'Shantal`s Shop';
+        $this->load->view('website/shop/partial/_header', $data);
+        $this->load->view('website/shop/checkout', $data);
+        $this->load->view('website/shop/partial/_footer', $data);
+	}
 
 
     // Error 404 redirect

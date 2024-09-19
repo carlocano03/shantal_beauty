@@ -73,6 +73,8 @@ $route['reseller/my-commission'] = 'reseller/dashboard/my_commission';
 
 $route['shop'] = 'shop/main/index';
 $route['shop/product-details'] = 'shop/main/product_details';
+$route['shop/checkout'] = 'shop/main/checkout';
+
 
 
 $route['default_controller'] = 'main';
