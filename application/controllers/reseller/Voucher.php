@@ -92,8 +92,15 @@ class Voucher extends MY_Controller
                 'Approved' => 'bg-success',
                 'Declined' => 'bg-danger',
             );
+
+            if ($list->request_status == 'Declined') {
+                $remarks = '<div style="font-size:10px; color:red;;">'.ucfirst($list->decline_comment).'</div>';
+            } else {
+                $remarks = '';
+            }
             $color = array_key_exists($list->request_status, $stageColors) ? $stageColors[$list->request_status] : 'bg-secondary';
-            $row[] = '<div class="badge '.$color.'">'.$list->request_status.'</div>';
+            $row[] = '<div class="badge '.$color.'">'.$list->request_status.'</div>
+                      '.$remarks.'';
 
             if ($list->request_status != 'For Approval') {
                 $disabled = 'disabled';

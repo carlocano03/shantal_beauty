@@ -9,6 +9,7 @@
     $user_account = FALSE;
     $inventory = FALSE;
     $product_management = FALSE;
+    $voucher = FALSE;
 
     if ($active_page == 'dashboard_page') {
         $dashboard = TRUE;
@@ -27,6 +28,8 @@
     } elseif ($active_page == 'account_management_page') {
         $settings = TRUE;
         $account_management = TRUE;
+    } elseif ($active_page == 'voucher_page') {
+        $voucher = TRUE;
     }
 
 
@@ -198,6 +201,14 @@
                         </a>
                     </li>
 
+                    <li class="menu-item ">
+                        <a href="<?= base_url('admin/voucher');?>"
+                            class="<?= ($voucher) ? 'menu-link-active' : '';?> menu-link">
+                            <i class="menu-icon tf-icons bi bi-ticket-detailed-fill"></i>
+                            <div data-i18n="Analytics">Voucher Request <span class="badge bg-danger voucher_request"></span></div>
+                        </a>
+                    </li>
+
                     <!-- Request -->
                     <li class="menu-header  btn btn-toggle" data-bs-toggle="collapse" data-bs-target="#request"
                         aria-expanded="<?= ($request) ? 'true' : '';?>">
@@ -321,6 +332,16 @@
                             <div data-i18n="Analytics">Dashboard</div>
                         </a>
                     </li>
+
+                    <?php if (in_array(VOUCHER, $role_permissions)): ?>
+                    <li class="menu-item ">
+                        <a href="<?= base_url('admin/voucher');?>"
+                            class="<?= ($voucher) ? 'menu-link-active' : '';?> menu-link">
+                            <i class="menu-icon tf-icons bi bi-ticket-detailed-fill"></i>
+                            <div data-i18n="Analytics">Voucher Request <span class="badge bg-danger voucher_request"></span></div>
+                        </a>
+                    </li>
+                    <?php endif;?>
 
                     <!-- Request -->
                     <?php if (array_intersect([RESELLERS], $role_permissions)): ?>

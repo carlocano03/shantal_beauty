@@ -3,6 +3,7 @@
     $settings = FALSE;
     $voucher = FALSE;
     $inventory = FALSE;
+    $commission = FALSE;
 
     if ($active_page == 'dashboard_page') {
         $dashboard = TRUE;
@@ -14,6 +15,8 @@
     } elseif ($active_page == 'voucher_page') {
         $settings = TRUE;
         $voucher = TRUE;
+    } elseif ($active_page == 'commission_page') {
+        $commission = TRUE;
     }
 
 
@@ -179,6 +182,14 @@
                         class="<?= ($dashboard) ? 'menu-link-active' : '';?> menu-link">
                         <i class="menu-icon tf-icons bx bxs-dashboard"></i>
                         <div data-i18n="Analytics">Dashboard</div>
+                    </a>
+                </li>
+
+                <li class="menu-item ">
+                    <a href="<?= base_url('reseller/my-commission');?>"
+                        class="<?= ($commission) ? 'menu-link-active' : '';?> menu-link">
+                        <i class="menu-icon tf-icons bi bi-wallet"></i>
+                        <div data-i18n="Analytics">My Commission</div>
                     </a>
                 </li>
 

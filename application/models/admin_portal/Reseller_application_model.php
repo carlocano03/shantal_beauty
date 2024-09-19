@@ -20,6 +20,11 @@ class Reseller_application_model extends MY_Model
     var $reseller_acct_search = array('reseller_no', 'first_name', 'last_name', 'email_address', 'date_created', 'status'); //set column field database for datatable searchable just article , description , serial_num, property_num, department are searchable
     var $order_acct = array('reseller_id' => 'ASC'); // default order
 
+    var $voucher = 'voucher';
+    var $voucher_order = array('RI.first_name','RI.last_name','V.vocuher_code','V.description','V.date_created','V.end_date','V.request_status','P.product_name');
+    var $voucher_search = array('RI.first_name','RI.last_name','V.vocuher_code','V.description','V.date_created','V.end_date','V.request_status','P.product_name'); //set column field database for datatable searchable just article , description , serial_num, property_num, department are searchable
+    var $order_voucher = array('V.voucher_id' => 'ASC'); // default order
+
     /**
      * __construct function.
      * 
@@ -220,5 +225,84 @@ class Reseller_application_model extends MY_Model
         $update = $this->db->update('reseller_information', $update_status);
         return $update?TRUE:FALSE;
     }
+
+    //==============================Voucher=================================
+
+    public function get_voucher_list()
+    {
+        $this->_get_voucher_list_query();
+        if ($_POST['length'] != -1)
+        $this->db->limit($_POST['length'], $_POST['start']);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    public function count_filtered_voucher()
+    {
+        $this->_get_voucher_list_query();
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+    public function count_all_voucher()
+    {
+        $this->db->select('V.*, P.product_name, RI.reseller_no');
+        $this->db->select("CONCAT(RI.first_name,' ',RI.last_name) as reseller_name");
+        $this->db->from($this->voucher.' V');
+        $this->db->join('product P', 'V.product_id = P.product_id', 'left');
+        $this->db->join('reseller_information RI', 'V.reseller_id = RI.reseller_id', 'left');
+        $this->db->where('V.is_deleted IS NULL');
+        if ($this->input->post('status', true)) {
+            $this->db->where('V.request_status', $this->input->post('status', true));
+        }
+        return $this->db->count_all_results();
+    }
+
+    private function _get_voucher_list_query()
+    {
+        $this->db->select('V.*, P.product_name, RI.reseller_no');
+        $this->db->select("CONCAT(RI.first_name,' ',RI.last_name) as reseller_name");
+        $this->db->from($this->voucher.' V');
+        $this->db->join('product P', 'V.product_id = P.product_id', 'left');
+        $this->db->join('reseller_information RI', 'V.reseller_id = RI.reseller_id', 'left');
+        $this->db->where('V.is_deleted IS NULL');
+        if ($this->input->post('status', true)) {
+            $this->db->where('V.request_status', $this->input->post('status', true));
+        }
+        $i = 0;
+        foreach ($this->voucher_search as $item) // loop column 
+        {
+            if ($_POST['search']['value']) // if datatable send POST for search
+            {
+                if ($i === 0) // first loop
+                {
+                    $this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
+                    $this->db->like($item, $_POST['search']['value']);
+                } else {
+                    $this->db->or_like($item, $_POST['search']['value']);
+                }
+
+                if (count($this->voucher_search) - 1 == $i) //last loop
+                    $this->db->group_end(); //close bracket
+            }
+            $i++;
+        }
+        if (isset($_POST['order'])) // here order processing
+        {
+            $this->db->order_by($this->voucher_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+        } else if (isset($this->order_voucher)) {
+            $order = $this->order_voucher;
+            $this->db->order_by(key($order), $order[key($order)]);
+        }
+    }
+
+    function voucher_approval($update_voucher, $voucher_id)
+    {
+        $this->db->where('voucher_id', $voucher_id);
+        $update = $this->db->update('voucher', $update_voucher);
+        return $update?TRUE:FALSE;
+    }
+
+    //==============================End of Voucher==========================
 
 }
