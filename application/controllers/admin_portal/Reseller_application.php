@@ -310,5 +310,110 @@ class Reseller_application extends MY_Controller
         echo json_encode($output);
     }
 
+    //==========================Voucher=============================
+    public function get_voucher_list()
+    {
+        $voucher = $this->reseller_application->get_voucher_list();
+        $data = array();
+        $no = $_POST['start'];
+        foreach ($voucher as $list) {
+            $no++;
+            $row = array();
+
+            $row[] = $no;
+            $row[] = '<div>'.ucwords($list->reseller_name).'</div>
+                      <span style="font-size:10px; color:red; font-weight:600;">Reseller No.: '.ucwords($list->reseller_no).'</span>';
+            $row[] = '<div>'.$list->voucher_code.'</div>
+                      <span style="font-size:10px; color:red; font-weight:600;">Product: '.ucwords($list->product_name).'</span>';
+            $row[] = date('D M j, Y h:i A', strtotime($list->date_created));
+            $row[] = date('F j, Y', strtotime($list->end_date));
+
+            $stageColors = array(
+                'For Approval' => 'bg-warning',
+                'Approved' => 'bg-success',
+                'Declined' => 'bg-danger',
+            );
+            if ($list->request_status == 'Declined') {
+                $remarks = '<div style="font-size:10px; color:red;;">'.ucfirst($list->decline_comment).'</div>';
+            } else {
+                $remarks = '';
+            }
+            $color = array_key_exists($list->request_status, $stageColors) ? $stageColors[$list->request_status] : 'bg-secondary';
+            $row[] = '<div class="badge '.$color.'">'.$list->request_status.'</div>
+                      '.$remarks.'';
+
+            if ($list->request_status != 'For Approval') {
+                $disabled = 'disabled';
+            } else {
+                $disabled = '';
+            }
+            $action_btn = '<div class="btn-group">
+                            <button '.$disabled.' type="button" class="btn btn-dark btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                Action
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item link-cursor text-primary view_modal"
+                                    data-id="'.$list->voucher_id.'"
+                                    data-product_id="'.$list->product_id.'"
+                                    data-product="'.$list->product_name.'"
+                                    data-voucher_code="'.$list->voucher_code.'"
+                                    data-desc="'.$list->description.'"
+                                    data-amt="'.number_format($list->voucher_amt,2).'"
+                                    data-end_date="'.date('F j, Y', strtotime($list->end_date)).'"
+                                ><i class="bi bi-view-list me-2"></i>View Details</a></li>
+                            </ul>
+                        </div>';
+
+            $row[] = $action_btn;
+
+            $data[] = $row;
+        }
+        $output = array(
+            "draw" => $_POST['draw'],
+            "recordsTotal" => $this->reseller_application->count_all_voucher(),
+            "recordsFiltered" => $this->reseller_application->count_filtered_voucher(),
+            "data" => $data,
+            "csrf_token_value" => $this->security->get_csrf_hash(),
+            "csrf_token_name" => $this->security->get_csrf_token_name(),
+        );
+        echo json_encode($output);
+    }
+
+    public function voucher_approval()
+    {
+        $success = '';
+        $error = '';
+        $voucher_id = $this->input->post('voucher_id', true);
+        $approval_remarks = $this->input->post('approval_remarks', true);
+
+        switch ($approval_remarks) {
+            case 'Approved':
+                $update_voucher = array(
+                    'request_status' => 'Approved',
+                );
+                break;
+            
+            case 'Declined':
+                $update_voucher = array(
+                    'request_status' => 'Declined',
+                    'decline_comment' => $this->input->post('comment', true),
+                );
+                break;
+        }
+        $result = $this->reseller_application->voucher_approval($update_voucher, $voucher_id);
+        if ($result == TRUE) {
+            $success = 'Voucher successfully '.strtolower($approval_remarks);
+        } else {
+            $error = 'Failed to update the voucher';
+        }
+        $output = array(
+            'success' => $success,
+            'error' => $error,
+        );
+        echo json_encode($output);
+    }
+
+    //==========================End of Voucher=============================
+
 
 }

@@ -29,6 +29,13 @@ class Main_model extends MY_Model
         return $query->num_rows();
     }
 
+    function get_voucher()
+    {
+        $this->db->where('request_status', 'For Approval');
+        $query = $this->db->get('voucher');
+        return $query->num_rows();
+    }
+
     private function verify_password_hash($password, $hash)
     {
         return password_verify($password, $hash);

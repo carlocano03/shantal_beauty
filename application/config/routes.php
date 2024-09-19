@@ -62,12 +62,14 @@ $route['admin/user-account'] = 'admin_portal/main/user_account';
 $route['admin/product-management'] = 'admin_portal/main/product_management';
 $route['admin/product-management/stock-in'] = 'admin_portal/main/stock_in';
 $route['admin/account-management'] = 'admin_portal/main/account_management';
+$route['admin/voucher'] = 'admin_portal/main/voucher';
 
 $route['reseller'] = 'reseller/main/index';
 $route['reseller/dashboard'] = 'reseller/dashboard/index';
 $route['reseller/inventory'] = 'reseller/dashboard/inventory';
 $route['reseller/inventory/product-information'] = 'reseller/dashboard/product_information';
 $route['reseller/voucher-creation'] = 'reseller/dashboard/voucher_creation';
+$route['reseller/my-commission'] = 'reseller/dashboard/my_commission';
 
 $route['shop'] = 'shop/main/index';
 $route['shop/product-details'] = 'shop/main/product_details';

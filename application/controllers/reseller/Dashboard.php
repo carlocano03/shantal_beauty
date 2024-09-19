@@ -123,6 +123,27 @@ class Dashboard extends MY_Controller
         $this->load->view('reseller_portal/partial/_footer', $data);
     }
 
+    public function my_commission()
+    {
+        $data['home_url'] = base_url('reseller/dashboard');
+        $data['active_page'] = 'commission_page';
+        $data['card_title'] = 'My Commission';
+        $data['icon'] = 'bi bi-speedometer2';
+        $data['header_contents'] = array(
+            '<link href="https://cdn.datatables.net/1.13.2/css/dataTables.bootstrap4.min.css" rel="stylesheet">',
+            '<script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>',
+            '<script src="https://cdn.datatables.net/1.13.2/js/dataTables.bootstrap4.min.js"></script>',
+            '<script>
+                var csrf_token_name = "'.$this->security->get_csrf_token_name().'";
+                var csrf_token_value = "'.$this->security->get_csrf_hash().'";
+            </script>'
+        );
+	
+        $this->load->view('reseller_portal/partial/_header', $data);
+        $this->load->view('reseller_portal/my_commission', $data);
+        $this->load->view('reseller_portal/partial/_footer', $data);
+    }
+
     public function check_old_pass()
     {
         $success = '';

@@ -247,15 +247,39 @@ class Main extends MY_Controller
         $this->load->view('admin_portal/partial/_footer', $data);
     }
 
+    public function voucher()
+    {
+        $data['role_permissions'] = $this->role_permissions();
+        $data['home_url'] = base_url('admin/dashboard');
+        $data['active_page'] = 'voucher_page';
+        $data['card_title'] = 'Vouchers';
+        $data['icon'] = 'bi bi-speedometer2';
+        $data['header_contents'] = array(
+            '<link href="https://cdn.datatables.net/1.13.2/css/dataTables.bootstrap4.min.css" rel="stylesheet">',
+            '<script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>',
+            '<script src="https://cdn.datatables.net/1.13.2/js/dataTables.bootstrap4.min.js"></script>',
+            '<script>
+                var csrf_token_name = "'.$this->security->get_csrf_token_name().'";
+                var csrf_token_value = "'.$this->security->get_csrf_hash().'";
+            </script>'
+        );
+	
+        $this->load->view('admin_portal/partial/_header', $data);
+        $this->load->view('admin_portal/voucher', $data);
+        $this->load->view('admin_portal/partial/_footer', $data);
+    }
+
     public function get_sidebar_count()
     {
         $reseller = $this->main_model->get_reseller_application();
+        $voucher = $this->main_model->get_voucher();
 
         $application_request = $reseller;
 
         $output = array(
             'application_request' => $application_request,
             'reseller_request' => $reseller,
+            'voucher_request' => $voucher,
         );
 
         echo json_encode($output);

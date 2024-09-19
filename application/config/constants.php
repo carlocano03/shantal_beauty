@@ -18,6 +18,7 @@ define("RESELLER_ACCT", 2);
 define("USER_ACCT", 3);
 define("PRODUCT", 4);
 define("ACCOUNT_MANAGEMENT", 5);
+define("VOUCHER", 6);
 /*
 |--------------------------------------------------------------------------
 | Display Debug backtrace

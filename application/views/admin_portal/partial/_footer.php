@@ -146,6 +146,12 @@
                 } else {
                     $('.reseller_request').text('');
                 }
+
+                if (data.voucher_request > 0) {
+                    $('.voucher_request').text(data.voucher_request);
+                } else {
+                    $('.voucher_request').text('');
+                }
                 
             }
         });
