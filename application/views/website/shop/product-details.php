@@ -15,18 +15,14 @@
                     </ul>
 
                     <div class=" d-flex gap-4 align-items-center">
-                        <div class="d-flex align-items-center gap-3">
-                            <input type="text" class="navbar__search-input">
-                            <i class="fa-solid fa-magnifying-glass navbar__right-side--icon  "></i>
-                        </div>
                         <div>
                             <i class="fa-regular fa-user navbar__right-side--icon"></i>
                         </div>
                         <div>
                             <i class="fa-regular fa-heart navbar__right-side--icon"></i>
                         </div>
-                        <div class="navbar__right-side--container">
-                            <div class="navbar__right-side--indicator">0</div>
+                        <div class="navbar__right-side--container open_cart" type="button">
+                            <div class="navbar__right-side--indicator cart_count" style="display:none;"></div>
                             <i class="fa-solid fa-cart-shopping navbar__right-side--icon"></i>
                         </div>
                     </div>
