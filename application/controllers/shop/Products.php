@@ -201,15 +201,31 @@ class Products extends MY_Controller
                 }
 
                 $cart_id = urlencode($this->cipher->encrypt($list->cart_id));
+
+                if ($list->available_stocks == 0) {
+                    $stocks = 'No Stocks';
+                    $disabled = 'disabled';
+                    $opacity = 'opacity:0.4';
+                    $available_stocks = 'Out of Stock';
+                } else {
+                    $stocks = '';
+                    $disabled = '';
+                    $opacity = '';
+                    $available_stocks = 'Available Stocks: '.number_format($list->available_stocks);
+                }
+
                 $output .= '
-                    <div class="cart__item">
-                        <input type="checkbox" class="check_product" value="'.$list->product_id.'" data-cart_id="'.$cart_id.'" data-price="'.$list->selling_price.'">
+                    <div class="cart__item" style="'.$opacity.'">
+                        <input type="checkbox" class="check_product" 
+                            '.$disabled.'
+                            value="'.$list->product_id.'" data-stock="'.$stocks.'" data-cart_id="'.$cart_id.'" data-price="'.$list->selling_price.'">
+
                         <img class="cart__product-img"
                             src="'.$img.'" alt="Product 1">
                         <div class="d-flex flex-column justify-content-between">
                             <div>
                                 <h1 class="cart__product-name">'.ucwords($list->product_name).'</h1>
-                                <p class="cart__product-p">Available Stocks: '.number_format($list->available_stocks).'</p>
+                                <p class="cart__product-p">'.$available_stocks.'</p>
                             </div>
                             <div class="d-flex align-items-center justify-content-between">
                                 <div class="cart__item__quantity-selector">
