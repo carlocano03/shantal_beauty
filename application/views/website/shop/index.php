@@ -325,7 +325,7 @@
                 // Update the input field with the new quantity
                 $quantityInput.val(currentQuantity);
                 updateCartQty(action, cart_id);
-                //calculateTotal();
+                calculateTotal();
             } else {
                 Toast.fire({
                     icon: 'warning',
@@ -347,7 +347,7 @@
                 // Update the input field with the new quantity
                 $quantityInput.val(currentQuantity);
                 updateCartQty(action, cart_id);
-                //calculateTotal();
+                calculateTotal();
             }
         });
 
@@ -357,20 +357,24 @@
 
         $(document).on('change', '#select-all-checkbox', function() {
             var isChecked = $(this).prop('checked');
-            $('.check_product').prop('checked', isChecked);
-            
-            if (isChecked) {
-                // If "Select All" is checked, count all checkboxes
-                $('.checkout_count').text('(' + $('.check_product').length + ')');
-                //$('#check_count').val($('.check_product').length);
-            } else {
-                // If "Select All" is unchecked, reset the count to 0
-                $('.checkout_count').text('(0)');
-                //$('#check_count').val(0);
-            }
+
+            // Iterate over each .check_product checkbox
+            $('.check_product').each(function() {
+                var stockStatus = $(this).data('stock'); // Get the stock status from the data attribute
+                
+                if (stockStatus !== 'No Stocks') {
+                    // Only check/uncheck products that are not "No Stocks"
+                    $(this).prop('checked', isChecked);
+                }
+            });
+
+            // Update the count of checked checkboxes, excluding those with "No Stocks"
+            var checkedCount = $('.check_product:checked').length;
+            $('.checkout_count').text('(' + checkedCount + ')');
 
             calculateTotal();
         });
+
 
         $(document).on('click', '.check_product', function() {
             var checkedCheckboxes = $('.check_product:checked');
