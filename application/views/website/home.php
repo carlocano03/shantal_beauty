@@ -96,6 +96,7 @@
             <h1 class="login__title">Log In to Your Account</h1>
             <p class="login__p">We're glad to see you again! Please enter your details below to log in.</p>
 
+            <div class="error-message"></div>
             <form id="loginForm" class="row g-3 mt-3 needs-validation" novalidate>
                 <div class="col-12">
                     <label for="loginEmail" class="form-label login__label">Email</label>
@@ -160,9 +161,6 @@
 </div>
 
 <script>
-const signUpBtn = document.querySelector('.signup__button');
-const loginBtn = document.querySelector('.login__button');
-
 // Sign Up 
 $(document).ready(function() {
     var user_details_id = 0;
@@ -291,21 +289,68 @@ $(document).ready(function() {
             }, 3000);
         }
     });
-});
 
-// Login 
-loginBtn.addEventListener('click', function(event) {
-    const form = document.getElementById('loginForm');
+    function handleLogin() {
+        var form = $('#loginForm')[0];
+        var formData = new FormData(form);
 
-    if (!form.checkValidity()) {
-        event.preventDefault();
-        event.stopPropagation();
+        formData.append('username', $('#loginEmail').val());
+        formData.append('password', $('#loginPassword').val());
+        formData.append('_token', csrf_token_value);
+
         form.classList.add('was-validated');
-        return;
+        if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+        } else {
+            $.ajax({
+                url: "<?= base_url('shop/login_process/login');?>",
+                method: "POST",
+                data: formData,
+                contentType: false,
+                processData: false,
+                dataType: "json",
+                beforeSend: function() {
+                    $('.loading-screen').show();
+                },
+                success: function(data) { 
+                    if (data.error != '') {
+                        $('.error-message').html(data.error);
+                        setTimeout(function() {
+                            $('.error-message').html('');
+                        }, 3000)
+                    } else {
+                        $('.error-message').html(data.success);
+                        setTimeout(function() {
+                            $('.error-message').html('');
+                            window.location.href = data.main_url;
+                        }, 3000);
+                    }
+                },
+                complete: function() {
+                    $('.loading-screen').hide();
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.error("AJAX request failed:", textStatus, errorThrown);
+                    $('.error-message').html('<div class="alert alert-danger p-2 text-dark text-sm">An error occurred while processing the request.</div>');
+                }
+            });
+        }
     }
 
-    const formData = new FormData(form);
+    $(document).on('click', '.login__button', function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        handleLogin();
+    });
 
-    // AJAX request 
-})
+    $(document).on('keypress', '#loginPassword', function(event) {
+        if (event.which === 13) {
+            event.preventDefault();
+            event.stopPropagation();
+            handleLogin();
+        }
+    });
+});
+
 </script>

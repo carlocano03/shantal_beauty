@@ -58,79 +58,47 @@
                     <div class="col">
                         <h1 class="checkout__product-list__title">Your Product List</h1>
                         <ul class="checkout__product-list__items">
-                            <li class="checkout__product-list__item">
-                                <div class="d-flex  gap-5">
-                                    <img class="checkout__product-list__item__product-img"
-                                        src="<?php echo base_url('assets/images/shop/product-cart-1.webp'); ?>"
-                                        alt="Product 1">
-                                    <div class="w-100">
-                                        <div class="d-flex align-items-center justify-content-between mb-2">
-                                            <h1 class="checkout__product-list__item__product-name">Temptation Coffee
-                                            </h1>
-                                            <div class="checkout__product-list__item__delete-btn"><i
-                                                    class="bi bi-trash"></i></div>
-                                        </div>
-                                        <div class="d-flex flex-column gap-2">
-                                            <div class="checkout__product-list__item__sub">Category: Sample</div>
-                                            <div class="checkout__product-list__item__sub">Unit Price: ₱179</div>
-                                            <div class="d-flex align-items-center justify-content-between">
-                                                <div class="checkout__product-list__item__sub">Quantity: 1</div>
-                                                <div class="checkout__product-list__item__subtotal">₱179</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
+                            <?php 
+                            $subtotal = 0; 
+                            foreach($cart_items as $list) : ?>
+                                <?php
+                                    $img = base_url()."assets/images/logo.png";
+                                    if(!empty($list->main_product_img)){
+                                        if(file_exists('./assets/uploaded_file/uploaded_product/'.$list->main_product_img)){
+                                            $img = base_url()."assets/uploaded_file/uploaded_product/".$list->main_product_img;
+                                        }
+                                    }
 
-                            <li class="checkout__product-list__item">
-                                <div class="d-flex  gap-5">
-                                    <img class="checkout__product-list__item__product-img"
-                                        src="<?php echo base_url('assets/images/shop/product-cart-1.webp'); ?>"
-                                        alt="Product 1">
-                                    <div class="w-100">
-                                        <div class="d-flex align-items-center justify-content-between mb-2">
-                                            <h1 class="checkout__product-list__item__product-name">Temptation Coffee
-                                            </h1>
-                                            <div class="checkout__product-list__item__delete-btn"><i
-                                                    class="bi bi-trash"></i></div>
-                                        </div>
-                                        <div class="d-flex flex-column gap-2">
-                                            <div class="checkout__product-list__item__sub">Category: Sample</div>
-                                            <div class="checkout__product-list__item__sub">Unit Price: ₱179</div>
-                                            <div class="d-flex align-items-center justify-content-between">
-                                                <div class="checkout__product-list__item__sub">Quantity: 1</div>
-                                                <div class="checkout__product-list__item__subtotal">₱179</div>
+                                    $total_amount = $list->selling_price * $list->quantity;
+                                    $subtotal += $total_amount;
+                                ?>
+                                <li class="checkout__product-list__item">
+                                    <div class="d-flex  gap-5">
+                                        <img class="checkout__product-list__item__product-img"
+                                            src="<?= $img;?>"
+                                            alt="Product 1">
+                                        <div class="w-100">
+                                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                                <h1 class="checkout__product-list__item__product-name"><?= ucwords($list->product_name);?>
+                                                </h1>
+                                                <div class="checkout__product-list__item__delete-btn"><i
+                                                        class="bi bi-trash"></i></div>
+                                            </div>
+                                            <div class="d-flex flex-column gap-2">
+                                                <div class="checkout__product-list__item__sub">Available Stocks: <?= number_format($list->available_stocks);?></div>
+                                                <div class="checkout__product-list__item__sub">Unit Price: <?= '₱'.number_format($list->selling_price,2)?></div>
+                                                <div class="d-flex align-items-center justify-content-between">
+                                                    <div class="checkout__product-list__item__sub">Quantity: <?= $list->quantity;?></div>
+                                                    <div class="checkout__product-list__item__subtotal"><?= '₱'.number_format($total_amount,2)?></div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </li>
-                            <li class="checkout__product-list__item">
-                                <div class="d-flex  gap-5">
-                                    <img class="checkout__product-list__item__product-img"
-                                        src="<?php echo base_url('assets/images/shop/product-cart-1.webp'); ?>"
-                                        alt="Product 1">
-                                    <div class="w-100">
-                                        <div class="d-flex align-items-center justify-content-between mb-2">
-                                            <h1 class="checkout__product-list__item__product-name">Temptation Coffee
-                                            </h1>
-                                            <div class="checkout__product-list__item__delete-btn"><i
-                                                    class="bi bi-trash"></i></div>
-                                        </div>
-                                        <div class="d-flex flex-column gap-2">
-                                            <div class="checkout__product-list__item__sub">Category: Sample</div>
-                                            <div class="checkout__product-list__item__sub">Unit Price: ₱179</div>
-                                            <div class="d-flex align-items-center justify-content-between">
-                                                <div class="checkout__product-list__item__sub">Quantity: 1</div>
-                                                <div class="checkout__product-list__item__subtotal">₱179</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
+                                </li>
+                            <?php endforeach;?>
                             <div class="checkout__product-list__item__total__container">
                                 <div>Sub Total</div>
-                                <div>₱479</div>
+                                <div><?= '₱'.number_format($subtotal,2)?></div>
                             </div>
                         </ul>
                     </div>
@@ -154,7 +122,7 @@
                             <div class="d-flex flex-column gap-3 border-bottom pb-4">
                                 <div class="checkout__detail-summary__item">
                                     <div class="checkout__detail-summary__item__sub">Subtotal Product</div>
-                                    <div class="checkout__detail-summary__item__sub">₱479</div>
+                                    <div class="checkout__detail-summary__item__sub"><?= '₱'.number_format($subtotal,2)?></div>
                                 </div>
                                 <div class="checkout__detail-summary__item">
                                     <div>Price Delivery</div>

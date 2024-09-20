@@ -27,7 +27,9 @@ class Main extends MY_Controller
 
         $this->output->set_header("X-Robots-Tag: noindex");
         $this->output->set_header('Cache-Control: no-store, no-cache');
-        
+
+        //Check Session
+        $this->check_session('customerIn', '');
     } //End __construct
 
     public function index()
@@ -48,6 +50,20 @@ class Main extends MY_Controller
         $this->load->view('website/shop/partial/_footer', $data);
 	}
 	public function checkout(){
+        $cart_ids_encrypted = $this->input->get('product');
+        $cart_ids_array = explode(',', $cart_ids_encrypted);
+        $cart_ids_decrypted = [];
+
+        foreach ($cart_ids_array as $cart_id_encrypted) {
+            // URL decode and then decrypt each cart_id
+            $cart_id_encrypted = urldecode($cart_id_encrypted);
+            $cart_ids_decrypted[] = $this->cipher->decrypt($cart_id_encrypted);
+        }
+        if (!empty($cart_ids_decrypted)) {
+            $cart_data = $this->product_model->get_cart_data($cart_ids_decrypted);
+            $data['cart_items'] = $cart_data;
+        }
+
 		$data['title'] = 'Shantal`s Shop';
         $this->load->view('website/shop/partial/_header', $data);
         $this->load->view('website/shop/checkout', $data);

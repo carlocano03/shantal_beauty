@@ -292,6 +292,26 @@ textarea {
 .product__item--btn:hover{
 	opacity:0.8;
 }
+
+.product__item--btn_wishlist{
+	display:block;
+	background-color: transparent;
+	border: 2px solid var(--primary-black);
+	text-align:center;
+	color:#000000;
+	font-size:1.6rem;
+	text-transform:uppercase;
+	font-weight:800;
+	padding:14.5px 0;
+	margin-bottom:24px;
+	transition:all 0.2s ;
+	cursor:pointer;
+}
+.product__item--btn_wishlist:hover{
+	background-color: var(--primary-black);
+	color:#fff;
+}
+
 .product__item__ratings__container{
 	display:flex;
 	gap:2px;
@@ -588,15 +608,16 @@ textarea {
 
 }
 .cart__product-name{
-	font-size:18px;
+	font-size:16px;
 	margin:0;
 	font-weight:500;
 
 }
 .cart__product-p{
-	font-size:14px;
+	font-size:11px;
 	margin:0;
 	margin-top:4px;
+	color:#b2bec3;
 }
 
 .cart__item__quantity-selector{
