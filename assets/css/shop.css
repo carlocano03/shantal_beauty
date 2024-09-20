@@ -573,6 +573,7 @@ textarea {
 	flex-direction:column;
 	flex-grow: 1;
 	overflow-y: auto;
+	width:100%;
 }
 
 .cart__items::-webkit-scrollbar {
@@ -595,7 +596,7 @@ textarea {
 
 .cart__item{
 	display:flex;
-	gap:24px;
+	gap:16px;
 	margin:24px 0;
     padding-bottom: 36px; 
 }
@@ -604,7 +605,8 @@ textarea {
 }
 
 .cart__product-img{
-	width:72px;
+	width:84px;
+	object-fit:contain;
 
 }
 .cart__product-name{
@@ -617,6 +619,7 @@ textarea {
 	font-size:11px;
 	margin:0;
 	margin-top:4px;
+	margin-bottom:4px;
 	color:#b2bec3;
 }
 
@@ -629,8 +632,8 @@ textarea {
 	color:#ffffff;
 	font-size:10px;
 	font-weight:700;
-	width:28px;
-	height:28px;
+	width:24px;
+	height:24px;
 	cursor:pointer;
 	display:flex;
 	justify-content:center;
@@ -642,13 +645,31 @@ textarea {
 .cart__item__quantity-selector__minus,.cart__item__quantity-selector__plus:hover{
 	opacity:0.8;
 }
+.cart__product__item__delete-btn{
+	margin:0;
+	margin-left:8px;
+	background-color:var(--secondary-light);
+	width:10px;
+	height:10px;
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	border-radius:100%;
+	padding:14px;
+	font-size:12px;
+	cursor:pointer;
+	transition:all 0.3s;
+}
+.cart__product__item__delete-btn:hover{
+	opacity:0.8;
+}
 
 .cart__item__quantity-selector__input{
 	max-width:48px;
-	height:28px;
+	height:24px;
 	border:1px solid var(--primary-black);
 	text-align:center;
-	font-size:18px;
+	font-size:16px;
 
 }
 .cart__product-price{
@@ -688,6 +709,10 @@ textarea {
 .cart__checkout:hover{
 	opacity:0.8;
 }
+.cart__item__check_product,.cart__item__check_all-product{
+	width: 16px; 
+    height: 16px; 
+}
 
 /* Check out page */
 #checkout{
@@ -725,24 +750,7 @@ textarea {
 
 
 }
-.checkout__product-list__item__delete-btn{
-	margin:0;
-	background-color:var(--secondary-light);
-	width:12px;
-	height:12px;
-	display:flex;
-	justify-content:center;
-	align-items:center;
-	border-radius:100%;
-	padding:16px;
-	font-size:14px;
-	cursor:pointer;
-	transition:all 0.3s;
 
-}
-.checkout__product-list__item__delete-btn:hover{
-	opacity:0.6;
-}
 .checkout__product-list__item__sub{
 	color:var(--accent-2);
 	font-size:12px;

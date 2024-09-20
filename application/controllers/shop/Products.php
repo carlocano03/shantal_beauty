@@ -216,15 +216,19 @@ class Products extends MY_Controller
 
                 $output .= '
                     <div class="cart__item" style="'.$opacity.'">
-                        <input type="checkbox" class="check_product" 
-                            '.$disabled.'
-                            value="'.$list->product_id.'" data-stock="'.$stocks.'" data-cart_id="'.$cart_id.'" data-price="'.$list->selling_price.'">
-
+						<div class="d-flex align-items-center">
+							<input type="checkbox" class="cart__item__check_product check_product" 
+								'.$disabled.'
+								value="'.$list->product_id.'" data-stock="'.$stocks.'" data-cart_id="'.$cart_id.'" data-price="'.$list->selling_price.'">
+						</div>
                         <img class="cart__product-img"
                             src="'.$img.'" alt="Product 1">
-                        <div class="d-flex flex-column justify-content-between">
+                        <div class="d-flex flex-column justify-content-between" style="width:100%">
                             <div>
-                                <h1 class="cart__product-name">'.ucwords($list->product_name).'</h1>
+								<div class="d-flex align-items-start justify-content-between">
+                                	<h1 class="cart__product-name">'.ucwords($list->product_name).'</h1>
+									<div class="cart__product__item__delete-btn"><i class="bi bi-trash"></i></div>
+								</div>
                                 <p class="cart__product-p">'.$available_stocks.'</p>
                             </div>
                             <div class="d-flex align-items-center justify-content-between">

@@ -25,10 +25,6 @@
                         <div>
                             <i class="fa-regular fa-heart navbar__right-side--icon"></i>
                         </div>
-                        <div class="navbar__right-side--container">
-                            <div class="navbar__right-side--indicator">0</div>
-                            <i class="fa-solid fa-cart-shopping navbar__right-side--icon"></i>
-                        </div>
                     </div>
                 </div>
             </nav>
@@ -44,7 +40,6 @@
                             <li class="breadcrumb-item"><a href="#">Shop All</a></li>
                             <li class="breadcrumb-item">Product Details</li>
                             <li class="breadcrumb-item active" aria-current="page">Check out</li>
-
                         </ol>
                     </nav>
                 </div>
@@ -61,7 +56,7 @@
                             <?php 
                             $subtotal = 0; 
                             foreach($cart_items as $list) : ?>
-                                <?php
+                            <?php
                                     $img = base_url()."assets/images/logo.png";
                                     if(!empty($list->main_product_img)){
                                         if(file_exists('./assets/uploaded_file/uploaded_product/'.$list->main_product_img)){
@@ -72,29 +67,29 @@
                                     $total_amount = $list->selling_price * $list->quantity;
                                     $subtotal += $total_amount;
                                 ?>
-                                <li class="checkout__product-list__item">
-                                    <div class="d-flex  gap-5">
-                                        <img class="checkout__product-list__item__product-img"
-                                            src="<?= $img;?>"
-                                            alt="Product 1">
-                                        <div class="w-100">
-                                            <div class="d-flex align-items-center justify-content-between mb-2">
-                                                <h1 class="checkout__product-list__item__product-name"><?= ucwords($list->product_name);?>
-                                                </h1>
-                                                <div class="checkout__product-list__item__delete-btn"><i
-                                                        class="bi bi-trash"></i></div>
-                                            </div>
-                                            <div class="d-flex flex-column gap-2">
-                                                <div class="checkout__product-list__item__sub">Available Stocks: <?= number_format($list->available_stocks);?></div>
-                                                <div class="checkout__product-list__item__sub">Unit Price: <?= '₱'.number_format($list->selling_price,2)?></div>
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <div class="checkout__product-list__item__sub">Quantity: <?= $list->quantity;?></div>
-                                                    <div class="checkout__product-list__item__subtotal"><?= '₱'.number_format($total_amount,2)?></div>
-                                                </div>
+                            <li class="checkout__product-list__item">
+                                <div class="d-flex  gap-5">
+                                    <img class="checkout__product-list__item__product-img" src="<?= $img;?>"
+                                        alt="Product 1">
+                                    <div class="w-100">
+                                        <h1 class="checkout__product-list__item__product-name mb-2">
+                                            <?= ucwords($list->product_name);?>
+                                        </h1>
+                                        <div class="d-flex flex-column gap-2">
+                                            <div class="checkout__product-list__item__sub">Available Stocks:
+                                                <?= number_format($list->available_stocks);?></div>
+                                            <div class="checkout__product-list__item__sub">Unit Price:
+                                                <?= '₱'.number_format($list->selling_price,2)?></div>
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <div class="checkout__product-list__item__sub">Quantity:
+                                                    <?= $list->quantity;?></div>
+                                                <div class="checkout__product-list__item__subtotal">
+                                                    <?= '₱'.number_format($total_amount,2)?></div>
                                             </div>
                                         </div>
                                     </div>
-                                </li>
+                                </div>
+                            </li>
                             <?php endforeach;?>
                             <div class="checkout__product-list__item__total__container">
                                 <div>Sub Total</div>
@@ -122,7 +117,8 @@
                             <div class="d-flex flex-column gap-3 border-bottom pb-4">
                                 <div class="checkout__detail-summary__item">
                                     <div class="checkout__detail-summary__item__sub">Subtotal Product</div>
-                                    <div class="checkout__detail-summary__item__sub"><?= '₱'.number_format($subtotal,2)?></div>
+                                    <div class="checkout__detail-summary__item__sub">
+                                        <?= '₱'.number_format($subtotal,2)?></div>
                                 </div>
                                 <div class="checkout__detail-summary__item">
                                     <div>Price Delivery</div>

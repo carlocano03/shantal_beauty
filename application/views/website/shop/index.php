@@ -84,133 +84,135 @@
 </div>
 
 <script>
-    var Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 3000
-    });  
+var Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000
+});
 
-    function productList(page, filter) {
-        var search_query = $('.navbar__search-input').val();
-        $('.loading-screen').show();
+function productList(page, filter) {
+    var search_query = $('.navbar__search-input').val();
+    $('.loading-screen').show();
+    $.ajax({
+        url: "<?= base_url('shop/products/get_product_list/')?>" + page,
+        method: "GET",
+        data: {
+            search: search_query,
+            filter: filter,
+        },
+        dataType: "json",
+        success: function(data) {
+            $('.loading-screen').hide();
+            $('#product_list').html(data.product_list);
+            $('.pagination_link').html(data.links);
+        }
+    });
+}
+
+$(document).ready(function() {
+    productList(0);
+
+
+    $(document).on('click', '.pagination a', function(event) {
+        event.preventDefault();
+        var page = $(this).attr('href').split('/').pop();
+        productList(page);
+    });
+
+    $(document).on('keypress', '.navbar__search-input', function(e) {
+        if (e.which == 13) { // If Enter key is pressed
+            productList(0); // Trigger search from the first page
+        }
+    });
+
+    $('.navbar__search-input').autocomplete({
+        source: function(request, response) {
+            $.ajax({
+                url: "<?= base_url('shop/products/search_items') ?>",
+                method: "POST",
+                dataType: "json",
+                data: {
+                    term: request.term,
+                    '_token': csrf_token_value
+                },
+                success: function(data) {
+                    response(data);
+                }
+            });
+        },
+        select: function(event, ui) {
+            $('.navbar__search-input').val(ui.item.label);
+            productList(0);
+        },
+        //minLength: 2 // Minimum characters before triggering autocomplete
+    });
+
+    $(document).on('change', '#productFilter', function() {
+        var selectedFilter = $(this).val();
+        productList(0, selectedFilter);
+    });
+
+    document.addEventListener("click", function(event) {
+        if (event.target.classList.contains('product__item__quantity-selector__minus')) {
+            const input = event.target.closest(".product__item__quantity-selector").querySelector(
+                '.product__item__quantity-selector__input');
+            let quantity = parseInt(input.value);
+            if (quantity > 1) {
+                quantity -= 1;
+                input.value = quantity;
+            }
+        }
+
+        if (event.target.classList.contains('product__item__quantity-selector__plus')) {
+            const input = event.target.closest(".product__item__quantity-selector").querySelector(
+                '.product__item__quantity-selector__input');
+            let quantity = parseInt(input.value);
+            quantity += 1;
+            input.value = quantity;
+        }
+    });
+
+    $(document).on('click', '.view_product', function() {
+        var product_id = $(this).data('id');
+        var url = "<?= base_url('shop/product-details?id=')?>" + product_id;
+        window.location.href = url;
+    });
+
+    $(document).on('click', '#add_cart', function() {
+        var product_id = $(this).data('id');
+        var qty = $(this).closest('.product__item').find('.qty_input').val();
+
         $.ajax({
-            url: "<?= base_url('shop/products/get_product_list/')?>" + page,
-            method: "GET",
-            data: { 
-                search: search_query,
-                filter: filter,
+            url: "<?= base_url('shop/products/add_cart')?>",
+            method: "POST",
+            data: {
+                product_id: product_id,
+                qty: qty,
+                '_token': csrf_token_value,
             },
             dataType: "json",
             success: function(data) {
-                $('.loading-screen').hide();
-                $('#product_list').html(data.product_list);
-                $('.pagination_link').html(data.links);
-            }
-        }); 
-    }
-
-    $(document).ready(function(){
-        productList(0);
-        
-
-        $(document).on('click', '.pagination a', function(event) {
-            event.preventDefault();
-            var page = $(this).attr('href').split('/').pop();
-            productList(page);
-        });
-
-        $(document).on('keypress', '.navbar__search-input', function(e) {
-            if (e.which == 13) { // If Enter key is pressed
-                productList(0); // Trigger search from the first page
-            }
-        });
-
-        $('.navbar__search-input').autocomplete({
-            source: function(request, response) {
-                $.ajax({
-                    url: "<?= base_url('shop/products/search_items') ?>",
-                    method: "POST",
-                    dataType: "json",
-                    data: { 
-                        term: request.term,
-                        '_token': csrf_token_value  
-                    },
-                    success: function(data) {
-                        response(data);
-                    }
-                });
-            },
-            select: function (event, ui) {
-                $('.navbar__search-input').val(ui.item.label);
-                productList(0);
-            },
-            //minLength: 2 // Minimum characters before triggering autocomplete
-        });
-
-        $(document).on('change', '#productFilter', function() {
-            var selectedFilter = $(this).val();
-            productList(0, selectedFilter);
-        });
-
-        document.addEventListener("click", function(event) {
-            if (event.target.classList.contains('product__item__quantity-selector__minus')) {
-                const input = event.target.closest(".product__item__quantity-selector").querySelector('.product__item__quantity-selector__input');
-                let quantity = parseInt(input.value);
-                if (quantity > 1) {
-                    quantity -= 1;
-                    input.value = quantity;
-                }
-            }
-
-            if (event.target.classList.contains('product__item__quantity-selector__plus')) {
-                const input = event.target.closest(".product__item__quantity-selector").querySelector('.product__item__quantity-selector__input');
-                let quantity = parseInt(input.value);
-                quantity += 1;
-                input.value = quantity;
-            }
-        });
-
-        $(document).on('click', '.view_product', function() {
-            var product_id = $(this).data('id');
-            var url = "<?= base_url('shop/product-details?id=')?>" + product_id;
-            window.location.href = url;
-        });
-
-        $(document).on('click', '#add_cart', function() {
-            var product_id = $(this).data('id');
-            var qty = $(this).closest('.product__item').find('.qty_input').val();
-
-            $.ajax({
-                url: "<?= base_url('shop/products/add_cart')?>",
-                method: "POST",
-                data: {
-                    product_id: product_id,
-                    qty: qty,
-                    '_token': csrf_token_value,
-                },
-                dataType: "json",
-                success: function(data) {
-                    if (data.error != '') {
-                        Toast.fire({
-                            icon: 'warning',
-                            title: data.error,
-                        });
-                    } else {
-                        Toast.fire({
-                            icon: 'success',
-                            title: data.success,
-                        });
-                        cartCount();
-                    }
-                },
-                error: function() {
+                if (data.error != '') {
                     Toast.fire({
-                        icon: 'error',
-                        title: 'An error occurred while processing the request.',
+                        icon: 'warning',
+                        title: data.error,
                     });
+                } else {
+                    Toast.fire({
+                        icon: 'success',
+                        title: data.success,
+                    });
+                    cartCount();
                 }
-            });
+            },
+            error: function() {
+                Toast.fire({
+                    icon: 'error',
+                    title: 'An error occurred while processing the request.',
+                });
+            }
         });
     });
+});
 </script>
