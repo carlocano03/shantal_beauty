@@ -1,3 +1,30 @@
+    <div class="offcanvas offcanvas-end" data-bs-backdrop="static" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+        <div class="offcanvas-header border-bottom p-5">
+            <h5 id="offcanvasRightLabel" class="cart__title">Your Cart <span class="cart_count_list" style="font-size:18px;"></span></h5>
+            <button type="button" class="btn-close cart__close-btn text-reset" data-bs-dismiss="offcanvas"
+                aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body cart__container">
+            <div class="form-check checkbox">
+                <input class="form-check-input" type="checkbox" id="select-all-checkbox" style="margin-top:5px;">
+                <label class="form-check-label" for="select-all-checkbox" style="font-size:14px; font-weight:500;">
+                    Select all items in the cart
+                </label>
+            </div>
+            <div class="cart__items p-4 py-0 cart_item_list">
+                <!-- AJAX REQUEST -->
+            </div>
+
+            <div class="cart__subtotal-container p-4 py-5">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div class="cart__subtotal-name">Subtotal</div>
+                    <div class="cart__subtotal-price">0.00</div>
+                </div>
+                <button type="button" class="cart__checkout">Check out <span class="checkout_count">(0)</span></button>
+            </div>
+        </div>
+    </div>
+    
 <footer id="footer">
     <div class="container">
         <div class="row">
