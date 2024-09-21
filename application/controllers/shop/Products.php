@@ -116,7 +116,7 @@ class Products extends MY_Controller
                                         <i class="fa-solid fa-minus product__item__quantity-selector__minus"></i>
                                         <input type="text" value="1"
                                             class="product__item__quantity-selector__input input qty_input" readonly>
-                                        <i class="fa-solid fa-plus product__item__quantity-selector__plus"></i>
+                                        <i class="fa-solid fa-plus product__item__quantity-selector__plus" data-stocks="'.$list->available_stocks.'"></i>
                                     </div>
                                 </div>
                             </div>
@@ -227,7 +227,7 @@ class Products extends MY_Controller
                             <div>
 								<div class="d-flex align-items-start justify-content-between">
                                 	<h1 class="cart__product-name">'.ucwords($list->product_name).'</h1>
-									<div class="cart__product__item__delete-btn"><i class="bi bi-trash"></i></div>
+									<div class="cart__product__item__delete-btn" data-id="'.$list->cart_id.'" data-stock="'.$stocks.'"><i class="bi bi-trash"></i></div>
 								</div>
                                 <p class="cart__product-p">'.$available_stocks.'</p>
                             </div>
@@ -289,5 +289,408 @@ class Products extends MY_Controller
         // Return products as JSON
         echo json_encode($products);
     }
+
+    public function delete_cart_item()
+    {
+        $success = '';
+        $error = '';
+        $cart_id = $this->input->post('cart_id', true);
+
+        $delete_cart = $this->product_model->delete_cart_item($cart_id);
+        if ($delete_cart == TRUE) {
+            $success = 'Item in cart deleted syccessfully.';
+        } else {
+            $error = 'Failed to delete the item from the cart.';
+        }
+
+        $output = array(
+            'success' => $success,
+            'error' => $error,
+        );
+        echo json_encode($output);
+    }
+
+    //=============================Checkout Page==============================
+
+    private function formatPhoneNumber($mobileNumber) {
+        // Remove leading zero and replace it with +63
+        if (substr($mobileNumber, 0, 1) == '0') {
+            $mobileNumber = '+63' . substr($mobileNumber, 1);
+        }
+    
+        // Format the number with spaces
+        $formattedNumber = preg_replace('/(\+63)(\d{3})(\d{3})(\d{4})/', '($1) $2 $3 $4', $mobileNumber);
+    
+        return $formattedNumber;
+    }
+
+    public function get_delivery_address()
+    {
+        $output = '';
+        $user_id = $this->session->userdata('customerIn')['user_id'];
+
+        $address = $this->product_model->get_delivery_address_list($user_id);
+
+        if ($address->num_rows() > 0) {
+            $no = 0;
+            foreach($address->result() as $list) {
+                $no++;
+                $contact_no = $this->formatPhoneNumber($list->contact_no);
+
+                if ($list->set_as_default == 1) {
+                    $default = '<span class="badge bg-warning text-white">Default</span>';
+                } else {
+                    $default = '';
+                }
+
+                if ($list->selected_address == 1) {
+                    $checked = 'checked';
+                    $delete_btn = '';
+                } else {
+                    $checked = '';
+                    $delete_btn = '<div class="delete--btn delete_address" data-id="'.$list->shipping_id.'"><i class="bi bi-trash"></i></div>';
+                }
+
+                $address = $list->street_name.' '.ucwords($list->barangay).', '.ucwords($list->municipality).', '.ucwords($list->province).' '.$list->postal_code;
+
+                $output .= '
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="form-check checkbox d-flex align-items-center gap-3">
+                            <input class="form-check-input cart__item__check_all-product change_delivery_address" data-id="'.$list->shipping_id.'" type="radio" name="address_selection" id="address_selection'.$no.'" '.$checked.'>
+                            <label class="form-check-label" for="address_selection'.$no.'" style="font-size:14px; font-weight:500; margin-top:4px;">
+                                <span class="fw-bold">'.ucwords($list->fullname).'</span> | '.$contact_no.'
+                            </label>
+                        </div>
+                        '.$delete_btn.'
+                    </div>
+                    <div style="margin-left:25px; font-size:13px; color:#636e72;">
+                        <div>Landmark: '.$list->landmark.'</div>
+                        <div>'.$address.'</div>
+                        '.$default.'
+                    </div>
+                    <hr>
+                ';
+            }
+        } else {
+            $output .= '<div class="alert alert-danger"><i class="bi bi-info-circle-fill me-2"></i>No delivery address found.</div>';
+        }
+        $data['address_list'] = $output;
+        echo json_encode($data);
+    }
+
+    public function get_default_address()
+    {
+        $output = '';
+        $default_address = $this->product_model->get_selected_address();
+        if ($default_address->num_rows() > 0) {
+            $address = $default_address->row();
+            $complete_address = $address->street_name.' '.ucwords($address->barangay).', '.ucwords($address->municipality).', '.ucwords($address->province).' '.$address->postal_code;
+            $contact_no = $this->formatPhoneNumber($address->contact_no);
+
+            $output = '
+                <h1 class="checkout__address__name">'.ucwords($address->fullname).' | '.$contact_no.'</h1>
+                <p class="checkout__address__p">'.$complete_address.'</p>
+                <p class="checkout__address__p">Landmark: '.$address->landmark.'</p>
+                <input type="hidden" class="shipping_id" value="'.$address->shipping_id.'">
+            ';
+        } else {
+            $output = '<div class="alert alert-danger"><i class="bi bi-info-circle-fill me-2"></i>No delivery address found.</div>';
+        }
+        $data['default_address'] = $output;
+        echo json_encode($data);
+    }
+
+    public function save_address()
+    {
+        $success = '';
+        $error = '';
+        $fullname = $this->input->post('fullname', true);
+        $contact_no = $this->input->post('contact_no', true);
+        $province_name = $this->input->post('province_name', true);
+        $municipality_name = $this->input->post('municipality_name', true);
+        $brgy_name = $this->input->post('brgy_name', true);
+        $postal_code = $this->input->post('postal_code', true);
+        $street_name = $this->input->post('street_name', true);
+        $landmark = $this->input->post('landmark', true);
+        $label_as = $this->input->post('label_as', true);
+        $set_default = $this->input->post('set_default', true);
+        $user_id = $this->session->userdata('customerIn')['user_id'];
+        
+        if ($set_default == 1) {
+            $check_address = $this->product_model->get_default_address();
+            if ($check_address->num_rows() > 0) {
+                //With already default address
+                $insert_default = array(
+                    'user_id'           => $user_id,
+                    'fullname'          => $fullname,
+                    'contact_no'        => $contact_no,
+                    'province'          => $province_name,
+                    'municipality'      => $municipality_name,
+                    'barangay'          => $brgy_name,
+                    'street_name'       => $street_name,
+                    'postal_code'       => $postal_code,
+                    'landmark'          => $landmark,
+                    'label_as'          => $label_as,
+                    'set_as_default'    => 1,
+                    'selected_address'  => 1,
+                    'date_created'      => date('Y-m-d H:i:s'),
+                );
+                $this->product_model->update_address($user_id);
+                $result = $this->product_model->insert_delivery_address($insert_default);
+                if ($result == TRUE) {
+                    $success = 'Address successfully saved.';
+                } else {
+                    $error = 'Failed to save the address.';
+                }
+            } else {
+                //Without default address
+                $insert_default = array(
+                    'user_id'           => $user_id,
+                    'fullname'          => $fullname,
+                    'contact_no'        => $contact_no,
+                    'province'          => $province_name,
+                    'municipality'      => $municipality_name,
+                    'barangay'          => $brgy_name,
+                    'street_name'       => $street_name,
+                    'postal_code'       => $postal_code,
+                    'landmark'          => $landmark,
+                    'label_as'          => $label_as,
+                    'set_as_default'    => 1,
+                    'selected_address'  => 1,
+                    'date_created'      => date('Y-m-d H:i:s'),
+                );
+                $result = $this->product_model->insert_delivery_address($insert_default);
+                if ($result == TRUE) {
+                    $success = 'Address successfully saved.';
+                } else {
+                    $error = 'Failed to save the address.';
+                }
+            }
+        } else {
+            $insert_default = array(
+                'user_id'           => $user_id,
+                'fullname'          => $fullname,
+                'contact_no'        => $contact_no,
+                'province'          => $province_name,
+                'municipality'      => $municipality_name,
+                'barangay'          => $brgy_name,
+                'street_name'       => $street_name,
+                'postal_code'       => $postal_code,
+                'landmark'          => $landmark,
+                'label_as'          => $label_as,
+                'set_as_default'    => 0,
+                'selected_address'  => 0,
+                'date_created'      => date('Y-m-d H:i:s'),
+            );
+            $result = $this->product_model->insert_delivery_address($insert_default);
+            if ($result == TRUE) {
+                $success = 'Address successfully saved.';
+            } else {
+                $error = 'Failed to save the address.';
+            }
+        }
+        $output = array(
+            'success' => $success,
+            'error' => $error,
+        );
+        echo json_encode($output);
+    }
+
+    public function change_delivery_address()
+    {
+        $success = '';
+        $error = '';
+        $shipping_id = $this->input->post('shipping_id', true);
+
+        $result = $this->product_model->change_delivery_address($shipping_id);
+        if ($result == TRUE) {
+            $success = 'Delivery address successfully updated.';
+        } else {
+            $error = 'Failed to update the delivery address.';
+        }
+        $output = array(
+            'success' => $success,
+            'error' => $error,
+        );
+        echo json_encode($output);
+    }
+
+    public function delete_address()
+    {
+        $success = '';
+        $error = '';
+        $shipping_id = $this->input->post('shipping_id', true);
+
+        $result = $this->product_model->delete_address($shipping_id);
+        if ($result == TRUE) {
+            $success = 'Delivery address successfully deleted.';
+        } else {
+            $error = 'Failed to delete the delivery address.';
+        }
+        $output = array(
+            'success' => $success,
+            'error' => $error,
+        );
+        echo json_encode($output);
+    }
+
+    public function check_referral_code() 
+    {
+        $success = '';
+        $error = '';
+        $referral_code = $this->input->post('referral_code', true);
+
+        $check_referral = $this->product_model->check_referral_code($referral_code);
+        if($check_referral->num_rows() > 0) {
+            $reseller = $check_referral->row();
+
+            $reseller_id = isset($reseller->reseller_id) ? $reseller->reseller_id : '';
+            $success = 'Valid referral code.';
+        } else {
+            $reseller_id = '';
+            $error = 'Referral code not found.';
+        }
+        $output = array(
+            'success' => $success,
+            'error' => $error,
+            'reseller_id' => $reseller_id,
+        );
+        echo json_encode($output);
+    }
+
+    public function check_voucher_code()
+    {
+        $success = '';
+        $error = '';
+        $voucher_code = $this->input->post('voucher_code', true);
+        $reseller_id = $this->input->post('reseller_id', true);
+
+        $check_voucher= $this->product_model->check_voucher_code($voucher_code, $reseller_id);
+        if($check_voucher->num_rows() > 0) {
+            $voucher = $check_voucher->row();
+
+            $voucher_amt = isset($voucher->voucher_amt) ? $voucher->voucher_amt : '';
+            $success = 'Valid voucher code.';
+        } else {
+            $voucher_amt = '';
+            $error = 'Invalid voucher.';
+        }
+        $output = array(
+            'success' => $success,
+            'error' => $error,
+            'voucher_amt' => $voucher_amt,
+        );
+        echo json_encode($output);
+    }
+
+    public function process_checkout()
+    {
+        $error = '';
+        $success = '';
+
+        $cart_ids = $this->input->post('cart_ids', true);
+        $product_ids = $this->input->post('product_ids', true);
+        $qtyOrders = $this->input->post('qtyOrders', true);
+
+        $shipping_id = $this->input->post('shipping_id', true);
+        $subtotal = $this->input->post('subtotal', true);
+        $delivery_fee = $this->input->post('delivery_fee', true);
+        $referral_code = $this->input->post('referral_code', true);
+        $voucher_code = $this->input->post('voucher_code', true);
+        $voucher_discount_amt = $this->input->post('voucher_discount_amt', true);
+        $total_amount = $this->input->post('total_amount', true);
+        $payment_method = $this->input->post('payment_method', true);
+        $no_items = $this->input->post('no_items', true);
+        $messageForSeller = $this->input->post('messageForSeller', true);
+        
+        $subtotal = str_replace(['₱', ','], '', $subtotal);
+        $delivery_fee = str_replace(['-', ','], '', $delivery_fee);
+        $voucher_discount_amt = str_replace(['₱', ','], '', $voucher_discount_amt);
+        $total_amount = str_replace(['₱', ','], '', $total_amount);
+        
+        $order_no = 'ORDR'.date('Ymd').mt_rand(1000, 9999);
+
+        $insert_order = array(
+            'order_no'              => $order_no,
+            'user_id'               => $this->session->userdata('customerIn')['user_id'],
+            'shipping_id'           => $shipping_id,
+            'sub_total'             => $subtotal,
+            'shipping_fee'          => $delivery_fee,
+            'discount_voucher_amt'  => $voucher_discount_amt,
+            'total_amount'          => $total_amount,
+            'referral_code'         => $referral_code,
+            'voucher_code'          => $voucher_code,
+            'payment_type'          => $payment_method,
+            'no_items'              => $no_items,
+            'order_status'          => 'Pending',
+            'message_to_seller'     => $messageForSeller,
+            'date_created'          => date('Y-m-d H:i:s'),
+        );
+
+        $order_id = $this->product_model->process_checkout($insert_order);
+        if ($order_id != '') {
+            //Insert each product related to the order
+            foreach($product_ids as $key => $product_id) {
+                $insert_order_product = [
+                    'order_id'          => $order_id,
+                    'product_id'        => $product_id,
+                    'quantity_order'    => $qtyOrders[$key], // Match quantity with product ID
+                    'date_created'      => date('Y-m-d H:i:s'),
+                ];
+
+                $this->product_model->insert_order_product($insert_order_product);
+            }
+            $this->db->where_in('cart_id', $cart_ids);
+            $this->db->update('cart_item', array('status' => 1));
+
+            $success = "Order successfully placed!";
+        } else {
+            $error = "Failed to process the order.";
+        }
+
+        $output = array(
+            'success' => $success,
+            'error' => $error,
+        );
+        echo json_encode($output);
+    }
+
+    public function get_municipal($prov = NULL, $value = NULL)
+    {
+        $code = $prov ? $prov:$this->input->post('code',TRUE);
+        $prov_code = substr($code,0,4);
+        if ($prov_code == 1339) {
+            $this->db->like('code', '1339', 'after')->or_like('code', '1374', 'after')->or_like('code', '1375', 'after')->or_like('code', '1376', 'after');
+        } else {
+            $this->db->like('code', $prov_code, 'after');
+        }
+        $res = $this->db->select('*')->from('psgc_municipal')->order_by('name', 'ASC')->get()->result();
+		$option = '<option value="">Select Municipality</option>';
+		foreach($res as $val){
+			$option .= '<option value="'.$val->code.'" '.($value && $value == $val->code ? 'selected':'').'>'.ucwords($val->name).'</option>';
+		}
+		if($prov)
+			return $option;
+		else
+			echo json_encode($option);
+    }
+
+    public function get_barangay($muni = NULL, $value = NULL)
+    {
+        $code = $muni ? $muni : $this->input->post('code', TRUE);
+
+        $brgy = $this->db->like('code', substr($code, 0, 6), 'after')->order_by('name', 'ASC')->get('psgc_brgy')->result();
+        // print_r($brgy);
+        $option = '<option value="">Select Barangay</option>';
+        foreach ($brgy as $val) {
+            $option .= '<option value="' . $val->code . '" ' . ($value && $value == $val->code ? 'selected' : '') . '>' . ucwords($val->name) . '</option>';
+        }
+        if ($muni)
+            return $option;
+        else
+            echo json_encode($option);
+    }
+
+    //=============================End of Checkout============================
 
 }

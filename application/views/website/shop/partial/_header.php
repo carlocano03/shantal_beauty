@@ -36,11 +36,19 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" defer></script>
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     <!--   CSRF Token   -->
+    <script src="<?php echo base_url('assets/js/form-validate.js'); ?>"></script>
     <script src="<?php echo base_url('assets/js/csrf_generator.js'); ?>"></script>
     <script>
     var csrf_token_name = "<?php echo $this->security->get_csrf_token_name(); ?>";
     var csrf_token_value = "<?php echo $this->security->get_csrf_hash(); ?>";
     var baseURL = "<?= base_url();?>";
+
+    var Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000
+    });
     </script>
     <?php
         // Load specified header library

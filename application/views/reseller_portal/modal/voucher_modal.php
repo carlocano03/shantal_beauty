@@ -8,18 +8,6 @@
             <div class="modal-body">
                 <form id="addForm" class="needs-validation" novalidate>
                     <div class="form-group mb-3">
-                        <label for="product" class="form-label">Product Name</label>
-                        <select name="product" id="product" class="form-select">
-                            <option value="">Please choose on the following options</option>
-                            <?php foreach($product as $row) : ?>
-                                <option value="<?= $row['product_id']?>"><?= ucwords($row['product_name'])?></option>
-                            <?php endforeach;?>
-                        </select>
-                        <div class="invalid-feedback">
-                            Please provide a valid product name.
-                        </div>
-                    </div>
-                    <div class="form-group mb-3">
                         <label for="voucher" class="form-label">Voucher Code</label>
                         <input type="text" class="form-control" id="voucher" required>
                         <div class="invalid-feedback">
@@ -74,18 +62,6 @@
                 <form id="updateForm" class="needs-validation" novalidate>
                     <input type="hidden" id="voucher_id">
                     <div class="form-group mb-3">
-                        <label for="edit_product" class="form-label">Product Name</label>
-                        <select name="edit_product" id="edit_product" class="form-select">
-                            <option value="">Please choose on the following options</option>
-                            <?php foreach($product as $row) : ?>
-                                <option value="<?= $row['product_id']?>"><?= ucwords($row['product_name'])?></option>
-                            <?php endforeach;?>
-                        </select>
-                        <div class="invalid-feedback">
-                            Please provide a valid product name.
-                        </div>
-                    </div>
-                    <div class="form-group mb-3">
                         <label for="edit_voucher" class="form-label">Voucher Code</label>
                         <input type="text" class="form-control" id="edit_voucher" required>
                         <div class="invalid-feedback">
@@ -132,14 +108,12 @@
 <script>
     $(document).on('click', '.update_modal', function() {
         var voucher_id = $(this).data('id');
-        var product = $(this).data('product');
         var voucher_code = $(this).data('voucher_code');
         var desc = $(this).data('desc');
         var amt = $(this).data('amt');
         var end_date = $(this).data('end_date');
 
         $('#voucher_id').val(voucher_id);
-        $('#edit_product').val(product).trigger('change');
         $('#edit_vocher_desc').val(desc);
         $('#edit_voucher').val(voucher_code);
         $('#edit_voucher_amt').val(amt);

@@ -11,9 +11,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Voucher_model extends MY_Model
 {
     var $voucher = 'voucher';
-    var $voucher_order = array('V.vocuher_code','V.description','V.date_created','V.end_date','V.request_status','P.product_name');
-    var $voucher_search = array('V.vocuher_code','V.description','V.date_created','V.end_date','V.request_status','P.product_name'); //set column field database for datatable searchable just article , description , serial_num, property_num, department are searchable
-    var $order = array('V.voucher_id' => 'ASC'); // default order
+    var $voucher_order = array('vocuher_code','description','date_created','end_date','request_status');
+    var $voucher_search = array('vocuher_code','description','date_created','end_date','request_status'); //set column field database for datatable searchable just article , description , serial_num, property_num, department are searchable
+    var $order = array('voucher_id' => 'ASC'); // default order
     /**
      * __construct function.
      * 
@@ -26,9 +26,9 @@ class Voucher_model extends MY_Model
         $this->load->database();
     }
 
-    function check_voucher($product_id, $reseller_id)
+    function check_voucher($reseller_id, $voucher_code)
     {
-        $this->db->where('product_id', $product_id);
+        $this->db->where('voucher_code', $voucher_code);
         $this->db->where('reseller_id', $reseller_id);
         $this->db->where('status', 0);
         $query = $this->db->get('voucher');
@@ -59,21 +59,17 @@ class Voucher_model extends MY_Model
 
     public function count_all()
     {
-        $this->db->select('V.*, P.product_name');
-        $this->db->from($this->voucher.' V');
-        $this->db->join('product P', 'V.product_id = P.product_id', 'left');
-        $this->db->where('V.reseller_id', $this->session->userdata('resellerIn')['reseller_id']);
-        $this->db->where('V.is_deleted IS NULL');
+        $this->db->from($this->voucher);
+        $this->db->where('reseller_id', $this->session->userdata('resellerIn')['reseller_id']);
+        $this->db->where('is_deleted IS NULL');
         return $this->db->count_all_results();
     }
 
     private function _get_voucher_list_query()
     {
-        $this->db->select('V.*, P.product_name');
-        $this->db->from($this->voucher.' V');
-        $this->db->join('product P', 'V.product_id = P.product_id', 'left');
-        $this->db->where('V.reseller_id', $this->session->userdata('resellerIn')['reseller_id']);
-        $this->db->where('V.is_deleted IS NULL');
+        $this->db->from($this->voucher);
+        $this->db->where('reseller_id', $this->session->userdata('resellerIn')['reseller_id']);
+        $this->db->where('is_deleted IS NULL');
         $i = 0;
         foreach ($this->voucher_search as $item) // loop column 
         {

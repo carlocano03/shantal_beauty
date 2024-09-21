@@ -323,8 +323,7 @@ class Reseller_application extends MY_Controller
             $row[] = $no;
             $row[] = '<div>'.ucwords($list->reseller_name).'</div>
                       <span style="font-size:10px; color:red; font-weight:600;">Reseller No.: '.ucwords($list->reseller_no).'</span>';
-            $row[] = '<div>'.$list->voucher_code.'</div>
-                      <span style="font-size:10px; color:red; font-weight:600;">Product: '.ucwords($list->product_name).'</span>';
+            $row[] = '<div>'.$list->voucher_code.'</div>';
             $row[] = date('D M j, Y h:i A', strtotime($list->date_created));
             $row[] = date('F j, Y', strtotime($list->end_date));
 
@@ -354,8 +353,6 @@ class Reseller_application extends MY_Controller
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item link-cursor text-primary view_modal"
                                     data-id="'.$list->voucher_id.'"
-                                    data-product_id="'.$list->product_id.'"
-                                    data-product="'.$list->product_name.'"
                                     data-voucher_code="'.$list->voucher_code.'"
                                     data-desc="'.$list->description.'"
                                     data-amt="'.number_format($list->voucher_amt,2).'"

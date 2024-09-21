@@ -64,6 +64,8 @@ class Main extends MY_Controller
             $data['cart_items'] = $cart_data;
         }
 
+        $data['delivery_address'] = $this->product_model->get_default_address();
+        $data['province'] = $this->db->order_by("code = '133900000' DESC, name ASC")->get('psgc_province')->result();
 		$data['title'] = 'Shantal`s Shop';
         $this->load->view('website/shop/partial/_header', $data);
         $this->load->view('website/shop/checkout', $data);

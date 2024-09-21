@@ -84,13 +84,6 @@
 </div>
 
 <script>
-var Toast = Swal.mixin({
-    toast: true,
-    position: 'top-end',
-    showConfirmButton: false,
-    timer: 3000
-});
-
 function productList(page, filter) {
     var search_query = $('.navbar__search-input').val();
     $('.loading-screen').show();
@@ -165,11 +158,19 @@ $(document).ready(function() {
         }
 
         if (event.target.classList.contains('product__item__quantity-selector__plus')) {
-            const input = event.target.closest(".product__item__quantity-selector").querySelector(
-                '.product__item__quantity-selector__input');
+            const input = event.target.closest(".product__item__quantity-selector").querySelector('.product__item__quantity-selector__input');
+            var availableStock = $(event.target).data('stocks'); 
             let quantity = parseInt(input.value);
-            quantity += 1;
-            input.value = quantity;
+
+            if (quantity < availableStock) {
+                quantity += 1;
+                input.value = quantity;
+            } else {
+                Toast.fire({
+                        icon: 'warning',
+                        title: 'This product is out of stock.',
+                });
+            }
         }
     });
 
