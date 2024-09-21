@@ -174,6 +174,13 @@ class Product_model extends MY_Model
         return $response;
     }
 
+    function delete_cart_item($cart_id)
+    {
+        $this->db->where('cart_id', $cart_id);
+        $delete = $this->db->delete('cart_item');
+        return $delete?TRUE:FALSE;
+    }
+
     //Checkout page
     function get_cart_data($cart_ids_decrypted)
     {
@@ -184,6 +191,100 @@ class Product_model extends MY_Model
         $this->db->where_in('cart_id', $cart_ids_decrypted);
         $query = $this->db->get();
         return $query->result();
+    }
+
+    function get_default_address()
+    {
+        $this->db->where('user_id', $this->session->userdata('customerIn')['user_id']);
+        $this->db->where('set_as_default', 1);
+        $this->db->where('status', 0);
+        $query = $this->db->get('delivery_address');
+        return $query;
+    }
+
+    function get_delivery_address_list($user_id)
+    {
+        $this->db->where('user_id', $this->session->userdata('customerIn')['user_id']);
+        $this->db->where('status', 0);
+        $query = $this->db->get('delivery_address');
+        return $query;
+    }
+
+    function get_province()
+    {
+        $this->db->order_by('name', 'ASC');
+        $query = $this->db->get('psgc_province');
+        return $query->result();
+    }
+
+    function insert_delivery_address($insert_default)
+    {
+        $insert = $this->db->insert('delivery_address', $insert_default);
+        return $insert?TRUE:FALSE;
+    }
+
+    function update_address($user_id)
+    {
+        $this->db->where('user_id', $user_id);
+        $this->db->update('delivery_address', array('set_as_default' => 0, 'selected_address' => 0));
+    }
+
+    function get_selected_address()
+    {
+        $this->db->where('user_id', $this->session->userdata('customerIn')['user_id']);
+        $this->db->where('selected_address', 1);
+        $this->db->where('status', 0);
+        $query = $this->db->get('delivery_address');
+        return $query;
+    }
+
+    function change_delivery_address($shipping_id)
+    {
+        $this->db->where('user_id', $this->session->userdata('customerIn')['user_id']);
+        $update = $this->db->update('delivery_address', array('selected_address' => 0)); 
+        if ($update) {
+            $this->db->where('shipping_id', $shipping_id);
+            $this->db->update('delivery_address', array('selected_address' => 1));
+        }
+        return $update?TRUE:FALSE;
+    }
+
+    function delete_address($shipping_id)
+    {
+        $this->db->where('shipping_id', $shipping_id);
+        $update = $this->db->update('delivery_address', array('status' => 1));
+        return $update?TRUE:FALSE;
+    }
+
+    function check_referral_code($referral_code)
+    {
+        $this->db->where('referral_code', $referral_code);
+        $query = $this->db->get('reseller_information');
+        return $query;
+    }
+
+    function check_voucher_code($voucher_code, $reseller_id)
+    {
+        $this->db->where('voucher_code', $voucher_code);
+        $this->db->where('reseller_id', $reseller_id);
+        $this->db->where('request_status', 'Approved');
+        $query = $this->db->get('voucher');
+        return $query;
+    }
+
+    function process_checkout($insert_order)
+    {
+        $insert = $this->db->insert('order_details', $insert_order);
+        if ($insert) {
+            return $this->db->insert_id();
+        } else {
+            return '';
+        } 
+    }
+
+    function insert_order_product($insert_order_product)
+    {
+        return $this->db->insert('order_items', $insert_order_product);
     }
     //End of checkout page
 

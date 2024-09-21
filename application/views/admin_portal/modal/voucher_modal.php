@@ -14,11 +14,6 @@
                     </div>
                     <hr class="mt-0 mb-2">
                     <div class="d-flex align-items-center justify-content-between">
-                        <div class="form-label fw-bold"><i class="bi bi-box-seam-fill me-2"></i>Product Name</div>
-                        <div class="form-label product_name"></div>
-                    </div>
-                    <hr class="mt-0 mb-2">
-                    <div class="d-flex align-items-center justify-content-between">
                         <div class="form-label fw-bold"><i class="bi bi-wallet me-2"></i>Voucher Amount</div>
                         <div class="form-label voucher_amt"></div>
                     </div>
@@ -73,7 +68,6 @@
 
         $('.voucher_id').val(voucher_id);
         $('.voucher_code').text(voucher_code);
-        $('.product_name').text(product);
         $('.voucher_amt').text('₱'+amount);
         $('.end_date').text(end_date);
         $('.desc').text(desc);

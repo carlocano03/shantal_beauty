@@ -7,9 +7,9 @@
                 aria-label="Close"></button>
         </div>
         <div class="offcanvas-body cart__container">
-            <div class="form-check checkbox d-flex align-items-center gap-3">
+            <div class="form-check checkbox d-none align-items-center gap-3 cart_check_all">
                 <input class="form-check-input cart__item__check_all-product" type="checkbox" id="select-all-checkbox">
-                <label class="form-check-label" for="select-all-checkbox" style="font-size:14px; font-weight:500;">
+                <label class="form-check-label" for="select-all-checkbox" style="font-size:14px; font-weight:500; margin-top:4px;">
                     Select all items in the cart
                 </label>
             </div>
@@ -20,7 +20,7 @@
             <div class="cart__subtotal-container p-4 py-5">
                 <div class="d-flex align-items-center justify-content-between">
                     <div class="cart__subtotal-name">Subtotal</div>
-                    <div class="cart__subtotal-price">0.00</div>
+                    <div class="cart__subtotal-price">₱ 0.00</div>
                 </div>
                 <button type="button" class="cart__checkout">Check out <span class="checkout_count">(0)</span></button>
             </div>
