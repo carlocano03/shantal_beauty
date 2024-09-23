@@ -12,7 +12,8 @@
             </div>
 
             <p>
-                <button class="btn btn-primary btn-block w-100" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAddress" aria-expanded="false" aria-controls="collapseAddress">
+                <button class="address-selection__btn" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapseAddress" aria-expanded="false" aria-controls="collapseAddress">
                     <i class="bi bi-plus-circle me-2"></i>Add New Address
                 </button>
             </p>
@@ -28,7 +29,8 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control number-input" placeholder="Phone Number" id="contact_no" required>
+                                <input type="text" class="form-control number-input" placeholder="Phone Number"
+                                    id="contact_no" required>
                                 <div class="invalid-feedback">
                                     Please provide a valid contact number.
                                 </div>
@@ -41,7 +43,7 @@
                                 <select name="province" id="province" class="form-select" required>
                                     <option value="">Select Province</option>
                                     <?php foreach($province as $row) : ?>
-                                        <option value="<?= $row->code?>"><?= ucwords($row->name); ?></option>
+                                    <option value="<?= $row->code?>"><?= ucwords($row->name); ?></option>
                                     <?php endforeach;?>
                                 </select>
                                 <div class="invalid-feedback">
@@ -68,13 +70,15 @@
                                 <input type="hidden" id="brgy_name">
                             </div>
                             <div class="form-group mb-3">
-                                <input type="text" class="form-control" placeholder="Postal Code" id="postal_code" required>
+                                <input type="text" class="form-control" placeholder="Postal Code" id="postal_code"
+                                    required>
                                 <div class="invalid-feedback">
                                     Please provide a valid postal code.
                                 </div>
                             </div>
                             <div class="form-group mb-3">
-                                <input type="text" class="form-control" placeholder="Street Name, Building, House No." id="street_name" required>
+                                <input type="text" class="form-control" placeholder="Street Name, Building, House No."
+                                    id="street_name" required>
                                 <div class="invalid-feedback">
                                     Please provide a valid street name, building, house no.
                                 </div>
@@ -117,78 +121,79 @@
                                 </div>
                             </div>
                         </fieldset>
-                        <button type="button" class="btn btn-warning w-100 mb-5" id="save_address">Submit</button>
+                        <button type="button" class="address-selection__save-address" id="save_address">Submit</button>
                     </div>
                 </form>
             </div>
         </div>
         <div class="cart__subtotal-container p-4 py-3">
-            <button type="button" class="btn_close" data-bs-dismiss="offcanvas" aria-label="Close">Close</button>
+            <button type="button" class="address-selection__btn-close" data-bs-dismiss="offcanvas"
+                aria-label="Close">Close</button>
         </div>
     </div>
 </div>
 
 <script>
-    const offcanvas = document.getElementById('addressModal');
-    const collapseElement = document.getElementById('collapseAddress');
-    const form = document.getElementById('addressForm');
-    
-    offcanvas.addEventListener('hidden.bs.offcanvas', function () {
-        if (collapseElement.classList.contains('show')) {
-            const collapseInstance = bootstrap.Collapse.getInstance(collapseElement);
-            collapseInstance.hide();
-        }
-        if (form) {
-            form.reset();
-        }
-    });
+const offcanvas = document.getElementById('addressModal');
+const collapseElement = document.getElementById('collapseAddress');
+const form = document.getElementById('addressForm');
 
-    $(document).on('click', '#labelAs1', function() {
-        if ($(this).is(':checked')) {
-            $('#label_as').val('Work');
-        } else {
-            $('#label_as').val('');
-        }
-    });
+offcanvas.addEventListener('hidden.bs.offcanvas', function() {
+    if (collapseElement.classList.contains('show')) {
+        const collapseInstance = bootstrap.Collapse.getInstance(collapseElement);
+        collapseInstance.hide();
+    }
+    if (form) {
+        form.reset();
+    }
+});
 
-    $(document).on('click', '#labelAs2', function() {
-        if ($(this).is(':checked')) {
-            $('#label_as').val('Home');
-        } else {
-            $('#label_as').val('');
-        }
-    });
+$(document).on('click', '#labelAs1', function() {
+    if ($(this).is(':checked')) {
+        $('#label_as').val('Work');
+    } else {
+        $('#label_as').val('');
+    }
+});
 
-    $(document).on('change', '#province', function() {
-        var elem = $(this);
-        var code = elem.val();
-        var text = elem.find('option:selected').text();
-        $.post("<?= base_url('shop/products/get_municipal/')?>", {
-                code: code,
-                '_token': csrf_token_value
-        }, function(data) {
-            $('#municipality').html(data);
-            $('#province_name').val(text);
-        }, "JSON");
-    });
+$(document).on('click', '#labelAs2', function() {
+    if ($(this).is(':checked')) {
+        $('#label_as').val('Home');
+    } else {
+        $('#label_as').val('');
+    }
+});
 
-    $(document).on('change', '#municipality', function() {
-        var elem = $(this);
-        var code = elem.val();
-        var text = elem.find('option:selected').text();
-        $.post("<?= base_url('shop/products/get_barangay/')?>", {
-            code: code,
-            '_token': csrf_token_value
-        }, function(data) {
-            $('#barangay').html(data);
-            $('#municipality_name').val(text);
-        }, "JSON");
-    });
+$(document).on('change', '#province', function() {
+    var elem = $(this);
+    var code = elem.val();
+    var text = elem.find('option:selected').text();
+    $.post("<?= base_url('shop/products/get_municipal/')?>", {
+        code: code,
+        '_token': csrf_token_value
+    }, function(data) {
+        $('#municipality').html(data);
+        $('#province_name').val(text);
+    }, "JSON");
+});
 
-    $(document).on('change', '#barangay', function() {
-        var elem = $(this);
-        var code = elem.val();
-        var text = elem.find('option:selected').text();
-        $('#brgy_name').val(text);
-    });
+$(document).on('change', '#municipality', function() {
+    var elem = $(this);
+    var code = elem.val();
+    var text = elem.find('option:selected').text();
+    $.post("<?= base_url('shop/products/get_barangay/')?>", {
+        code: code,
+        '_token': csrf_token_value
+    }, function(data) {
+        $('#barangay').html(data);
+        $('#municipality_name').val(text);
+    }, "JSON");
+});
+
+$(document).on('change', '#barangay', function() {
+    var elem = $(this);
+    var code = elem.val();
+    var text = elem.find('option:selected').text();
+    $('#brgy_name').val(text);
+});
 </script>
