@@ -19,6 +19,7 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 
 # Assets
 /assets/uploaded_file/uploaded_product/*
+/assets/uploaded_file/reseller_application/*
 
 # IDE Files
 #-------------------------

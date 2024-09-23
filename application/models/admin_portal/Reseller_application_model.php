@@ -21,8 +21,8 @@ class Reseller_application_model extends MY_Model
     var $order_acct = array('reseller_id' => 'ASC'); // default order
 
     var $voucher = 'voucher';
-    var $voucher_order = array('RI.first_name','RI.last_name','V.vocuher_code','V.description','V.date_created','V.end_date','V.request_status','P.product_name');
-    var $voucher_search = array('RI.first_name','RI.last_name','V.vocuher_code','V.description','V.date_created','V.end_date','V.request_status','P.product_name'); //set column field database for datatable searchable just article , description , serial_num, property_num, department are searchable
+    var $voucher_order = array('RI.first_name','RI.last_name','V.vocuher_code','V.description','V.date_created','V.end_date','V.request_status');
+    var $voucher_search = array('RI.first_name','RI.last_name','V.vocuher_code','V.description','V.date_created','V.end_date','V.request_status'); //set column field database for datatable searchable just article , description , serial_num, property_num, department are searchable
     var $order_voucher = array('V.voucher_id' => 'ASC'); // default order
 
     /**
@@ -246,10 +246,9 @@ class Reseller_application_model extends MY_Model
 
     public function count_all_voucher()
     {
-        $this->db->select('V.*, P.product_name, RI.reseller_no');
+        $this->db->select('V.*, RI.reseller_no');
         $this->db->select("CONCAT(RI.first_name,' ',RI.last_name) as reseller_name");
         $this->db->from($this->voucher.' V');
-        $this->db->join('product P', 'V.product_id = P.product_id', 'left');
         $this->db->join('reseller_information RI', 'V.reseller_id = RI.reseller_id', 'left');
         $this->db->where('V.is_deleted IS NULL');
         if ($this->input->post('status', true)) {
@@ -260,10 +259,9 @@ class Reseller_application_model extends MY_Model
 
     private function _get_voucher_list_query()
     {
-        $this->db->select('V.*, P.product_name, RI.reseller_no');
+        $this->db->select('V.*, RI.reseller_no');
         $this->db->select("CONCAT(RI.first_name,' ',RI.last_name) as reseller_name");
         $this->db->from($this->voucher.' V');
-        $this->db->join('product P', 'V.product_id = P.product_id', 'left');
         $this->db->join('reseller_information RI', 'V.reseller_id = RI.reseller_id', 'left');
         $this->db->where('V.is_deleted IS NULL');
         if ($this->input->post('status', true)) {

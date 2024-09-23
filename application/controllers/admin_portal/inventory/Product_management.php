@@ -336,6 +336,7 @@ class Product_management extends MY_Controller
 
             $product_id = $this->cipher->encrypt($list->product_id);
 
+            $row[] = $no;
             $row[] = ucwords($list->product_name);
             $row[] = $list->net_weight;
             $row[] = number_format($list->selling_price,2);
@@ -363,9 +364,11 @@ class Product_management extends MY_Controller
                             data-net_wt="'.$list->net_weight.'"
                             data-price="'.$list->selling_price.'"
                         ><i class="bi bi-pencil-square me-2"></i>Update Product</a></li>
+                        <li><a class="dropdown-item link-cursor text-warning image_modal" data-product_id="'.$list->product_id.'"><i class="bi bi-image me-2"></i>Add Image/Video</a></li>
                         <li><a class="dropdown-item link-cursor text-danger delete_product"
                             data-product_id="'.$list->product_id.'"
                         ><i class="bi bi-trash3-fill me-2"></i>Delete Product</a></li>
+                        
                     </ul>
                 </div>
             ';
@@ -402,6 +405,77 @@ class Product_management extends MY_Controller
             $success = 'Product successfully deleted.';
         } else {
             $error = 'Failed to delete the product.';
+        }
+        $output = array(
+            'error' => $error,
+            'success' => $success,
+        );
+        echo json_encode($output);
+    }
+
+    private function upload_product_video()
+    {
+        if (isset($_FILES["video"])) {
+            $dt = Date('His'); // Current time for unique filename
+            $extension = pathinfo($_FILES['video']['name'], PATHINFO_EXTENSION);
+            $new_name = rand() . '_' . $dt . '.' . $extension; // Randomize name for uniqueness
+            $destination = 'assets/uploaded_file/uploaded_product/' . $new_name;
+
+            // Move the uploaded file
+            if (move_uploaded_file($_FILES['video']['tmp_name'], $destination)) {
+                return $new_name; // Return the new file name
+            } else {
+                return ''; // Return empty string if file upload failed
+            }
+        }
+        return ''; // No file uploaded
+    }
+
+    public function save_additional_image()
+    {
+        $success = '';
+        $error = '';
+        $product_id = $this->input->post('product_id', true);
+        $options = $this->input->post('options', true);
+
+        if ($options == 'Image') {
+            $product_image = $this->upload_product_image();
+            if ($product_image == '') {
+                $error = 'Image upload failed.';
+            } else {
+                $insert_image = array(
+                    'product_id'  => $product_id,
+                    'product_img' => $product_image,
+                    'date_created' => date('Y-m-d H:i:s'),
+                );
+                $result = $this->product_management->save_additional_image($insert_image);
+                if ($result == TRUE) {
+                    $success = 'Image successfully uploaded.';
+                } else {
+                    $error = 'Failed to upload the image.';
+                }
+            }
+        } else {
+            //Video
+            $product_video = $this->upload_product_video();
+            if ($product_video == '') {
+                $error = 'Video upload failed.';
+            } else {
+                $insert_image = array(
+                    'product_id'  => $product_id,
+                    'product_img' => $product_video,
+                    'date_created' => date('Y-m-d H:i:s'),
+                );
+                $result = $this->product_management->save_additional_image($insert_image);
+                if ($result == TRUE) {
+                    $this->db->where('product_id', $product_id);
+                    $this->db->update('product', array('with_video' => 1));
+                    
+                    $success = 'Video successfully uploaded.';
+                } else {
+                    $error = 'Failed to upload the Video.';
+                }
+            }
         }
         $output = array(
             'error' => $error,

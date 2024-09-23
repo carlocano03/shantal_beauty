@@ -25,18 +25,20 @@
         padding-left: 6px;
     }
 
-    #tbl_product th:nth-child(2),
-    #tbl_product td:nth-child(2),
-    #tbl_product th:nth-child(4),
-    #tbl_product td:nth-child(4),
+    #tbl_product th:nth-child(1),
+    #tbl_product td:nth-child(1),
+    #tbl_product th:nth-child(3),
+    #tbl_product td:nth-child(3),
     #tbl_product th:nth-child(5),
     #tbl_product td:nth-child(5),
     #tbl_product th:nth-child(6),
-    #tbl_product td:nth-child(6) {
+    #tbl_product td:nth-child(6),
+    #tbl_product th:nth-child(7),
+    #tbl_product td:nth-child(7) {
         text-align: center;
     }
-    #tbl_product th:nth-child(3),
-    #tbl_product td:nth-child(3) {
+    #tbl_product th:nth-child(4),
+    #tbl_product td:nth-child(4) {
         text-align: right;
     }
 </style>
@@ -57,6 +59,7 @@
                 <table class="table" width="100%" id="tbl_product">
                     <thead>
                         <tr>
+                            <th>No.</th>
                             <th>Product</th>
                             <th>Net WT.</th>
                             <th>Price</th>
@@ -78,6 +81,8 @@
     $(document).ready(function() {
         let cropper;
         const editImagePreview = $('#edit_image_preview');
+        const AddImagePreview = $('#image_preview_add');
+
         var tbl_product = $('#tbl_product').DataTable({
             language: {
                 search: '',
@@ -115,77 +120,6 @@
 
         $(document).on('change', '.filter_option', function() {
             tbl_product.draw();
-        });
-
-        $(document).on('click', '#save_product', function(event) {
-            event.preventDefault();
-            event.stopPropagation();
-
-            var form = $('#addForm')[0];
-            var formData = new FormData(form);
-            
-            formData.append('product_name', $('#product_name').val());
-            formData.append('product_desc', $('#product_desc').val());
-            formData.append('net_weight', $('#net_weight').val());
-            formData.append('selling_price', $('#selling_price').val());
-            formData.append('_token', csrf_token_value);
-
-            form.classList.add('was-validated');
-            if (form.checkValidity() === false) {
-                event.preventDefault();
-                event.stopPropagation();
-            } else {
-                Swal.fire({
-                    title: 'Are you sure..',
-                    text: "You want to continue this transaction?",
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, continue',
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        cropper.getCroppedCanvas().toBlob(function(blob) {
-                            formData.append('cropped_image', blob, 'cropped_image.png');
-
-                            $.ajax({
-                                url: "<?= base_url('admin_portal/inventory/product_management/save_new_product')?>",
-                                method: "POST",
-                                data: formData,
-                                contentType: false,
-                                processData: false,
-                                dataType: "json",
-                                success: function(data) {
-                                    if (data.error != '') {
-                                        Swal.fire({
-                                            icon: 'warning',
-                                            title: 'Oops...',
-                                            text: data.error,
-                                        }); 
-                                    } else {
-                                        Swal.fire({
-                                            icon: 'success',
-                                            title: 'Thank you!',
-                                            text: data.success,
-                                        });
-                                        $('#addModal').modal('hide');
-                                        setTimeout(() => {
-                                            window.location.href = data.redirectLink;
-                                        }, 2000);
-                                    }
-                                },
-                                error :function() {
-                                    Swal.fire({
-                                        icon: 'error',
-                                        title: 'Oops...',
-                                        text: 'An error occurred while processing the request.',
-                                    });
-                                }
-                            });
-                        });
-                    }
-                });
-            }
         });
 
         $('#edit_image_input').on('change', function(e) {
@@ -345,6 +279,129 @@
             });
 
         });
+
+        $(document).on('click', '.image_modal', function() {
+            var product_id = $(this).data('product_id');
+
+            $('#add_product_id').val(product_id);
+            $('#imageModal').modal('show');
+        });
+
+        $('#image_input_add').on('change', function(e) {
+            const file = e.target.files[0];
+            
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    AddImagePreview.attr('src', e.target.result).show(); // Set and show the image preview
+
+                    // Destroy the existing cropper instance if there is one
+                    if (cropper) {
+                        cropper.destroy();
+                    }
+
+                    // Initialize the cropper on the preview image
+                    cropper = new Cropper(AddImagePreview[0], {
+                        aspectRatio: 1, // Adjust as needed (1 for square, 4/3, etc.)
+                        viewMode: 1
+                    });
+                };
+                reader.readAsDataURL(file); // Read the file as a data URL
+            } else {
+                AddImagePreview.hide();
+            }
+        });
+
+        $('#video_input_add').on('change', function(event) {
+            var videoFile = event.target.files[0];
+            var videoURL = URL.createObjectURL(videoFile);
+            
+            // Display the video preview
+            $('#video_source').attr('src', videoURL);
+            $('#video_preview').fadeIn(200);
+            $('#video_preview')[0].load(); // Reload video element
+        });
+
+        $(document).on('click', '#save_product_image', function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            var form = $('#imageForm')[0];
+            var formData = new FormData(form);
+
+            var options = $('#upload_file').val();
+            formData.append('product_id', $('#add_product_id').val());
+            formData.append('options', $('#upload_file').val());
+            formData.append('video', $('#video_input_add')[0].files[0]);
+            formData.append('_token', csrf_token_value);
+
+            form.classList.add('was-validated');
+            if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+            } else {
+                Swal.fire({
+                    title: 'Are you sure..',
+                    text: "You want to continue this transaction?",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, continue',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        if (options == 'Video') {
+                            sendAjaxRequestImage(formData);
+                        } else {
+                            cropper.getCroppedCanvas().toBlob(function(blob) {
+                                formData.append('cropped_image', blob, 'cropped_image.png');
+                                sendAjaxRequestImage(formData);
+                            });
+                        }
+                    }
+                });
+            }
+        });
+
+        function sendAjaxRequestImage(formData) 
+        {
+            $.ajax({
+                url: "<?= base_url('admin_portal/inventory/product_management/save_additional_image')?>",
+                method: "POST",
+                data: formData,
+                contentType: false,
+                processData: false,
+                dataType: "json",
+                success: function(data) {
+                    if (data.error != '') {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Oops...',
+                            text: data.error,
+                        }); 
+                    } else {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Thank you!',
+                            text: data.success,
+                        });
+                        $('#imageModal').modal('hide');
+                        tbl_product.draw();
+                        $('#imageForm')[0].reset();
+                        $('#imageForm')[0].classList.remove('was-validated');
+                        $('.upload_image').hide();
+                        $('.upload_video').hide();
+                    }
+                },
+                error :function() {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'An error occurred while processing the request.',
+                    });
+                }
+            });
+        }
     });
 </script>
 

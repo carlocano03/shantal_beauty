@@ -36,20 +36,18 @@ class Voucher extends MY_Controller
     {
         $success = '';
         $error = '';
-        $product_id = $this->input->post('product_id', true);
         $voucher_code = $this->input->post('voucher_code', true);
         $vocher_desc = $this->input->post('vocher_desc', true);
         $voucher_amt = $this->input->post('voucher_amt', true);
         $end_date = $this->input->post('end_date', true);
         $reseller_id = $this->session->userdata('resellerIn')['reseller_id'];
 
-        $check_voucher = $this->voucher_model->check_voucher($product_id, $reseller_id);
+        $check_voucher = $this->voucher_model->check_voucher($reseller_id, $voucher_code);
         if ($check_voucher->num_rows() > 0) {
             $error = 'Voucher for this product is already exist';
         } else {
             $insert_voucher = array(
                 'voucher_code'      => $voucher_code,
-                'product_id'        => $product_id,
                 'reseller_id'       => $reseller_id,
                 'description'       => $vocher_desc,
                 'voucher_amt'       => str_replace(',','',$voucher_amt),
@@ -81,8 +79,7 @@ class Voucher extends MY_Controller
             $row = array();
 
             $row[] = $no;
-            $row[] = '<div>'.$list->voucher_code.'</div>
-                      <span style="font-size:10px; color:red; font-weight:600;">Product: '.ucwords($list->product_name).'</span>';
+            $row[] = '<div>'.$list->voucher_code.'</div>';
             $row[] = $list->description;
             $row[] = date('D M j, Y h:i A', strtotime($list->date_created));
             $row[] = date('F j, Y', strtotime($list->end_date));
@@ -114,7 +111,6 @@ class Voucher extends MY_Controller
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item link-cursor text-primary update_modal"
                                     data-id="'.$list->voucher_id.'"
-                                    data-product="'.$list->product_id.'"
                                     data-voucher_code="'.$list->voucher_code.'"
                                     data-desc="'.$list->description.'"
                                     data-amt="'.$list->voucher_amt.'"
@@ -144,7 +140,6 @@ class Voucher extends MY_Controller
         $success = '';
         $error = '';
         $voucher_id = $this->input->post('voucher_id', true);
-        $product_id = $this->input->post('product_id', true);
         $voucher_code = $this->input->post('voucher_code', true);
         $vocher_desc = $this->input->post('vocher_desc', true);
         $voucher_amt = $this->input->post('voucher_amt', true);
@@ -152,7 +147,6 @@ class Voucher extends MY_Controller
 
         $update_voucher = array(
             'voucher_code'      => $voucher_code,
-            'product_id'        => $product_id,
             'description'       => $vocher_desc,
             'voucher_amt'       => str_replace(',','',$voucher_amt),
             'end_date'          => $end_date,
