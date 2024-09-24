@@ -3,11 +3,11 @@ function cartCount() {
 		url: baseURL + 'shop/products/cart_count',
 		method: "GET",
 		dataType: "json",
-		success: function(data) {
+		success: function (data) {
 			if (data.cart_count > 0) {
 				$('.cart_count').fadeIn(200);
 				$('.cart_count').text(data.cart_count);
-				$('.cart_count_list').text('('+data.cart_count+')');
+				$('.cart_count_list').text('(' + data.cart_count + ')');
 				$('.cart_check_all').addClass('d-flex');
 				$('.cart_check_all').removeClass('d-none');
 			} else {
@@ -17,27 +17,26 @@ function cartCount() {
 				$('.cart_check_all').addClass('d-none');
 				$('.cart_check_all').removeClass('d-flex');
 			}
-			
+
 		}
-	}); 
+	});
 }
 
-function getCartItem()
-{
-        $.ajax({
-        url: baseURL + 'shop/products/get_cart_item_list',
-        method: "GET",
-        dataType: "json",
-        success: function(data) {
-            $('.cart_item_list').html(data.cart_item_list);
-        }
-    }); 
+function getCartItem() {
+	$.ajax({
+		url: baseURL + 'shop/products/get_cart_item_list',
+		method: "GET",
+		dataType: "json",
+		success: function (data) {
+			$('.cart_item_list').html(data.cart_item_list);
+		}
+	});
 }
 
-$(document).ready(function() {
+$(document).ready(function () {
 	cartCount();
 
-	$(document).on('click', '.open_cart', function() {
+	$(document).on('click', '.open_cart', function () {
 		getCartItem();
 		$('#select-all-checkbox').prop('checked', false);
 
@@ -57,7 +56,7 @@ $(document).ready(function() {
 				'_token': csrf_token_value,
 			},
 			dataType: "json",
-			success: function(data) {
+			success: function (data) {
 				if (data.error != '') {
 					Toast.fire({
 						icon: 'warning',
@@ -70,7 +69,7 @@ $(document).ready(function() {
 					});
 				}
 			},
-			error: function() {
+			error: function () {
 				Toast.fire({
 					icon: 'error',
 					title: 'An error occurred while processing the request.',
@@ -79,7 +78,7 @@ $(document).ready(function() {
 		});
 	}
 
-	$(document).on('click', '.cart__item__quantity-selector__plus', function() {
+	$(document).on('click', '.cart__item__quantity-selector__plus', function () {
 		var cart_id = $(this).data('cart_id');
 		var $quantityInput = $(this).closest('.cart__item').find('.qty_cart');
 		var currentQuantity = parseInt($quantityInput.val());
@@ -101,7 +100,7 @@ $(document).ready(function() {
 		}
 	});
 
-	$(document).on('click', '.cart__item__quantity-selector__minus', function() {
+	$(document).on('click', '.cart__item__quantity-selector__minus', function () {
 		var cart_id = $(this).data('cart_id');
 		var $quantityInput = $(this).closest('.cart__item').find('.qty_cart');
 		var currentQuantity = parseInt($quantityInput.val());
@@ -110,7 +109,7 @@ $(document).ready(function() {
 		// Ensure the quantity is at least 1 before decreasing
 		if (currentQuantity > 1) {
 			currentQuantity--;
-			
+
 			// Update the input field with the new quantity
 			$quantityInput.val(currentQuantity);
 			updateCartQty(action, cart_id);
@@ -118,17 +117,17 @@ $(document).ready(function() {
 		}
 	});
 
-	$(document).on('change', '.check_product', function() {
+	$(document).on('change', '.check_product', function () {
 		calculateTotal();
 	});
 
-	$(document).on('change', '#select-all-checkbox', function() {
+	$(document).on('change', '#select-all-checkbox', function () {
 		var isChecked = $(this).prop('checked');
 
 		// Iterate over each .check_product checkbox
-		$('.check_product').each(function() {
+		$('.check_product').each(function () {
 			var stockStatus = $(this).data('stock'); // Get the stock status from the data attribute
-			
+
 			if (stockStatus !== 'No Stocks') {
 				// Only check/uncheck products that are not "No Stocks"
 				$(this).prop('checked', isChecked);
@@ -143,7 +142,7 @@ $(document).ready(function() {
 	});
 
 
-	$(document).on('click', '.check_product', function() {
+	$(document).on('click', '.check_product', function () {
 		var checkedCheckboxes = $('.check_product:checked');
 		var count = checkedCheckboxes.length;
 		$('.checkout_count').text('(' + count + ')');
@@ -158,10 +157,10 @@ $(document).ready(function() {
 		var total = 0;
 		var hasValidValues = false;
 
-		$('.check_product:checked').each(function() {
+		$('.check_product:checked').each(function () {
 			var unitPrice = parseFloat($(this).data('price'));
 			var quantity = parseInt($(this).closest('.cart__item').find('.qty_cart').val());
-			
+
 			// Check if quantity and unitPrice are valid numbers
 			if (!isNaN(quantity) && !isNaN(unitPrice)) {
 				total += unitPrice * quantity;
@@ -183,12 +182,12 @@ $(document).ready(function() {
 		}
 	}
 
-	$(document).on('click', '.cart__checkout', function() {
+	$(document).on('click', '.cart__checkout', function () {
 		var checkbox = $('.check_product:checked');
-		var cart_ids  = new Array();
+		var cart_ids = new Array();
 
 		if (checkbox.length > 0) {
-			$(checkbox).each(function() {
+			$(checkbox).each(function () {
 				var cart_id = $(this).closest('.cart__item').find('.check_product').data('cart_id');
 
 				cart_ids.push(cart_id);
@@ -205,7 +204,7 @@ $(document).ready(function() {
 		}
 	});
 
-	$(document).on('click', '.cart__product__item__delete-btn', function() {
+	$(document).on('click', '.cart__product__item__delete-btn', function () {
 		var cart_id = $(this).data('id');
 		var stock_status = $(this).data('stock');
 
@@ -218,7 +217,7 @@ $(document).ready(function() {
 					'_token': csrf_token_value,
 				},
 				dataType: "json",
-				success: function(data) {
+				success: function (data) {
 					if (data.error != '') {
 						Toast.fire({
 							icon: 'warning',
@@ -235,7 +234,7 @@ $(document).ready(function() {
 						$('#select-all-checkbox').prop('checked', false);
 					}
 				},
-				error: function() {
+				error: function () {
 					Toast.fire({
 						icon: 'error',
 						title: 'An error occurred while processing the request.',
@@ -246,3 +245,40 @@ $(document).ready(function() {
 	});
 	//End of Cart
 });
+
+
+// Profile Section
+$(document).ready(function () {
+	$(document).on('click', '#togglePassword', function () {
+		const passwordFieldType = $("#signupPassword").attr("type") === "password" ? "text" : "password";
+		$("#signupPassword").attr("type", passwordFieldType);
+		$(this).toggleClass("fa-eye fa-eye-slash");
+	})
+
+	$(document).on('click', '.profile__sidebar-menu__item', function () {
+		$(".profile__sidebar-menu__item").removeClass("active");
+		$(this).addClass('active');
+
+		$('.profile__content').hide();
+		var targetSection = $(this).data('target');
+		$(targetSection).show();
+	})
+})
+
+
+
+// Profile Update
+$(document).ready(function () {
+	$(document).on('click', '.profile__update-button', function (event) {
+		event.preventDefault();
+		event.stopPropagation();
+
+		var form = $('#profile__form')[0];
+
+		form.classList.add('was-validated');
+		if (form.checkValidity() === false) {
+			event.preventDefault();
+			event.stopPropagation();
+		}
+	})
+})
