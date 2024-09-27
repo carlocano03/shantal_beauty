@@ -61,7 +61,7 @@
                         <div class="profile__sidebar-card">
                             <div class="profile__sidebar-menu__item active" data-target="#profile__section">
                                 Profile</div>
-                            <div class="profile__sidebar-menu__item" data-target="#order-history__section">Order History
+                            <div class="profile__sidebar-menu__item" data-target="#my-order__section">My Orders
                             </div>
                             <div class=" profile__sidebar-menu__item" data-target="#shipping-address__section">Shipping
                                 Address</div>
@@ -148,64 +148,245 @@
                             </div>
                         </div>
 
-                        <!-- Order History -->
-                        <div id="order-history__section" class="profile__sidebar-card profile__content"
-                            style="display:none;">
-                            <h1 class="profile__title">Order History</h1>
-                            <p class="profile__p">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nostrum quam
-                                veritatis nulla suscipit, harum dolore aut earum excepturi natus? Id.</p>
-                            <hr />
-                            <div class="order-history__section__order-item mb-4 p-4 border rounded">
-                                <div
-                                    class="order-history__section__order-header mb-3 d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <h1 class="order-history__orderNo">Order #12345</h1>
-                                        <small class="text-muted">Delivered on: 12th September 2024</small>
-                                    </div>
-                                    <span class="badge bg-success order-history__badge">Completed</span>
-
-
-                                </div>
-
-                                <div class="order-history__section__order-products">
-                                    <!-- Product 1 -->
-                                    <div class="product d-flex justify-content-between align-items-center">
-                                        <div class="d-flex">
-                                            <img src="<?php echo base_url('assets/images/shop/product-cart-1.webp'); ?>"
-                                                class="order-history__section__product-img me-4" alt="Product 1">
-                                            <div class="d-flex flex-column justify-content-between">
-                                                <div>
-                                                    <p class="order-history__product__name">Temptation Coffee</p>
-                                                    <p class="order-history__product__quantity">Quantity: 1</p>
+                        <!-- My Order -->
+                        <div id="my-order__section" class="profile__sidebar-card profile__content">
+                            <h1 class="profile__title">My Order</h1>
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <!-- To Ship Tab -->
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="to-ship-tab" data-bs-toggle="tab"
+                                        data-bs-target="#to-ship-tab-pane" type="button" role="tab"
+                                        aria-controls="to-ship-tab-pane" aria-selected="true">To Ship<span
+                                            class="my-order__section__tab--badge">2</span></button>
+                                </li>
+                                <!-- To Receive Tab -->
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="to-receive-tab" data-bs-toggle="tab"
+                                        data-bs-target="#to-receive-tab-pane" type="button" role="tab"
+                                        aria-controls="to-receive-tab-pane" aria-selected="false">To Receive<span
+                                            class="my-order__section__tab--badge">2</span></button>
+                                </li>
+                                <!-- Completed Tab -->
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="completed-tab" data-bs-toggle="tab"
+                                        data-bs-target="#completed-tab-pane" type="button" role="tab"
+                                        aria-controls="completed-tab-pane" aria-selected="false">Completed<span
+                                            class="my-order__section__tab--badge">2</span></button>
+                                </li>
+                                <!-- Cancelled Tab -->
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="cancelled-tab" data-bs-toggle="tab"
+                                        data-bs-target="#cancelled-tab-pane" type="button" role="tab"
+                                        aria-controls="cancelled-tab-pane" aria-selected="false">Cancelled<span
+                                            class="my-order__section__tab--badge">2</span></button>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="myTabContent">
+                                <!-- To Ship Tab Content -->
+                                <div class="tab-pane fade show active" id="to-ship-tab-pane" role="tabpanel"
+                                    aria-labelledby="to-ship-tab" tabindex="0">
+                                    <!-- Order Item -->
+                                    <div class="my-order__section__order-item mb-4 p-4 border rounded">
+                                        <div
+                                            class="my-order__section__order-header mb-3 d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <h1 class="my-order__orderNo">Order #54321</h1>
+                                                <small class="text-muted">Placed on: 15th September 2024</small>
+                                            </div>
+                                            <span class="badge bg-warning my-order__badge">To Ship</span>
+                                        </div>
+                                        <div class="my-order__section__order-products">
+                                            <!-- Product -->
+                                            <div
+                                                class="my-order__section__product d-flex justify-content-between align-items-center">
+                                                <div class="d-flex">
+                                                    <img src="<?php echo base_url('assets/images/shop/product-cart-1.webp'); ?>"
+                                                        class="my-order__section__product-img me-4" alt="Product 1">
+                                                    <div class="d-flex flex-column justify-content-between">
+                                                        <div>
+                                                            <p class="my-order__product__name">Temptation Coffee</p>
+                                                            <p class="my-order__product__quantity">Quantity: 2</p>
+                                                        </div>
+                                                        <p class="my-order__product__price">₱200</p>
+                                                    </div>
                                                 </div>
-                                                <p class="order-history__product__price">₱100</p>
+                                                <button type="button" class="my-order__product__track-order">Track
+                                                    Order</button>
                                             </div>
 
-                                        </div>
-                                        <button type="button" class="order-history__product__buy-again">Buy
-                                            Again</button>
-                                    </div>
-
-                                    <!-- Product 2 -->
-                                    <div class="product d-flex justify-content-between align-items-center">
-                                        <div class="d-flex">
-                                            <img src="<?php echo base_url('assets/images/shop/product-cart-1.webp'); ?>"
-                                                class="order-history__section__product-img me-4" alt="Product 1">
-                                            <div class="d-flex flex-column justify-content-between">
-                                                <div>
-                                                    <p class="order-history__product__name">Temptation Coffee</p>
-                                                    <p class="order-history__product__quantity">Quantity: 1</p>
+                                            <div
+                                                class="my-order__section__product d-flex justify-content-between align-items-center">
+                                                <div class="d-flex">
+                                                    <img src="<?php echo base_url('assets/images/shop/product-cart-1.webp'); ?>"
+                                                        class="my-order__section__product-img me-4" alt="Product 1">
+                                                    <div class="d-flex flex-column justify-content-between">
+                                                        <div>
+                                                            <p class="my-order__product__name">Temptation Coffee</p>
+                                                            <p class="my-order__product__quantity">Quantity: 2</p>
+                                                        </div>
+                                                        <p class="my-order__product__price">₱200</p>
+                                                    </div>
                                                 </div>
-                                                <p class="order-history__product__price">₱100</p>
+                                                <button type="button" class="my-order__product__track-order">Track
+                                                    Order</button>
                                             </div>
 
+
+
                                         </div>
-                                        <button type="button" class="order-history__product__buy-again">Buy
-                                            Again</button>
                                     </div>
-
                                 </div>
+                                <!-- To Receive Tab Content -->
+                                <div class="tab-pane fade" id="to-receive-tab-pane" role="tabpanel"
+                                    aria-labelledby="to-receive-tab" tabindex="0">
+                                    <!-- Order Item -->
+                                    <div class="my-order__section__order-item mb-4 p-4 border rounded">
+                                        <div
+                                            class="my-order__section__order-header mb-3 d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <h1 class="my-order__orderNo">Order #67890</h1>
+                                                <small class="text-muted">Shipped on: 16th September 2024</small>
+                                            </div>
+                                            <span class="badge bg-info my-order__badge">To Receive</span>
+                                        </div>
+                                        <div class="my-order__section__order-products">
+                                            <!-- Product -->
+                                            <div
+                                                class="my-order__section__product d-flex justify-content-between align-items-center">
+                                                <div class="d-flex">
+                                                    <img src="<?php echo base_url('assets/images/shop/product-cart-1.webp'); ?>"
+                                                        class="my-order__section__product-img me-4" alt="Product 1">
+                                                    <div class="d-flex flex-column justify-content-between">
+                                                        <div>
+                                                            <p class="my-order__product__name">Temptation Coffee</p>
+                                                            <p class="my-order__product__quantity">Quantity: 1</p>
+                                                        </div>
+                                                        <p class="my-order__product__price">₱150</p>
+                                                    </div>
+                                                </div>
+                                                <button type="button" class="my-order__product__track-order">Track
+                                                    Order</button>
+                                            </div>
 
+                                            <div
+                                                class="my-order__section__product d-flex justify-content-between align-items-center">
+                                                <div class="d-flex">
+                                                    <img src="<?php echo base_url('assets/images/shop/product-cart-1.webp'); ?>"
+                                                        class="my-order__section__product-img me-4" alt="Product 1">
+                                                    <div class="d-flex flex-column justify-content-between">
+                                                        <div>
+                                                            <p class="my-order__product__name">Temptation Coffee</p>
+                                                            <p class="my-order__product__quantity">Quantity: 1</p>
+                                                        </div>
+                                                        <p class="my-order__product__price">₱150</p>
+                                                    </div>
+                                                </div>
+                                                <button type="button" class="my-order__product__track-order">Track
+                                                    Order</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Completed Tab Content -->
+                                <div class="tab-pane fade" id="completed-tab-pane" role="tabpanel"
+                                    aria-labelledby="completed-tab" tabindex="0">
+                                    <div class="my-order__section__order-item mb-4 p-4 border rounded">
+                                        <div
+                                            class="my-order__section__order-header mb-3 d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <h1 class="my-order__orderNo">Order #12345</h1>
+                                                <small class="text-muted">Delivered on: 12th September 2024</small>
+                                            </div>
+                                            <span class="badge bg-success my-order__badge">Completed</span>
+                                        </div>
+                                        <div class="my-order__section__order-products">
+                                            <!-- Product -->
+                                            <div
+                                                class="my-order__section__product d-flex justify-content-between align-items-center">
+                                                <div class="d-flex">
+                                                    <img src="<?php echo base_url('assets/images/shop/product-cart-1.webp'); ?>"
+                                                        class="my-order__section__product-img me-4" alt="Product 1">
+                                                    <div class="d-flex flex-column justify-content-between">
+                                                        <div>
+                                                            <p class="my-order__product__name">Temptation Coffee</p>
+                                                            <p class="my-order__product__quantity">Quantity: 1</p>
+                                                        </div>
+                                                        <p class="my-order__product__price">₱100</p>
+                                                    </div>
+                                                </div>
+                                                <button type="button" class="my-order__product__buy-again">Buy
+                                                    Again</button>
+                                            </div>
+
+                                            <div
+                                                class="my-order__section__product d-flex justify-content-between align-items-center">
+                                                <div class="d-flex">
+                                                    <img src="<?php echo base_url('assets/images/shop/product-cart-1.webp'); ?>"
+                                                        class="my-order__section__product-img me-4" alt="Product 1">
+                                                    <div class="d-flex flex-column justify-content-between">
+                                                        <div>
+                                                            <p class="my-order__product__name">Temptation Coffee</p>
+                                                            <p class="my-order__product__quantity">Quantity: 1</p>
+                                                        </div>
+                                                        <p class="my-order__product__price">₱100</p>
+                                                    </div>
+                                                </div>
+                                                <button type="button" class="my-order__product__buy-again">Buy
+                                                    Again</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Cancelled Tab Content -->
+                                <div class="tab-pane fade" id="cancelled-tab-pane" role="tabpanel"
+                                    aria-labelledby="cancelled-tab" tabindex="0">
+                                    <div class="my-order__section__order-item mb-4 p-4 border rounded">
+                                        <div
+                                            class="my-order__section__order-header mb-3 d-flex justify-content-between align-items-center">
+                                            <div>
+                                                <h1 class="my-order__orderNo">Order #98765</h1>
+                                                <small class="text-muted">Cancelled on: 14th September 2024</small>
+                                            </div>
+                                            <span class="badge bg-danger my-order__badge">Cancelled</span>
+                                        </div>
+                                        <div class="my-order__section__order-products">
+                                            <!-- Product -->
+                                            <div
+                                                class="my-order__section__product d-flex justify-content-between align-items-center">
+                                                <div class="d-flex">
+                                                    <img src="<?php echo base_url('assets/images/shop/product-cart-1.webp'); ?>"
+                                                        class="my-order__section__product-img me-4" alt="Product 1">
+                                                    <div class="d-flex flex-column justify-content-between">
+                                                        <div>
+                                                            <p class="my-order__product__name">Temptation Coffee</p>
+                                                            <p class="my-order__product__quantity">Quantity: 1</p>
+                                                        </div>
+                                                        <p class="my-order__product__price">₱5,000</p>
+                                                    </div>
+                                                </div>
+                                                <button type="button"
+                                                    class="my-order__product__reorder">Reorder</button>
+                                            </div>
+
+                                            <div
+                                                class="my-order__section__product d-flex justify-content-between align-items-center">
+                                                <div class="d-flex">
+                                                    <img src="<?php echo base_url('assets/images/shop/product-cart-1.webp'); ?>"
+                                                        class="my-order__section__product-img me-4" alt="Product 1">
+                                                    <div class="d-flex flex-column justify-content-between">
+                                                        <div>
+                                                            <p class="my-order__product__name">Temptation Coffee</p>
+                                                            <p class="my-order__product__quantity">Quantity: 1</p>
+                                                        </div>
+                                                        <p class="my-order__product__price">₱5,000</p>
+                                                    </div>
+                                                </div>
+                                                <button type="button"
+                                                    class="my-order__product__reorder">Reorder</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -278,6 +459,114 @@
                                 veritatis nulla suscipit, harum dolore aut earum excepturi natus? Id.</p>
                             <hr />
 
+                            <button type="button" class="shipping-address__btn"><i
+                                    class="bi bi-plus-circle me-2"></i>Add New Payment Method </button>
+
+                            <div class="row row-cols-lg-2 row-cols-1 gy-4 gy-lg-0 mt-5">
+                                <div class="col">
+                                    <div class="d-flex flex-column gap-3">
+                                        <div id="payment-method__debit-card" class="payment-methods__card">
+                                            <div class="form-check checkout__payment-method__check">
+                                                <div class="d-flex align-items-center gap-3">
+                                                    <img class="checkout__payment-method__label-img"
+                                                        src="<?php echo base_url('assets/images/shop/mastercard-Logo.png'); ?>"
+                                                        alt="Debit Card">
+                                                    <div>
+                                                        <label for="debitCard"
+                                                            class="form-check-label payment-methods__card__label">
+                                                            Debit Card ending in 1234
+                                                        </label>
+                                                        <p class="card-expiry">Exp. date: 12/24</p>
+                                                    </div>
+
+                                                    <div class="payment-methods__card__selected">Default</div>
+
+                                                </div>
+
+                                                <input class="form-check-input checkout__payment-method__input"
+                                                    type="radio" name="paymentMethod" id="debitCard" value="Debit Card">
+                                            </div>
+                                        </div>
+
+                                        <div id="payment-method__gcash" class="payment-methods__card">
+                                            <div class="form-check checkout__payment-method__check">
+                                                <div class="d-flex align-items-center gap-3">
+                                                    <img class="checkout__payment-method__label-img"
+                                                        src="<?php echo base_url('assets/images/shop/gcash-logo.png'); ?>"
+                                                        alt="GCash">
+                                                    <div>
+                                                        <label for="gcash"
+                                                            class="form-check-label payment-methods__card__label">
+                                                            GCash account: 0917xxxxxxx
+                                                        </label>
+                                                        <p class="card-expiry">Verified</p>
+                                                    </div>
+                                                </div>
+                                                <input class="form-check-input checkout__payment-method__input"
+                                                    type="radio" name="paymentMethod" id="gcash" value="GCash">
+                                            </div>
+                                        </div>
+
+                                        <div id="payment-method__maya" class="payment-methods__card">
+                                            <div class="form-check checkout__payment-method__check">
+                                                <div class="d-flex align-items-center gap-3">
+                                                    <img class="checkout__payment-method__label-img"
+                                                        src="<?php echo base_url('assets/images/shop/maya.png'); ?>"
+                                                        alt="Maya">
+                                                    <div>
+                                                        <label for="maya"
+                                                            class="form-check-label payment-methods__card__label">
+                                                            Maya account: 0918xxxxxxx
+                                                        </label>
+                                                        <p class="card-expiry">Verified</p>
+                                                    </div>
+                                                </div>
+                                                <input class="form-check-input checkout__payment-method__input"
+                                                    type="radio" name="paymentMethod" id="maya" value="Maya">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div id="payment-method__debit-card__details" class="payment-method-details">
+                                        <h1 class="payment-method-details__title">Payment Method Details</h1>
+                                        <p><strong>Debit Card:</strong> **** **** **** 1234</p>
+                                        <p><strong>Expiration Date:</strong> 12/24</p>
+                                        <p><strong>Billing Address:</strong> 1234 Street, City, Country</p>
+                                        <div class="d-flex items-center gap-2 mt-5">
+                                            <button class="payment-method-details__edit-btn">Edit Payment
+                                                Method</button>
+                                            <button class="payment-method-details__delete-btn">Delete</button>
+                                        </div>
+                                    </div>
+                                    <div id="payment-method__gcash__details" class="payment-method-details"
+                                        style="display:none">
+                                        <h1 class="payment-method-details__title">Payment Method Details</h1>
+                                        <!-- GCash Details -->
+                                        <p><strong>GCash Account:</strong> 0917xxxxxxx</p>
+                                        <p><strong>Status:</strong> Verified</p>
+                                        <div class="d-flex items-center gap-2 mt-5">
+                                            <button class="payment-method-details__edit-btn">Edit GCash Details</button>
+                                            <button class="payment-method-details__delete-btn">Delete</button>
+                                        </div>
+                                    </div>
+
+                                    <div id="payment-method__maya__details" class="payment-method-details"
+                                        style="display:none">
+                                        <h1 class="payment-method-details__title">Payment Method Details</h1>
+                                        <!-- Maya Details -->
+                                        <p><strong>Maya Account:</strong> 0918xxxxxxx</p>
+                                        <p><strong>Status:</strong> Verified</p>
+                                        <div class="d-flex items-center gap-2 mt-5">
+                                            <button class="payment-method-details__edit-btn">Edit Maya Details</button>
+                                            <button class="payment-method-details__delete-btn">Delete</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
                         </div>
 
                         <!-- Settings -->
@@ -298,7 +587,8 @@
     </section>
 </main>
 
+
 <div class="loading-screen text-center" style="display: none;">
-    <div class="spinner-border text-dark" role="status">
-    </div>
+    < class="spinner-border text-dark" role="status">
+    </ div>
 </div>

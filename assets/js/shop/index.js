@@ -282,3 +282,23 @@ $(document).ready(function () {
 		}
 	})
 })
+
+// Payment Methods
+function showPaymentMethod(paymentId) {
+	$('#payment-method__debit-card__details').hide();
+	$('#payment-method__gcash__details').hide();
+	$('#payment-method__maya__details').hide();
+	$('#' + paymentId).show();
+}
+
+$('#payment-method__debit-card').on('click', function () {
+	showPaymentMethod('payment-method__debit-card__details');
+});
+
+$('#payment-method__gcash').on('click', function () {
+	showPaymentMethod('payment-method__gcash__details');
+});
+
+$('#payment-method__maya').on('click', function () {
+	showPaymentMethod('payment-method__maya__details');
+});
