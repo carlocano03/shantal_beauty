@@ -31,7 +31,7 @@
         </header>
 
 
-        <div id="bottom__header">
+        <div id="bottom__header" style="background-color:#F5F5F5;">
             <div>
                 <div class="container">
                     <nav aria-label="breadcrumb" class="py-4">
@@ -172,13 +172,11 @@
                         <?php endif;?>
                     </div>
                     <div class="col py-2">
-                        <div class="product-details__badge">Best Seller</div>
-
-                        <h1 class="product-details__title">
-                            <?= isset($product['product_name']) ? ucwords($product['product_name']) : '';?></h1>
-                        <p class="product-details__p" style="text-align:justify;">
-                            <?= isset($product['description']) ? nl2br(htmlspecialchars($product['description'])) : ''; ?>
-                        </p>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <h1 class="product-details__title">
+                                <?= isset($product['product_name']) ? ucwords($product['product_name']) : '';?></h1>
+                            <div class="product-details__badge">Best Seller</div>
+                        </div>
 
                         <div class="d-flex align-items-center gap-3">
                             <div class="product__item__ratings__container">
@@ -190,7 +188,13 @@
                             </div>
                             <div class="product__item__review">(100 reviews)</div>
                         </div>
-                        <div class="d-flex align-items-center justify-content-between mt-4">
+
+                        <p class="product-details__p">
+                            <?= isset($product['description']) ? nl2br(htmlspecialchars($product['description'])) : ''; ?>
+                        </p>
+
+
+                        <div class="d-flex align-items-center justify-content-between mt-5">
                             <div class="product-details__price">
                                 ₱<?= isset($product['selling_price']) ? number_format($product['selling_price'],2) : '0.00';?>
                             </div>
@@ -222,8 +226,8 @@
             </div>
         </div>
         <!-- Product Review -->
-        <div class="container">
-            <div class="product-review">
+        <div class="product-review">
+            <div class="container">
                 <h1 class="product-review__title">Reviews</h1>
                 <div class="product-review__select">
                     <select class="form-select" aria-label="">
@@ -440,7 +444,6 @@
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="recommended-product__item--price">₱ 500.00</div>
                                         <div class="recommended-product__item--sold">25 sold</div>
-
                                     </div>
                                 </div>
                                 <div class="recommended-product__item--btn" id="add_cart">Add to cart</div>

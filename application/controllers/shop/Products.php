@@ -101,18 +101,18 @@ class Products extends MY_Controller
                                             <i class="bi bi-star-fill product__item__ratings__item"></i>
                                             <i class="bi bi-star-fill product__item__ratings__item"></i>
                                         </div>
-                                        <div class="product__item__review">(100 reviews)</div>
                                     </div>
-
                                     <div class="product__item__status">
                                         Best seller
                                     </div>
                                 </div>
                                 <h1 class="product__item--name view_product" data-id="'.$product_id.'">'.ucwords($list->product_name).'</h1>
-                                <p class="product__item--p" title="'.$list->description.'">'.$list->description.'</p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="product__item--price">₱ '.number_format($list->selling_price,2).'</div>
-                                    <div class="product__item__quantity-selector">
+                                <div class="d-flex justify-content-between align-items-center ">
+								<div class="d-flex align-items-center gap-3 py-4">
+									<div class="product__item--price">₱ '.number_format($list->selling_price,2).'</div>
+									<div class="product__item--price--discounted">₱ 799</div>
+								</div>
+								<div class="product__item__quantity-selector">
                                         <i class="fa-solid fa-minus product__item__quantity-selector__minus"></i>
                                         <input type="text" value="1"
                                             class="product__item__quantity-selector__input input qty_input" readonly>
