@@ -149,7 +149,7 @@
                         </div>
 
                         <!-- My Order -->
-                        <div id="my-order__section" class="profile__sidebar-card profile__content">
+                        <div id="my-order__section" class="profile__sidebar-card profile__content" style="display:none">
                             <h1 class="profile__title">My Order</h1>
                             <ul class="nav nav-tabs" id="myTab" role="tablist">
                                 <!-- To Ship Tab -->
