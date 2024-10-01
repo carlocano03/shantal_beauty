@@ -10,6 +10,9 @@
     $inventory = FALSE;
     $product_management = FALSE;
     $voucher = FALSE;
+    $order = FALSE;
+    $pending = FALSE;
+    $list_order = FALSE;
 
     if ($active_page == 'dashboard_page') {
         $dashboard = TRUE;
@@ -30,6 +33,12 @@
         $account_management = TRUE;
     } elseif ($active_page == 'voucher_page') {
         $voucher = TRUE;
+    } elseif ($active_page == 'pending_order_page') {
+        $order = TRUE;
+        $pending = TRUE;
+    } elseif ($active_page == 'order_page') {
+        $order = TRUE;
+        $list_order = TRUE;
     }
 
 
@@ -73,7 +82,7 @@
 
 
 .menu {
-    background: linear-gradient(to bottom right, #000000, #b18647);
+    background: #000000 !important;
 }
 
 .sidebar-menu-header {
@@ -209,6 +218,38 @@
                         </a>
                     </li>
 
+                    <!-- Online Orders -->
+                    <li class="menu-header  btn btn-toggle" data-bs-toggle="collapse" data-bs-target="#order"
+                        aria-expanded="<?= ($order) ? 'true' : '';?>">
+                        <div class="d-flex justify-content-between align-items-center ">
+                            <div class="d-flex align-items-center">
+                                <i class="menu-icon tf-icons bi bi-basket2-fill" style="color:#ffffff;"></i>
+                                <div class="menu-header-text">Order Online <span class="badge bg-danger order_online"></span></div>
+                            </div>
+                            <div class="icon-chevron"></div>
+                        </div>
+                    </li>
+
+                    <div>
+                        <div class="collapse <?= ($order) ? 'show' : '';?>" id="order" style="">
+                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small sidebar-menu">
+                                <li class="menu-item sidebar-menu-item <?= ($pending) ? 'active' : '';?>">
+                                    <a href="<?= base_url('admin/pending-orders');?>"
+                                        class="<?= ($pending) ? 'menu-link-active-2' : '';?> menu-link">
+                                        <div data-i18n="Account">Pending Orders <span class="badge bg-danger pending_orders"></span></div>
+                                    </a>
+                                </li>
+                                <li class="menu-item sidebar-menu-item <?= ($list_order) ? 'active' : '';?>">
+                                    <a href="<?= base_url('admin/list-orders');?>"
+                                        class="<?= ($list_order) ? 'menu-link-active-2' : '';?> menu-link">
+                                        <div data-i18n="Account">List of Orders</div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- End -->
+
                     <!-- Request -->
                     <li class="menu-header  btn btn-toggle" data-bs-toggle="collapse" data-bs-target="#request"
                         aria-expanded="<?= ($request) ? 'true' : '';?>">
@@ -342,6 +383,45 @@
                         </a>
                     </li>
                     <?php endif;?>
+
+                    <!-- Online Orders -->
+                    <?php if (array_intersect([PENDING_ORDER, ORDERS], $role_permissions)): ?>
+                    <li class="menu-header  btn btn-toggle" data-bs-toggle="collapse" data-bs-target="#order"
+                        aria-expanded="<?= ($order) ? 'true' : '';?>">
+                        <div class="d-flex justify-content-between align-items-center ">
+                            <div class="d-flex align-items-center">
+                                <i class="menu-icon tf-icons bi bi-basket2-fill" style="color:#ffffff;"></i>
+                                <div class="menu-header-text">Order Online <span class="badge bg-danger order_online"></span></div>
+                            </div>
+                            <div class="icon-chevron"></div>
+                        </div>
+                    </li>
+
+                    <div>
+                        <div class="collapse <?= ($order) ? 'show' : '';?>" id="order" style="">
+                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small sidebar-menu">
+                                <?php if (in_array(PENDING_ORDER, $role_permissions)): ?>
+                                <li class="menu-item sidebar-menu-item <?= ($pending) ? 'active' : '';?>">
+                                    <a href="<?= base_url('admin/pending-orders');?>"
+                                        class="<?= ($pending) ? 'menu-link-active-2' : '';?> menu-link">
+                                        <div data-i18n="Account">Pending Orders <span class="badge bg-danger pending_orders"></span></div>
+                                    </a>
+                                </li>
+                                <?php endif;?>
+
+                                <?php if (in_array(ORDERS, $role_permissions)): ?>
+                                <li class="menu-item sidebar-menu-item <?= ($list_order) ? 'active' : '';?>">
+                                    <a href="<?= base_url('admin/list-orders');?>"
+                                        class="<?= ($list_order) ? 'menu-link-active-2' : '';?> menu-link">
+                                        <div data-i18n="Account">List of Orders</div>
+                                    </a>
+                                </li>
+                                <?php endif;?>
+                            </ul>
+                        </div>
+                    </div>
+                    <?php endif;?>
+                    <!-- End -->
 
                     <!-- Request -->
                     <?php if (array_intersect([RESELLERS], $role_permissions)): ?>

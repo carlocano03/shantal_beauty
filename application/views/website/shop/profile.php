@@ -20,10 +20,15 @@
                             <i class="fa-solid fa-magnifying-glass navbar__right-side--icon  "></i>
                         </div>
                         <div>
-                            <i class="fa-regular fa-user navbar__right-side--icon"></i>
+                            <a href="<?= base_url('shop/profile');?>"><i
+                                    class="fa-regular fa-user navbar__right-side--icon"></i></a>
                         </div>
                         <div>
                             <i class="fa-regular fa-heart navbar__right-side--icon"></i>
+                        </div>
+                        <div class="navbar__right-side--container open_cart" type="button">
+                            <div class="navbar__right-side--indicator cart_count" style="display:none;"></div>
+                            <i class="fa-solid fa-cart-shopping navbar__right-side--icon"></i>
                         </div>
                     </div>
                 </div>
@@ -71,6 +76,7 @@
                             </div>
                         </div>
                     </div>
+                    
                     <div class="col-lg-8 col-12">
                         <div id="profile__section" class="profile__sidebar-card profile__content"
                             style="display:block;">
@@ -88,7 +94,8 @@
                                             <label for="profileFullname" class="form-label profile__label">Full
                                                 Name</label>
                                             <input type="text" class="form-control profile__input" id="profileFullname"
-                                                value="Jake Castor" placeholder="Enter your full name" required>
+                                                value="<?= isset($profile['full_name']) ? ucwords($profile['full_name']) : '';?>"
+                                                placeholder="Enter your full name" required>
                                             <div class="invalid-feedback">Please enter your full name.</div>
                                         </div>
 
@@ -96,7 +103,8 @@
                                             <label for="profileCompleteAddress"
                                                 class="form-label profile__label">Complete
                                                 Address</label>
-                                            <input type="text" value="Sinipit, Cabiao, Nueva Ecija"
+                                            <input type="text"
+                                                value="<?= isset($profile['complete_address']) ? ucwords($profile['complete_address']) : '';?>"
                                                 class="form-control profile__input" id="profileCompleteAddress"
                                                 placeholder="Enter your full name" required>
                                             <div class="invalid-feedback">Please enter your complete address.</div>
@@ -106,7 +114,8 @@
                                         <div class="col-12">
                                             <label for="profilePhoneNumber" class="form-label profile__label">Mobile
                                                 Number</label>
-                                            <input type="text" value="0961232132"
+                                            <input type="text"
+                                                value="<?= isset($profile['mobile_number']) ? $profile['mobile_number'] : '';?>"
                                                 class="form-control profile__input number-input" id="profilePhoneNumber"
                                                 placeholder="Enter your phone number" required>
                                             <div class="invalid-feedback">Please enter a valid 10-digit phone
@@ -118,8 +127,8 @@
                                             <label for="profileEmail" class="form-label profile__label">Email
                                                 Address</label>
                                             <input type="email" class="form-control profile__input" id="profileEmail"
-                                                value="jakecastor@gmail.com" placeholder="Enter your email address"
-                                                required>
+                                                value="<?= isset($profile['email_address']) ? $profile['email_address'] : '';?>"
+                                                placeholder="Enter your email address" required>
                                             <div class="invalid-feedback">Please enter a valid email address.</div>
                                         </div>
 
@@ -128,8 +137,8 @@
                                                 class="form-label profile__label">Password</label>
                                             <div class="input-group">
                                                 <input type="password" class="form-control profile__input"
-                                                    id="profilePassword" value="12321421"
-                                                    placeholder="Enter your password" required>
+                                                    id="profilePassword" value=""
+                                                    placeholder="Enter your password (Update)" required>
                                                 <span class="input-group-text">
                                                     <i class="far fa-eye" id="togglePassword"
                                                         style="cursor: pointer;"></i>
@@ -400,51 +409,12 @@
 
                             <div class="mt-4">
 
-                                <button type="button" class="shipping-address__btn"><i
-                                        class="bi bi-plus-circle me-2"></i>Add new address</button>
+                                <button type="button" class="shipping-address__btn" data-bs-toggle="modal"
+                                    data-bs-target="#addressModal"><i class="bi bi-plus-circle me-2"></i>Add new
+                                    address</button>
 
                                 <div class="address_list d-flex flex-column gap-3 mt-4">
-                                    <div class="address_list__container">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="form-check checkbox d-flex align-items-center gap-3">
-                                                <input
-                                                    class="form-check-input cart__item__check_all-product change_delivery_address"
-                                                    data-id="1" type="radio" name="address_selection"
-                                                    id="address_selection1">
-                                                <label class="form-check-label" for="address_selection1"
-                                                    style="font-size:14px; font-weight:500; margin-top:4px;">
-                                                    <span class="fw-bold">Carlo Cano</span> | (+63) 906 179 8559
-                                                </label>
-                                            </div>
-                                            <div class="delete--btn delete_address" data-id="1"><i
-                                                    class="bi bi-trash"></i>
-                                            </div>
-                                        </div>
-                                        <div style="margin-left:25px; font-size:13px; color:#636e72;">
-                                            <div>Landmark: Basketball Court</div>
-                                            <div>Purok 4 Bangkal Papaya, San Antonio, Nueva Ecija 3108</div>
-                                            <span class="badge bg-warning text-white">Default</span>
-                                        </div>
-                                    </div>
-                                    <div class="address_list__container">
-
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="form-check checkbox d-flex align-items-center gap-3">
-                                                <input
-                                                    class="form-check-input cart__item__check_all-product change_delivery_address"
-                                                    data-id="2" type="radio" name="address_selection"
-                                                    id="address_selection2" checked="">
-                                                <label class="form-check-label" for="address_selection2"
-                                                    style="font-size:14px; font-weight:500; margin-top:4px;">
-                                                    <span class="fw-bold">Ana Marie Cano</span> | (+63) 965 093 6316
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div style="margin-left:25px; font-size:13px; color:#636e72;">
-                                            <div>Landmark: Basketball Court</div>
-                                            <div>Purok 4 Bangkal Papaya, San Antonio, Nueva Ecija 3108</div>
-                                        </div>
-                                    </div>
+                                    <!-- AJAX REQUEST -->
                                 </div>
                             </div>
                         </div>
@@ -587,8 +557,188 @@
     </section>
 </main>
 
-
 <div class="loading-screen text-center" style="display: none;">
-    < class="spinner-border text-dark" role="status">
-    </ div>
+    <div class="spinner-border text-dark" role="status">
+    </div>
 </div>
+
+<?php $this->load->view('website/shop/modal/new_address_modal');?>
+
+
+<script>
+    var set_default = 0;
+
+    function getAddress() {
+        $.ajax({
+            url: "<?= base_url('shop/products/get_delivery_address')?>",
+            method: "GET",
+            dataType: "json",
+            success: function (data) {
+                $('.address_list').html(data.address_list);
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        getAddress();
+
+        $(document).on('change', '.set_default', function () {
+            if ($(this).is(':checked')) {
+                set_default = 1;
+            } else {
+                set_default = 0;
+            }
+        });
+
+        $(document).on('click', '.change_delivery_address', function () {
+            var shipping_id = $(this).data('id');
+
+            if ($(this).is(':checked')) {
+                $.ajax({
+                    url: "<?= base_url('shop/products/change_delivery_address');?>",
+                    method: "POST",
+                    data: {
+                        shipping_id: shipping_id,
+                        '_token': csrf_token_value,
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.error != '') {
+                            Toast.fire({
+                                icon: 'warning',
+                                title: data.error,
+                            });
+                        } else {
+                            Toast.fire({
+                                icon: 'success',
+                                title: data.success,
+                            });
+                            getAddress();
+                        }
+                    },
+                    error: function () {
+                        Toast.fire({
+                            icon: 'error',
+                            title: 'An error occurred while processing the request.',
+                        });
+                    }
+                });
+            }
+        });
+
+        $(document).on('click', '.delete_address', function () {
+            var shipping_id = $(this).data('id');
+
+            Swal.fire({
+                title: 'Are you sure..',
+                text: "You want to delete this address?",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, continue',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "<?= base_url('shop/products/delete_address');?>",
+                        method: "POST",
+                        data: {
+                            shipping_id: shipping_id,
+                            '_token': csrf_token_value,
+                        },
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.error != '') {
+                                Toast.fire({
+                                    icon: 'warning',
+                                    title: data.error,
+                                });
+                            } else {
+                                Toast.fire({
+                                    icon: 'success',
+                                    title: data.success,
+                                });
+                                getAddress();
+                            }
+                        },
+                        error: function () {
+                            Toast.fire({
+                                icon: 'error',
+                                title: 'An error occurred while processing the request.',
+                            });
+                        }
+                    });
+                }
+            });
+        });
+
+        $(document).on('click', '#save_address', function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            var form = $('#addressForm')[0];
+            var formData = new FormData(form);
+            formData.append('fullname', $('#fullname').val());
+            formData.append('contact_no', $('#contact_no').val());
+            formData.append('province_name', $('#province_name').val());
+            formData.append('municipality_name', $('#municipality_name').val());
+            formData.append('brgy_name', $('#brgy_name').val());
+            formData.append('postal_code', $('#postal_code').val());
+            formData.append('street_name', $('#street_name').val());
+            formData.append('landmark', $('#landmark').val());
+            formData.append('label_as', $('#label_as').val());
+            formData.append('set_default', set_default);
+            formData.append('_token', csrf_token_value);
+
+            form.classList.add('was-validated');
+            if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+            } else {
+                Swal.fire({
+                    title: 'Are you sure..',
+                    text: "You want to continue this transaction?",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, continue',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: "<?= base_url('shop/products/save_address');?>",
+                            method: "POST",
+                            data: formData,
+                            contentType: false,
+                            processData: false,
+                            dataType: "json",
+                            success: function (data) {
+                                if (data.error != '') {
+                                    Toast.fire({
+                                        icon: 'warning',
+                                        title: data.error,
+                                    });
+                                } else {
+                                    Toast.fire({
+                                        icon: 'success',
+                                        title: data.success,
+                                    });
+                                    $('#addressModal').modal('hide');
+                                    form.reset();
+                                    form.classList.remove('was-validated');
+                                    getAddress();
+                                }
+                            },
+                            error: function () {
+                                Toast.fire({
+                                    icon: 'error',
+                                    title: 'An error occurred while processing the request.',
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    });
+</script>

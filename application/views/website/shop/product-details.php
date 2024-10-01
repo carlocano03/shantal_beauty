@@ -1,5 +1,50 @@
 <main>
     <section id="product-section">
+        <header>
+            <div class="header__top">
+                New Arrival: Explore Our Latest Product Offering!
+            </div>
+            <nav class="navbar">
+                <div class="navbar__container container">
+                    <img class="navbar__logo" src="<?php echo base_url('assets/images/home/shantal-logo.png'); ?>"
+                        alt="Shantal Beauty">
+                    <ul class="navbar__items">
+                        <li class="navbar__item"><a href="#" class="nav-active">Shop All</a></li>
+                        <li class="navbar__item"><a href="#">Best Sellers</a></li>
+                        <li class="navbar__item"><a href="#">Sales & Offers</a></li>
+                    </ul>
+
+                    <div class=" d-flex gap-4 align-items-center">
+                        <div>
+                            <a href="<?= base_url('shop/profile');?>"><i class="fa-regular fa-user navbar__right-side--icon"></i></a>
+                        </div>
+                        <div>
+                            <i class="fa-regular fa-heart navbar__right-side--icon"></i>
+                        </div>
+                        <div class="navbar__right-side--container open_cart" type="button">
+                            <div class="navbar__right-side--indicator cart_count" style="display:none;"></div>
+                            <i class="fa-solid fa-cart-shopping navbar__right-side--icon"></i>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+
+        <div id="bottom__header">
+            <div>
+                <div class="container">
+                    <nav aria-label="breadcrumb" class="py-4">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item"><a href="#">Shop All</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Product Details</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
         <!-- Product Details -->
         <div id="product-details">
             <div class="container">
@@ -162,11 +207,11 @@
                         </div>
                         <div class="row product-details__buttons">
                             <div class="col-5">
-                                <div class="product-details__add-to-cart"><i class="bi bi-bag-plus me-3"></i>Add To Cart
+                                <div class="product-details__add-to-cart" id="add_cart" data-id="<?= isset($product['product_id']) ? $product['product_id'] : '';?>"><i class="bi bi-bag-plus me-3"></i>Add To Cart
                                 </div>
                             </div>
                             <div class="col-5">
-                                <div class="product-details__buy">Buy Now</div>
+                                <div class="product-details__buy" id="buy_now" data-id="<?= isset($product['product_id']) ? $product['product_id'] : '';?>">Buy Now</div>
                             </div>
                             <div class="col-2 d-flex justify-content-center align-items-center">
                                 <div class="product-details__heart">
@@ -573,58 +618,130 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     <script>
-    var swiper = new Swiper(".mySwiper", {
-        loop: false,
-        spaceBetween: 10,
-        slidesPerView: 4,
-        freeMode: true,
-        watchSlidesProgress: true,
-    });
-    var swiper2 = new Swiper(".mySwiper2", {
-        loop: true,
-        spaceBetween: 10,
-        navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
-        },
-        thumbs: {
-            swiper: swiper,
-        },
-    });
-
-    const minusButtons = document.querySelectorAll('.product__item__quantity-selector__minus');
-    const plusButtons = document.querySelectorAll('.product__item__quantity-selector__plus');
-
-    minusButtons.forEach(button => {
-        button.addEventListener("click", (event) => {
-            const input = event.target.closest(".product__item__quantity-selector").querySelector(
-                '.product__item__quantity-selector__input');
-            let quantity = parseInt(input.value);
-            if (quantity > 1) {
-                quantity -= 1;
-                input.value = quantity;
-            }
-        })
-    })
-
-    plusButtons.forEach(button => {
-        button.addEventListener("click", (event) => {
-            const input = event.target.closest(".product__item__quantity-selector").querySelector(
-                '.product__item__quantity-selector__input');
-            let quantity = parseInt(input.value);
-            quantity += 1;
-            input.value = quantity;
-
-        })
-    })
-
-    const thumbnailContainers = document.querySelectorAll(".product-details__img-container--small");
-
-    thumbnailContainers.forEach(item => {
-        item.addEventListener("click", function() {
-            thumbnailContainers.forEach(container => container.classList.remove("active"));
-            this.classList.add("active");
+        var swiper = new Swiper(".mySwiper", {
+            loop: false,
+            spaceBetween: 10,
+            slidesPerView: 4,
+            freeMode: true,
+            watchSlidesProgress: true,
         });
-    });
+        var swiper2 = new Swiper(".mySwiper2", {
+            loop: true,
+            spaceBetween: 10,
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+            thumbs: {
+                swiper: swiper,
+            },
+        });
+
+        const minusButtons = document.querySelectorAll('.product__item__quantity-selector__minus');
+        const plusButtons = document.querySelectorAll('.product__item__quantity-selector__plus');
+
+        minusButtons.forEach(button => {
+            button.addEventListener("click", (event) => {
+                const input = event.target.closest(".product__item__quantity-selector").querySelector(
+                    '.product__item__quantity-selector__input');
+                let quantity = parseInt(input.value);
+                if (quantity > 1) {
+                    quantity -= 1;
+                    input.value = quantity;
+                }
+            })
+        })
+
+        plusButtons.forEach(button => {
+            button.addEventListener("click", (event) => {
+                const input = event.target.closest(".product__item__quantity-selector").querySelector(
+                    '.product__item__quantity-selector__input');
+                let quantity = parseInt(input.value);
+                quantity += 1;
+                input.value = quantity;
+
+            })
+        })
+
+        const thumbnailContainers = document.querySelectorAll(".product-details__img-container--small");
+
+        thumbnailContainers.forEach(item => {
+            item.addEventListener("click", function() {
+                thumbnailContainers.forEach(container => container.classList.remove("active"));
+                this.classList.add("active");
+            });
+        });
+
+        $(document).ready(function() {
+
+            $(document).on('click', '#add_cart', function() {
+                var product_id = $(this).data('id');
+                var qty = $('.qty_input').val();
+
+                $.ajax({
+                    url: "<?= base_url('shop/products/add_cart')?>",
+                    method: "POST",
+                    data: {
+                        product_id: product_id,
+                        qty: qty,
+                        '_token': csrf_token_value,
+                    },
+                    dataType: "json",
+                    success: function(data) {
+                        if (data.error != '') {
+                            Toast.fire({
+                                icon: 'warning',
+                                title: data.error,
+                            });
+                        } else {
+                            Toast.fire({
+                                icon: 'success',
+                                title: data.success,
+                            });
+                            cartCount();
+                        }
+                    },
+                    error: function() {
+                        Toast.fire({
+                            icon: 'error',
+                            title: 'An error occurred while processing the request.',
+                        });
+                    }
+                });
+            });
+
+            $(document).on('click', '#buy_now', function() {
+                var product_id = $(this).data('id');
+                var qty = $('.qty_input').val();
+
+                $.ajax({
+                    url: "<?= base_url('shop/products/buy_now')?>",
+                    method: "POST",
+                    data: {
+                        product_id: product_id,
+                        qty: qty,
+                        '_token': csrf_token_value,
+                    },
+                    dataType: "json",
+                    success: function(data) {
+                        if (data.error != '') {
+                            Toast.fire({
+                                icon: 'warning',
+                                title: data.error,
+                            });
+                        } else {
+                            window.location.href = data.checkoutURL;
+                        }
+                    },
+                    error: function() {
+                        Toast.fire({
+                            icon: 'error',
+                            title: 'An error occurred while processing the request.',
+                        });
+                    }
+                });
+            });
+        });
+
     </script>
 </main>

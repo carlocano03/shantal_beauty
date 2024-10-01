@@ -24,6 +24,7 @@ class Main extends MY_Controller
         $this->load->library('cipher');
         $this->lang->load('common','english');
         $this->load->model('shop/product_model');
+        $this->load->model('shop/main_model');
 
         $this->output->set_header("X-Robots-Tag: noindex");
         $this->output->set_header('Cache-Control: no-store, no-cache');
@@ -88,7 +89,10 @@ class Main extends MY_Controller
         $this->load->view('website/shop/checkout', $data);
         $this->load->view('website/shop/partial/_footer', $data);
 	}
-	public function profile(){
+	public function profile() {
+        $data['profile'] = $this->main_model->get_row('user_details', array('user_id' => $this->session->userdata('customerIn')['user_id'], 'status' => 0));
+        $data['province'] = $this->db->order_by("code = '133900000' DESC, name ASC")->get('psgc_province')->result();
+        
 		$data['title'] = 'Shantal`s Shop';
         $this->load->view('website/shop/partial/_header', $data);
         $this->load->view('website/shop/profile', $data);
