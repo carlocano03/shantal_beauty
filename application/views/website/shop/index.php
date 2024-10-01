@@ -3,8 +3,8 @@
         <div id="bottom__header">
             <div>
                 <div class="container d-flex align-items-center justify-content-between py-3">
-                    <div>
-                        <h1 class="home__page-title">Shop All</h1>
+                    <div class="header-user-info">
+                        Welcome, Jake Castor
                     </div>
                     <div class="search-container">
                         <input type="text" placeholder="Search products..." class="search-input navbar__search-input">
@@ -24,7 +24,8 @@
 
         <div class="shop__filter-category">
             <div class="container">
-                <div class="d-flex justify-content-end pb-2">
+                <div class="d-flex justify-content-between align-items-center pb-2">
+                    <h1 class="home__page-title m-0">Shop All</h1>
                     <div>
                         <select id="productFilter" class="form-select" aria-label="">
                             <option value="title_asc" selected>Product A-Z</option>
