@@ -33,8 +33,27 @@ function getCartItem() {
 	});
 }
 
+function wishlistCount() {
+	$.ajax({
+		url: baseURL + 'shop/products/wishlist_count',
+		method: "GET",
+		dataType: "json",
+		success: function (data) {
+			if (data.wishlist_count > 0) {
+				$('.wishlist_count').fadeIn(200);
+				$('.wishlist_count').text(data.wishlist_count);
+			} else {
+				$('.wishlist_count').hide();
+				$('.wishlist_count').text('');
+			}
+
+		}
+	});
+}
+
 $(document).ready(function () {
 	cartCount();
+	wishlistCount();
 
 	$(document).on('click', '.open_cart', function () {
 		getCartItem();
@@ -95,7 +114,7 @@ $(document).ready(function () {
 		} else {
 			Toast.fire({
 				icon: 'warning',
-				title: 'You cannot add more than ' + availableStock + ' items.',
+				title: 'This product is out of stock.',
 			});
 		}
 	});

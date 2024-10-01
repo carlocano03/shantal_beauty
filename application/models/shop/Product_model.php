@@ -191,6 +191,17 @@ class Product_model extends MY_Model
         return $delete?TRUE:FALSE;
     }
 
+    function get_total_sold($product_id)
+    {
+        $this->db->select("SUM(OI.quantity_order) as total_sold");
+        $this->db->from('order_items OI');
+        $this->db->join('order_details OD', 'OI.order_id = OD.order_id', 'left');
+        $this->db->where('OI.product_id', $product_id);
+        $this->db->where('OD.order_status', 'Completed');
+        $query = $this->db->get();
+        return $query->row();
+    }
+
     //Checkout page
     function get_cart_data($cart_ids_decrypted)
     {
@@ -298,4 +309,48 @@ class Product_model extends MY_Model
     }
     //End of checkout page
 
+    //Recommended product
+
+    function get_recommended_product($product_id)
+    {
+        $this->db->limit(4);
+        $this->db->where('status', 0);
+        $this->db->where('product_id !=', $product_id);
+        $query = $this->db->get('product');
+        return $query;
+    }
+
+    //End of recommended product
+
+    //Wishlist
+
+    function check_wishlist($product_id, $user_id)
+    {
+        $this->db->where('product_id', $product_id);
+        $this->db->where('user_id', $user_id);
+        $query = $this->db->get('wishlist');
+        return $query;
+    }
+
+    function increment_wish_list($product_id, $user_id, $qty)
+    {
+        $this->db->set('qty', 'qty + ' . (int) $qty, FALSE);
+        $this->db->where('user_id', $user_id);
+        $this->db->where('product_id', $product_id);
+        return $this->db->update('wishlist');
+    }
+
+    function insert_wishlist($insert_wishlist)
+    {
+        return $this->db->insert('wishlist', $insert_wishlist);
+    }
+
+    function get_wishlist_count($user_id)
+    {
+        $this->db->where('user_id', $user_id);
+        $this->db->where('status', 0);
+        $query = $this->db->get('wishlist');
+        return $query->num_rows();
+    }
+    //End of wishlist
 }

@@ -1,36 +1,5 @@
 <main>
     <section>
-        <header>
-            <div class="header__top">
-                New Arrival: Explore Our Latest Product Offering!
-            </div>
-            <nav class="navbar">
-                <div class="navbar__container container">
-                    <img class="navbar__logo" src="<?php echo base_url('assets/images/home/shantal-logo.png'); ?>"
-                        alt="Shantal Beauty">
-                    <ul class="navbar__items">
-                        <li class="navbar__item"><a href="#" class="nav-active">Shop All</a></li>
-                        <li class="navbar__item"><a href="#">Best Sellers</a></li>
-                        <li class="navbar__item"><a href="#">Sales & Offers</a></li>
-                    </ul>
-
-                    <div class=" d-flex gap-4 align-items-center">
-                        <div class="d-flex align-items-center gap-3">
-                            <input type="text" class="navbar__search-input">
-                            <i class="fa-solid fa-magnifying-glass navbar__right-side--icon  "></i>
-                        </div>
-                        <div>
-                            <a href="<?= base_url('shop/profile');?>"><i class="fa-regular fa-user navbar__right-side--icon"></i></a>
-                        </div>
-                        <div>
-                            <i class="fa-regular fa-heart navbar__right-side--icon"></i>
-                        </div>
-                    </div>
-                </div>
-            </nav>
-        </header>
-
-
         <div id="bottom__header">
             <div>
                 <div class="container">
