@@ -20,10 +20,11 @@
                 <a href="<?= base_url('shop/profile'); ?>" class="nav-active">
                     <i class="fa-regular fa-user navbar__right-side--icon"></i>
                 </a>
-                
-                <div>
+
+                <a href="<?= base_url('shop/wishlist'); ?>" class="nav-active">
                     <i class="fa-regular fa-heart navbar__right-side--icon"></i>
-                </div>
+                </a>
+
                 <div class="navbar__right-side--container open_cart" type="button">
                     <div class="navbar__right-side--indicator cart_count" style="display:none;"></div>
                     <i class="fa-solid fa-cart-shopping navbar__right-side--icon"></i>

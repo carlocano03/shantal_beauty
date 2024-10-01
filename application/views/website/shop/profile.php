@@ -1,41 +1,5 @@
 <main>
     <section>
-        <header>
-            <div class="header__top">
-                New Arrival: Explore Our Latest Product Offering!
-            </div>
-            <nav class="navbar">
-                <div class="navbar__container container">
-                    <img class="navbar__logo" src="<?php echo base_url('assets/images/home/shantal-logo.png'); ?>"
-                        alt="Shantal Beauty">
-                    <ul class="navbar__items">
-                        <li class="navbar__item"><a href="#" class="nav-active">Shop All</a></li>
-                        <li class="navbar__item"><a href="#">Best Sellers</a></li>
-                        <li class="navbar__item"><a href="#">Sales & Offers</a></li>
-                    </ul>
-
-                    <div class=" d-flex gap-4 align-items-center">
-                        <div class="d-flex align-items-center gap-3">
-                            <input type="text" class="navbar__search-input">
-                            <i class="fa-solid fa-magnifying-glass navbar__right-side--icon  "></i>
-                        </div>
-                        <div>
-                            <a href="<?= base_url('shop/profile');?>"><i
-                                    class="fa-regular fa-user navbar__right-side--icon"></i></a>
-                        </div>
-                        <div>
-                            <i class="fa-regular fa-heart navbar__right-side--icon"></i>
-                        </div>
-                        <div class="navbar__right-side--container open_cart" type="button">
-                            <div class="navbar__right-side--indicator cart_count" style="display:none;"></div>
-                            <i class="fa-solid fa-cart-shopping navbar__right-side--icon"></i>
-                        </div>
-                    </div>
-                </div>
-            </nav>
-        </header>
-
-
         <div id="bottom__header">
             <div>
                 <div class="container">
@@ -76,7 +40,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="col-lg-8 col-12">
                         <div id="profile__section" class="profile__sidebar-card profile__content"
                             style="display:block;">
@@ -566,43 +530,88 @@
 
 
 <script>
-    var set_default = 0;
+var set_default = 0;
 
-    function getAddress() {
-        $.ajax({
-            url: "<?= base_url('shop/products/get_delivery_address')?>",
-            method: "GET",
-            dataType: "json",
-            success: function (data) {
-                $('.address_list').html(data.address_list);
-            }
-        });
-    }
+function getAddress() {
+    $.ajax({
+        url: "<?= base_url('shop/products/get_delivery_address')?>",
+        method: "GET",
+        dataType: "json",
+        success: function(data) {
+            $('.address_list').html(data.address_list);
+        }
+    });
+}
 
-    $(document).ready(function () {
-        getAddress();
+$(document).ready(function() {
+    getAddress();
 
-        $(document).on('change', '.set_default', function () {
-            if ($(this).is(':checked')) {
-                set_default = 1;
-            } else {
-                set_default = 0;
-            }
-        });
+    $(document).on('change', '.set_default', function() {
+        if ($(this).is(':checked')) {
+            set_default = 1;
+        } else {
+            set_default = 0;
+        }
+    });
 
-        $(document).on('click', '.change_delivery_address', function () {
-            var shipping_id = $(this).data('id');
+    $(document).on('click', '.change_delivery_address', function() {
+        var shipping_id = $(this).data('id');
 
-            if ($(this).is(':checked')) {
+        if ($(this).is(':checked')) {
+            $.ajax({
+                url: "<?= base_url('shop/products/change_delivery_address');?>",
+                method: "POST",
+                data: {
+                    shipping_id: shipping_id,
+                    '_token': csrf_token_value,
+                },
+                dataType: "json",
+                success: function(data) {
+                    if (data.error != '') {
+                        Toast.fire({
+                            icon: 'warning',
+                            title: data.error,
+                        });
+                    } else {
+                        Toast.fire({
+                            icon: 'success',
+                            title: data.success,
+                        });
+                        getAddress();
+                    }
+                },
+                error: function() {
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'An error occurred while processing the request.',
+                    });
+                }
+            });
+        }
+    });
+
+    $(document).on('click', '.delete_address', function() {
+        var shipping_id = $(this).data('id');
+
+        Swal.fire({
+            title: 'Are you sure..',
+            text: "You want to delete this address?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, continue',
+        }).then((result) => {
+            if (result.isConfirmed) {
                 $.ajax({
-                    url: "<?= base_url('shop/products/change_delivery_address');?>",
+                    url: "<?= base_url('shop/products/delete_address');?>",
                     method: "POST",
                     data: {
                         shipping_id: shipping_id,
                         '_token': csrf_token_value,
                     },
                     dataType: "json",
-                    success: function (data) {
+                    success: function(data) {
                         if (data.error != '') {
                             Toast.fire({
                                 icon: 'warning',
@@ -616,7 +625,7 @@
                             getAddress();
                         }
                     },
-                    error: function () {
+                    error: function() {
                         Toast.fire({
                             icon: 'error',
                             title: 'An error occurred while processing the request.',
@@ -625,13 +634,34 @@
                 });
             }
         });
+    });
 
-        $(document).on('click', '.delete_address', function () {
-            var shipping_id = $(this).data('id');
+    $(document).on('click', '#save_address', function(event) {
+        event.preventDefault();
+        event.stopPropagation();
 
+        var form = $('#addressForm')[0];
+        var formData = new FormData(form);
+        formData.append('fullname', $('#fullname').val());
+        formData.append('contact_no', $('#contact_no').val());
+        formData.append('province_name', $('#province_name').val());
+        formData.append('municipality_name', $('#municipality_name').val());
+        formData.append('brgy_name', $('#brgy_name').val());
+        formData.append('postal_code', $('#postal_code').val());
+        formData.append('street_name', $('#street_name').val());
+        formData.append('landmark', $('#landmark').val());
+        formData.append('label_as', $('#label_as').val());
+        formData.append('set_default', set_default);
+        formData.append('_token', csrf_token_value);
+
+        form.classList.add('was-validated');
+        if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+        } else {
             Swal.fire({
                 title: 'Are you sure..',
-                text: "You want to delete this address?",
+                text: "You want to continue this transaction?",
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -640,14 +670,13 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: "<?= base_url('shop/products/delete_address');?>",
+                        url: "<?= base_url('shop/products/save_address');?>",
                         method: "POST",
-                        data: {
-                            shipping_id: shipping_id,
-                            '_token': csrf_token_value,
-                        },
+                        data: formData,
+                        contentType: false,
+                        processData: false,
                         dataType: "json",
-                        success: function (data) {
+                        success: function(data) {
                             if (data.error != '') {
                                 Toast.fire({
                                     icon: 'warning',
@@ -658,10 +687,13 @@
                                     icon: 'success',
                                     title: data.success,
                                 });
+                                $('#addressModal').modal('hide');
+                                form.reset();
+                                form.classList.remove('was-validated');
                                 getAddress();
                             }
                         },
-                        error: function () {
+                        error: function() {
                             Toast.fire({
                                 icon: 'error',
                                 title: 'An error occurred while processing the request.',
@@ -670,75 +702,7 @@
                     });
                 }
             });
-        });
-
-        $(document).on('click', '#save_address', function (event) {
-            event.preventDefault();
-            event.stopPropagation();
-
-            var form = $('#addressForm')[0];
-            var formData = new FormData(form);
-            formData.append('fullname', $('#fullname').val());
-            formData.append('contact_no', $('#contact_no').val());
-            formData.append('province_name', $('#province_name').val());
-            formData.append('municipality_name', $('#municipality_name').val());
-            formData.append('brgy_name', $('#brgy_name').val());
-            formData.append('postal_code', $('#postal_code').val());
-            formData.append('street_name', $('#street_name').val());
-            formData.append('landmark', $('#landmark').val());
-            formData.append('label_as', $('#label_as').val());
-            formData.append('set_default', set_default);
-            formData.append('_token', csrf_token_value);
-
-            form.classList.add('was-validated');
-            if (form.checkValidity() === false) {
-                event.preventDefault();
-                event.stopPropagation();
-            } else {
-                Swal.fire({
-                    title: 'Are you sure..',
-                    text: "You want to continue this transaction?",
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, continue',
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            url: "<?= base_url('shop/products/save_address');?>",
-                            method: "POST",
-                            data: formData,
-                            contentType: false,
-                            processData: false,
-                            dataType: "json",
-                            success: function (data) {
-                                if (data.error != '') {
-                                    Toast.fire({
-                                        icon: 'warning',
-                                        title: data.error,
-                                    });
-                                } else {
-                                    Toast.fire({
-                                        icon: 'success',
-                                        title: data.success,
-                                    });
-                                    $('#addressModal').modal('hide');
-                                    form.reset();
-                                    form.classList.remove('was-validated');
-                                    getAddress();
-                                }
-                            },
-                            error: function () {
-                                Toast.fire({
-                                    icon: 'error',
-                                    title: 'An error occurred while processing the request.',
-                                });
-                            }
-                        });
-                    }
-                });
-            }
-        });
+        }
     });
+});
 </script>

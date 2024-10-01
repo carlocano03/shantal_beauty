@@ -57,6 +57,14 @@ class Main extends MY_Controller
         $this->load->view('website/shop/sales-offers', $data);
         $this->load->view('website/shop/partial/_footer', $data);
     }
+	public function wishlist()
+    {
+        $data['title'] = 'Shantal`s Shop';
+        $this->load->view('website/shop/partial/_header', $data);
+        $this->load->view('website/shop/partial/_navbar', $data);
+        $this->load->view('website/shop/wishlist', $data);
+        $this->load->view('website/shop/partial/_footer', $data);
+    }
 	public function product_details(){
         $product_id = $this->cipher->decrypt($this->input->get('id', true));
         $data['product'] = $this->product_model->get_row('product', array('product_id' => $product_id));
@@ -64,6 +72,7 @@ class Main extends MY_Controller
 
 		$data['title'] = 'Shantal`s Shop';
         $this->load->view('website/shop/partial/_header', $data);
+		$this->load->view('website/shop/partial/_navbar', $data);
         $this->load->view('website/shop/product-details', $data);
         $this->load->view('website/shop/partial/_footer', $data);
 	}
@@ -95,6 +104,7 @@ class Main extends MY_Controller
         
 		$data['title'] = 'Shantal`s Shop';
         $this->load->view('website/shop/partial/_header', $data);
+		$this->load->view('website/shop/partial/_navbar', $data);
         $this->load->view('website/shop/profile', $data);
         $this->load->view('website/shop/partial/_footer', $data);
 	}

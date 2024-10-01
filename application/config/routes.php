@@ -83,6 +83,8 @@ $route['shop/sales-offers'] = 'shop/main/sales_offers';
 $route['shop/product-details'] = 'shop/main/product_details';
 $route['shop/checkout'] = 'shop/main/checkout';
 $route['shop/profile'] = 'shop/main/profile';
+$route['shop/wishlist'] = 'shop/main/wishlist';
+
 
 
 $route['default_controller'] = 'main';
