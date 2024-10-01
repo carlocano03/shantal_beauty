@@ -1,43 +1,17 @@
 <main>
     <section id="home">
-        <header>
-            <div class="header__top">
-                New Arrival: Explore Our Latest Product Offering!
-            </div>
-            <nav class="navbar">
-                <div class="navbar__container container">
-                    <img class="navbar__logo" src="<?php echo base_url('assets/images/home/shantal-logo.png'); ?>"
-                        alt="Shantal Beauty">
-                    <ul class="navbar__items">
-                        <li class="navbar__item"><a href="#" class="nav-active">Shop All</a></li>
-                        <li class="navbar__item"><a href="#">Best Sellers</a></li>
-                        <li class="navbar__item"><a href="#">Sales & Offers</a></li>
-                    </ul>
-
-                    <div class=" d-flex gap-4 align-items-center">
-                        <div class="d-flex align-items-center gap-3">
-                            <input type="text" class="navbar__search-input">
-                            <i class="fa-solid fa-magnifying-glass navbar__right-side--icon  "></i>
-                        </div>
-                        <div>
-                            <i class="fa-regular fa-user navbar__right-side--icon"></i>
-                        </div>
-                        <div>
-                            <i class="fa-regular fa-heart navbar__right-side--icon"></i>
-                        </div>
-                        <div class="navbar__right-side--container open_cart" type="button">
-                            <div class="navbar__right-side--indicator cart_count" style="display:none;"></div>
-                            <i class="fa-solid fa-cart-shopping navbar__right-side--icon"></i>
-                        </div>
-                    </div>
-                </div>
-            </nav>
-        </header>
-
-
         <div id="bottom__header">
             <div>
-                <div class="container">
+                <div class="container d-flex align-items-center justify-content-between py-3">
+                    <div>
+                        <h1 class="home__page-title">Shop All</h1>
+                    </div>
+                    <div class="search-container">
+                        <input type="text" placeholder="Search products..." class="search-input navbar__search-input">
+                        <button class="search-btn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
                     <nav aria-label="breadcrumb" class="py-4">
                         <ol class="breadcrumb m-0">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
@@ -46,11 +20,11 @@
                     </nav>
                 </div>
             </div>
+        </div>
+
+        <div class="shop__filter-category">
             <div class="container">
-                <div class="d-flex justify-content-between align-items-end  pb-2">
-                    <div>
-                        <h1 class="home__page-title">Shop All</h1>
-                    </div>
+                <div class="d-flex justify-content-end pb-2">
                     <div>
                         <select id="productFilter" class="form-select" aria-label="">
                             <option value="title_asc" selected>Product A-Z</option>
@@ -68,7 +42,7 @@
         <!-- Products -->
         <div id="product">
             <div class="container">
-                <div class="row g-3 row-cols-lg-3 row-cols-md-2 row-cols-1 mb-3" id="product_list">
+                <div class="row g-4 row-cols-lg-4 row-cols-md-2 row-cols-1 mb-3" id="product_list">
                     <!-- AJAX REQUEST -->
                 </div>
                 <div class="pagination_link"></div>
@@ -158,8 +132,9 @@ $(document).ready(function() {
         }
 
         if (event.target.classList.contains('product__item__quantity-selector__plus')) {
-            const input = event.target.closest(".product__item__quantity-selector").querySelector('.product__item__quantity-selector__input');
-            var availableStock = $(event.target).data('stocks'); 
+            const input = event.target.closest(".product__item__quantity-selector").querySelector(
+                '.product__item__quantity-selector__input');
+            var availableStock = $(event.target).data('stocks');
             let quantity = parseInt(input.value);
 
             if (quantity < availableStock) {
@@ -167,8 +142,8 @@ $(document).ready(function() {
                 input.value = quantity;
             } else {
                 Toast.fire({
-                        icon: 'warning',
-                        title: 'This product is out of stock.',
+                    icon: 'warning',
+                    title: 'This product is out of stock.',
                 });
             }
         }
