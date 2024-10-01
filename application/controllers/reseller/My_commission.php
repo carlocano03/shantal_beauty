@@ -53,7 +53,7 @@ class My_commission extends MY_Controller
 
             $fullname = $list->last_name.', '.$list->first_name;
             $reseller_id = $this->cipher->encrypt($list->reseller_id);
-
+            
             $row[] = $no;
             $row[] = $list->reseller_no;
             $row[] = ucwords($fullname);
@@ -70,6 +70,53 @@ class My_commission extends MY_Controller
             "data" => $data,
             "csrf_token_value" => $this->security->get_csrf_hash(),
             "csrf_token_name" => $this->security->get_csrf_token_name(),
+        );
+        echo json_encode($output);
+    }
+
+    public function get_my_sales()
+    {
+        $reseller = $this->my_commission_model->get_my_sales();
+        $data = array();
+        $no = $_POST['start'];
+        foreach ($reseller as $list) {
+            $no++;
+            $row = array();
+
+            $order_id = $this->cipher->encrypt($list->order_id);
+
+            $row[] = $no;
+            $row[] = '<a href="'.base_url('reseller/my-commission/order-details?order='.$order_id).'">'.$list->order_no.'</a>';
+            $row[] = number_format($list->sales_amount,2);
+            $row[] = number_format($list->commission_amt,2);
+
+            if ($list->remarks == 'Reseller') {
+                $remarks = '<span class="badge bg-success">My Sales</span>';
+            } else {
+                $remarks = '<span class="badge bg-warning">My Reseller Sales</span>';
+            }
+
+            $row[] = $remarks;
+
+            $data[] = $row;
+        }
+        $output = array(
+            "draw" => $_POST['draw'],
+            "recordsTotal" => $this->my_commission_model->count_all_sales(),
+            "recordsFiltered" => $this->my_commission_model->count_filtered_sales(),
+            "data" => $data,
+            "csrf_token_value" => $this->security->get_csrf_hash(),
+            "csrf_token_name" => $this->security->get_csrf_token_name(),
+        );
+        echo json_encode($output);
+    }
+
+    public function get_commission_amt()
+    {
+        $commission = $this->my_commission_model->get_commission_amt();
+
+        $output = array(
+            'commission_amt' => $commission->total_commission,
         );
         echo json_encode($output);
     }

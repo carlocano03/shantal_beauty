@@ -60,7 +60,8 @@
 
 
 .menu {
-    background: linear-gradient(to bottom right, #000000, #b18647);
+    /* background: linear-gradient(to bottom right, #000000, #b18647); */
+    background: #000000 !important;
 }
 
 .sidebar-menu-header {
@@ -158,7 +159,7 @@
 
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-white">
             <div class="app-brand demo">
-                <a href="<?= base_url('admin/dashboard');?>" class="app-brand-link">
+                <a href="<?= base_url('reseller/dashboard');?>" class="app-brand-link">
                     <span class="app-brand-logo demo">
                         <img src="<?= base_url('assets/images/home/shantal-logo.png');?>">
                     </span>
@@ -178,7 +179,7 @@
 
             <ul class="menu-inner py-1">
                 <li class="menu-item ">
-                    <a href="<?= base_url('admin/dashboard');?>"
+                    <a href="<?= base_url('reseller/dashboard');?>"
                         class="<?= ($dashboard) ? 'menu-link-active' : '';?> menu-link">
                         <i class="menu-icon tf-icons bx bxs-dashboard"></i>
                         <div data-i18n="Analytics">Dashboard</div>

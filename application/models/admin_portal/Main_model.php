@@ -36,6 +36,13 @@ class Main_model extends MY_Model
         return $query->num_rows();
     }
 
+    function get_orders_count()
+    {   
+        $this->db->where('order_status', 'Pending');
+        $query = $this->db->get('order_details');
+        return $query->num_rows();
+    }
+    
     private function verify_password_hash($password, $hash)
     {
         return password_verify($password, $hash);

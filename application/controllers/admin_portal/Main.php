@@ -269,17 +269,99 @@ class Main extends MY_Controller
         $this->load->view('admin_portal/partial/_footer', $data);
     }
 
+    public function pending_orders()
+    {
+        $data['role_permissions'] = $this->role_permissions();
+        $data['home_url'] = base_url('admin/dashboard');
+        $data['active_page'] = 'pending_order_page';
+        $data['card_title'] = 'Pending Orders';
+        $data['icon'] = 'bi bi-speedometer2';
+        $data['header_contents'] = array(
+            '<link href="https://cdn.datatables.net/1.13.2/css/dataTables.bootstrap4.min.css" rel="stylesheet">',
+            '<script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>',
+            '<script src="https://cdn.datatables.net/1.13.2/js/dataTables.bootstrap4.min.js"></script>',
+            '<script>
+                var csrf_token_name = "'.$this->security->get_csrf_token_name().'";
+                var csrf_token_value = "'.$this->security->get_csrf_hash().'";
+            </script>'
+        );
+	
+        $this->load->view('admin_portal/partial/_header', $data);
+        $this->load->view('admin_portal/pending_order', $data);
+        $this->load->view('admin_portal/partial/_footer', $data);
+    }
+
+    public function list_orders()
+    {
+        $data['role_permissions'] = $this->role_permissions();
+        $data['home_url'] = base_url('admin/dashboard');
+        $data['active_page'] = 'order_page';
+        $data['card_title'] = 'List of Orders';
+        $data['icon'] = 'bi bi-speedometer2';
+        $data['header_contents'] = array(
+            '<link href="https://cdn.datatables.net/1.13.2/css/dataTables.bootstrap4.min.css" rel="stylesheet">',
+            '<script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>',
+            '<script src="https://cdn.datatables.net/1.13.2/js/dataTables.bootstrap4.min.js"></script>',
+            '<script>
+                var csrf_token_name = "'.$this->security->get_csrf_token_name().'";
+                var csrf_token_value = "'.$this->security->get_csrf_hash().'";
+            </script>'
+        );
+	
+        $this->load->view('admin_portal/partial/_header', $data);
+        $this->load->view('admin_portal/list_orders', $data);
+        $this->load->view('admin_portal/partial/_footer', $data);
+    }
+
+    public function order_details()
+    {
+        $this->load->model('admin_portal/online_order_model');
+        $order_id = $this->cipher->decrypt($this->input->get('order', true));
+        $data['orders'] = $this->online_order_model->get_row('order_details', array('order_id' => $order_id));
+        $data['referred_by'] = $this->online_order_model->get_referral_info($data['orders']['referral_code']);
+        $data['order_details'] = $this->online_order_model->order_details($order_id);
+
+        $data['role_permissions'] = $this->role_permissions();
+        $data['home_url'] = base_url('admin/dashboard');
+
+        if($data['orders']['order_status'] == 'Pending') {
+            $data['active_page'] = 'pending_order_page';
+        } else {
+            $data['active_page'] = 'order_page';
+        }
+
+        $data['card_title'] = 'Order Informations';
+        $data['icon'] = 'bi bi-speedometer2';
+        $data['header_contents'] = array(
+            '<link href="https://cdn.datatables.net/1.13.2/css/dataTables.bootstrap4.min.css" rel="stylesheet">',
+            '<script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>',
+            '<script src="https://cdn.datatables.net/1.13.2/js/dataTables.bootstrap4.min.js"></script>',
+            '<script>
+                var csrf_token_name = "'.$this->security->get_csrf_token_name().'";
+                var csrf_token_value = "'.$this->security->get_csrf_hash().'";
+            </script>'
+        );
+	
+        $this->load->view('admin_portal/partial/_header', $data);
+        $this->load->view('admin_portal/order_details', $data);
+        $this->load->view('admin_portal/partial/_footer', $data);
+    }
+
     public function get_sidebar_count()
     {
         $reseller = $this->main_model->get_reseller_application();
         $voucher = $this->main_model->get_voucher();
+        $pending_order = $this->main_model->get_orders_count();
 
         $application_request = $reseller;
+        $order_online = $pending_order;
 
         $output = array(
             'application_request' => $application_request,
             'reseller_request' => $reseller,
             'voucher_request' => $voucher,
+            'order_online' => $order_online,
+            'pending_orders' => $pending_order,
         );
 
         echo json_encode($output);

@@ -121,6 +121,16 @@ class Product_model extends MY_Model
         return $insert?TRUE:FALSE;
     }
 
+    function insert_buy_now($insert_cart)
+    {
+        $insert = $this->db->insert('cart_item', $insert_cart);
+        if ($insert) {
+            return $this->db->insert_id();
+        } else {
+            return '';
+        } 
+    }
+
     function get_cart_count($user_id)
     {
         $this->db->where('user_id', $user_id);
@@ -187,7 +197,7 @@ class Product_model extends MY_Model
         $this->db->select('CI.*, P.product_name, P.selling_price, P.available_stocks, P.main_product_img');
         $this->db->from('cart_item CI');
         $this->db->join('product P', 'CI.product_id = P.product_id', 'left');
-        $this->db->where('CI.status', 0);
+        // $this->db->where('CI.status', 0);
         $this->db->where_in('cart_id', $cart_ids_decrypted);
         $query = $this->db->get();
         return $query->result();

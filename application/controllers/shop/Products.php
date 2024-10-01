@@ -185,6 +185,37 @@ class Products extends MY_Controller
         echo json_encode($output);
     }
 
+    public function buy_now()
+    {
+        $success = '';
+        $error = '';
+
+        $product_id = $this->input->post('product_id', true);
+        $qty = $this->input->post('qty', true);
+        $user_id = $this->session->userdata('customerIn')['user_id'];
+
+        //Insert Cart
+        $insert_cart = array(
+            'user_id'       => $user_id,
+            'product_id'    => $product_id,
+            'quantity'      => $qty,
+            'date_created'  => date('Y-m-d H:i:s'),
+            'status'        => 2 //Buy now
+        );
+        $cart_id = $this->product_model->insert_buy_now($insert_cart);
+        if ($cart_id != '') {
+            $encrypted_cart_id = $this->cipher->encrypt($cart_id);
+            $checkoutURL = base_url('shop/checkout?product=').$encrypted_cart_id;
+        } else {
+            $error = 'Failed to add the product on cart.';
+        }
+        $output = array(
+            'checkoutURL' => $checkoutURL,
+            'error' => $error,
+        );
+        echo json_encode($output);
+    }
+
     public function get_cart_item_list()
     {
         $output = '';
@@ -354,19 +385,21 @@ class Products extends MY_Controller
                 $address = $list->street_name.' '.ucwords($list->barangay).', '.ucwords($list->municipality).', '.ucwords($list->province).' '.$list->postal_code;
 
                 $output .= '
-                    <div class="d-flex align-items-center justify-content-between">
-                        <div class="form-check checkbox d-flex align-items-center gap-3">
-                            <input class="form-check-input cart__item__check_all-product change_delivery_address" data-id="'.$list->shipping_id.'" type="radio" name="address_selection" id="address_selection'.$no.'" '.$checked.'>
-                            <label class="form-check-label" for="address_selection'.$no.'" style="font-size:14px; font-weight:500; margin-top:4px;">
-                                <span class="fw-bold">'.ucwords($list->fullname).'</span> | '.$contact_no.'
-                            </label>
+                    <div class="address_list__container">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="form-check checkbox d-flex align-items-center gap-3">
+                                <input class="form-check-input cart__item__check_all-product change_delivery_address" data-id="'.$list->shipping_id.'" type="radio" name="address_selection" id="address_selection'.$no.'" '.$checked.'>
+                                <label class="form-check-label" for="address_selection'.$no.'" style="font-size:14px; font-weight:500; margin-top:4px;">
+                                    <span class="fw-bold">'.ucwords($list->fullname).'</span> | '.$contact_no.'
+                                </label>
+                            </div>
+                            '.$delete_btn.'
                         </div>
-                        '.$delete_btn.'
-                    </div>
-                    <div style="margin-left:25px; font-size:13px; color:#636e72;">
-                        <div>Landmark: '.$list->landmark.'</div>
-                        <div>'.$address.'</div>
-                        '.$default.'
+                        <div style="margin-left:25px; font-size:13px; color:#636e72;">
+                            <div>Landmark: '.$list->landmark.'</div>
+                            <div>'.$address.'</div>
+                            '.$default.'
+                        </div>
                     </div>
                     <hr>
                 ';
@@ -568,17 +601,32 @@ class Products extends MY_Controller
         $check_voucher= $this->product_model->check_voucher_code($voucher_code, $reseller_id);
         if($check_voucher->num_rows() > 0) {
             $voucher = $check_voucher->row();
+            $end_date = isset($voucher->end_date) ? $voucher->end_date : '';
+            $dateToday = date('Y-m-d');
 
-            $voucher_amt = isset($voucher->voucher_amt) ? $voucher->voucher_amt : '';
-            $success = 'Valid voucher code.';
+            if ($dateToday > $end_date) {
+                $voucher_amt = '';
+                $voucher_desc = '';
+                $voucher_code = '';
+                $error = 'Voucher already expired.';
+            } else {
+                $voucher_amt = isset($voucher->voucher_amt) ? $voucher->voucher_amt : '';
+                $voucher_desc = isset($voucher->description) ? $voucher->description : '';
+                $voucher_code = isset($voucher->voucher_code) ? $voucher->voucher_code : '';
+                $success = 'Valid voucher code.';
+            }
         } else {
             $voucher_amt = '';
+            $voucher_desc = '';
+            $voucher_code = '';
             $error = 'Invalid voucher.';
         }
         $output = array(
             'success' => $success,
             'error' => $error,
             'voucher_amt' => $voucher_amt,
+            'voucher_desc' => $voucher_desc,
+            'voucher_code' => $voucher_code,
         );
         echo json_encode($output);
     }

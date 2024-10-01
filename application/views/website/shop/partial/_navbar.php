@@ -17,9 +17,10 @@
             </ul>
 
             <div class="d-flex gap-5 align-items-center">
-                <a href="<?= base_url('shop'); ?>" class="nav-active">
+                <a href="<?= base_url('shop/profile'); ?>" class="nav-active">
                     <i class="fa-regular fa-user navbar__right-side--icon"></i>
                 </a>
+                
                 <div>
                     <i class="fa-regular fa-heart navbar__right-side--icon"></i>
                 </div>

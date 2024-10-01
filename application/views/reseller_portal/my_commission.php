@@ -27,15 +27,15 @@
 
 #tbl_sales th:nth-child(1),
 #tbl_sales td:nth-child(1),
-#tbl_sales th:nth-child(4),
-#tbl_sales td:nth-child(4) {
+#tbl_sales th:nth-child(5),
+#tbl_sales td:nth-child(5) {
     text-align: center;
 }
 
 #tbl_sales th:nth-child(3),
 #tbl_sales td:nth-child(3),
-#tbl_sales th:nth-child(5),
-#tbl_sales td:nth-child(5) {
+#tbl_sales th:nth-child(4),
+#tbl_sales td:nth-child(4) {
     text-align: right;
 }
 
@@ -213,10 +213,10 @@
                                     <thead>
                                         <tr>
                                             <th>No.</th>
-                                            <th>Product</th>
-                                            <th>Price</th>
-                                            <th>QTY</th>
-                                            <th>Total Amount</th>
+                                            <th>Order No</th>
+                                            <th>Amount</th>
+                                            <th>Commission</th>
+                                            <th>Remarks</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -229,7 +229,7 @@
                                 <div class="commission-wallet__container">
                                     <div class="commission-wallet__header">
                                         <h1 class="commission-wallet__header__title">Total Commision</h1>
-                                        <div class="commission-wallet__header__price">₱12,000</div>
+                                        <div class="commission-wallet__header__price" id="commission_amt"></div>
                                         <div class="commission-wallet__header__items">
                                             <div class="commission-wallet__header__item">
                                                 <div class="commission-wallet__header__icon-container">
@@ -278,7 +278,7 @@
                                                     <div>Status</div>
                                                 </div>
                                                 <div class="commission-wallet__table">
-                                                    <div class="commission-wallet__table__item">
+                                                    <!-- <div class="commission-wallet__table__item">
                                                         <div>Jan 09, 2024</div>
                                                         <div>₱2,000</div>
                                                         <div class="table__status text-success">Completed</div>
@@ -317,7 +317,7 @@
                                                         <div>Jan 09, 2024</div>
                                                         <div>₱2,000</div>
                                                         <div class="table__status text-success">Completed</div>
-                                                    </div>
+                                                    </div> -->
                                                 </div>
                                             </div>
                                         </div>
@@ -380,6 +380,7 @@
                                 </div>
                             </div>
                         </div>
+                        </div>
 
                         <div class="tab-pane fade" id="recruited" role="tabpanel" aria-labelledby="recruited-tab">
                             <table class="table" width="100%" id="tbl_reseller">
@@ -421,8 +422,43 @@
             }
         });
     }
+
+    function getCommission() {
+        $.ajax({
+            url: "<?= base_url('reseller/my_commission/get_commission_amt');?>",
+            method: "GET",
+            dataType: "json",
+            success: function(data) {
+                const countUpConfigs = [{
+                        elementId: 'commission_amt',
+                        targetValue: data.commission_amt,
+
+                    }
+                ];
+
+                countUpConfigs.forEach((config) => {
+                    var countUp = new CountUp(config.elementId, 0, config
+                        .targetValue,
+                        2, 4, {
+                            duration: 5,
+                            useEasing: true,
+                            separator: ',',
+                            prefix: '₱',
+                        });
+
+                    if (!countUp.error) {
+                        countUp.start();
+                    } else {
+                        console.error("CountUp Error:", countUp.error);
+                    }
+                });
+            }
+        });
+    }
+
     $(document).ready(function() {
         getResellerCount();
+        getCommission();
 
         var tbl_reseller = $('#tbl_reseller').DataTable({
             language: {
@@ -460,20 +496,20 @@
                 }
             },
             "ordering": false,
-            // "serverSide": true,
-            // "processing": true,
-            // "deferRender": true,
-            // "ajax": {
-            //     "url": "<?= base_url('reseller/my_commission/get_recruited_reseller')?>",
-            //     "type": "POST",
-            //     "data": function(d) {
-            //         d[csrf_token_name] = csrf_token_value;
-            //     },
-            //     "complete": function(res) {
-            //         csrf_token_name = res.responseJSON.csrf_token_name;
-            //         csrf_token_value = res.responseJSON.csrf_token_value;
-            //     }
-            // }
+            "serverSide": true,
+            "processing": true,
+            "deferRender": true,
+            "ajax": {
+                "url": "<?= base_url('reseller/my_commission/get_my_sales')?>",
+                "type": "POST",
+                "data": function(d) {
+                    d[csrf_token_name] = csrf_token_value;
+                },
+                "complete": function(res) {
+                    csrf_token_name = res.responseJSON.csrf_token_name;
+                    csrf_token_value = res.responseJSON.csrf_token_value;
+                }
+            }
         });
 
         $('button[data-bs-toggle="tab"]').on('shown.bs.tab', function(e) {

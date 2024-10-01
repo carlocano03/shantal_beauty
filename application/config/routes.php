@@ -63,6 +63,9 @@ $route['admin/product-management'] = 'admin_portal/main/product_management';
 $route['admin/product-management/stock-in'] = 'admin_portal/main/stock_in';
 $route['admin/account-management'] = 'admin_portal/main/account_management';
 $route['admin/voucher'] = 'admin_portal/main/voucher';
+$route['admin/pending-orders'] = 'admin_portal/main/pending_orders';
+$route['admin/list-orders'] = 'admin_portal/main/list_orders';
+$route['admin/order-details'] = 'admin_portal/main/order_details';
 
 $route['reseller'] = 'reseller/main/index';
 $route['reseller/dashboard'] = 'reseller/dashboard/index';
@@ -70,6 +73,8 @@ $route['reseller/inventory'] = 'reseller/dashboard/inventory';
 $route['reseller/inventory/product-information'] = 'reseller/dashboard/product_information';
 $route['reseller/voucher-creation'] = 'reseller/dashboard/voucher_creation';
 $route['reseller/my-commission'] = 'reseller/dashboard/my_commission';
+$route['reseller/my-commission/order-details'] = 'reseller/dashboard/order_details';
+
 
 $route['shop'] = 'shop/main/index';
 $route['shop/best-sellers'] = 'shop/main/best_sellers';

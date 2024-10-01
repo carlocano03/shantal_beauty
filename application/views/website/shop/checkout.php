@@ -20,7 +20,7 @@
                             <i class="fa-solid fa-magnifying-glass navbar__right-side--icon  "></i>
                         </div>
                         <div>
-                            <i class="fa-regular fa-user navbar__right-side--icon"></i>
+                            <a href="<?= base_url('shop/profile');?>"><i class="fa-regular fa-user navbar__right-side--icon"></i></a>
                         </div>
                         <div>
                             <i class="fa-regular fa-heart navbar__right-side--icon"></i>
@@ -168,13 +168,13 @@
                                             <img class="voucher-code__img"
                                                 src="<?php echo base_url('assets/images/shop/coupon.png'); ?>"
                                                 alt="Coupon">
-                                            <div>SAVE20</div>
+                                            <div class="code"></div>
                                         </div>
                                     </div>
                                     <div class="voucher-discount"><strong>Discount</strong>
                                         <div class="voucherAmt">-0.00</div>
                                     </div>
-                                    <p class="voucher-description">Free Shipping for SAVE20 Voucher</p>
+                                    <p class="voucher-description"></p>
                                 </div>
                             </div>
                             <div class="checkout__detail-summary__total">
@@ -570,6 +570,8 @@ $(document).ready(function() {
                         maximumFractionDigits: 2
                     });
                     $('.amount_voucher').text(formattedAmount);
+                    $('.code').text(data.voucher_code);
+                    $('.voucher-description').text(data.voucher_desc);
                     calculateAmount();
 
                     setTimeout(() => {

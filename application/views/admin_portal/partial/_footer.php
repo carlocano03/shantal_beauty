@@ -152,6 +152,18 @@
                 } else {
                     $('.voucher_request').text('');
                 }
+
+                if (data.order_online > 0) {
+                    $('.order_online').text(data.order_online);
+                } else {
+                    $('.order_online').text('');
+                }
+
+                if (data.pending_orders > 0) {
+                    $('.pending_orders').text(data.pending_orders);
+                } else {
+                    $('.pending_orders').text('');
+                }
                 
             }
         });

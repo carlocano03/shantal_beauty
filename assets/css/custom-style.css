@@ -284,6 +284,11 @@ input:checked+.slider:before {
 .link-cursor,
 .box-input {
   cursor: pointer;
+  color: #0984e3;
+}
+
+.link-cursor:hover {
+  text-decoration: underline;
 }
 
 .dropdown-select {

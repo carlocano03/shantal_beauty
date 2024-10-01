@@ -124,14 +124,19 @@ class Reseller_application extends MY_Controller
                     $referral = $this->reseller_application->check_existing_referral($data['referral_code']);
                     if ($referral) {
                         //Insert Referral Info
-                        $referral_info = array(
-                            'reseller_id'   => $referral->reseller_id,
-                            'referral_code' => $data['referral_code'],
-                            'remarks'       => 'Reseller',
-                            'date_created'  => date('Y-m-d H:i:s'),
-                        );
-                        $this->db->insert('referral_info', $referral_info);
+                        // $referral_info = array(
+                        //     'reseller_id'   => $referral->reseller_id,
+                        //     'referral_code' => $data['referral_code'],
+                        //     'remarks'       => 'Reseller',
+                        //     'date_created'  => date('Y-m-d H:i:s'),
+                        // );
+                        // $this->db->insert('referral_info', $referral_info);
+                        $recruiter_id = $referral->user_id;
+                    } else {
+                        $recruiter_id = '';
                     }
+                } else {
+                    $recruiter_id = '';
                 }
 
                 $this->system_counter->increment_ctrl_num($this->counter_reseller);
@@ -143,6 +148,7 @@ class Reseller_application extends MY_Controller
                     'username'          => $reseller_no,
                     'password'          => password_hash($password, PASSWORD_DEFAULT),
                     'temp_password'     => $password,
+                    'recruiter_id'      => $recruiter_id,
                     'date_created'      => date('Y-m-d H:i:s'),
                 );
                 $user_id = $this->reseller_application->insert_user_acct($reseller_account);
@@ -252,8 +258,8 @@ class Reseller_application extends MY_Controller
                             Action
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a target="_blank" href="'.base_url('admin/reseller-account/information?id=').$reseller_id.'" class="dropdown-item link-cursor text-primary"><i class="bi bi-view-list me-2"></i>View Details</a></li>
-                            <li><a class="dropdown-item link-cursor text-danger update_modal" 
+                            <li><a target="_blank" href="'.base_url('admin/reseller-account/information?id=').$reseller_id.'" class="dropdown-item text-primary"><i class="bi bi-view-list me-2"></i>View Details</a></li>
+                            <li><a class="dropdown-item text-danger update_modal" 
                                 data-id="'.$list->reseller_id.'"
                             ><i class="bi bi-pencil-square me-2"></i>Update Status</a></li>
                         </ul>
@@ -351,7 +357,7 @@ class Reseller_application extends MY_Controller
                                 Action
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item link-cursor text-primary view_modal"
+                                <li><a class="dropdown-item text-primary view_modal"
                                     data-id="'.$list->voucher_id.'"
                                     data-voucher_code="'.$list->voucher_code.'"
                                     data-desc="'.$list->description.'"
@@ -411,6 +417,48 @@ class Reseller_application extends MY_Controller
     }
 
     //==========================End of Voucher=============================
+
+    public function get_sales_chart()
+    {
+        $range = $this->input->post('range', true);
+        $referral_code = $this->input->post('referral_code', true);
+        $data = $this->reseller_application->get_sales_chart($range, $referral_code);
+
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($data));
+    }
+
+    public function get_product_sales()
+    {
+        $orders = $this->reseller_application->get_product_sales();
+        $data = array();
+        $no = $_POST['start'];
+        foreach ($orders as $list) {
+            $no++;
+            $row = array();
+
+            $row[] = $no;
+            $row[] = '<div>'.ucwords($list->product_name).'</div>
+                      <span style="font-size:9px; color:red; font-weight:600;">Date Sold: '.date('D M j, Y h:i A', strtotime($list->date_created)).'</span>';
+            $row[] = $list->quantity_order;
+
+            $amount = $list->selling_price * $list->quantity_order;
+            $row[] = number_format($list->selling_price,2);
+            $row[] = number_format($amount,2);
+
+            $data[] = $row;
+        }
+        $output = array(
+            "draw" => $_POST['draw'],
+            "recordsTotal" => $this->reseller_application->count_all_sales(),
+            "recordsFiltered" => $this->reseller_application->count_filtered_sales(),
+            "data" => $data,
+            "csrf_token_value" => $this->security->get_csrf_hash(),
+            "csrf_token_name" => $this->security->get_csrf_token_name(),
+        );
+        echo json_encode($output);
+    }
 
 
 }

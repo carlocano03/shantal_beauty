@@ -11,6 +11,9 @@ define("ADMINISTRATOR", 1);
 define("ADMIN_STAFF", 2);
 define("RESELLER_USER", 3);
 define("CUSTOMER", 4);
+define("PENDING_ORDER", 5);
+define("ORDERS", 6);
+
 
 //Permissions
 define("RESELLERS", 1);
