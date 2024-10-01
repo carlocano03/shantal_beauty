@@ -190,5 +190,39 @@ $(document).ready(function() {
             }
         });
     });
+
+    $(document).on('click', '#add_wishlist', function() {
+        var product_id = $(this).data('id');
+
+        $.ajax({
+            url: "<?= base_url('shop/products/add_wishlist')?>",
+            method: "POST",
+            data: {
+                product_id: product_id,
+                '_token': csrf_token_value,
+            },
+            dataType: "json",
+            success: function(data) {
+                if (data.error != '') {
+                    Toast.fire({
+                        icon: 'warning',
+                        title: data.error,
+                    });
+                } else {
+                    Toast.fire({
+                        icon: 'success',
+                        title: data.success,
+                    });
+                    wishlistCount();
+                }
+            },
+            error: function() {
+                Toast.fire({
+                    icon: 'error',
+                    title: 'An error occurred while processing the request.',
+                });
+            }
+        });
+    });
 });
 </script>

@@ -147,50 +147,57 @@
                             <div class="product-details__badge">Best Seller</div>
                         </div>
 
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="product__item__ratings__container">
-                                <i class="bi bi-star-fill product__item__ratings__item"></i>
-                                <i class="bi bi-star-fill product__item__ratings__item"></i>
-                                <i class="bi bi-star-fill product__item__ratings__item"></i>
-                                <i class="bi bi-star-fill product__item__ratings__item"></i>
-                                <i class="bi bi-star-fill product__item__ratings__item"></i>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="product__item__ratings__container">
+                                    <i class="bi bi-star-fill product__item__ratings__item"></i>
+                                    <i class="bi bi-star-fill product__item__ratings__item"></i>
+                                    <i class="bi bi-star-fill product__item__ratings__item"></i>
+                                    <i class="bi bi-star-fill product__item__ratings__item"></i>
+                                    <i class="bi bi-star-fill product__item__ratings__item"></i>
+                                </div>
+                                <div class="product__item__review">(100 reviews)</div>
                             </div>
-                            <div class="product__item__review">(100 reviews)</div>
+                            <div style="font-size:12px; color:#95a5a6; font-weight:600;"><?= isset($no_sold->total_sold) ? number_format($no_sold->total_sold).' sold' : ''?></div>
                         </div>
 
-                        <p class="product-details__p">
+                        <p class="product-details__p" style="text-align:justify;">
                             <?= isset($product['description']) ? nl2br(htmlspecialchars($product['description'])) : ''; ?>
                         </p>
 
 
                         <div class="d-flex align-items-center justify-content-between mt-5">
                             <div class="product-details__price">
-                                ₱<?= isset($product['selling_price']) ? number_format($product['selling_price'],2) : '0.00';?>
+                                <?= isset($product['selling_price']) ? '₱'.number_format($product['selling_price'],2) : '0.00';?>
                             </div>
                             <div class="product__item__quantity-selector">
                                 <i class="fa-solid fa-minus product__item__quantity-selector__minus"></i>
                                 <input type="text" value="1"
                                     class="product__item__quantity-selector__input input qty_input" readonly>
-                                <i class="fa-solid fa-plus product__item__quantity-selector__plus"></i>
+                                <i class="fa-solid fa-plus product__item__quantity-selector__plus" data-stocks="<?= isset($product['available_stocks']) ? $product['available_stocks'] : '0.00';?>"></i>
                             </div>
                         </div>
                         <div class="row product-details__buttons">
-                            <div class="col-5">
-                                <div class="product-details__add-to-cart" id="add_cart"
-                                    data-id="<?= isset($product['product_id']) ? $product['product_id'] : '';?>"><i
-                                        class="bi bi-bag-plus me-3"></i>Add To Cart
+                            <?php if(isset($product['available_stocks']) && $product['available_stocks'] > 0) : ?>
+                                <div class="col-5">
+                                    <div class="product-details__add-to-cart" id="add_cart"
+                                        data-id="<?= isset($product['product_id']) ? $product['product_id'] : '';?>"><i
+                                            class="bi bi-bag-plus me-3"></i>Add To Cart
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-5">
-                                <div class="product-details__buy" id="buy_now"
-                                    data-id="<?= isset($product['product_id']) ? $product['product_id'] : '';?>">Buy Now
+                                <div class="col-5">
+                                    <div class="product-details__buy" id="buy_now"
+                                        data-id="<?= isset($product['product_id']) ? $product['product_id'] : '';?>">Buy Now
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-2 d-flex justify-content-center align-items-center">
-                                <div class="product-details__heart">
-                                    <i class="bi bi-heart"></i>
+                            <?php else : ?>
+                                <div class="col-5">
+                                    <div class="product-details__add-to-cart" id="add_wishlist"
+                                        data-id="<?= isset($product['product_id']) ? $product['product_id'] : '';?>"><i class="bi bi-heart me-3"></i>Add To Wishlist
+                                    </div>
                                 </div>
-                            </div>
+                            <?php endif; ?>
+                            
                         </div>
                     </div>
 
@@ -419,46 +426,19 @@
                         <div class="product-information__content">
                             <div class="d-flex align-items-center gap-2">
                                 <div class="product-information__name">Product Name:</div>
-                                <div class="product-information__detail">Shantal's Temptation Coffee</div>
+                                <div class="product-information__detail"><?= isset($product['product_name']) ? ucwords($product['product_name']) : '';?></div>
                             </div>
                             <div class="d-flex align-items-center gap-2">
-                                <div class="product-information__name">Brand:</div>
-                                <div class="product-information__detail">Shantal's</div>
-                            </div>
-                            <div class="d-flex align-items-center gap-2">
-                                <div class="product-information__name">Weight:</div>
-                                <div class="product-information__detail">250g</div>
+                                <div class="product-information__name">Net Weight:</div>
+                                <div class="product-information__detail"><?= isset($product['net_weight']) ? $product['net_weight'] : '';?></div>
                             </div>
                             <div class="d-flex align-items-center gap-2">
                                 <div class="product-information__name">Price:</div>
-                                <div class="product-information__detail">₱500.00</div>
-                            </div>
-                            <div class="d-flex align-items-center gap-2">
-                                <div class="product-information__name">Ingredients:</div>
-                                <div class="product-information__detail">Coffee beans, Collagen, Ascorbic acid (Vitamin
-                                    C)</div>
-                            </div>
-                            <div class="d-flex align-items-center gap-2">
-                                <div class="product-information__name">Serving Size:</div>
-                                <div class="product-information__detail">1 tablespoon (10g) per cup</div>
-                            </div>
-                            <div class="d-flex align-items-center gap-2">
-                                <div class="product-information__name">Serving per Package:</div>
-                                <div class="product-information__detail">Approximately 25 servings</div>
-                            </div>
-                            <div class="d-flex align-items-center gap-2">
-                                <div class="product-information__name">Storage Instruction:</div>
-                                <div class="product-information__detail">Store in a cool, dry place away from direct
-                                    sunlight. Keep the resealable bag tightly closed after use.</div>
+                                <div class="product-information__detail"><?= isset($product['selling_price']) ? '₱'.number_format($product['selling_price'],2) : '';?></div>
                             </div>
                             <div>
-                                <div class="product-information__name">Health Benefits:</div>
-                                <ul class="product-information__items">
-                                    <li class="product-information__item">Boosts immune system with collagen and
-                                        ascorbic acid</li>
-                                    <li class="product-information__item">Supports healthy skin rejuvenation</li>
-                                    <li class="product-information__item">Rich in antioxidants</li>
-                                </ul>
+                                <div class="product-information__name">Descriptions:</div>
+                                <div class="product-information__detail"><?= isset($product['description']) ? nl2br(htmlspecialchars($product['description'])) : ''; ?></div>
                             </div>
                         </div>
                     </div>
@@ -470,117 +450,10 @@
                 <div class="recommended-product">
                     <h1 class="recommended-product__title">Recommended for You</h1>
                     <div class="recommended-product__items mt-5">
-                        <div class="row row-cols-lg-4 row-cols-md-2 row-cols-1 gy-4 gx-4">
-                            <div class="col">
-                                <div class="recommended-product__item">
-                                    <div class="product__item__img-container">
-                                        <img class="recommended-product__item__img"
-                                            src="http://localhost/shantal_beauty/assets/uploaded_file/uploaded_product/151541767_155708.png"
-                                            alt="Product 1">
-                                    </div>
-                                    <div class="recommended-product__content">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <h1 class="recommended-product__item--name">
-                                                Collastem</h1>
-                                            <div class="product__item__status">
-                                                Best seller
-                                            </div>
-                                        </div>
-                                        <p class="recommended-product__item--p">Lorem ipsum dolor sit amet consectetur
-                                            adipisicing elit. Quae voluptatum
-                                            obcaecati quasi facilis quo maxime.</p>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="recommended-product__item--price">₱ 500.00</div>
-                                            <div class="recommended-product__item--sold">25 sold</div>
-                                        </div>
-                                    </div>
-                                    <div class="recommended-product__item--btn" id="add_cart">Add to cart</div>
-                                </div>
-                            </div>
+                        <div class="row row-cols-lg-4 row-cols-md-2 row-cols-1 gy-4 gx-4" id="recommended_product">
+                            
 
-                            <div class="col">
-                                <div class="recommended-product__item">
-                                    <div class="product__item__img-container">
-                                        <img class="recommended-product__item__img"
-                                            src="http://localhost/shantal_beauty/assets/uploaded_file/uploaded_product/151541767_155708.png"
-                                            alt="Product 1">
-                                    </div>
-                                    <div class="recommended-product__content">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <h1 class="recommended-product__item--name">
-                                                Collastem</h1>
-                                            <div class="product__item__status">
-                                                Best seller
-                                            </div>
-                                        </div>
-                                        <p class="recommended-product__item--p">Lorem ipsum dolor sit amet consectetur
-                                            adipisicing elit. Quae voluptatum
-                                            obcaecati quasi facilis quo maxime.</p>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="recommended-product__item--price">₱ 500.00</div>
-                                            <div class="recommended-product__item--sold">25 sold</div>
-
-                                        </div>
-                                    </div>
-                                    <div class="recommended-product__item--btn" id="add_cart">Add to cart</div>
-                                </div>
-                            </div>
-
-                            <div class="col">
-                                <div class="recommended-product__item">
-                                    <div class="product__item__img-container">
-                                        <img class="recommended-product__item__img"
-                                            src="http://localhost/shantal_beauty/assets/uploaded_file/uploaded_product/151541767_155708.png"
-                                            alt="Product 1">
-                                    </div>
-                                    <div class="recommended-product__content">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <h1 class="recommended-product__item--name">
-                                                Collastem</h1>
-                                            <div class="product__item__status">
-                                                Best seller
-                                            </div>
-                                        </div>
-                                        <p class="recommended-product__item--p">Lorem ipsum dolor sit amet consectetur
-                                            adipisicing elit. Quae voluptatum
-                                            obcaecati quasi facilis quo maxime.</p>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="recommended-product__item--price">₱ 500.00</div>
-                                            <div class="recommended-product__item--sold">25 sold</div>
-
-                                        </div>
-                                    </div>
-                                    <div class="recommended-product__item--btn" id="add_cart">Add to cart</div>
-                                </div>
-                            </div>
-
-                            <div class="col">
-                                <div class="recommended-product__item">
-                                    <div class="product__item__img-container">
-                                        <img class="recommended-product__item__img"
-                                            src="http://localhost/shantal_beauty/assets/uploaded_file/uploaded_product/151541767_155708.png"
-                                            alt="Product 1">
-                                    </div>
-                                    <div class="recommended-product__content">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <h1 class="recommended-product__item--name">
-                                                Collastem</h1>
-                                            <div class="product__item__status">
-                                                Best seller
-                                            </div>
-                                        </div>
-                                        <p class="recommended-product__item--p">Lorem ipsum dolor sit amet consectetur
-                                            adipisicing elit. Quae voluptatum
-                                            obcaecati quasi facilis quo maxime.</p>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="recommended-product__item--price">₱ 500.00</div>
-                                            <div class="recommended-product__item--sold">25 sold</div>
-
-                                        </div>
-                                    </div>
-                                    <div class="recommended-product__item--btn" id="add_cart">Add to cart</div>
-                                </div>
-                            </div>
+                            <!-- AJAX REQUEST -->
                         </div>
                     </div>
                 </div>
@@ -591,24 +464,50 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     <script>
-    var swiper = new Swiper(".mySwiper", {
-        loop: false,
-        spaceBetween: 10,
-        slidesPerView: 4,
-        freeMode: true,
-        watchSlidesProgress: true,
-    });
-    var swiper2 = new Swiper(".mySwiper2", {
-        loop: true,
-        spaceBetween: 10,
-        navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
-        },
-        thumbs: {
-            swiper: swiper,
-        },
-    });
+    var swiperContainer1 = document.querySelector('.mySwiper');
+    var swiperContainer2 = document.querySelector('.mySwiper2');
+    if (swiperContainer1 && swiperContainer1.querySelectorAll('.swiper-slide').length > 0) {
+        var swiper = new Swiper(".mySwiper", {
+            loop: false,
+            spaceBetween: 10,
+            slidesPerView: 4,
+            freeMode: true,
+            watchSlidesProgress: true,
+        });
+    }
+
+    if (swiperContainer2 && swiperContainer2.querySelectorAll('.swiper-slide').length > 0) {
+        var swiper2 = new Swiper(".mySwiper2", {
+            loop: true,
+            spaceBetween: 10,
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+            thumbs: {
+                swiper: swiper,
+            },
+        });
+    }
+
+    // var swiper = new Swiper(".mySwiper", {
+    //     loop: false,
+    //     spaceBetween: 10,
+    //     slidesPerView: 4,
+    //     freeMode: true,
+    //     watchSlidesProgress: true,
+    // });
+    // var swiper2 = new Swiper(".mySwiper2", {
+    //     loop: true,
+    //     spaceBetween: 10,
+    //     navigation: {
+    //         nextEl: ".swiper-button-next",
+    //         prevEl: ".swiper-button-prev",
+    //     },
+    //     thumbs: {
+    //         swiper: swiper,
+    //     },
+    // });
 
     const minusButtons = document.querySelectorAll('.product__item__quantity-selector__minus');
     const plusButtons = document.querySelectorAll('.product__item__quantity-selector__plus');
@@ -629,9 +528,19 @@
         button.addEventListener("click", (event) => {
             const input = event.target.closest(".product__item__quantity-selector").querySelector(
                 '.product__item__quantity-selector__input');
+            var availableStock = event.target.dataset.stocks;
             let quantity = parseInt(input.value);
-            quantity += 1;
-            input.value = quantity;
+
+            if (quantity < parseInt(availableStock)) {
+                quantity += 1;
+                input.value = quantity;
+            } else {
+                Toast.fire({
+                    icon: 'warning',
+                    title: 'This product is out of stock.',
+                });
+            }
+            
 
         })
     })
@@ -645,7 +554,30 @@
         });
     });
 
+    function getRecommendedProduct()
+    {
+        $.ajax({
+            url: "<?= base_url('shop/products/get_recommended_product')?>",
+            method: "POST",
+            data: {
+                product_id: "<?= $this->input->get('id', true);?>",
+                '_token': csrf_token_value,
+            },
+            dataType: "json",
+            success: function(data) {
+                $('#recommended_product').html(data.recommended_product);
+            }
+        });
+    }
+
     $(document).ready(function() {
+        getRecommendedProduct();
+        
+        $(document).on('click', '.view_product', function() {
+            var product_id = $(this).data('id');
+            var url = "<?= base_url('shop/product-details?id=')?>" + product_id;
+            window.location.href = url;
+        });
 
         $(document).on('click', '#add_cart', function() {
             var product_id = $(this).data('id');
@@ -713,8 +645,41 @@
                     });
                 }
             });
-       
- });
+        });
+
+        $(document).on('click', '#add_wishlist', function() {
+            var product_id = $(this).data('id');
+
+            $.ajax({
+                url: "<?= base_url('shop/products/add_wishlist')?>",
+                method: "POST",
+                data: {
+                    product_id: product_id,
+                    '_token': csrf_token_value,
+                },
+                dataType: "json",
+                success: function(data) {
+                    if (data.error != '') {
+                        Toast.fire({
+                            icon: 'warning',
+                            title: data.error,
+                        });
+                    } else {
+                        Toast.fire({
+                            icon: 'success',
+                            title: data.success,
+                        });
+                        wishlistCount();
+                    }
+                },
+                error: function() {
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'An error occurred while processing the request.',
+                    });
+                }
+            });
+        });
     });
     </script>
 </main>

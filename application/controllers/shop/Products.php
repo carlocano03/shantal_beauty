@@ -741,4 +741,130 @@ class Products extends MY_Controller
 
     //=============================End of Checkout============================
 
+    //=============================Recommended product========================
+
+    public function get_recommended_product()
+    {
+        $output = '';
+        $product_id = $this->cipher->decrypt($this->input->post('product_id', true));
+
+        $recommended_product = $this->product_model->get_recommended_product($product_id);
+
+        if ($recommended_product->num_rows() > 0) {
+            foreach($recommended_product->result() as $list) {
+                $img = base_url()."assets/images/logo.png";
+                if(!empty($list->main_product_img)){
+                    if(file_exists('./assets/uploaded_file/uploaded_product/'.$list->main_product_img)){
+                        $img = base_url()."assets/uploaded_file/uploaded_product/".$list->main_product_img;
+                    }
+                }
+
+                $product_id = $this->cipher->encrypt($list->product_id);
+
+                if ($list->available_stocks == 0) {
+                    $action = '<div class="product__item--btn_wishlist" id="add_wishlist" data-id="'.$list->product_id.'">Add to wishlist</div>';
+                } else {
+                    $action = '<div class="recommended-product__item--btn" id="add_cart" data-id="'.$list->product_id.'">Add to cart</div>';
+                }
+
+                $output .= '
+                    <div class="col" title="'.ucwords($list->product_name).'">
+                        <div class="recommended-product__item">
+                            <div class="product__item__img-container">
+                                <img class="recommended-product__item__img view_product" data-id="'.$product_id.'"
+                                    src="'.$img.'"
+                                    alt="Product 1">
+                            </div>
+                            <div class="recommended-product__content">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h1 class="recommended-product__item--name view_product" data-id="'.$product_id.'">'.ucwords($list->product_name).'</h1>
+                                </div>
+                                <div style="margin-top:-18px; margin-bottom:-15px;">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="d-flex align-items-center gap-3">
+                                            <div class="product__item__ratings__container">
+                                                <i class="bi bi-star-fill product__item__ratings__item"></i>
+                                                <i class="bi bi-star-fill product__item__ratings__item"></i>
+                                                <i class="bi bi-star-fill product__item__ratings__item"></i>
+                                                <i class="bi bi-star-fill product__item__ratings__item"></i>
+                                                <i class="bi bi-star-fill product__item__ratings__item"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="recommended-product__item--price">₱ 500.00</div>
+                                    <div class="recommended-product__item--sold">25 sold</div>
+                                </div>
+                            </div>
+                            <input type="hidden" class="qty_input" value="1">
+                            '.$action.'
+                        </div>
+                    </div>
+                ';
+            }
+        } else {
+            $output .= '<div class="alert alert-danger"><i class="bi bi-info-circle-fill me-2"></i>No products found.</div>';
+        }
+
+        $data = array(
+            'recommended_product' => $output,
+        );
+        echo json_encode($data);
+    }
+
+    //=============================End of recommended product=================
+
+    //Wishlist
+    public function add_wishlist()
+    {
+        $success = '';
+        $error = '';
+
+        $product_id = $this->input->post('product_id', true);
+        $user_id = $this->session->userdata('customerIn')['user_id'];
+        $qty = 1;
+
+        $check_wishlist = $this->product_model->check_wishlist($product_id, $user_id);
+        if ($check_wishlist->num_rows() > 0) {
+            //Update Wishlist
+            $result = $this->product_model->increment_wish_list($product_id, $user_id, $qty);
+            if ($result) {
+                $success = 'Product successfully added to wishlist.';
+            } else {
+                $error = 'Failed to add the product on wishlist.';
+            }
+        } else {
+            //Insert Wishlist
+            $insert_wishlist = array(
+                'user_id'       => $user_id,
+                'product_id'    => $product_id,
+                'qty'           => $qty,
+                'date_created'  => date('Y-m-d H:i:s'),
+            );
+            $result = $this->product_model->insert_wishlist($insert_wishlist);
+            if ($result) {
+                $success = 'Product successfully added to wishlist.';
+            } else {
+                $error = 'Failed to add the product on wishlist.';
+            }
+        }
+        $output = array(
+            'success' => $success,
+            'error' => $error,
+        );
+        echo json_encode($output);
+    }
+
+    public function wishlist_count()
+    {
+        $wishlist_count = $this->product_model->get_wishlist_count($this->session->userdata('customerIn')['user_id']);
+
+        $output = array(
+            'wishlist_count' => number_format($wishlist_count),
+        );
+        echo json_encode($output);
+    }
+    //End of Wishlist
+
 }

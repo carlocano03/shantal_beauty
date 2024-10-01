@@ -36,6 +36,7 @@ class Main extends MY_Controller
     public function index()
     {
         $data['title'] = 'Shantal`s Shop';
+        $data['active_page'] = 'shop_all_page';
         $this->load->view('website/shop/partial/_header', $data);
         $this->load->view('website/shop/partial/_navbar', $data);
         $this->load->view('website/shop/index', $data);
@@ -44,6 +45,7 @@ class Main extends MY_Controller
 	public function best_sellers()
     {
         $data['title'] = 'Shantal`s Shop';
+        $data['active_page'] = 'best_seller_page';
         $this->load->view('website/shop/partial/_header', $data);
         $this->load->view('website/shop/partial/_navbar', $data);
         $this->load->view('website/shop/best-sellers', $data);
@@ -52,6 +54,7 @@ class Main extends MY_Controller
 	public function sales_offers()
     {
         $data['title'] = 'Shantal`s Shop';
+        $data['active_page'] = 'sales_offer_page';
         $this->load->view('website/shop/partial/_header', $data);
         $this->load->view('website/shop/partial/_navbar', $data);
         $this->load->view('website/shop/sales-offers', $data);
@@ -60,6 +63,7 @@ class Main extends MY_Controller
 	public function wishlist()
     {
         $data['title'] = 'Shantal`s Shop';
+        $data['active_page'] = 'wishlist_page';
         $this->load->view('website/shop/partial/_header', $data);
         $this->load->view('website/shop/partial/_navbar', $data);
         $this->load->view('website/shop/wishlist', $data);
@@ -69,8 +73,10 @@ class Main extends MY_Controller
         $product_id = $this->cipher->decrypt($this->input->get('id', true));
         $data['product'] = $this->product_model->get_row('product', array('product_id' => $product_id));
         $data['product_img'] = $this->product_model->get_result('product_img', array('product_id' => $product_id));
+        $data['no_sold'] = $this->product_model->get_total_sold($product_id);
 
 		$data['title'] = 'Shantal`s Shop';
+        $data['active_page'] = 'product_details_page';
         $this->load->view('website/shop/partial/_header', $data);
 		$this->load->view('website/shop/partial/_navbar', $data);
         $this->load->view('website/shop/product-details', $data);
@@ -94,7 +100,9 @@ class Main extends MY_Controller
         $data['delivery_address'] = $this->product_model->get_default_address();
         $data['province'] = $this->db->order_by("code = '133900000' DESC, name ASC")->get('psgc_province')->result();
 		$data['title'] = 'Shantal`s Shop';
+        $data['active_page'] = 'checkout_page';
         $this->load->view('website/shop/partial/_header', $data);
+        $this->load->view('website/shop/partial/_navbar', $data);
         $this->load->view('website/shop/checkout', $data);
         $this->load->view('website/shop/partial/_footer', $data);
 	}
@@ -103,6 +111,7 @@ class Main extends MY_Controller
         $data['province'] = $this->db->order_by("code = '133900000' DESC, name ASC")->get('psgc_province')->result();
         
 		$data['title'] = 'Shantal`s Shop';
+        $data['active_page'] = 'profile_page';
         $this->load->view('website/shop/partial/_header', $data);
 		$this->load->view('website/shop/partial/_navbar', $data);
         $this->load->view('website/shop/profile', $data);

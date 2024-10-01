@@ -356,7 +356,7 @@ class Product_management extends MY_Controller
                         Action
                     </button>
                     <ul class="dropdown-menu" style="">
-                        <li><a href="'.base_url('admin/product-management/stock-in?product='.$product_id).'" class="dropdown-item link-cursor text-primary"><i class="bi bi-view-list me-2"></i>View Stocks</a></li>
+                        <li><a href="'.base_url('admin/product-management/stock-in?product='.$product_id).'" class="dropdown-item text-primary"><i class="bi bi-view-list me-2"></i>View Stocks</a></li>
                         <li><a class="dropdown-item link-cursor text-info update_modal"
                             data-product_id="'.$list->product_id.'"
                             data-product="'.$list->product_name.'"
