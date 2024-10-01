@@ -302,3 +302,14 @@ $('#payment-method__gcash').on('click', function () {
 $('#payment-method__maya').on('click', function () {
 	showPaymentMethod('payment-method__maya__details');
 });
+
+
+// Nav Items
+$(document).ready(function () {
+
+	$('.navbar__item a').on('click', function () {
+		$('.navbar__item a').removeClass('nav-active--item');
+
+		$(this).addClass('nav-active--item');
+	});
+});

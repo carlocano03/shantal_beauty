@@ -72,6 +72,9 @@ $route['reseller/voucher-creation'] = 'reseller/dashboard/voucher_creation';
 $route['reseller/my-commission'] = 'reseller/dashboard/my_commission';
 
 $route['shop'] = 'shop/main/index';
+$route['shop/best-sellers'] = 'shop/main/best_sellers';
+$route['shop/sales-offers'] = 'shop/main/sales_offers';
+
 $route['shop/product-details'] = 'shop/main/product_details';
 $route['shop/checkout'] = 'shop/main/checkout';
 $route['shop/profile'] = 'shop/main/profile';

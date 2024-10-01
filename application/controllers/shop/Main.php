@@ -36,7 +36,24 @@ class Main extends MY_Controller
     {
         $data['title'] = 'Shantal`s Shop';
         $this->load->view('website/shop/partial/_header', $data);
+        $this->load->view('website/shop/partial/_navbar', $data);
         $this->load->view('website/shop/index', $data);
+        $this->load->view('website/shop/partial/_footer', $data);
+    }
+	public function best_sellers()
+    {
+        $data['title'] = 'Shantal`s Shop';
+        $this->load->view('website/shop/partial/_header', $data);
+        $this->load->view('website/shop/partial/_navbar', $data);
+        $this->load->view('website/shop/best-sellers', $data);
+        $this->load->view('website/shop/partial/_footer', $data);
+    }
+	public function sales_offers()
+    {
+        $data['title'] = 'Shantal`s Shop';
+        $this->load->view('website/shop/partial/_header', $data);
+        $this->load->view('website/shop/partial/_navbar', $data);
+        $this->load->view('website/shop/sales-offers', $data);
         $this->load->view('website/shop/partial/_footer', $data);
     }
 	public function product_details(){
