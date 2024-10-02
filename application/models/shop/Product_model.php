@@ -347,9 +347,12 @@ class Product_model extends MY_Model
 
     function get_wishlist_count($user_id)
     {
-        $this->db->where('user_id', $user_id);
-        $this->db->where('status', 0);
-        $query = $this->db->get('wishlist');
+        $this->db->from('wishlist W');
+        $this->db->join('product P', 'W.product_id = P.product_id', 'left');
+        $this->db->where('W.user_id', $user_id);
+        $this->db->where('W.status', 0);
+        $this->db->where('P.available_stocks <= ', 0);
+        $query = $this->db->get();
         return $query->num_rows();
     }
     //End of wishlist
