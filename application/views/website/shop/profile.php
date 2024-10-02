@@ -125,240 +125,71 @@
                         <div id="my-order__section" class="profile__sidebar-card profile__content" style="display:none">
                             <h1 class="profile__title">My Order</h1>
                             <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <!-- To Pay Tab -->
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="to-pay-tab" data-bs-toggle="tab"
+                                        data-bs-target="#to-pay-tab-pane" type="button" role="tab"
+                                        aria-controls="to-pay-tab-pane" aria-selected="true">To Pay<span
+                                            class="my-order__section__tab--badge to_pay_count" style="display:none;">0</span></button>
+                                </li>
                                 <!-- To Ship Tab -->
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link active" id="to-ship-tab" data-bs-toggle="tab"
+                                    <button class="nav-link" id="to-ship-tab" data-bs-toggle="tab"
                                         data-bs-target="#to-ship-tab-pane" type="button" role="tab"
                                         aria-controls="to-ship-tab-pane" aria-selected="true">To Ship<span
-                                            class="my-order__section__tab--badge">2</span></button>
+                                            class="my-order__section__tab--badge to_ship_count" style="display:none;">0</span></button>
                                 </li>
                                 <!-- To Receive Tab -->
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link" id="to-receive-tab" data-bs-toggle="tab"
                                         data-bs-target="#to-receive-tab-pane" type="button" role="tab"
                                         aria-controls="to-receive-tab-pane" aria-selected="false">To Receive<span
-                                            class="my-order__section__tab--badge">2</span></button>
+                                            class="my-order__section__tab--badge to_receive_count" style="display:none;">0</span></button>
                                 </li>
                                 <!-- Completed Tab -->
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link" id="completed-tab" data-bs-toggle="tab"
                                         data-bs-target="#completed-tab-pane" type="button" role="tab"
                                         aria-controls="completed-tab-pane" aria-selected="false">Completed<span
-                                            class="my-order__section__tab--badge">2</span></button>
+                                            class="my-order__section__tab--badge completed_count" style="display:none;">0</span></button>
                                 </li>
                                 <!-- Cancelled Tab -->
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link" id="cancelled-tab" data-bs-toggle="tab"
                                         data-bs-target="#cancelled-tab-pane" type="button" role="tab"
                                         aria-controls="cancelled-tab-pane" aria-selected="false">Cancelled<span
-                                            class="my-order__section__tab--badge">2</span></button>
+                                            class="my-order__section__tab--badge cancelled_count" style="display:none;">0</span></button>
                                 </li>
                             </ul>
                             <div class="tab-content" id="myTabContent">
-                                <!-- To Ship Tab Content -->
-                                <div class="tab-pane fade show active" id="to-ship-tab-pane" role="tabpanel"
-                                    aria-labelledby="to-ship-tab" tabindex="0">
-                                    <!-- Order Item -->
-                                    <div class="my-order__section__order-item mb-4 p-4 border rounded">
-                                        <div
-                                            class="my-order__section__order-header mb-3 d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <h1 class="my-order__orderNo">Order #54321</h1>
-                                                <small class="text-muted">Placed on: 15th September 2024</small>
-                                            </div>
-                                            <span class="badge bg-warning my-order__badge">To Ship</span>
-                                        </div>
-                                        <div class="my-order__section__order-products">
-                                            <!-- Product -->
-                                            <div
-                                                class="my-order__section__product d-flex justify-content-between align-items-center">
-                                                <div class="d-flex">
-                                                    <img src="<?php echo base_url('assets/images/shop/product-cart-1.webp'); ?>"
-                                                        class="my-order__section__product-img me-4" alt="Product 1">
-                                                    <div class="d-flex flex-column justify-content-between">
-                                                        <div>
-                                                            <p class="my-order__product__name">Temptation Coffee</p>
-                                                            <p class="my-order__product__quantity">Quantity: 2</p>
-                                                        </div>
-                                                        <p class="my-order__product__price">₱200</p>
-                                                    </div>
-                                                </div>
-                                                <button type="button" class="my-order__product__track-order">Track
-                                                    Order</button>
-                                            </div>
-
-                                            <div
-                                                class="my-order__section__product d-flex justify-content-between align-items-center">
-                                                <div class="d-flex">
-                                                    <img src="<?php echo base_url('assets/images/shop/product-cart-1.webp'); ?>"
-                                                        class="my-order__section__product-img me-4" alt="Product 1">
-                                                    <div class="d-flex flex-column justify-content-between">
-                                                        <div>
-                                                            <p class="my-order__product__name">Temptation Coffee</p>
-                                                            <p class="my-order__product__quantity">Quantity: 2</p>
-                                                        </div>
-                                                        <p class="my-order__product__price">₱200</p>
-                                                    </div>
-                                                </div>
-                                                <button type="button" class="my-order__product__track-order">Track
-                                                    Order</button>
-                                            </div>
-
-
-
-                                        </div>
-                                    </div>
+                                <!-- To Pay Tab Content -->
+                                <div class="tab-pane fade show active" id="to-pay-tab-pane" role="tabpanel"
+                                    aria-labelledby="to-pay-tab" tabindex="0">
+                                    <?php $this->load->view('website/shop/tablist/to_pay_tab');?>
                                 </div>
+
+                                <!-- To Ship Tab Content -->
+                                <div class="tab-pane fade" id="to-ship-tab-pane" role="tabpanel"
+                                    aria-labelledby="to-ship-tab" tabindex="0">
+                                    <?php $this->load->view('website/shop/tablist/to_ship_tab');?>
+                                </div>
+
                                 <!-- To Receive Tab Content -->
                                 <div class="tab-pane fade" id="to-receive-tab-pane" role="tabpanel"
                                     aria-labelledby="to-receive-tab" tabindex="0">
-                                    <!-- Order Item -->
-                                    <div class="my-order__section__order-item mb-4 p-4 border rounded">
-                                        <div
-                                            class="my-order__section__order-header mb-3 d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <h1 class="my-order__orderNo">Order #67890</h1>
-                                                <small class="text-muted">Shipped on: 16th September 2024</small>
-                                            </div>
-                                            <span class="badge bg-info my-order__badge">To Receive</span>
-                                        </div>
-                                        <div class="my-order__section__order-products">
-                                            <!-- Product -->
-                                            <div
-                                                class="my-order__section__product d-flex justify-content-between align-items-center">
-                                                <div class="d-flex">
-                                                    <img src="<?php echo base_url('assets/images/shop/product-cart-1.webp'); ?>"
-                                                        class="my-order__section__product-img me-4" alt="Product 1">
-                                                    <div class="d-flex flex-column justify-content-between">
-                                                        <div>
-                                                            <p class="my-order__product__name">Temptation Coffee</p>
-                                                            <p class="my-order__product__quantity">Quantity: 1</p>
-                                                        </div>
-                                                        <p class="my-order__product__price">₱150</p>
-                                                    </div>
-                                                </div>
-                                                <button type="button" class="my-order__product__track-order">Track
-                                                    Order</button>
-                                            </div>
-
-                                            <div
-                                                class="my-order__section__product d-flex justify-content-between align-items-center">
-                                                <div class="d-flex">
-                                                    <img src="<?php echo base_url('assets/images/shop/product-cart-1.webp'); ?>"
-                                                        class="my-order__section__product-img me-4" alt="Product 1">
-                                                    <div class="d-flex flex-column justify-content-between">
-                                                        <div>
-                                                            <p class="my-order__product__name">Temptation Coffee</p>
-                                                            <p class="my-order__product__quantity">Quantity: 1</p>
-                                                        </div>
-                                                        <p class="my-order__product__price">₱150</p>
-                                                    </div>
-                                                </div>
-                                                <button type="button" class="my-order__product__track-order">Track
-                                                    Order</button>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <?php $this->load->view('website/shop/tablist/to_receive_tab');?>
                                 </div>
+
                                 <!-- Completed Tab Content -->
                                 <div class="tab-pane fade" id="completed-tab-pane" role="tabpanel"
                                     aria-labelledby="completed-tab" tabindex="0">
-                                    <div class="my-order__section__order-item mb-4 p-4 border rounded">
-                                        <div
-                                            class="my-order__section__order-header mb-3 d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <h1 class="my-order__orderNo">Order #12345</h1>
-                                                <small class="text-muted">Delivered on: 12th September 2024</small>
-                                            </div>
-                                            <span class="badge bg-success my-order__badge">Completed</span>
-                                        </div>
-                                        <div class="my-order__section__order-products">
-                                            <!-- Product -->
-                                            <div
-                                                class="my-order__section__product d-flex justify-content-between align-items-center">
-                                                <div class="d-flex">
-                                                    <img src="<?php echo base_url('assets/images/shop/product-cart-1.webp'); ?>"
-                                                        class="my-order__section__product-img me-4" alt="Product 1">
-                                                    <div class="d-flex flex-column justify-content-between">
-                                                        <div>
-                                                            <p class="my-order__product__name">Temptation Coffee</p>
-                                                            <p class="my-order__product__quantity">Quantity: 1</p>
-                                                        </div>
-                                                        <p class="my-order__product__price">₱100</p>
-                                                    </div>
-                                                </div>
-                                                <button type="button" class="my-order__product__buy-again">Buy
-                                                    Again</button>
-                                            </div>
-
-                                            <div
-                                                class="my-order__section__product d-flex justify-content-between align-items-center">
-                                                <div class="d-flex">
-                                                    <img src="<?php echo base_url('assets/images/shop/product-cart-1.webp'); ?>"
-                                                        class="my-order__section__product-img me-4" alt="Product 1">
-                                                    <div class="d-flex flex-column justify-content-between">
-                                                        <div>
-                                                            <p class="my-order__product__name">Temptation Coffee</p>
-                                                            <p class="my-order__product__quantity">Quantity: 1</p>
-                                                        </div>
-                                                        <p class="my-order__product__price">₱100</p>
-                                                    </div>
-                                                </div>
-                                                <button type="button" class="my-order__product__buy-again">Buy
-                                                    Again</button>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <?php $this->load->view('website/shop/tablist/completed_tab');?>
                                 </div>
+
                                 <!-- Cancelled Tab Content -->
                                 <div class="tab-pane fade" id="cancelled-tab-pane" role="tabpanel"
                                     aria-labelledby="cancelled-tab" tabindex="0">
-                                    <div class="my-order__section__order-item mb-4 p-4 border rounded">
-                                        <div
-                                            class="my-order__section__order-header mb-3 d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <h1 class="my-order__orderNo">Order #98765</h1>
-                                                <small class="text-muted">Cancelled on: 14th September 2024</small>
-                                            </div>
-                                            <span class="badge bg-danger my-order__badge">Cancelled</span>
-                                        </div>
-                                        <div class="my-order__section__order-products">
-                                            <!-- Product -->
-                                            <div
-                                                class="my-order__section__product d-flex justify-content-between align-items-center">
-                                                <div class="d-flex">
-                                                    <img src="<?php echo base_url('assets/images/shop/product-cart-1.webp'); ?>"
-                                                        class="my-order__section__product-img me-4" alt="Product 1">
-                                                    <div class="d-flex flex-column justify-content-between">
-                                                        <div>
-                                                            <p class="my-order__product__name">Temptation Coffee</p>
-                                                            <p class="my-order__product__quantity">Quantity: 1</p>
-                                                        </div>
-                                                        <p class="my-order__product__price">₱5,000</p>
-                                                    </div>
-                                                </div>
-                                                <button type="button"
-                                                    class="my-order__product__reorder">Reorder</button>
-                                            </div>
-
-                                            <div
-                                                class="my-order__section__product d-flex justify-content-between align-items-center">
-                                                <div class="d-flex">
-                                                    <img src="<?php echo base_url('assets/images/shop/product-cart-1.webp'); ?>"
-                                                        class="my-order__section__product-img me-4" alt="Product 1">
-                                                    <div class="d-flex flex-column justify-content-between">
-                                                        <div>
-                                                            <p class="my-order__product__name">Temptation Coffee</p>
-                                                            <p class="my-order__product__quantity">Quantity: 1</p>
-                                                        </div>
-                                                        <p class="my-order__product__price">₱5,000</p>
-                                                    </div>
-                                                </div>
-                                                <button type="button"
-                                                    class="my-order__product__reorder">Reorder</button>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <?php $this->load->view('website/shop/tablist/completed_tab');?>
                                 </div>
                             </div>
                         </div>
@@ -530,88 +361,43 @@
 
 
 <script>
-var set_default = 0;
+    var set_default = 0;
 
-function getAddress() {
-    $.ajax({
-        url: "<?= base_url('shop/products/get_delivery_address')?>",
-        method: "GET",
-        dataType: "json",
-        success: function(data) {
-            $('.address_list').html(data.address_list);
-        }
-    });
-}
+    function getAddress() {
+        $.ajax({
+            url: "<?= base_url('shop/products/get_delivery_address')?>",
+            method: "GET",
+            dataType: "json",
+            success: function (data) {
+                $('.address_list').html(data.address_list);
+            }
+        });
+    }
 
-$(document).ready(function() {
-    getAddress();
+    $(document).ready(function () {
+        getAddress();
 
-    $(document).on('change', '.set_default', function() {
-        if ($(this).is(':checked')) {
-            set_default = 1;
-        } else {
-            set_default = 0;
-        }
-    });
+        $(document).on('change', '.set_default', function () {
+            if ($(this).is(':checked')) {
+                set_default = 1;
+            } else {
+                set_default = 0;
+            }
+        });
 
-    $(document).on('click', '.change_delivery_address', function() {
-        var shipping_id = $(this).data('id');
+        $(document).on('click', '.change_delivery_address', function () {
+            var shipping_id = $(this).data('id');
 
-        if ($(this).is(':checked')) {
-            $.ajax({
-                url: "<?= base_url('shop/products/change_delivery_address');?>",
-                method: "POST",
-                data: {
-                    shipping_id: shipping_id,
-                    '_token': csrf_token_value,
-                },
-                dataType: "json",
-                success: function(data) {
-                    if (data.error != '') {
-                        Toast.fire({
-                            icon: 'warning',
-                            title: data.error,
-                        });
-                    } else {
-                        Toast.fire({
-                            icon: 'success',
-                            title: data.success,
-                        });
-                        getAddress();
-                    }
-                },
-                error: function() {
-                    Toast.fire({
-                        icon: 'error',
-                        title: 'An error occurred while processing the request.',
-                    });
-                }
-            });
-        }
-    });
-
-    $(document).on('click', '.delete_address', function() {
-        var shipping_id = $(this).data('id');
-
-        Swal.fire({
-            title: 'Are you sure..',
-            text: "You want to delete this address?",
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, continue',
-        }).then((result) => {
-            if (result.isConfirmed) {
+            if ($(this).is(':checked')) {
                 $.ajax({
-                    url: "<?= base_url('shop/products/delete_address');?>",
+                    url: "<?= base_url('shop/products/change_delivery_address');?>",
                     method: "POST",
                     data: {
                         shipping_id: shipping_id,
                         '_token': csrf_token_value,
                     },
                     dataType: "json",
-                    success: function(data) {
+                    success: function (data) {
                         if (data.error != '') {
                             Toast.fire({
                                 icon: 'warning',
@@ -625,7 +411,7 @@ $(document).ready(function() {
                             getAddress();
                         }
                     },
-                    error: function() {
+                    error: function () {
                         Toast.fire({
                             icon: 'error',
                             title: 'An error occurred while processing the request.',
@@ -634,34 +420,13 @@ $(document).ready(function() {
                 });
             }
         });
-    });
 
-    $(document).on('click', '#save_address', function(event) {
-        event.preventDefault();
-        event.stopPropagation();
+        $(document).on('click', '.delete_address', function () {
+            var shipping_id = $(this).data('id');
 
-        var form = $('#addressForm')[0];
-        var formData = new FormData(form);
-        formData.append('fullname', $('#fullname').val());
-        formData.append('contact_no', $('#contact_no').val());
-        formData.append('province_name', $('#province_name').val());
-        formData.append('municipality_name', $('#municipality_name').val());
-        formData.append('brgy_name', $('#brgy_name').val());
-        formData.append('postal_code', $('#postal_code').val());
-        formData.append('street_name', $('#street_name').val());
-        formData.append('landmark', $('#landmark').val());
-        formData.append('label_as', $('#label_as').val());
-        formData.append('set_default', set_default);
-        formData.append('_token', csrf_token_value);
-
-        form.classList.add('was-validated');
-        if (form.checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
-        } else {
             Swal.fire({
                 title: 'Are you sure..',
-                text: "You want to continue this transaction?",
+                text: "You want to delete this address?",
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -670,13 +435,14 @@ $(document).ready(function() {
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: "<?= base_url('shop/products/save_address');?>",
+                        url: "<?= base_url('shop/products/delete_address');?>",
                         method: "POST",
-                        data: formData,
-                        contentType: false,
-                        processData: false,
+                        data: {
+                            shipping_id: shipping_id,
+                            '_token': csrf_token_value,
+                        },
                         dataType: "json",
-                        success: function(data) {
+                        success: function (data) {
                             if (data.error != '') {
                                 Toast.fire({
                                     icon: 'warning',
@@ -687,13 +453,10 @@ $(document).ready(function() {
                                     icon: 'success',
                                     title: data.success,
                                 });
-                                $('#addressModal').modal('hide');
-                                form.reset();
-                                form.classList.remove('was-validated');
                                 getAddress();
                             }
                         },
-                        error: function() {
+                        error: function () {
                             Toast.fire({
                                 icon: 'error',
                                 title: 'An error occurred while processing the request.',
@@ -702,7 +465,75 @@ $(document).ready(function() {
                     });
                 }
             });
-        }
+        });
+
+        $(document).on('click', '#save_address', function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            var form = $('#addressForm')[0];
+            var formData = new FormData(form);
+            formData.append('fullname', $('#fullname').val());
+            formData.append('contact_no', $('#contact_no').val());
+            formData.append('province_name', $('#province_name').val());
+            formData.append('municipality_name', $('#municipality_name').val());
+            formData.append('brgy_name', $('#brgy_name').val());
+            formData.append('postal_code', $('#postal_code').val());
+            formData.append('street_name', $('#street_name').val());
+            formData.append('landmark', $('#landmark').val());
+            formData.append('label_as', $('#label_as').val());
+            formData.append('set_default', set_default);
+            formData.append('_token', csrf_token_value);
+
+            form.classList.add('was-validated');
+            if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+            } else {
+                Swal.fire({
+                    title: 'Are you sure..',
+                    text: "You want to continue this transaction?",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, continue',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: "<?= base_url('shop/products/save_address');?>",
+                            method: "POST",
+                            data: formData,
+                            contentType: false,
+                            processData: false,
+                            dataType: "json",
+                            success: function (data) {
+                                if (data.error != '') {
+                                    Toast.fire({
+                                        icon: 'warning',
+                                        title: data.error,
+                                    });
+                                } else {
+                                    Toast.fire({
+                                        icon: 'success',
+                                        title: data.success,
+                                    });
+                                    $('#addressModal').modal('hide');
+                                    form.reset();
+                                    form.classList.remove('was-validated');
+                                    getAddress();
+                                }
+                            },
+                            error: function () {
+                                Toast.fire({
+                                    icon: 'error',
+                                    title: 'An error occurred while processing the request.',
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        });
     });
-});
 </script>

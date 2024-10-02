@@ -21,12 +21,14 @@
     #tbl_orders th:nth-child(4),
     #tbl_orders td:nth-child(4),
     #tbl_orders th:nth-child(5),
-    #tbl_orders td:nth-child(5) {
+    #tbl_orders td:nth-child(5),
+    #tbl_orders th:nth-child(6),
+    #tbl_orders td:nth-child(6) {
         text-align: center;
     }
 
-    #tbl_orders th:nth-child(6),
-    #tbl_orders td:nth-child(6) {
+    #tbl_orders th:nth-child(7),
+    #tbl_orders td:nth-child(7) {
         text-align: right;
     }
 
@@ -50,6 +52,7 @@
                             <th>No. Items</th>
                             <th>Referred By</th>
                             <th>Order Date</th>
+                            <th>Status</th>
                             <th>Total Amount</th>
                         </tr>
                     </thead>

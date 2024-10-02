@@ -1464,13 +1464,13 @@ textarea {
 .my-order__section__product {
     padding: 12px;
     background-color: var(--secondary-white);
-    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 4px;
+    /* box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 4px; */
     margin-top: 12px;
     cursor: pointer;
 }
-.my-order__section__product:not(:last-child){
+/* .my-order__section__product:not(:last-child){
 	border-bottom: 1px solid #ddd;
-}
+} */
 
 .my-order__section__product-img {
     width: 64px;

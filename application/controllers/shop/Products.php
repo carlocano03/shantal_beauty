@@ -762,7 +762,7 @@ class Products extends MY_Controller
                 $product_id = $this->cipher->encrypt($list->product_id);
 
                 if ($list->available_stocks == 0) {
-                    $action = '<div class="product__item--btn_wishlist" id="add_wishlist" data-id="'.$list->product_id.'">Add to wishlist</div>';
+                    $action = '<div class="recommended-product__item--btn" id="add_wishlist" data-id="'.$list->product_id.'">Add to wishlist</div>';
                 } else {
                     $action = '<div class="recommended-product__item--btn" id="add_cart" data-id="'.$list->product_id.'">Add to cart</div>';
                 }
@@ -779,7 +779,7 @@ class Products extends MY_Controller
                                 <div class="d-flex justify-content-between align-items-center">
                                     <h1 class="recommended-product__item--name view_product" data-id="'.$product_id.'">'.ucwords($list->product_name).'</h1>
                                 </div>
-                                <div style="margin-top:-18px; margin-bottom:-15px;">
+                                <div style="margin-bottom:-15px;">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="d-flex align-items-center gap-3">
                                             <div class="product__item__ratings__container">

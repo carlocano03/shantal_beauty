@@ -7,7 +7,7 @@
                         <h1 class="home__page-title">Wishlist</h1>
                     </div>
                     <div class="search-container">
-                        <input type="text" placeholder="Search products..." class="search-input navbar__search-input">
+                        <input type="text" placeholder="Search on wishlist..." class="search-input navbar__search-input">
                         <button class="search-btn">
                             <i class="fas fa-search"></i>
                         </button>
@@ -41,6 +41,12 @@
 
         <!-- Best Sellers -->
         <div id="best-sellers">
+            <div class="container">
+                <div class="row g-4 row-cols-lg-4 row-cols-md-2 row-cols-1 mb-3" id="wishlist">
+                    <!-- AJAX REQUEST -->
+                </div>
+                <div class="pagination_link"></div>
+            </div>
         </div>
     </section>
 </main>
@@ -49,3 +55,141 @@
     <div class="spinner-border text-dark" role="status">
     </div>
 </div>
+
+<script>
+    function productList(page, filter) {
+        var search_query = $('.navbar__search-input').val();
+        $('.loading-screen').show();
+        $.ajax({
+            url: "<?= base_url('shop/wishlist/get_wishlist/')?>" + page,
+            method: "GET",
+            data: {
+                search: search_query,
+                filter: filter,
+            },
+            dataType: "json",
+            success: function(data) {
+                $('.loading-screen').hide();
+                $('#wishlist').html(data.wishlist);
+                $('.pagination_link').html(data.links);
+            }
+        });
+    }
+
+    $(document).ready(function() {
+        productList(0);
+
+        $(document).on('click', '.pagination a', function(event) {
+            event.preventDefault();
+            var page = $(this).attr('href').split('/').pop();
+            productList(page);
+        });
+
+        $(document).on('keypress', '.navbar__search-input', function(e) {
+            if (e.which == 13) { // If Enter key is pressed
+                productList(0); // Trigger search from the first page
+            }
+        });
+
+        $('.navbar__search-input').autocomplete({
+            source: function(request, response) {
+                $.ajax({
+                    url: "<?= base_url('shop/wishlist/search_items') ?>",
+                    method: "POST",
+                    dataType: "json",
+                    data: {
+                        term: request.term,
+                        '_token': csrf_token_value
+                    },
+                    success: function(data) {
+                        if (data.length === 0) {
+                            response([{ label: "No product found", value: "" }]);
+                        } else {
+                            response(data);
+                        }
+                    }
+                });
+            },
+            select: function(event, ui) {
+                if (ui.item.value === "") {
+                    return false;
+                }
+                $('.navbar__search-input').val(ui.item.label);
+                productList(0);
+            },
+            //minLength: 2 // Minimum characters before triggering autocomplete
+        });
+
+        $(document).on('change', '#productFilter', function() {
+            var selectedFilter = $(this).val();
+            productList(0, selectedFilter);
+        });
+
+        document.addEventListener("click", function(event) {
+            if (event.target.classList.contains('product__item__quantity-selector__minus')) {
+                const input = event.target.closest(".product__item__quantity-selector").querySelector(
+                    '.product__item__quantity-selector__input');
+                let quantity = parseInt(input.value);
+                if (quantity > 1) {
+                    quantity -= 1;
+                    input.value = quantity;
+                }
+            }
+
+            if (event.target.classList.contains('product__item__quantity-selector__plus')) {
+                const input = event.target.closest(".product__item__quantity-selector").querySelector(
+                    '.product__item__quantity-selector__input');
+                var availableStock = $(event.target).data('stocks');
+                let quantity = parseInt(input.value);
+
+                if (quantity < availableStock) {
+                    quantity += 1;
+                    input.value = quantity;
+                } else {
+                    Toast.fire({
+                        icon: 'warning',
+                        title: 'This product is out of stock.',
+                    });
+                }
+            }
+        });
+
+        $(document).on('click', '.view_product', function() {
+            var product_id = $(this).data('id');
+            var url = "<?= base_url('shop/product-details?id=')?>" + product_id;
+            window.location.href = url;
+        });
+
+        $(document).on('click', '#buy_now', function() {
+            var product_id = $(this).data('id');
+            var qty = $(this).closest('.product__item').find('.qty_input').val();
+
+            $.ajax({
+                url: "<?= base_url('shop/products/buy_now')?>",
+                method: "POST",
+                data: {
+                    product_id: product_id,
+                    qty: qty,
+                    '_token': csrf_token_value,
+                },
+                dataType: "json",
+                success: function(data) {
+                    if (data.error != '') {
+                        Toast.fire({
+                            icon: 'warning',
+                            title: data.error,
+                        });
+                    } else {
+                        window.location.href = data.checkoutURL;
+                    }
+                },
+                error: function() {
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'An error occurred while processing the request.',
+                    });
+                }
+            });
+        });
+    });
+</script>

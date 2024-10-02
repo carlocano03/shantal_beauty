@@ -39,9 +39,9 @@
                         <i class="fa-regular fa-user navbar__right-side--icon"></i>
                     </button>
                     <ul class="dropdown-menu custom-dropdown" aria-labelledby="dropdownMenuButton">
-                        <li><a href="<?= base_url('shop/profile'); ?>" class="dropdown-item" href="register.html">View
+                        <li><a href="<?= base_url('shop/profile'); ?>" class="dropdown-item">View
                                 profile</a></li>
-                        <li><a class="dropdown-item" href="#">Logout</a></li>
+                        <li><a class="dropdown-item" href="<?= base_url('shop/main/logout/customerIn'); ?>">Logout</a></li>
                     </ul>
                 </div>
 

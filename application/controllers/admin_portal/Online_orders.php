@@ -53,7 +53,7 @@ class Online_orders extends MY_Controller
                 'Completed' => 'bg-success',
                 'Cancelled' => 'bg-danger',
             );
-            $color = array_key_exists($list->order_status, $stageColors) ? $stageColors[$list->order_status] : 'bg-secondary';
+            $color = array_key_exists($list->order_status, $stageColors) ? $stageColors[$list->order_status] : 'bg-info';
 
             $row[] = '<div class="badge '.$color.'">'.$list->order_status.'</div>';
             $row[] = number_format($list->total_amount,2);

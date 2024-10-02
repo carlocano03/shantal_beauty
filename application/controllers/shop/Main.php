@@ -129,5 +129,11 @@ class Main extends MY_Controller
         $data["csrf_hash"] = $this->security->get_csrf_hash(TRUE); // Set $regenerate to TRUE to generate a new hash
         echo json_encode($data);
     }
+
+    public function logout($session)
+    {
+        $this->session->unset_userdata($session);
+        redirect('');
+    }
 }
 //End CI_Controller

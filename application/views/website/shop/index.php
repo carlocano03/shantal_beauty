@@ -4,7 +4,7 @@
             <div>
                 <div class="container d-flex align-items-center justify-content-between py-3">
                     <div class="header-user-info">
-                        Welcome, Jake Castor
+                        Welcome, <?= $this->session->userdata('customerIn')['fullname'];?>
                     </div>
                     <div class="search-container">
                         <input type="text" placeholder="Search products..." class="search-input navbar__search-input">
@@ -105,11 +105,18 @@ $(document).ready(function() {
                     '_token': csrf_token_value
                 },
                 success: function(data) {
-                    response(data);
+                    if (data.length === 0) {
+                        response([{ label: "No product found", value: "" }]);
+                    } else {
+                        response(data);
+                    }
                 }
             });
         },
         select: function(event, ui) {
+            if (ui.item.value === "") {
+                return false;
+            }
             $('.navbar__search-input').val(ui.item.label);
             productList(0);
         },
