@@ -1542,8 +1542,6 @@ textarea {
 
 .nav-tabs .nav-link.active {
     color: var(--primary-black);
-    border-color: var(--primary-black) var(--primary-black) transparent;
-
 }
 
 .nav-tabs .nav-link:hover {

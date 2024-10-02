@@ -19,7 +19,7 @@
         <div id="profile">
             <div class="container">
                 <div class="profile__header">
-                    <h1 class="profile__header__title">Settings</h1>
+                    <h1 class="profile__header__title">Profile Settings</h1>
                     <p class="profile__header__p">Manage your account settings and preferences to personalize your
                         shopping
                         experience.</p>

@@ -332,3 +332,15 @@ $(document).ready(function () {
 		$(this).addClass('nav-active--item');
 	});
 });
+
+// Canvas
+$(document).mouseup(function (e) {
+	var $offcanvas = $('#offcanvasRight');
+
+	if (!$offcanvas.is(e.target) && $offcanvas.has(e.target).length === 0) {
+		var offcanvasInstance = bootstrap.Offcanvas.getInstance($offcanvas[0]);
+		if (offcanvasInstance) {
+			offcanvasInstance.hide();
+		}
+	}
+});
