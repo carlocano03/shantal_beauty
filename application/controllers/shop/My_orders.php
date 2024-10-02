@@ -53,11 +53,12 @@ class My_orders extends MY_Controller
         if ($orders->num_rows() > 0) {
             foreach($orders->result() as $list) {
                 $output .= '
-                    <div class="my-order__section__order-header mb-3 d-flex justify-content-between align-items-center">
+                    <div class="my-order__section__order-header d-flex justify-content-between align-items-center">
                         <div>
                             <h1 class="my-order__orderNo">'.$list->order_no.'</h1>
                             <small class="text-muted">Place on: '.date('D M j, Y h:i A', strtotime($list->date_created)).'</small>
                         </div>
+						<button type="button" class="my-order__product__cancel-order">Cancel Order</button>
                     </div>
                 ';
 
@@ -66,8 +67,8 @@ class My_orders extends MY_Controller
                 ';
 
                 $output .= '
-                    <div class="my-order__section__product d-flex justify-content-between align-items-center">
-                        <div>
+                    <div class="my-order__section__product ">
+                    <div class="my-order__section__product__items">
                 ';
 
                 $order_items = $this->my_order_model->get_order_details($list->order_id);
@@ -81,7 +82,7 @@ class My_orders extends MY_Controller
                         }
 
                         $output .='
-                            <div class="d-flex align-items-center">
+                            <div class="d-flex  my-order__section__product__item">
                                 <img src="'.$img.'"
                                     class="my-order__section__product-img me-4" alt="Product 1">
                                 <div class="d-flex flex-column justify-content-between">
@@ -89,6 +90,9 @@ class My_orders extends MY_Controller
                                         <p class="my-order__product__name">'.ucwords($info->product_name).'</p>
                                         <p class="my-order__product__quantity">Quantity: '.$info->quantity_order.'</p>
                                     </div>
+									<div>
+										<div class="my-order__product__item__price">₱349</div>
+									</div>
                                 </div>
                             </div>
                         ';
@@ -97,10 +101,9 @@ class My_orders extends MY_Controller
 
                 $output .= '
                         </div>
-                        <div>
-                            <button type="button" class="my-order__product__track-order">Track Order</button>
-                            <div>Shipping Amount: -'.number_format($list->shipping_fee, 2).'</div>
-                            <div>Total Amount: ₱'.number_format($list->total_amount, 2).'</div>
+                        <div class="my-order__section__product__total-container">
+                            <div class="my-order__section__product__total__shipping">Shipping Amount: -'.number_format($list->shipping_fee, 2).'</div>
+                            <div class="my-order__section__product__total__total">Total Amount: ₱'.number_format($list->total_amount, 2).'</div>
                         </div>
                     </div>
                 ';

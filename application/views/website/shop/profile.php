@@ -130,35 +130,40 @@
                                     <button class="nav-link active" id="to-pay-tab" data-bs-toggle="tab"
                                         data-bs-target="#to-pay-tab-pane" type="button" role="tab"
                                         aria-controls="to-pay-tab-pane" aria-selected="true">To Pay<span
-                                            class="my-order__section__tab--badge to_pay_count" style="display:none;">0</span></button>
+                                            class="my-order__section__tab--badge to_pay_count"
+                                            style="display:none;">0</span></button>
                                 </li>
                                 <!-- To Ship Tab -->
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link" id="to-ship-tab" data-bs-toggle="tab"
                                         data-bs-target="#to-ship-tab-pane" type="button" role="tab"
                                         aria-controls="to-ship-tab-pane" aria-selected="true">To Ship<span
-                                            class="my-order__section__tab--badge to_ship_count" style="display:none;">0</span></button>
+                                            class="my-order__section__tab--badge to_ship_count"
+                                            style="display:none;">0</span></button>
                                 </li>
                                 <!-- To Receive Tab -->
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link" id="to-receive-tab" data-bs-toggle="tab"
                                         data-bs-target="#to-receive-tab-pane" type="button" role="tab"
                                         aria-controls="to-receive-tab-pane" aria-selected="false">To Receive<span
-                                            class="my-order__section__tab--badge to_receive_count" style="display:none;">0</span></button>
+                                            class="my-order__section__tab--badge to_receive_count"
+                                            style="display:none;">0</span></button>
                                 </li>
                                 <!-- Completed Tab -->
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link" id="completed-tab" data-bs-toggle="tab"
                                         data-bs-target="#completed-tab-pane" type="button" role="tab"
                                         aria-controls="completed-tab-pane" aria-selected="false">Completed<span
-                                            class="my-order__section__tab--badge completed_count" style="display:none;">0</span></button>
+                                            class="my-order__section__tab--badge completed_count"
+                                            style="display:none;">0</span></button>
                                 </li>
                                 <!-- Cancelled Tab -->
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link" id="cancelled-tab" data-bs-toggle="tab"
                                         data-bs-target="#cancelled-tab-pane" type="button" role="tab"
                                         aria-controls="cancelled-tab-pane" aria-selected="false">Cancelled<span
-                                            class="my-order__section__tab--badge cancelled_count" style="display:none;">0</span></button>
+                                            class="my-order__section__tab--badge cancelled_count"
+                                            style="display:none;">0</span></button>
                                 </li>
                             </ul>
                             <div class="tab-content" id="myTabContent">
@@ -361,43 +366,88 @@
 
 
 <script>
-    var set_default = 0;
+var set_default = 0;
 
-    function getAddress() {
-        $.ajax({
-            url: "<?= base_url('shop/products/get_delivery_address')?>",
-            method: "GET",
-            dataType: "json",
-            success: function (data) {
-                $('.address_list').html(data.address_list);
-            }
-        });
-    }
+function getAddress() {
+    $.ajax({
+        url: "<?= base_url('shop/products/get_delivery_address')?>",
+        method: "GET",
+        dataType: "json",
+        success: function(data) {
+            $('.address_list').html(data.address_list);
+        }
+    });
+}
 
-    $(document).ready(function () {
-        getAddress();
+$(document).ready(function() {
+    getAddress();
 
-        $(document).on('change', '.set_default', function () {
-            if ($(this).is(':checked')) {
-                set_default = 1;
-            } else {
-                set_default = 0;
-            }
-        });
+    $(document).on('change', '.set_default', function() {
+        if ($(this).is(':checked')) {
+            set_default = 1;
+        } else {
+            set_default = 0;
+        }
+    });
 
-        $(document).on('click', '.change_delivery_address', function () {
-            var shipping_id = $(this).data('id');
+    $(document).on('click', '.change_delivery_address', function() {
+        var shipping_id = $(this).data('id');
 
-            if ($(this).is(':checked')) {
+        if ($(this).is(':checked')) {
+            $.ajax({
+                url: "<?= base_url('shop/products/change_delivery_address');?>",
+                method: "POST",
+                data: {
+                    shipping_id: shipping_id,
+                    '_token': csrf_token_value,
+                },
+                dataType: "json",
+                success: function(data) {
+                    if (data.error != '') {
+                        Toast.fire({
+                            icon: 'warning',
+                            title: data.error,
+                        });
+                    } else {
+                        Toast.fire({
+                            icon: 'success',
+                            title: data.success,
+                        });
+                        getAddress();
+                    }
+                },
+                error: function() {
+                    Toast.fire({
+                        icon: 'error',
+                        title: 'An error occurred while processing the request.',
+                    });
+                }
+            });
+        }
+    });
+
+    $(document).on('click', '.delete_address', function() {
+        var shipping_id = $(this).data('id');
+
+        Swal.fire({
+            title: 'Are you sure..',
+            text: "You want to delete this address?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, continue',
+        }).then((result) => {
+            if (result.isConfirmed) {
                 $.ajax({
-                    url: "<?= base_url('shop/products/change_delivery_address');?>",
+                    url: "<?= base_url('shop/products/delete_address');?>",
                     method: "POST",
                     data: {
                         shipping_id: shipping_id,
                         '_token': csrf_token_value,
                     },
                     dataType: "json",
-                    success: function (data) {
+                    success: function(data) {
                         if (data.error != '') {
                             Toast.fire({
                                 icon: 'warning',
@@ -411,7 +461,7 @@
                             getAddress();
                         }
                     },
-                    error: function () {
+                    error: function() {
                         Toast.fire({
                             icon: 'error',
                             title: 'An error occurred while processing the request.',
@@ -420,13 +470,34 @@
                 });
             }
         });
+    });
 
-        $(document).on('click', '.delete_address', function () {
-            var shipping_id = $(this).data('id');
+    $(document).on('click', '#save_address', function(event) {
+        event.preventDefault();
+        event.stopPropagation();
 
+        var form = $('#addressForm')[0];
+        var formData = new FormData(form);
+        formData.append('fullname', $('#fullname').val());
+        formData.append('contact_no', $('#contact_no').val());
+        formData.append('province_name', $('#province_name').val());
+        formData.append('municipality_name', $('#municipality_name').val());
+        formData.append('brgy_name', $('#brgy_name').val());
+        formData.append('postal_code', $('#postal_code').val());
+        formData.append('street_name', $('#street_name').val());
+        formData.append('landmark', $('#landmark').val());
+        formData.append('label_as', $('#label_as').val());
+        formData.append('set_default', set_default);
+        formData.append('_token', csrf_token_value);
+
+        form.classList.add('was-validated');
+        if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+        } else {
             Swal.fire({
                 title: 'Are you sure..',
-                text: "You want to delete this address?",
+                text: "You want to continue this transaction?",
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -435,14 +506,13 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: "<?= base_url('shop/products/delete_address');?>",
+                        url: "<?= base_url('shop/products/save_address');?>",
                         method: "POST",
-                        data: {
-                            shipping_id: shipping_id,
-                            '_token': csrf_token_value,
-                        },
+                        data: formData,
+                        contentType: false,
+                        processData: false,
                         dataType: "json",
-                        success: function (data) {
+                        success: function(data) {
                             if (data.error != '') {
                                 Toast.fire({
                                     icon: 'warning',
@@ -453,10 +523,13 @@
                                     icon: 'success',
                                     title: data.success,
                                 });
+                                $('#addressModal').modal('hide');
+                                form.reset();
+                                form.classList.remove('was-validated');
                                 getAddress();
                             }
                         },
-                        error: function () {
+                        error: function() {
                             Toast.fire({
                                 icon: 'error',
                                 title: 'An error occurred while processing the request.',
@@ -465,75 +538,7 @@
                     });
                 }
             });
-        });
-
-        $(document).on('click', '#save_address', function (event) {
-            event.preventDefault();
-            event.stopPropagation();
-
-            var form = $('#addressForm')[0];
-            var formData = new FormData(form);
-            formData.append('fullname', $('#fullname').val());
-            formData.append('contact_no', $('#contact_no').val());
-            formData.append('province_name', $('#province_name').val());
-            formData.append('municipality_name', $('#municipality_name').val());
-            formData.append('brgy_name', $('#brgy_name').val());
-            formData.append('postal_code', $('#postal_code').val());
-            formData.append('street_name', $('#street_name').val());
-            formData.append('landmark', $('#landmark').val());
-            formData.append('label_as', $('#label_as').val());
-            formData.append('set_default', set_default);
-            formData.append('_token', csrf_token_value);
-
-            form.classList.add('was-validated');
-            if (form.checkValidity() === false) {
-                event.preventDefault();
-                event.stopPropagation();
-            } else {
-                Swal.fire({
-                    title: 'Are you sure..',
-                    text: "You want to continue this transaction?",
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, continue',
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            url: "<?= base_url('shop/products/save_address');?>",
-                            method: "POST",
-                            data: formData,
-                            contentType: false,
-                            processData: false,
-                            dataType: "json",
-                            success: function (data) {
-                                if (data.error != '') {
-                                    Toast.fire({
-                                        icon: 'warning',
-                                        title: data.error,
-                                    });
-                                } else {
-                                    Toast.fire({
-                                        icon: 'success',
-                                        title: data.success,
-                                    });
-                                    $('#addressModal').modal('hide');
-                                    form.reset();
-                                    form.classList.remove('was-validated');
-                                    getAddress();
-                                }
-                            },
-                            error: function () {
-                                Toast.fire({
-                                    icon: 'error',
-                                    title: 'An error occurred while processing the request.',
-                                });
-                            }
-                        });
-                    }
-                });
-            }
-        });
+        }
     });
+});
 </script>
