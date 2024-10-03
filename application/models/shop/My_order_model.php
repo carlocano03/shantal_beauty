@@ -67,6 +67,7 @@ class My_order_model extends MY_Model
     function tracking_order($order_id)
     {
         $this->db->where('order_id', $order_id);
+        $this->db->order_by('track_id', 'DESC');
         $query = $this->db->get('track_order');
         return $query;
     }
