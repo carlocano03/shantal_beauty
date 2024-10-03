@@ -1,43 +1,46 @@
-<div class="my-order__section__order-item mb-4 p-4 border rounded">
-    <div class="my-order__section__order-header mb-3 d-flex justify-content-between align-items-center">
-        <div>
-            <h1 class="my-order__orderNo">Order #12345</h1>
-            <small class="text-muted">Delivered on: 12th September 2024</small>
-        </div>
-        <span class="badge bg-success my-order__badge">Completed</span>
-    </div>
-    <div class="my-order__section__order-products">
-        <!-- Product -->
-        <div class="my-order__section__product d-flex justify-content-between align-items-center">
-            <div class="d-flex">
-                <img src="<?php echo base_url('assets/images/shop/product-cart-1.webp'); ?>"
-                    class="my-order__section__product-img me-4" alt="Product 1">
-                <div class="d-flex flex-column justify-content-between">
-                    <div>
-                        <p class="my-order__product__name">Temptation Coffee</p>
-                        <p class="my-order__product__quantity">Quantity: 1</p>
-                    </div>
-                    <p class="my-order__product__price">₱100</p>
-                </div>
-            </div>
-            <button type="button" class="my-order__product__buy-again">Buy
-                Again</button>
-        </div>
-
-        <div class="my-order__section__product d-flex justify-content-between align-items-center">
-            <div class="d-flex">
-                <img src="<?php echo base_url('assets/images/shop/product-cart-1.webp'); ?>"
-                    class="my-order__section__product-img me-4" alt="Product 1">
-                <div class="d-flex flex-column justify-content-between">
-                    <div>
-                        <p class="my-order__product__name">Temptation Coffee</p>
-                        <p class="my-order__product__quantity">Quantity: 1</p>
-                    </div>
-                    <p class="my-order__product__price">₱100</p>
-                </div>
-            </div>
-            <button type="button" class="my-order__product__buy-again">Buy
-                Again</button>
-        </div>
-    </div>
+<div class="my-order__section__order-item mb-4 p-4 border rounded order_list_completed">
+    <!-- AJAX REQUEST -->
 </div>
+
+<script>
+    function getCompleted() {
+        $.ajax({
+            url: "<?= base_url('shop/my_orders/get_count_order_completed');?>",
+            method: "POST",
+            data: {
+                status: 'Completed',
+                '_token': csrf_token_value,
+            },
+            dataType: "json",
+            success: function(data) {
+                if (data.count > 0) {
+                    $('.completed_count').fadeIn(200);
+                    $('.completed_count').text(data.count);
+                } else {
+                    $('.completed_count').hide();
+                    $('.completed_count').text('');
+                }
+            }
+        });
+    }
+
+    function getOrderCompleted() {
+        $.ajax({
+            url: "<?= base_url('shop/my_orders/get_order_completed');?>",
+            method: "POST",
+            data: {
+                status: 'Completed',
+                '_token': csrf_token_value,
+            },
+            dataType: "json",
+            success: function(data) {
+                $('.order_list_completed').html(data.order_list_completed);
+            }
+        });
+    }
+
+    $(document).ready(function() {
+        getCompleted();
+        getOrderCompleted();
+    });
+</script>

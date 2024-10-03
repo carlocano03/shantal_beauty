@@ -194,7 +194,7 @@
                                 <!-- Cancelled Tab Content -->
                                 <div class="tab-pane fade" id="cancelled-tab-pane" role="tabpanel"
                                     aria-labelledby="cancelled-tab" tabindex="0">
-                                    <?php $this->load->view('website/shop/tablist/completed_tab');?>
+                                    <?php $this->load->view('website/shop/tablist/cancelled_tab');?>
                                 </div>
                             </div>
                         </div>
@@ -539,6 +539,27 @@ $(document).ready(function() {
                 }
             });
         }
+    });
+
+    $(document).on('click', '.track_order', function() {
+        var order_id = $(this).data('id');
+        var order_no = $(this).data('order_no');
+
+        $.ajax({
+            url: "<?= base_url('shop/my_orders/tracking_order');?>",
+            method: "POST",
+            data: {
+                order_id: order_id,
+                order_no: order_no,
+                '_token': csrf_token_value,
+            },
+            dataType: "json",
+            success: function(data) {
+                $('.tracking_order').html(data.tracking_order);
+                $('#trackOrder').offcanvas('show');
+            }
+        });
+        
     });
 });
 </script>

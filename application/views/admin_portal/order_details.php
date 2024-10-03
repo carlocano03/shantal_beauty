@@ -425,5 +425,55 @@
                 });
             }
         });
+
+        $(document).on('click', '#cancel_order', function() {
+            Swal.fire({
+                title: 'Are you sure..',
+                text: "You want to cancel this order?",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, continue',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "<?= base_url('admin_portal/online_orders/cancel_order')?>",
+                        method: "POST",
+                        data: {
+                            order_id: order_id,
+                            '_token': csrf_token_value,
+                        },
+                        dataType: "json",
+                        success: function(data) {
+                            if (data.error != '') {
+                                Swal.fire({
+                                    icon: 'warning',
+                                    title: 'Oops...',
+                                    text: data.error,
+                                }); 
+                            } else {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Thank you!',
+                                    text: data.success,
+                                });
+                                setTimeout(() => {
+                                    window.location.href = "<?= base_url('admin/pending-orders')?>";
+                                }, 3000);
+                            }
+                        },
+                        error: function () {
+                            $('.loading-screen').hide();
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Ooops...',
+                                text: 'An error occurred while processing the request.',
+                            });
+                        }
+                    });
+                }
+            });
+        });
     });
 </script>

@@ -5,7 +5,7 @@
 
 
 <script>
-    function getToShip() {
+    function getToPay() {
         $.ajax({
             url: "<?= base_url('shop/my_orders/get_count_order');?>",
             method: "POST",
@@ -42,7 +42,60 @@
     }
 
     $(document).ready(function() {
-        getToShip();
+        getToPay();
         getOrderList();
+
+        $(document).on('click', '.view_product', function() {
+            var product_id = $(this).data('id');
+            var url = "<?= base_url('shop/product-details?id=')?>" + product_id;
+            window.location.href = url;
+        });
+
+        $(document).on('click', '.cancel_order', function() {
+            var order_id = $(this).data('id');
+
+            Swal.fire({
+                title: 'Are you sure..',
+                text: "You want to cancel this order?",
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, continue',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "<?= base_url('shop/my_orders/cancel_order');?>",
+                        method: "POST",
+                        data: {
+                            order_id: order_id,
+                            '_token': csrf_token_value, 
+                        },
+                        dataType: "json",
+                        success: function(data) {
+                            if (data.error != '') {
+                                Toast.fire({
+                                    icon: 'warning',
+                                    title: data.error,
+                                });
+                            } else {
+                                Toast.fire({
+                                    icon: 'success',
+                                    title: data.success,
+                                });
+                                getToPay();
+                                getOrderList();
+                            }
+                        },
+                        error: function() {
+                            Toast.fire({
+                                icon: 'error',
+                                title: 'An error occurred while processing the request.',
+                            });
+                        }
+                    });
+                }
+            });
+        });
     });
 </script>
