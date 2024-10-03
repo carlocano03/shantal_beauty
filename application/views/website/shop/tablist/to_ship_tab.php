@@ -1,44 +1,47 @@
 <!-- Order Item -->
-<div class="my-order__section__order-item mb-4 p-4 border rounded">
-    <div class="my-order__section__order-header mb-3 d-flex justify-content-between align-items-center">
-        <div>
-            <h1 class="my-order__orderNo"></h1>
-            <small class="text-muted">Placed on: <span class="date_order"></span></small>
-        </div>
-        <span class="badge bg-warning my-order__badge" style="display:none;">To Ship</span>
-    </div>
-    <div class="my-order__section__order-products">
-        <!-- Product -->
-        <div class="my-order__section__product d-flex justify-content-between align-items-center">
-            <div class="d-flex">
-                <img src="<?php echo base_url('assets/images/shop/product-cart-1.webp'); ?>"
-                    class="my-order__section__product-img me-4" alt="Product 1">
-                <div class="d-flex flex-column justify-content-between">
-                    <div>
-                        <p class="my-order__product__name">Temptation Coffee</p>
-                        <p class="my-order__product__quantity">Quantity: 2</p>
-                    </div>
-                    <p class="my-order__product__price">₱200</p>
-                </div>
-            </div>
-            <button type="button" class="my-order__product__track-order">Track
-                Order</button>
-        </div>
-
-        <div class="my-order__section__product d-flex justify-content-between align-items-center">
-            <div class="d-flex">
-                <img src="<?php echo base_url('assets/images/shop/product-cart-1.webp'); ?>"
-                    class="my-order__section__product-img me-4" alt="Product 1">
-                <div class="d-flex flex-column justify-content-between">
-                    <div>
-                        <p class="my-order__product__name">Temptation Coffee</p>
-                        <p class="my-order__product__quantity">Quantity: 2</p>
-                    </div>
-                    <p class="my-order__product__price">₱200</p>
-                </div>
-            </div>
-            <button type="button" class="my-order__product__track-order">Track
-                Order</button>
-        </div>
-    </div>
+<div class="my-order__section__order-item mb-4 p-4 border rounded order_list_ship">
+    <!-- AJAX REQUEST -->
 </div>
+
+<script>
+    function getToShip() {
+        $.ajax({
+            url: "<?= base_url('shop/my_orders/get_count_order_ship');?>",
+            method: "POST",
+            data: {
+                status: 'Preparing',
+                '_token': csrf_token_value,
+            },
+            dataType: "json",
+            success: function(data) {
+                if (data.count > 0) {
+                    $('.to_ship_count').fadeIn(200);
+                    $('.to_ship_count').text(data.count);
+                } else {
+                    $('.to_ship_count').hide();
+                    $('.to_ship_count').text('');
+                }
+            }
+        });
+    }
+
+    function getOrderShip() {
+        $.ajax({
+            url: "<?= base_url('shop/my_orders/get_order_ship');?>",
+            method: "POST",
+            data: {
+                status: 'Preparing',
+                '_token': csrf_token_value,
+            },
+            dataType: "json",
+            success: function(data) {
+                $('.order_list_ship').html(data.order_list_ship);
+            }
+        });
+    }
+
+    $(document).ready(function() {
+        getToShip();
+        getOrderShip();
+    });
+</script>

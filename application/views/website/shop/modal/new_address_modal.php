@@ -121,6 +121,21 @@
     </div>
 </div>
 
+<div class="offcanvas offcanvas-end" data-bs-backdrop="static" tabindex="-1" id="trackOrder"
+    aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas-header border-bottom p-5">
+        <h5 id="offcanvasRightLabel" class="cart__title">Track Order</h5>
+        <button type="button" class="btn-close cart__close-btn text-reset" data-bs-dismiss="offcanvas"
+            aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body cart__container">
+        <div class="cart__items p-4 py-0 tracking_order">
+            <!-- AJAX REQUEST -->
+            
+        </div>
+    </div>
+</div>
+
 
 <script>
     $(document).on('click', '#labelAs1', function() {

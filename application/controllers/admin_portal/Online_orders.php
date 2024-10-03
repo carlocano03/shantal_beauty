@@ -183,6 +183,14 @@ class Online_orders extends MY_Controller
                 }
             }
 
+            //Insert tracking order
+            $insert_tracking = array(
+                'order_id'      => $order_id,
+                'remarks'       => 'Seller is preparing to ship your parcel',
+                'date_created'  => date('Y-m-d H:i:s'),
+            );
+            $this->db->insert('track_order', $insert_tracking);
+
             $success = 'The order successfully preparing.';
         } else {
             $error = 'Failed to prepare the order.';
@@ -194,4 +202,26 @@ class Online_orders extends MY_Controller
         echo json_encode($output);
     }
 
+    public function cancel_order()
+    {
+        $error = '';
+        $success = '';
+
+        $order_id = $this->input->post('order_id', true);
+
+        $update_order = array(
+            'order_status' => 'Cancelled',
+        );
+        $result = $this->online_order_model->update_order_status($update_order, $order_id);
+        if ($result == TRUE) {
+            $success = 'The order successfully cancelled.';
+        } else {
+            $error = 'Failed to cancel the order.';
+        }
+        $output = array(
+            'success' => $success,
+            'error' => $error,
+        );
+        echo json_encode($output);
+    }
 }
