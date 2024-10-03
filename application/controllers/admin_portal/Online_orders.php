@@ -224,4 +224,36 @@ class Online_orders extends MY_Controller
         );
         echo json_encode($output);
     }
+
+    public function update_status()
+    {
+        $error = '';
+        $success = '';
+
+        $order_id = $this->input->post('order_id', true);
+        $order_status = $this->input->post('order_status', true);
+
+        $update_order = array(
+            'order_status' => $order_status,
+        );
+        $result = $this->online_order_model->update_order_status($update_order, $order_id);
+        if ($result == TRUE) {
+            //Insert tracking order
+            $insert_tracking = array(
+                'order_id'      => $order_id,
+                'remarks'       => 'Your parcel has been picked up by our logistic partner',
+                'date_created'  => date('Y-m-d H:i:s'),
+            );
+            $this->db->insert('track_order', $insert_tracking);
+
+            $success = 'The order successfully updated.';
+        } else {
+            $error = 'Failed to update the order.';
+        }
+        $output = array(
+            'success' => $success,
+            'error' => $error,
+        );
+        echo json_encode($output);
+    }
 }
