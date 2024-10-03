@@ -542,11 +542,12 @@ class My_orders extends MY_Controller
 
         $track_order = $this->my_order_model->tracking_order($order_id);
         if ($track_order->num_rows() > 0) {
+            $output .= '<h5>'.$order_no.'</h5>';
             foreach($track_order->result() as $list) {
                 $output .= '
-                    <h5>'.$order_no.'</h5>
                     <div>'.$list->remarks.'</div>
                     <div>'.date('D M j, Y h:i A', strtotime($list->date_created)).'</div>
+                    <hr>
                 ';
             }
         } else {

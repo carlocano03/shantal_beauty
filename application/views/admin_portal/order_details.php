@@ -131,6 +131,11 @@
                 <?php endif;?>
             </div>
             <div class="card-body">
+                <?php if(isset($orders['order_status']) && $orders['order_status'] == 'Preparing') : ?>
+                    <div class="mt-2 mb-0 text-end">
+                        <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#statusModal"><i class="bi bi-pencil-square me-2"></i>Update Status</button>
+                    </div>
+                <?php endif;?>
                 <div class="row">
                     <div class="col-md-7">
                         <ul class="checkout__product-list__items">
@@ -310,6 +315,8 @@
     </div>
 </div>
 
+<?php $this->load->view('admin_portal/modal/status_modal');?>
+
 <script>
     var order_id = "<?= isset($orders['order_id']) ? $orders['order_id'] : 0;?>";
     var referral_code = "<?= isset($orders['referral_code']) ? $orders['referral_code'] : '';?>";
@@ -474,6 +481,71 @@
                     });
                 }
             });
+        });
+
+        $(document).on('click', '#update_status', function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            var form = $('#updateForm')[0];
+            var formData = new FormData(form);
+
+            formData.append('order_status', $('#order_status').val());
+            formData.append('order_id', order_id);
+            formData.append('_token', csrf_token_value);
+
+            form.classList.add('was-validated');
+            if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+            } else {
+                Swal.fire({
+                    title: 'Are you sure..',
+                    text: "You want to continue this transaction?",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, continue',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: "<?= base_url('admin_portal/online_orders/update_status')?>",
+                            method: "POST",
+                            data: formData,
+                            contentType: false,
+                            processData: false,
+                            dataType: "json",
+                            success: function(data) {
+                                if (data.error != '') {
+                                    Swal.fire({
+                                        icon: 'warning',
+                                        title: 'Oops...',
+                                        text: data.error,
+                                    }); 
+                                } else {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Thank you!',
+                                        text: data.success,
+                                    });
+                                    setTimeout(() => {
+                                        location.reload();
+                                    }, 3000);
+                                }
+                            },
+                            error: function () {
+                                $('.loading-screen').hide();
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Ooops...',
+                                    text: 'An error occurred while processing the request.',
+                                });
+                            }
+                        });
+                    }
+                });
+            }
         });
     });
 </script>
