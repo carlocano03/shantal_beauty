@@ -541,13 +541,18 @@ class My_orders extends MY_Controller
         $order_no = $this->input->post('order_no', true);
 
         $track_order = $this->my_order_model->tracking_order($order_id);
+
         if ($track_order->num_rows() > 0) {
-            $output .= '<h5>'.$order_no.'</h5>';
+            $output .= '<h5 class="order_no__track-order">'.$order_no.'</h5>';
             foreach($track_order->result() as $list) {
                 $output .= '
-                    <div>'.$list->remarks.'</div>
-                    <div>'.date('D M j, Y h:i A', strtotime($list->date_created)).'</div>
-                    <hr>
+				<li class="d-flex li-track-orders">
+                        <div class="activity-dot" style="background-color: #54ba4a;outline: 5px solid rgba(84, 186, 74, .25);"></div>
+                        <div class="ms-4">
+                    <div class="order_no__track-order__remarks">'.$list->remarks.'</div>
+                    <div class="order_no__track-order__date">'.date('D M j, Y h:i A', strtotime($list->date_created)).'</div>
+					</div>
+                </li>
                 ';
             }
         } else {
