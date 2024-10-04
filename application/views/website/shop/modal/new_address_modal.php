@@ -1,5 +1,6 @@
 <!-- Modal -->
-<div class="modal fade" id="addressModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="addressModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -129,61 +130,61 @@
             aria-label="Close"></button>
     </div>
     <div class="offcanvas-body cart__container">
-        <div class="cart__items p-4 py-0 tracking_order">
+        <div class=" p-4 py-0 tracking_order">
             <!-- AJAX REQUEST -->
-            
+
         </div>
     </div>
 </div>
 
 
 <script>
-    $(document).on('click', '#labelAs1', function() {
-        if ($(this).is(':checked')) {
-            $('#label_as').val('Work');
-        } else {
-            $('#label_as').val('');
-        }
-    });
+$(document).on('click', '#labelAs1', function() {
+    if ($(this).is(':checked')) {
+        $('#label_as').val('Work');
+    } else {
+        $('#label_as').val('');
+    }
+});
 
-    $(document).on('click', '#labelAs2', function() {
-        if ($(this).is(':checked')) {
-            $('#label_as').val('Home');
-        } else {
-            $('#label_as').val('');
-        }
-    });
+$(document).on('click', '#labelAs2', function() {
+    if ($(this).is(':checked')) {
+        $('#label_as').val('Home');
+    } else {
+        $('#label_as').val('');
+    }
+});
 
-    $(document).on('change', '#province', function() {
-        var elem = $(this);
-        var code = elem.val();
-        var text = elem.find('option:selected').text();
-        $.post("<?= base_url('shop/products/get_municipal/')?>", {
-            code: code,
-            '_token': csrf_token_value
-        }, function(data) {
-            $('#municipality').html(data);
-            $('#province_name').val(text);
-        }, "JSON");
-    });
+$(document).on('change', '#province', function() {
+    var elem = $(this);
+    var code = elem.val();
+    var text = elem.find('option:selected').text();
+    $.post("<?= base_url('shop/products/get_municipal/')?>", {
+        code: code,
+        '_token': csrf_token_value
+    }, function(data) {
+        $('#municipality').html(data);
+        $('#province_name').val(text);
+    }, "JSON");
+});
 
-    $(document).on('change', '#municipality', function() {
-        var elem = $(this);
-        var code = elem.val();
-        var text = elem.find('option:selected').text();
-        $.post("<?= base_url('shop/products/get_barangay/')?>", {
-            code: code,
-            '_token': csrf_token_value
-        }, function(data) {
-            $('#barangay').html(data);
-            $('#municipality_name').val(text);
-        }, "JSON");
-    });
+$(document).on('change', '#municipality', function() {
+    var elem = $(this);
+    var code = elem.val();
+    var text = elem.find('option:selected').text();
+    $.post("<?= base_url('shop/products/get_barangay/')?>", {
+        code: code,
+        '_token': csrf_token_value
+    }, function(data) {
+        $('#barangay').html(data);
+        $('#municipality_name').val(text);
+    }, "JSON");
+});
 
-    $(document).on('change', '#barangay', function() {
-        var elem = $(this);
-        var code = elem.val();
-        var text = elem.find('option:selected').text();
-        $('#brgy_name').val(text);
-    });
+$(document).on('change', '#barangay', function() {
+    var elem = $(this);
+    var code = elem.val();
+    var text = elem.find('option:selected').text();
+    $('#brgy_name').val(text);
+});
 </script>

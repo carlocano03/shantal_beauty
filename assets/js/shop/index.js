@@ -344,3 +344,14 @@ $(document).mouseup(function (e) {
 		}
 	}
 });
+
+$(document).mouseup(function (e) {
+	var $offcanvas = $('#trackOrder');
+
+	if (!$offcanvas.is(e.target) && $offcanvas.has(e.target).length === 0) {
+		var offcanvasInstance = bootstrap.Offcanvas.getInstance($offcanvas[0]);
+		if (offcanvasInstance) {
+			offcanvasInstance.hide();
+		}
+	}
+});
