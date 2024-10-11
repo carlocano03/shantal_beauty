@@ -463,6 +463,18 @@ const observer = new IntersectionObserver((entries) => {
 cards.forEach(card => {
     observer.observe(card);
 });
+
+const header = document.querySelector('.benefits-of-collastem__title');
+
+const headerObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+        }
+    });
+});
+
+headerObserver.observe(header);
 // Sign Up 
 $(document).ready(function() {
     var user_details_id = 0;

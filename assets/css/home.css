@@ -485,14 +485,65 @@ textarea {
     padding: 72px 0;
 }
 
+.benefits-of-collastem__header {
+    position: relative;
+    padding-bottom: 20px;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
 .benefits-of-collastem__title {
-    font-size: 2.8rem;
+    font-size: 3.5rem;
     font-weight: bold;
     color: var(--accent-2);
-    text-align: center;
-    letter-spacing: 0.5px;
     text-transform: uppercase;
-    margin-bottom: 20px;
+    letter-spacing: 2px;
+    background: linear-gradient(45deg, #c59a49, #8e762e);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    position: relative;
+    display: inline-block;
+}
+
+.benefits-of-collastem__title::before {
+    content: '';
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    width: 80px;
+    height: 3px;
+    background: var(--primary-gold);
+    transform: translateX(-50%);
+    border-radius: 10px;
+}
+
+.benefits-of-collastem__title::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    width: 100px;
+    height: 3px;
+    background: var(--primary-gold);
+    transform: translateX(-50%);
+    border-radius: 10px;
+}
+
+.benefits-of-collastem__title:hover::after {
+    width: 120px;
+    transition: width 0.4s ease;
+}
+
+
+.benefits-of-collastem__title {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.benefits-of-collastem__title.in-view {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .benefits-of-collastem__row {
