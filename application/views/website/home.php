@@ -364,6 +364,29 @@
         </div>
     </section>
 
+    <section id="app-showcase">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 app-showcase__col">
+                    <div class="row app-showcase__download">
+                        <div class="col-6 ">
+                            <h1 class="app-showcase__title">Lorem ipsum download Our app </h1>
+                            <p class="app-showcase__p">Stay gorgeous, wherever you are. Explore our curated beauty
+                                collection, enjoy seamless
+                                shopping, and get expert tips with our app. Download today for the ultimate beauty
+                                experience.</p>
+                            <img class="app-showcase__google"
+                                src="<?php echo base_url('assets/images/home/google-play-badge.png'); ?>"
+                                alt="google play">
+                        </div>
+                        <div class="col-6"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
 
 </main>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>

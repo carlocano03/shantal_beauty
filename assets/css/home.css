@@ -597,7 +597,7 @@ textarea {
     transform: translateY(0);
 }
 
-/* Home */
+/* Media */
 #media {
     background-color: var(--secondary-white);
     padding: 72px 0;
@@ -661,6 +661,34 @@ textarea {
 .media__cta:hover {
     background-color: #8e762e;
 }
+/* app showcase */
+#app-showcase {
+    background-color: var(--secondary-light);
+    padding: 72px 0;
+}
+.app-showcase__download{
+	background-color:var(--primary-black);
+	border-radius:12px;
+	padding:40px;
+}
+.app-showcase__col{
+	padding:0 217px;
+}
+.app-showcase__title{
+	color:var(--secondary-white);
+	font-size:3.2rem;
+	font-weight:bold;
+}
+.app-showcase__p{
+	color:var(--secondary-white);
+	margin-top:16px;
+	font-size:1.6rem;
+}
+.app-showcase__google{
+	width:150px;
+	margin-top:24px;
+	cursor:pointer;
+}
 @media (max-width: 992px) {
 	#home{
 		height:auto;
@@ -691,6 +719,9 @@ textarea {
 	}
 	.media__img-1{
 		width:500px;
+	}
+	.app-showcase__col{
+		padding:0 24px;
 	}
 	
 	
