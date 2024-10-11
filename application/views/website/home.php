@@ -60,6 +60,53 @@
         <img class="home-section__ellipse-2" src="<?php echo base_url('assets/images/home/ellipse.png'); ?>"
             alt="Ellipse">
     </div>
+
+    <section id="about-us">
+        <div class="container">
+            <div class="row about-us__row gap-x-lg-5">
+                <div class="col-lg-6 col-12">
+                    <div class="about-us__page-title">About Us</div>
+                    <h1 class="about-us__title">Shantal's Beauty</h1>
+                    <h1 class="about-us__title"> And Wellness Products</h1>
+                    <div class="d-flex flex-column gap-4 mt-5">
+                        <p class="about-us__p">The journey began with a vision inspired by the words of its CEO Ms.
+                            Rossel
+                            “Shantal” Dimayuga,
+                            who passionately stated, “Self-care isn’t a luxury, but a key to unlocking the beauty that
+                            resonates in a healthy soul.” These words encapsulate the very essence of the company’s
+                            mission.
+                        </p>
+                        <p class="about-us__p">In a world where hustle culture often prevails, the company understands
+                            the
+                            importance of
+                            nurturing one’s well-being. Shantal’s Beauty and Wellness Products is dedicated to offering
+                            a
+                            comprehensive range of skincare, beauty, and wellness solutions that prioritize self-care at
+                            every step. It firmly believe that when individuals prioritize their self-care routine, they
+                            not
+                            only enhance their physical appearance but also cultivate a deep sense of inner beauty and
+                            confidence
+                        </p>
+                        <p class="about-us__p">The company’s commitment to quality and innovation drives them to source
+                            the
+                            finest ingredients
+                            and employ cutting-edge research to develop products that cater to diverse needs and
+                            lifestyles.
+                        </p>
+                        <p class="about-us__p">Shantal’s Beauty and Wellness Products invites you to embrace self-care
+                            not
+                            as an indulgence, but
+                            as a fundamental aspect of nurturing your soul and unleashing the beauty that resides within
+                            you.</p>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-12 d-flex align-items-center justify-content-center">
+                    <img class="home-section__img" src="<?php echo base_url('assets/images/home/shantal-pic-2.png'); ?>"
+                        alt="Shantal Beauty">
+                </div>
+            </div>
+        </div>
+    </section>
 </main>
 
 <!-- Modal -->
