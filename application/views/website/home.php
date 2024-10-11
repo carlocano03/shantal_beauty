@@ -262,7 +262,7 @@
     <section id="benefits-of-collastem">
         <div class="container">
             <header class="benefits-of-collastem__header">
-                <h1 class="benefits-of-collastem__title">Benefits of Collastem</h1>
+                <h1 class="benefits-of-collastem__title in-view">Benefits of Collastem</h1>
             </header>
             <div class="row benefits-of-collastem__row g-5">
                 <div class="col-lg-6 col-12">
@@ -312,6 +312,58 @@
             </div>
         </div>
     </section>
+
+    <section id="media">
+        <div class="container">
+            <header class="media__header">
+                <h1 class="media__title">Media</h1>
+            </header>
+            <div class="row media__row g-5">
+                <div class="col-12 media__col">
+                    <div class="media__card__container">
+                        <img class="media__img-1" src="<?php echo base_url('assets/images/home/shantal-pic-3.png'); ?>"
+                            alt="Shantal">
+                        <div class="media__content-wrapper">
+                            <a class="media__card__title">Beat the Heat and Embrace the Summer Season with Shantal's
+                                Temptation Juice</a>
+                            <p class="media__card__p">Shantal’s Temptation Juice is a powerhouse of wellness benefits.
+                                Infused with
+                                collagen,
+                                glutathione, and Vitamin C, this beverage nourishes your body from the inside
+                                out.
+                                Collagen
+                                helps support skin health and elasticity, while glutathione boosts your immune
+                                system,
+                                and
+                                Vitamin C provides antioxidant protection.</p>
+                            <div class="mt-5">
+                                <a href="#" class="media__cta"><i class="bi bi-link-45deg"></i> Read More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 media__col">
+                    <div class="media__card__container">
+                        <img class="media__img-1" src="<?php echo base_url('assets/images/home/shantal-pic-4.png'); ?>"
+                            alt="Shantal">
+                        <div class="media__content-wrapper">
+                            <a class="media__card__title">Beat the Heat and Embrace the Summer Season with Shantal's
+                                Temptation Juice</a>
+                            <p class="media__card__p">In addition to its array of wellness benefits, Shantal’s
+                                Temptation Juice also promotes healthy sensuality, inviting you to indulge in the
+                                pleasures of the season with confidence and vitality. It’s the perfect way to stay cool,
+                                hydrated, and glowing all summer long and immerse yourself in the temptations of summer
+                                like never before.</p>
+                            <div class="mt-5">
+                                <a href="#" class="media__cta"><i class="bi bi-link-45deg"></i> Read More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
 
 </main>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
@@ -462,16 +514,6 @@ const observer = new IntersectionObserver((entries) => {
 
 cards.forEach(card => {
     observer.observe(card);
-});
-
-const header = document.querySelector('.benefits-of-collastem__title');
-
-const headerObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('in-view');
-        }
-    });
 });
 
 headerObserver.observe(header);

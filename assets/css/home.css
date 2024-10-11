@@ -529,11 +529,6 @@ textarea {
     border-radius: 10px;
 }
 
-.benefits-of-collastem__title:hover::after {
-    width: 120px;
-    transition: width 0.4s ease;
-}
-
 
 .benefits-of-collastem__title {
     opacity: 0;
@@ -602,6 +597,70 @@ textarea {
     transform: translateY(0);
 }
 
+/* Home */
+#media {
+    background-color: var(--secondary-white);
+    padding: 72px 0;
+}
+
+.media__title{
+	font-size:2.8rem;
+	font-weight:bold;
+	color:var(--accent-2);
+	text-align:center;
+}
+.media__row{
+	margin-top:72px;
+	
+}
+.media__img-1{
+	width:400px;
+	box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+	
+}
+.media__card__container{
+	display:flex;
+	justify-content:center;
+	align-item:center;
+
+}
+
+.media__content-wrapper{
+
+	background-color:var(--secondary-white);
+	width:500px;
+	padding:24px;
+	box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+
+}
+.media__card__title{
+	font-family: "Playfair Display", serif;
+	font-size:1.8rem;
+	text-decoration:underline;
+	font-weight:600;
+	color:var(--accent-2);
+	cursor:pointer;
+}
+.media__card__p{
+	margin-top:14px;
+	font-size:1.6rem;
+	color:var(--accent-2);
+}
+.media__cta {
+    padding: 12px 24px;
+    background-color: #c59a49; 
+    color: #fff;
+    font-size: 1.6rem;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+	margin-top:8px;
+}
+
+.media__cta:hover {
+    background-color: #8e762e;
+}
 @media (max-width: 992px) {
 	#home{
 		height:auto;
@@ -623,5 +682,16 @@ textarea {
 	.about-us__row{
 		gap:100px;
 	}
+	.media__card__container{
+		display:flex;
+		flex-direction:column;
+		justify-content:center;
+		align-item:center;
+	
+	}
+	.media__img-1{
+		width:500px;
+	}
+	
 	
 }
