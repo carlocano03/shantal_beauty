@@ -107,7 +107,6 @@
             </div>
         </div>
     </section>
-
     <section id="mission-vision">
         <div class="container">
             <div class="row  gap-lg-0 gap-5">
@@ -132,7 +131,190 @@
             </div>
         </div>
     </section>
+    <section id="products">
+        <div class="container">
+            <header class="products__header">
+                <h1 class="products__title">Discover the Essence of Our Products</h1>
+                <p class="products__p">Unleash Your Beauty, Embrace Your Sensuality</p>
+            </header>
+
+            <swiper-container class="mySwiper" autoplay-delay="6000" autoplay-disable-on-interaction="false"
+                loop="true">
+                <!-- Product 1 -->
+                <swiper-slide>
+                    <div class=" row products__row">
+                        <div class="col-lg-6 col-12 d-flex align-items-center justify-content-center">
+                            <div class="products__wrapper">
+                                <img class="products__product-img-1"
+                                    src="<?php echo base_url('assets/images/home/product-1.webp'); ?>"
+                                    alt="Shantal's Temptation Coffee">
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-12">
+                            <h1 class="products__product__title">Shantal's Temptation Coffee</h1>
+                            <div class="d-flex flex-column gap-5 mt-5">
+                                <p class="products__product_p">Shantal’s Temptation Coffee, a blend of rich aroma
+                                    and
+                                    smooth
+                                    flavor crafted with the finest
+                                    natural ingredients to awaken your senses . Each cup is crafted with care to
+                                    deliver
+                                    both
+                                    pleasure and wellness. This unique coffee blend is meticulously curated to not
+                                    only
+                                    delight
+                                    your taste buds but also nourish your body from within.</p>
+                                <p class="products__product_p">Infused with collagen, combined with the power of
+                                    ascorbic
+                                    acid,
+                                    Shantal Temptation Coffee
+                                    provides a boost to your immune system while rejuvenating your skin, leaving you
+                                    feeling
+                                    refreshed and revitalized with every sip.</p>
+                                <p class="products__product_p">
+                                    Whether you’re starting your day with a cup of bliss or treating yourself to a
+                                    moment of
+                                    indulgence, Shantal Temptation Coffee is your companion for embracing the
+                                    pleasures
+                                    of
+                                    life
+                                    while nourishing your body with goodness. Surrender to the temptation and
+                                    experience
+                                    coffee
+                                    like never before.
+                                </p>
+                            </div>
+                            <div class="products__btn__container">
+                                <button class="products__btn__buy-now">Buy Now</button>
+                                <div class="products__btn__price">₱ 150.00</div>
+                            </div>
+                        </div>
+                    </div>
+                </swiper-slide>
+                <!-- Product 2 -->
+                <swiper-slide>
+                    <div class="row products__row">
+                        <div class="col-lg-6 col-12 d-flex align-items-center justify-content-center">
+                            <div class="products__wrapper">
+                                <img class="products__product-img-1"
+                                    src="<?php echo base_url('assets/images/home/product-2.webp'); ?>"
+                                    alt="Shantal's Temptation Coffee">
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-12 d-flex flex-column justify-content-center">
+                            <h1 class="products__product__title">Shantal's Temptation Juice</h1>
+                            <p class="products__product_p mt-5">Shantal’s Temptation Juice is a delightful supplement
+                                designed for both men and women, offering a harmonious blend of natural ingredients that
+                                promote overall vitality and well-being. With the enriching benefits of glutathione,
+                                collagen, and Vitamin C, this invigorating not only supports beauty enhancement but also
+                                a tool in advocating a Healthy Sensuality. Crafted to enhance your inner glow and leave
+                                you feeling refreshed radiant, and content.</p>
+
+                            <div class="products__btn__container">
+                                <button class="products__btn__buy-now">Buy Now</button>
+                                <div class="products__btn__price">₱ 150.00</div>
+                            </div>
+                        </div>
+                    </div>
+                </swiper-slide>
+
+                <!-- Product 3 -->
+                <swiper-slide>
+                    <div class="row products__row">
+                        <div class="col-lg-6 col-12 d-flex align-items-center justify-content-center">
+                            <div class="products__wrapper">
+                                <img class="products__product-img-1"
+                                    src="<?php echo base_url('assets/images/home/product-3.webp'); ?>" alt="Collastem">
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-12 d-flex flex-column justify-content-center">
+                            <h1 class="products__product__title">Collastem
+                            </h1>
+                            <div class="d-flex flex-column gap-5 mt-5">
+                                <p class="products__product_p">COLLASTEM represents a groundbreaking innovation in the
+                                    realm of wellness supplements, offering a comprehensive blend of potent ingredients
+                                    designed to enhance vitality and promote overall health.</p>
+                                <p class="products__product_p">Collastem stands out not only for its potent blend of
+                                    ingredients but also for its versatility and convenience. With its delightful
+                                    strawberry essence, Collastem seamlessly integrates into any food or drink,
+                                    enriching your meals with nourishing goodness without compromising on taste. Whether
+                                    mixed into smoothies, shakes, or other beverages, Collastem offers a convenient way
+                                    to elevate your daily wellness routine.</p>
+                                <p class="products__product_p">
+                                    Moreover, Collastem eliminates the common issue of unpleasant aftertastes often
+                                    associated with supplements, ensuring a pleasant and enjoyable experience with every
+                                    use. By embracing Collastem, individuals can embark on a transformative journey
+                                    towards a healthier, more vibrant self, empowered by the fusion of science and
+                                    wellness encapsulated in this innovative supplement.
+                                </p>
+                            </div>
+
+                            <div class="products__btn__container">
+                                <button class="products__btn__buy-now">Buy Now</button>
+                                <div class="products__btn__price">₱ 150.00</div>
+                            </div>
+                        </div>
+                    </div>
+                </swiper-slide>
+            </swiper-container>
+        </div>
+    </section>
+    <section id="benefits-of-collastem">
+        <div class="container">
+            <header class="benefits-of-collastem__header">
+                <h1 class="benefits-of-collastem__title">Benefits of Collastem</h1>
+            </header>
+            <div class="row benefits-of-collastem__row g-5">
+                <div class="col-lg-6 col-12">
+                    <div class="benefits-of-collastem__card">
+                        <div class="d-flex justify-content-center">
+                            <h1 class="benefits-of-collastem__card__title">Collagen</h1>
+                        </div>
+                        <p class="benefits-of-collastem__card__p">As a primary structural protein in the body, collagen
+                            plays a crucial role in maintaining skin elasticity and firmness. By replenishing collagen
+                            levels, Collastem helps reduce the appearance of wrinkles and fine lines, promoting a more
+                            youthful complexion.</p>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-12">
+                    <div class="benefits-of-collastem__card">
+                        <div class="d-flex justify-content-center">
+                            <h1 class="benefits-of-collastem__card__title">Stemcell</h1>
+                        </div>
+                        <p class="benefits-of-collastem__card__p">Stem cells possess remarkable regenerative properties,
+                            capable of rejuvenating and revitalizing cells throughout the body. By harnessing the power
+                            of stem cells, Collastem supports cellular renewal, contributing to enhanced vitality and
+                            overall well-being.</p>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-12">
+                    <div class="benefits-of-collastem__card">
+                        <div class="d-flex justify-content-center">
+                            <h1 class="benefits-of-collastem__card__title">Stemcell</h1>
+                        </div>
+                        <p class="benefits-of-collastem__card__p">Known as the body’s master antioxidant, glutathione
+                            plays a vital role in neutralizing harmful free radicals and supporting detoxification
+                            processes. By bolstering glutathione levels, Collastem aids in protecting cells from
+                            oxidative stress, thereby fortifying the immune system and promoting overall health.</p>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-12">
+                    <div class="benefits-of-collastem__card">
+                        <div class="d-flex justify-content-center">
+                            <h1 class="benefits-of-collastem__card__title">Stemcell</h1>
+                        </div>
+                        <p class="benefits-of-collastem__card__p">Rich in essential nutrients such as omega-3 fatty
+                            acids, fiber, and various vitamins and minerals, chia seeds offer a host of health benefits.
+                            From aiding digestion to promoting heart health, the inclusion of nutrient-dense chia seeds
+                            in Collastem enhances its nutritional profile, ensuring comprehensive wellness support.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
 </main>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
 
 <!-- Modal -->
 <div class="modal fade" id="signup" data-bs-backdrop="static" tabindex="-1" aria-labelledby="signup" aria-hidden="true">
@@ -268,6 +450,19 @@
 </div>
 
 <script>
+const cards = document.querySelectorAll('.benefits-of-collastem__card');
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+        }
+    });
+});
+
+cards.forEach(card => {
+    observer.observe(card);
+});
 // Sign Up 
 $(document).ready(function() {
     var user_details_id = 0;
