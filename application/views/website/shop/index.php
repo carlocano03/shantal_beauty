@@ -106,7 +106,10 @@ $(document).ready(function() {
                 },
                 success: function(data) {
                     if (data.length === 0) {
-                        response([{ label: "No product found", value: "" }]);
+                        response([{
+                            label: "No product found",
+                            value: ""
+                        }]);
                     } else {
                         response(data);
                     }

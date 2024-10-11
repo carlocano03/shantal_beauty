@@ -1,7 +1,7 @@
 <main>
-    <section id="home">
+    <div id="home">
         <header class="py-2">
-            <nav class="navbar">
+            <nav class="navbar d-none d-lg-block">
                 <div class="navbar__container container">
                     <div class="navbar__right">
                         <img class="navbar__logo" src="<?php echo base_url('assets/images/home/shantal-logo.png'); ?>"
@@ -25,7 +25,41 @@
                 </div>
             </nav>
         </header>
-    </section>
+        <section class="home-section">
+            <div class="container">
+                <div class="row home-section__row gap-x-lg-5 align-items-lg-center">
+                    <div class="col-lg-6 col-12 d-lg-block d-flex flex-column align-items-center">
+                        <div class="home-section__text-top">Uncover Your Beauty With</div>
+                        <h1 class="home-section__title-1">Shantal's</h1>
+                        <h1 class="home-section__title-2">Beauty & Wellness</h1>
+                        <p class="home-section__p">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Porro vel
+                            laudantium, accusantium,
+                            necessitatibus incidunt alias molestiae ducimus doloribus voluptatibus cupiditate
+                            exercitationem
+                            veritatis in et ratione debitis laboriosam possimus, quisquam esse?</p>
+                        <button class="home-section__button" type="button"><i class="bi bi-cart2"></i> Order
+                            Now</button>
+                    </div>
+                    <div class="col-lg-6 col-12 d-flex align-items-center justify-content-center"
+                        style="position:relative">
+                        <img class="home-section__sparkling-1"
+                            src="<?php echo base_url('assets/images/home/sparkling.webp'); ?>" alt="Sparkling">
+                        <img class="home-section__sparkling-2"
+                            src="<?php echo base_url('assets/images/home/sparkling.webp'); ?>" alt="Sparkling">
+                        <div class="home-section__img-wrapper">
+                            <img class="home-section__img"
+                                src="<?php echo base_url('assets/images/home/shantal-pic-1.webp'); ?>"
+                                alt="Shantal Beauty">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <img class="home-section__ellipse-1" src="<?php echo base_url('assets/images/home/ellipse.png'); ?>"
+            alt="Ellipse">
+        <img class="home-section__ellipse-2" src="<?php echo base_url('assets/images/home/ellipse.png'); ?>"
+            alt="Ellipse">
+    </div>
 </main>
 
 <!-- Modal -->
@@ -130,7 +164,8 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="otpModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="login" aria-hidden="true">
+<div class="modal fade" id="otpModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="login"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content login_modal-content">
             <h1 class="login__title">Email Verification</h1>
@@ -201,7 +236,7 @@ $(document).ready(function() {
                         contentType: false,
                         processData: false,
                         dataType: "json",
-                        beforeSend: function () {
+                        beforeSend: function() {
                             $('.loading-screen').show();
                         },
                         success: function(data) {
@@ -227,10 +262,10 @@ $(document).ready(function() {
                                 $('#otpModal').modal('show');
                             }
                         },
-                        complete: function () {
+                        complete: function() {
                             $('.loading-screen').hide();
                         },
-                        error: function () {
+                        error: function() {
                             $('.loading-screen').hide();
                             Swal.fire({
                                 icon: 'error',
@@ -258,7 +293,7 @@ $(document).ready(function() {
                     '_token': csrf_token_value,
                 },
                 dataType: "json",
-                success: function (data) {
+                success: function(data) {
                     if (data.error != '') {
                         $('.message').html(data.error);
                         setTimeout(() => {
@@ -272,18 +307,22 @@ $(document).ready(function() {
                             $('#login').modal('show');
                             $('#otpModal').modal('hide');
                         }, 3000);
-                        
+
                     }
                 },
-				error: function () {
-                    $('.message').html('<div class="alert alert-danger"><i class="bi bi-info-circle-fill me-2"></i>An error occurred while processing the request.</div>');
+                error: function() {
+                    $('.message').html(
+                        '<div class="alert alert-danger"><i class="bi bi-info-circle-fill me-2"></i>An error occurred while processing the request.</div>'
+                    );
                     setTimeout(() => {
                         $('.message').html('');
                     }, 3000);
-				}
+                }
             });
         } else {
-            $('.message').html('<div class="alert alert-danger"><i class="bi bi-info-circle-fill me-2"></i>Please provide a valid OTP.</div>');
+            $('.message').html(
+                '<div class="alert alert-danger"><i class="bi bi-info-circle-fill me-2"></i>Please provide a valid OTP.</div>'
+            );
             setTimeout(() => {
                 $('.message').html('');
             }, 3000);
@@ -313,7 +352,7 @@ $(document).ready(function() {
                 beforeSend: function() {
                     $('.loading-screen').show();
                 },
-                success: function(data) { 
+                success: function(data) {
                     if (data.error != '') {
                         $('.error-message').html(data.error);
                         setTimeout(function() {
@@ -332,7 +371,9 @@ $(document).ready(function() {
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     console.error("AJAX request failed:", textStatus, errorThrown);
-                    $('.error-message').html('<div class="alert alert-danger p-2 text-dark text-sm">An error occurred while processing the request.</div>');
+                    $('.error-message').html(
+                        '<div class="alert alert-danger p-2 text-dark text-sm">An error occurred while processing the request.</div>'
+                    );
                 }
             });
         }
@@ -352,5 +393,4 @@ $(document).ready(function() {
         }
     });
 });
-
 </script>
