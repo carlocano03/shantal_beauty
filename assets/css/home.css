@@ -388,6 +388,33 @@ textarea {
 	color:var(--accent-2);
 }
 
+#mission-vision{
+	background-color:var(--accent-3);
+	padding:72px 0;
+}
+.mission-vision__card{
+	background-color:var(--secondary-white);
+	border-radius:8px;
+	box-shadow: rgba(99, 99, 99, 0.09) 0px 2px 8px 0px;
+	padding:24px;
+}
+.mission-vision__title{
+	font-family: "Playfair Display", serif;
+	font-size:3.2rem;
+	font-weight:bold;
+	text-align:center;
+	color:var(--accent-1);
+}
+.mission-vision__p{
+	font-size:1.6rem;
+	margin-top:16px;
+	text-align:center;
+	line-height:1.7;
+	color:var(--accent-2);
+
+
+
+}
 @media (max-width: 992px) {
 	#home{
 		height:auto;

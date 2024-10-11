@@ -107,6 +107,31 @@
             </div>
         </div>
     </section>
+
+    <section id="mission-vision">
+        <div class="container">
+            <div class="row  gap-lg-0 gap-5">
+                <div class="col-lg-6 col-12 d-flex align-items-stretch">
+                    <div class="mission-vision__card ">
+                        <h1 class="mission-vision__title">Mission</h1>
+                        <p class="mission-vision__p">Committed to enriching lives through wellness and beauty, our goal
+                            is to offer accessible and inventive solutions that foster self-care, confidence, and
+                            holistic health. We endeavor to craft a range of high quality products and tailored
+                            experiences, empowering individuals to embark on their beauty journey authentically, with
+                            well-being as its core.</p>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-12 d-flex align-items-stretch">
+                    <div class="mission-vision__card">
+                        <h1 class="mission-vision__title">Vision</h1>
+                        <p class="mission-vision__p">Our vision is to be a leading advocate for holistic beauty and
+                            wellness. Through transformative experiences, we aspire to inspire a global community to
+                            prioritize self-care and cultivate a positive confident sense of well-rounded beauty.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </main>
 
 <!-- Modal -->
