@@ -386,6 +386,67 @@
         </div>
     </section>
 
+    <footer id="footer">
+        <header class="footer__header">
+            <h1 class="footer__contact-us">Contact Us</h1>
+        </header>
+        <div class="container" style="position:relative; margin-top:48px;">
+            <div class="footer__bg-img"></div>
+            <div class="row g-4 footer__row">
+                <div class="col-lg-4 col-12">
+                    <div class="footer__card-wrapper">
+                        <div class="footer__circle">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="footer__card">
+                            <div class="footer__card__text">6 T Bugallon Marikina Heights Marikina City, Philippines
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-12">
+                    <div class="footer__card-wrapper">
+                        <div class="footer__circle">
+                            <i class="bi bi-telephone-fill"></i>
+                        </div>
+                        <div class="footer__card">
+                            <div class="footer__card__text">(046) 404-7213
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-12">
+                    <div class="footer__card-wrapper">
+                        <div class="footer__circle">
+                            <i class="bi bi-envelope-fill"></i>
+                        </div>
+                        <div class="footer__card">
+                            <div class="footer__card__text">info@shantalsbeautyandwellness.com
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="social-icons">
+                <div class="social-icon social-icon--active">
+                    <i class="fab fa-facebook-f"></i>
+                </div>
+                <div class="social-icon">
+                    <i class="fab fa-twitter"></i>
+                </div>
+                <div class="social-icon">
+                    <i class="fab fa-instagram"></i>
+                </div>
+                <div class="social-icon">
+                    <i class="fab fa-linkedin-in"></i>
+                </div>
+            </div>
+            <div class="footer__copyright">
+                © 2024 Shantalsbeautyandwellness.com
+            </div>
+        </div>
+    </footer>
+
 
 
 </main>
