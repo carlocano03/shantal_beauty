@@ -234,6 +234,7 @@ textarea {
 	background-color:var(--secondary-white);
 	border-radius:24px;
 	transition:all 0.3s ease;
+	cursor:pointer;
 
 }
 
@@ -244,6 +245,7 @@ textarea {
 	color:var(--secondary-white);
 	border-radius:24px;
 	transition:all 0.3s ease;
+	cursor:pointer;
 
 }
 
@@ -299,6 +301,7 @@ textarea {
 	font-weight:600;
 	padding:12px 24px;
 	margin-top:32px;
+	cursor:pointer;
 }
 .home-section__img-wrapper {
     position: relative;
@@ -468,6 +471,7 @@ textarea {
 	display:flex;
 	align-items:center;
 	gap:14px;
+	
 }
 .products__btn__buy-now{
 	background-color:var(--primary-black);
@@ -475,6 +479,7 @@ textarea {
 	font-size:1.6rem;
 	border-radius:24px;
 	padding:12px 32px;
+	cursor:pointer;
 }
 .products__btn__price{
 	font-size:18px;
@@ -691,28 +696,44 @@ textarea {
 }
 
 #footer{
-	background-color: var(--primary-black);
     padding-top: 72px;
 	padding-bottom:32px;
+	position:relative;
+	overflow:hidden;
+}
+
+.footer__overlay{
+	position:absolute;
+	top:0;
+	bottom:0;
+	left:0;
+	right:0;
+	background-color: rgba(0, 0, 0, 0.8);
+    z-index: 10;
+
 }
 
 .footer__bg-img {
-    position: absolute;
+	position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-image: url('/assets/images/home/coffee-img.webp');
-    background-position: center; 
-    background-repeat: no-repeat; 
-    background-size: cover; 
-    width: 100%;
-    height: 100%;
-    z-index: 10;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+	z-index:8;
+	height:100%;
+	width:100%;
+	object-fit:cover;
 }
+
 .footer__header{
 	display:flex;
 	justify-content:center;
+	position:relative;
+    z-index: 100;
+
 }
 .footer__contact-us{
 	color:var(--secondary-white);
@@ -833,8 +854,8 @@ textarea {
 	.media__card__container{
 		display:flex;
 		flex-direction:column;
-		justify-content:center;
-		align-item:center;
+		align-items:center;
+		
 	
 	}
 	.media__img-1{

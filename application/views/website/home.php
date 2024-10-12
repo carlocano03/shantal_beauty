@@ -387,11 +387,15 @@
     </section>
 
     <footer id="footer">
+        <img class="footer__bg-img" src="<?php echo base_url('assets/images/home/coffee-img.webp'); ?>"
+            alt="coffee"></img>
+        <div class="footer__overlay"></div>
         <header class="footer__header">
             <h1 class="footer__contact-us">Contact Us</h1>
         </header>
-        <div class="container" style="position:relative; margin-top:48px;">
-            <div class="footer__bg-img"></div>
+
+        <div class="container" style="margin-top:48px; position:relative; z-index:100;">
+
             <div class="row g-4 footer__row">
                 <div class="col-lg-4 col-12">
                     <div class="footer__card-wrapper">
