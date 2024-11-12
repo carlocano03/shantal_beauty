@@ -49,6 +49,13 @@ class Main extends MY_Controller
         $this->load->view('website/partial/_header', $data);
         $this->load->view('website/news', $data);
         $this->load->view('website/partial/_footer', $data);
+    }
+	public function news_detail()
+    {
+        $data['title'] = 'Shantal`s Shop';
+        $this->load->view('website/partial/_header', $data);
+        $this->load->view('website/news-detail', $data);
+        $this->load->view('website/partial/_footer', $data);
 
     }
 

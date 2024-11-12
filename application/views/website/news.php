@@ -1,4 +1,111 @@
 <style>
+:root {
+    --gold: #D4AF37;
+    --light-gold: #F4E4BC;
+    --dark-gold: #996515;
+    --black: #1A1A1A;
+    --gray: #333333;
+    --light-gray: #F5F5F5;
+}
+
+body {
+    height: 100%;
+    width: 100%;
+    color: var(--black);
+    font-family: 'Lato', sans-serif;
+    line-height: 1.6;
+    background-color: #FFFFFF;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+}
+
+/* Navigation Styles */
+.navbar {
+    background-color: var(--black);
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+    padding: 15px 0;
+}
+
+.navbar-brand {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--gold) !important;
+    letter-spacing: 1px;
+}
+
+.news__navbar {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    gap: 40px;
+
+}
+
+.navbar__item {
+    color: #ffffff;
+    font-size: 1.3rem;
+
+}
+
+@media (max-width: 992px) {
+    .news__navbar {
+        margin-top: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        align-items: start;
+    }
+
+}
+
+
+.page-header {
+    background: linear-gradient(135deg, var(--black) 0%, var(--gray) 100%);
+    padding: 7.2rem 0 6rem 0;
+    color: white;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.page-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(45deg,
+            var(--gold) 0%,
+            var(--gold) 1%,
+            transparent 1%,
+            transparent 50%);
+    opacity: 0.1;
+    background-size: 10px 10px;
+}
+
+.featured-badge {
+    background-color: var(--gold);
+    color: var(--black);
+    padding: 8px 20px;
+    border-radius: 25px;
+    display: inline-block;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    box-shadow: 0 3px 10px rgba(212, 175, 55, 0.3);
+}
+
+.hero-image {
+    width: 100%;
+    height: 600px;
+    object-fit: cover;
+    border-radius: 15px;
+    margin-bottom: 2rem;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
 .gradient-text {
     background: linear-gradient(135deg, #000000 0%, #C59A49 100%);
     -webkit-background-clip: text;
@@ -85,30 +192,45 @@
 .beauty-tip-card:hover {
     transform: translateX(5px);
 }
+
+.news__read-more {
+    font-size: 1.4rem;
+    color: #000000;
+    transition: all 0.3s ease;
+}
+
+.news__read-more:hover {
+    opacity: 0.5;
+}
 </style>
 <!-- Header Section -->
-<div class="animated-gradient product-list__top">
-    Find Your Perfect Beauty Products and Shop Today
-</div>
-<div>
-    <div class="product-list__header">
-        <div class="product-list__header__title">Shantals Beauty and Wellness</div>
-        <div class="search-container">
-            <div class="input-group">
-                <input type="text" class="search-input" placeholder="Search...">
-                <div class="search-icon"><i class="bi bi-search search-icon"></i></div>
-            </div>
-        </div>
-        <div>
-            <div class="product-list__header__title" style="visibility:hidden;">Shantals Beauty and Wellness</div>
-            <i class="bi bi-facebook facebook-icon"></i>
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+        <a href="<?php echo base_url('/'); ?>">
+            <img class="navbar__logo" src="<?php echo base_url('assets/images/home/shantal-logo.png'); ?>"
+                alt="Shantal Beauty">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="news__navbar ms-auto">
+                <li class="navbar__item"><a href="<?php echo base_url('/'); ?>">Home</a></li>
+                <li class="navbar__item"><a href="<?php echo base_url('/products'); ?>">Products</a></li>
+                <li class="navbar__item"><a href="<?php echo base_url('/news'); ?>" class="nav-active">News</a></li>
+            </ul>
         </div>
     </div>
-</div>
+</nav>
+<header class="page-header" style="margin-top: 64px;">
+    <div class="container">
+        <h1 class="display-4 fw-bold">Latest News</h1>
+    </div>
+</header>
 
 <!-- Main Content -->
-<main class="py-5">
-    <div class="container">
+<main class="py-5 my-5">
+    <div class="container py-5">
         <!-- Featured Post -->
         <section class="mb-5">
             <div class="featured-post shadow-sm">
@@ -151,7 +273,8 @@
                                 and
                                 tips.
                             </p>
-                            <a href="#" class="text-primary fs-5 text-decoration-none">Read More →</a>
+                            <a href="#" class="news__read-more text-decoration-none">Read More →</a>
+
 
                         </div>
                     </div>
@@ -167,8 +290,7 @@
                                 and
                                 tips.
                             </p>
-                            <a href="#" class="text-primary fs-5 text-decoration-none">Read More →</a>
-
+                            <a href="#" class="text-decoration-none news__read-more">Read More →</a>
                         </div>
                     </div>
                 </div>
@@ -183,36 +305,9 @@
                                 and
                                 tips.
                             </p>
-                            <a href="#" class="text-primary fs-5 text-decoration-none">Read More →</a>
+                            <a href="#" class="news__read-more text-decoration-none">Read More →</a>
 
                         </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Beauty Tips Section -->
-        <section class="mb-5">
-            <h2 class="section-title mb-4">Beauty Tips</h2>
-            <div class="row g-4 mt-4">
-                <div class="col-md-6">
-                    <div class="beauty-tip-card p-4 shadow-sm">
-                        <div class="d-flex align-items-center mb-3">
-                            <i class="bi bi-lightbulb text-primary me-2"></i>
-                            <h1 class="fs-4 mb-0">Daily Skincare Routine</h1>
-                        </div>
-                        <p class="text-muted mb-0 fs-5">Follow our step-by-step guide for a perfect morning skincare
-                            routine that will keep your skin glowing all day.</p>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="beauty-tip-card p-4 shadow-sm">
-                        <div class="d-flex align-items-center mb-3">
-                            <i class="bi bi-star text-primary me-2"></i>
-                            <h1 class="fs-4 mb-0">Makeup Application Tips</h1>
-                        </div>
-                        <p class="text-muted mb-0 fs-5">Professional makeup artists share their secrets for flawless
-                            makeup application.</p>
                     </div>
                 </div>
             </div>

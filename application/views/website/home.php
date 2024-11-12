@@ -317,7 +317,7 @@
         </div>
     </section>
 
-    <section id="media">
+    <!-- <section id="media">
         <div class="container">
             <header class="media__header">
                 <h1 class="media__title">Media</h1>
@@ -366,7 +366,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
 
     <!-- <section id="app-showcase">
         <div class="container">
