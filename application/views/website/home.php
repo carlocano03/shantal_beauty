@@ -6,12 +6,13 @@
                     <div class="navbar__right">
                         <img class="navbar__logo" src="<?php echo base_url('assets/images/home/shantal-logo.png'); ?>"
                             alt="Shantal Beauty">
-                        <ul class="navbar__items">
+                        <ul class="navbar__items" style="position:relative; z-index:99999;">
                             <li class="navbar__item"><a href="#" class="nav-active">Home</a></li>
-                            <li class="navbar__item"><a href="/about">About</a></li>
-                            <li class="navbar__item"><a href="/product">Product</a></li>
-                            <li class="navbar__item"><a href="/mission-vision">Mission & Vision</a></li>
-                            <li class="navbar__item"><a href="/contact">Contact Us</a></li>
+                            <li class="navbar__item"><a href="#about-us">About</a></li>
+                            <li class="navbar__item"><a href="#mission-vision">Mission & Vision</a></li>
+                            <li class="navbar__item"><a href="#footer">Contact Us</a></li>
+                            <li class="navbar__item"><a href="<?php echo base_url('/products'); ?>">Products</a></li>
+                            <li class="navbar__item"><a href="<?php echo base_url('/news'); ?>">News</a></li>
                         </ul>
                     </div>
                     <div class="d-flex gap-4">
@@ -364,7 +365,7 @@
         </div>
     </section>
 
-    <section id="app-showcase">
+    <!-- <section id="app-showcase">
         <div class="container">
             <div class="row">
                 <div class="col-12 app-showcase__col">
@@ -384,7 +385,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
 
     <footer id="footer">
         <img class="footer__bg-img" src="<?php echo base_url('assets/images/home/coffee-img.webp'); ?>"
@@ -516,8 +517,67 @@
 </div>
 
 
-<!-- Modal -->
+<!-- Platform  -->
 <div class="modal fade" id="login" data-bs-backdrop="static" tabindex="-1" aria-labelledby="login" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content platform-modal-content">
+            <h1 class="platform__greeting">Ready to Shop?</h1>
+            <h1 class="platform__title">Choose Your Shopping Platform</h1>
+            <p class="platform__p">Select your preferred shopping platform to continue with your purchase.</p>
+
+            <div class="error-message"></div>
+            <div class="platform-options mt-4">
+                <!-- TikTok -->
+                <div class="platform-option">
+                    <input type="radio" class="btn-check" name="platform" id="tiktok" autocomplete="off" required>
+                    <label class="platform__button" for="tiktok">
+                        <img class="platform__logo" src="<?php echo base_url('assets/images/home/tiktok-logo.webp'); ?>"
+                            alt="Shantal Beauty">
+                        <span class="platform__name">TikTok Shop</span>
+                        <span class="platform__desc">Start shopping</span>
+                    </label>
+                </div>
+
+                <!-- Shopee -->
+                <div class="platform-option">
+                    <input type="radio" class="btn-check" name="platform" id="shopee" autocomplete="off">
+                    <label class="platform__button" for="shopee">
+                        <img class="platform__logo" src="<?php echo base_url('assets/images/home/shopee-logo.webp'); ?>"
+                            alt="Shantal Beauty">
+                        <span class="platform__name">Shopee</span>
+                        <span class="platform__desc">Start shopping</span>
+                    </label>
+                </div>
+
+                <!-- Lazada -->
+                <div class="platform-option">
+                    <input type="radio" class="btn-check" name="platform" id="lazada" autocomplete="off">
+                    <label class="platform__button" for="lazada">
+                        <img class="platform__logo" src="<?php echo base_url('assets/images/home/lazada-logo.webp'); ?>"
+                            alt="Shantal Beauty">
+                        <span class="platform__name">Lazada</span>
+                        <span class="platform__desc">Start shopping</span>
+                    </label>
+                </div>
+
+                <div class="col-12 mt-4">
+                    <button type="button" class="continue__button" disabled>Continue to Shop</button>
+                </div>
+
+                <hr>
+                <div class="col-12">
+                    <p class="platform__return">
+                        Changed your mind? <span type="button" class="return__link" data-bs-dismiss="modal">Go
+                            back</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Login -->
+<!-- <div class="modal fade" id="login" data-bs-backdrop="static" tabindex="-1" aria-labelledby="login" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content login_modal-content">
             <h1 class="login__greeting">Welcome Back!</h1>
@@ -555,7 +615,7 @@
             </form>
         </div>
     </div>
-</div>
+</div> -->
 
 <!-- Modal -->
 <div class="modal fade" id="otpModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="login"
@@ -799,6 +859,34 @@ $(document).ready(function() {
             event.preventDefault();
             event.stopPropagation();
             handleLogin();
+        }
+    });
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const platformInputs = document.querySelectorAll('input[name="platform"]');
+    const continueButton = document.querySelector('.continue__button');
+
+    platformInputs.forEach(input => {
+        input.addEventListener('change', function() {
+            continueButton.disabled = false;
+        });
+    });
+
+    continueButton.addEventListener('click', function() {
+        const selectedPlatform = document.querySelector('input[name="platform"]:checked').id;
+        switch (selectedPlatform) {
+            case 'tiktok':
+                window.open("https://www.tiktok.com/@shantalsbeauty2022");
+                break;
+            case 'shopee':
+                window.open("https://shopee.ph/shop/1214283852");
+                break;
+            case 'lazada':
+                window.open("https://www.lazada.com.ph/shop/s1fqxcpx/");
+                break;
         }
     });
 });
