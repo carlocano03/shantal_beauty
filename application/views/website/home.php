@@ -186,7 +186,8 @@
                                 </p>
                             </div>
                             <div class="products__btn__container">
-                                <button class="products__btn__buy-now">Buy Now</button>
+                                <button class="products__btn__buy-now" data-bs-toggle="modal"
+                                    data-bs-target="#login">Buy Now</button>
                                 <div class="products__btn__price">₱ 150.00</div>
                             </div>
                         </div>
@@ -212,7 +213,8 @@
                                 you feeling refreshed radiant, and content.</p>
 
                             <div class="products__btn__container">
-                                <button class="products__btn__buy-now">Buy Now</button>
+                                <button class="products__btn__buy-now" data-bs-toggle="modal"
+                                    data-bs-target="#login">Buy Now</button>
                                 <div class="products__btn__price">₱ 150.00</div>
                             </div>
                         </div>
@@ -251,7 +253,8 @@
                             </div>
 
                             <div class="products__btn__container">
-                                <button class="products__btn__buy-now">Buy Now</button>
+                                <button class="products__btn__buy-now" data-bs-toggle="modal"
+                                    data-bs-target="#login">Buy Now</button>
                                 <div class="products__btn__price">₱ 150.00</div>
                             </div>
                         </div>
