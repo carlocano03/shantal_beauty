@@ -604,7 +604,8 @@ cards.forEach(card => {
     observer.observe(card);
 });
 
-headerObserver.observe(header);
+// headerObserver.observe(header);
+
 // Sign Up 
 $(document).ready(function() {
     var user_details_id = 0;
