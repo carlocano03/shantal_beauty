@@ -35,12 +35,15 @@ html {
 html, body {
     height: 100%;
     width: 100%;
-	font-family: 'Lato', sans-serif;
-    line-height: 1.5;
+    color: #1A1A1A;
+    font-family: 'Lato', sans-serif;
+    line-height: 1.6;
+    background-color: #FFFFFF;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     scroll-behavior: smooth;
 }
+
 
 img, picture, video, canvas, svg {
     display: block;
@@ -93,7 +96,7 @@ textarea {
 
 /* CSS Variables  */
 :root {
-    --primary-black: #000000;
+    --primary-black: #1A1A1A;
     --primary-gold: #C59A49;
     --secondary-white: #ffffff;
     --secondary-light: #F5F5F5;
@@ -203,6 +206,7 @@ textarea {
 	border-radius:100%;
 	box-shadow: rgba(149, 157, 165, 0.1) 0px 8px 24px;
 	margin-right:28px;
+	cursor:pointer;
 }
 
 .navbar__items{
