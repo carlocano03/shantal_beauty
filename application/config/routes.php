@@ -66,6 +66,11 @@ $route['admin/voucher'] = 'admin_portal/main/voucher';
 $route['admin/pending-orders'] = 'admin_portal/main/pending_orders';
 $route['admin/list-orders'] = 'admin_portal/main/list_orders';
 $route['admin/order-details'] = 'admin_portal/main/order_details';
+$route['admin/manage-news'] = 'admin_portal/main/manage_news';
+$route['admin/manage-news/add-form'] = 'admin_portal/main/news_add_form';
+$route['admin/manage-news/view'] = 'admin_portal/main/view_news';
+
+
 
 $route['reseller'] = 'reseller/main/index';
 $route['reseller/dashboard'] = 'reseller/dashboard/index';

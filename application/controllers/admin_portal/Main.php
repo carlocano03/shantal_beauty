@@ -347,6 +347,73 @@ class Main extends MY_Controller
         $this->load->view('admin_portal/partial/_footer', $data);
     }
 
+    public function manage_news()
+    {
+        $data['role_permissions'] = $this->role_permissions();
+        $data['home_url'] = base_url('admin/dashboard');
+        $data['active_page'] = 'manage_news_page';
+        $data['card_title'] = 'Manage News';
+        $data['icon'] = 'bi bi-newspaper';
+        $data['header_contents'] = array(
+            '<link href="https://cdn.datatables.net/1.13.2/css/dataTables.bootstrap4.min.css" rel="stylesheet">',
+            '<script src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>',
+            '<script src="https://cdn.datatables.net/1.13.2/js/dataTables.bootstrap4.min.js"></script>',
+            '<script>
+                var csrf_token_name = "'.$this->security->get_csrf_token_name().'";
+                var csrf_token_value = "'.$this->security->get_csrf_hash().'";
+            </script>'
+        );
+	
+        $this->load->view('admin_portal/partial/_header', $data);
+        $this->load->view('admin_portal/manage_news', $data);
+        $this->load->view('admin_portal/partial/_footer', $data);
+    }
+
+    public function news_add_form()
+    {
+        $data['role_permissions'] = $this->role_permissions();
+        $data['home_url'] = base_url('admin/dashboard');
+        $data['active_page'] = 'manage_news_page';
+        $data['card_title'] = 'Manage News (Add Form)';
+        $data['icon'] = 'bi bi-newspaper';
+        $data['header_contents'] = array(
+            '<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.css" rel="stylesheet">',
+            '<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-bs4.min.js"></script>',
+            '<script>
+                var csrf_token_name = "'.$this->security->get_csrf_token_name().'";
+                var csrf_token_value = "'.$this->security->get_csrf_hash().'";
+            </script>'
+        );
+	
+        $this->load->view('admin_portal/partial/_header', $data);
+        $this->load->view('admin_portal/add_news_form', $data);
+        $this->load->view('admin_portal/partial/_footer', $data);
+    }
+
+    public function view_news()
+    {
+        $this->load->model('admin_portal/news_management_model');
+        $news_id = $this->cipher->decrypt($this->input->get('id'));
+        
+        $data['news'] = $this->news_management_model->get_row('news', array('news_id' => $news_id, 'status' => 0));
+        $data['posted_by'] = $this->news_management_model->get_row('admin_user_details', array('user_id' => $data['news']['user_id']));
+        $data['role_permissions'] = $this->role_permissions();
+        $data['home_url'] = base_url('admin/dashboard');
+        $data['active_page'] = 'manage_news_page';
+        $data['card_title'] = 'News Information';
+        $data['icon'] = 'bi bi-newspaper';
+        $data['header_contents'] = array(
+            '<script>
+                var csrf_token_name = "'.$this->security->get_csrf_token_name().'";
+                var csrf_token_value = "'.$this->security->get_csrf_hash().'";
+            </script>'
+        );
+	
+        $this->load->view('admin_portal/partial/_header', $data);
+        $this->load->view('admin_portal/view_news', $data);
+        $this->load->view('admin_portal/partial/_footer', $data);
+    }
+
     public function get_sidebar_count()
     {
         $reseller = $this->main_model->get_reseller_application();

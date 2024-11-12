@@ -44,17 +44,24 @@ class Online_order_model extends MY_Model
 
     public function count_all_pending()
     {
-        $status = $this->input->post('status');
         $this->db->from($this->order_details);
-        $this->db->where('order_status', $status);
+        if ($this->input->post('status')) {
+            $this->db->where('order_status', $this->input->post('status'));
+        } else {
+            $this->db->where('order_status !=', 'Pending');
+        }
         return $this->db->count_all_results();
     }
 
     private function _get_pending_orders_query()
     {
-        $status = $this->input->post('status');
         $this->db->from($this->order_details);
-        $this->db->where('order_status', $status);
+        if ($this->input->post('status')) {
+            $this->db->where('order_status', $this->input->post('status'));
+        } else {
+            $this->db->where('order_status !=', 'Pending');
+        }
+        
         $i = 0;
         foreach ($this->order_details_search as $item) // loop column 
         {

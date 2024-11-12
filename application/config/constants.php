@@ -11,9 +11,6 @@ define("ADMINISTRATOR", 1);
 define("ADMIN_STAFF", 2);
 define("RESELLER_USER", 3);
 define("CUSTOMER", 4);
-define("PENDING_ORDER", 5);
-define("ORDERS", 6);
-
 
 //Permissions
 define("RESELLERS", 1);
@@ -22,6 +19,9 @@ define("USER_ACCT", 3);
 define("PRODUCT", 4);
 define("ACCOUNT_MANAGEMENT", 5);
 define("VOUCHER", 6);
+define("PENDING_ORDER", 7);
+define("ORDERS", 8);
+define("MANAGE_NEWS", 9);
 /*
 |--------------------------------------------------------------------------
 | Display Debug backtrace

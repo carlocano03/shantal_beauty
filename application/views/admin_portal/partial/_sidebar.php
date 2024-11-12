@@ -13,6 +13,7 @@
     $order = FALSE;
     $pending = FALSE;
     $list_order = FALSE;
+    $news = FALSE;
 
     if ($active_page == 'dashboard_page') {
         $dashboard = TRUE;
@@ -39,6 +40,8 @@
     } elseif ($active_page == 'order_page') {
         $order = TRUE;
         $list_order = TRUE;
+    } elseif ($active_page == 'manage_news_page') {
+        $news = TRUE;
     }
 
 
@@ -360,6 +363,13 @@
                         </div>
                     </div>
                     <!-- End -->
+                    <li class="menu-item ">
+                        <a href="<?= base_url('admin/manage-news');?>"
+                            class="<?= ($news) ? 'menu-link-active' : '';?> menu-link">
+                            <i class="menu-icon tf-icons bi bi-newspaper"></i>
+                            <div data-i18n="Analytics">Manage News</div>
+                        </a>
+                    </li>
                 <!-- END OF ADMINISTRATOR -->
 
 
@@ -551,6 +561,16 @@
                     </div>
                     <?php endif;?>
                     <!-- End -->
+
+                    <?php if (in_array(MANAGE_NEWS, $role_permissions)): ?>
+                    <li class="menu-item ">
+                        <a href="<?= base_url('admin/manage-news');?>"
+                            class="<?= ($news) ? 'menu-link-active' : '';?> menu-link">
+                            <i class="menu-icon tf-icons bi bi-newspaper"></i>
+                            <div data-i18n="Analytics">Manage News</div>
+                        </a>
+                    </li>
+                    <?php endif;?>
 
                 <!-- END OF ADMIN STAFF -->
 

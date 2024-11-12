@@ -196,7 +196,8 @@ table td {
 .page-item.active .page-link {
   z-index: 3;
   color: #fff;
-  background: linear-gradient(to right, #434875, #b18647);
+  /* background: linear-gradient(to right, #434875, #b18647); */
+  background: #000000 !important;
 }
 
 .table tbody tr:last-child td {
