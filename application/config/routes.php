@@ -81,6 +81,10 @@ $route['reseller/my-commission'] = 'reseller/dashboard/my_commission';
 $route['reseller/my-commission/order-details'] = 'reseller/dashboard/order_details';
 
 
+$route['products'] = 'main/products';
+$route['news'] = 'main/news';
+
+
 $route['shop'] = 'shop/main/index';
 $route['shop/best-sellers'] = 'shop/main/best_sellers';
 $route['shop/sales-offers'] = 'shop/main/sales_offers';
