@@ -19,7 +19,7 @@
                         <a href="<?php echo base_url('/reseller'); ?>" class="navbar__button__reseller">
                             Reseller
                         </a>
-                        <button type="button" data-bs-toggle="modal" data-bs-target="#login"
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#platform"
                             class="navbar__button__shop">Shop
                             Now</button>
                     </div>
@@ -186,7 +186,8 @@
                                 </p>
                             </div>
                             <div class="products__btn__container">
-                                <button class="products__btn__buy-now">Buy Now</button>
+                                <button class="products__btn__buy-now" data-bs-toggle="modal"
+                                    data-bs-target="#platform">Buy Now</button>
                                 <div class="products__btn__price">₱ 150.00</div>
                             </div>
                         </div>
@@ -212,7 +213,8 @@
                                 you feeling refreshed radiant, and content.</p>
 
                             <div class="products__btn__container">
-                                <button class="products__btn__buy-now">Buy Now</button>
+                                <button class="products__btn__buy-now" data-bs-toggle="modal"
+                                    data-bs-target="#platform">Buy Now</button>
                                 <div class="products__btn__price">₱ 150.00</div>
                             </div>
                         </div>
@@ -251,7 +253,8 @@
                             </div>
 
                             <div class="products__btn__container">
-                                <button class="products__btn__buy-now">Buy Now</button>
+                                <button class="products__btn__buy-now" data-bs-toggle="modal"
+                                    data-bs-target="#platform">Buy Now</button>
                                 <div class="products__btn__price">₱ 150.00</div>
                             </div>
                         </div>
@@ -518,7 +521,8 @@
 
 
 <!-- Platform  -->
-<div class="modal fade" id="login" data-bs-backdrop="static" tabindex="-1" aria-labelledby="login" aria-hidden="true">
+<div class="modal fade" id="platform" data-bs-backdrop="static" tabindex="-1" aria-labelledby="platform"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content platform-modal-content">
             <h1 class="platform__greeting">Ready to Shop?</h1>
