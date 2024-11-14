@@ -41,8 +41,9 @@
                     <div id="card__login" class="auth-page__cta">
                         <div class="auth-page__cta__card">
                             <h1 class="auth-page__cta__card__signup-title">Log In</h1>
-                            <p class="auth-page__cta__card__signup-sub">Lorem ipsum dolor, sit amet consectetur
-                                adipisicing elit. A voluptatum</p>
+                            <p class="auth-page__cta__card__signup-sub">
+                                Access your account to manage your settings, view updates, and explore more features.
+                            </p>
 
                             <div class="error-message"></div>
                             <form id="auth-page__cta__loginForm" class="row g-3 mt-3 needs-validation" novalidate>
@@ -81,8 +82,9 @@
                                 <h1 class="auth-page__cta__card__signup-status" type="button" data-bs-toggle="modal"
                                     data-bs-target="#checkStatus">Check Application Status</h1>
                             </div>
-                            <p class="auth-page__cta__card__signup-sub">Lorem ipsum dolor, sit amet consectetur
-                                adipisicing elit. A voluptatum</p>
+                            <p class="auth-page__cta__card__signup-sub">
+                                Create your account to join our community and start exploring all the features.
+                            </p>
 
                             <div
                                 class="auth-page__cta__indicator-container d-flex justify-content-between align-items-center">

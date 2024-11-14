@@ -1096,6 +1096,18 @@ textarea {
     color: #3b5998;
 }
 
+.instagram-icon {
+    font-size: 1.75rem;
+    color: #f30f66;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.instagram-icon:hover {
+    transform: scale(1.1);
+    color: #f52c79;
+}
+
 @media (max-width: 768px) {
     .product-list__header {
         flex-direction: column;

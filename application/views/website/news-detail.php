@@ -313,6 +313,15 @@ body {
     font-size: 1.2rem;
 
 }
+
+.product-description {
+    display: -webkit-box;          /* Enables the box layout for ellipsis */
+    -webkit-line-clamp: 3;         /* Limits to 3 lines */
+    -webkit-box-orient: vertical;  /* Specifies vertical box orientation */
+    overflow: hidden;              /* Hides overflow content */
+    width: 375px;
+    text-align: justify;
+}
 </style>
 
 <!-- Navigation -->
@@ -346,105 +355,53 @@ body {
     <!-- Main Article -->
     <article class="mb-5">
         <span class="featured-badge">Featured Collection</span>
-        <h1 class="display-4 mb-4 fw-bold">New Collection Launch: Summer Radiance 2024</h1>
+        <h1 class="display-4 mb-4 fw-bold"><?= isset($news->news_title) ? ucwords($news->news_title) : '';?></h1>
 
         <!-- Author Section -->
         <div class="row gx-5">
             <div class="col-lg-8">
-                <img src="https://webmanager.raksotravel.com/Images/upload/event_manager/10041_banner.jpg"
+                <?php
+                    $img = base_url()."assets/images/logo.png";
+                    if(!empty($news->news_image)){
+                        if(file_exists('./assets/uploaded_file/news/'.$news->news_image)){
+                            $img = base_url()."assets/uploaded_file/news/".$news->news_image;
+                        }
+                    }
+                ?>
+                <img src="<?= $img;?>"
                     alt="Shantal Beauty" class="news-detail__hero-image">
 
                 <div class="author-section d-flex align-items-center mb-4">
-                    <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" alt="Author"
+                    <img src="<?= base_url('assets/images/logo.png')?>" alt="Author"
                         class="author-image me-3">
                     <div>
-                        <h5 class="mb-1 author__name">Written by Jake Castor</h5>
-                        <p class="text-muted mb-0 author__publish">Published on May 15, 2024</p>
+                        <h5 class="mb-1 author__name"><?= isset($news->author) ? 'Written by '.ucwords($news->author) : '';?></h5>
+                        <p class="text-muted mb-0 author__publish"><?= isset($news->date_created) ? 'Published on '.date('D M j, Y H:i A', strtotime($news->date_created)) : '';?></p>
                     </div>
                 </div>
-                <p class="lead fs-4 mb-4" style="font-weight:500">
-                    Discover our latest collection Lorem ipsum dolor sit amet consectetur adipisicing elit. A
-                    accusantium dolorem omnis aperiam vero soluta dolor inventore pariatur impedit eveniet!
-                </p>
-
                 <div class="content fs-5">
                     <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde, iure? Nam aut placeat, facere
-                        incidunt vel voluptates amet eum dolorem. Animi dolores laboriosam facilis nobis odit quos
-                        similique architecto amet culpa ducimus alias exercitationem eum repellendus aliquam sint vitae
-                        in quisquam illum, ad recusandae quod. Eius nihil in cumque a totam quos corporis voluptas,
-                        nostrum eos eligendi autem eum blanditiis animi et. Beatae assumenda ad commodi sunt rem,
-                        dignissimos suscipit nesciunt a nisi temporibus totam quia voluptatibus, ipsa quidem iusto
-                        perspiciatis quo deleniti odio eligendi. Mollitia rerum repudiandae voluptates alias ipsam ex
-                        soluta odit amet est? Dolores quas ipsa enim!
-                    </p>
-
-                    <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo, quia iste nobis distinctio
-                        aliquid enim libero totam consectetur nemo et soluta saepe cupiditate suscipit eveniet fuga
-                        fugiat ex nihil fugit?
+                        <?= isset($news->content) ? $news->content : '';?>
                     </p>
                 </div>
 
                 <!-- Social Share -->
                 <div class="social-share">
                     <h5 class="fw-bold mb-3">Share this article</h5>
-                    <div class="d-flex align-items-center gap-4">
+                    <div class="d-flex align-items-center gap-4" style="cursor: pointer;" title="Click to copy the link">
                         <div onclick="copyLink()"><i class="fa-solid fa-globe fs-4"></i></div>
                     </div>
                 </div>
             </div>
 
             <!-- Sidebar -->
-            <div class="col-lg-4">
-                <div class="product-card mb-4">
-                    <div class="product-image-container">
-                        <img class="product-image" src="<?php echo base_url('assets/images/home/product-1.webp'); ?>"
-                            alt="Shantal Beauty">
-                    </div>
-                    <div class="product-info">
-                        <div class="product-category">Temptation Juice</div>
-                        <h3 class="product-name">Shantal's Temptation Coffee</h3>
-                        <p class="product-description">Shantal’s Temptation Coffee, a blend of rich aroma
-                            and
-                            smooth
-                            flavor crafted with the finest
-                            natural ingredients to awaken your senses.</p>
-                        <div class="product-meta">
-                            <div class="product-price">₱5,000</div>
-                        </div>
-                        <a href="<?php echo base_url('/products'); ?>">
-                            <button class="buy-now">Shop Now</button>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="product-image-container">
-                        <img class="product-image" src="<?php echo base_url('assets/images/home/product-1.webp'); ?>"
-                            alt="Shantal Beauty">
-                    </div>
-                    <div class="product-info">
-                        <div class="product-category">Temptation Juice</div>
-                        <h3 class="product-name">Shantal's Temptation Coffee</h3>
-                        <p class="product-description">Shantal’s Temptation Coffee, a blend of rich aroma
-                            and
-                            smooth
-                            flavor crafted with the finest
-                            natural ingredients to awaken your senses.</p>
-                        <div class="product-meta">
-                            <div class="product-price">₱5,000</div>
-                        </div>
-                        <a href="<?php echo base_url('/products'); ?>">
-                            <button class="buy-now">Shop Now</button>
-                        </a>
-                    </div>
-                </div>
+            <div class="col-lg-4" id="featured-product">
+                <!-- AJAX REQUEST -->
             </div>
 
         </div>
     </article>
-    <section>
+    <!-- <section>
         <h1 class="mb-4 news-detail__related-news">Related News</h1>
         <div class="row">
             <div class="col-md-4 mb-4">
@@ -501,7 +458,7 @@ body {
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
 </div>
 
 <script>
@@ -520,4 +477,20 @@ function copyLink() {
         console.error('Failed to copy:', err);
     });
 }
+
+function get_product_featured() {
+    $.ajax({
+        url: "<?= base_url('website/news/get_featured_product')?>",
+        method: "GET",
+        dataType: "json",
+        success: function(data) {
+            $('#featured-product').html(data.featured_product);
+        }
+    }); 
+}
+
+$(document).ready(function() {
+    get_product_featured();
+});
+
 </script>
