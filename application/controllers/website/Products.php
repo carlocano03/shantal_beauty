@@ -82,6 +82,7 @@ class Products extends MY_Controller
                                     alt="Shantal Beauty">
                             </div>
                             <div class="product-info">
+                                <div class="product-category">NET WT. '.$list->net_weight.'</div>
                                 <h3 class="product-name">'.ucwords($list->product_name).'</h3>
                                 <p class="product-description" title="'.$list->description.'">
                                     '.$list->description.'
@@ -164,6 +165,54 @@ class Products extends MY_Controller
 
         $data['product_details'] = $output;
         $data['product'] = ucwords($list->product_name);
+        echo json_encode($data);
+    }
+
+    public function get_product_swiper()
+    {
+        $output = '';
+        $product = $this->product_model->get_product_swiper();
+        
+        foreach($product as $list) {
+            $img = base_url()."assets/images/logo.png";
+            if(!empty($list->main_product_img)){
+                if(file_exists('./assets/uploaded_file/uploaded_product/'.$list->main_product_img)){
+                    $img = base_url()."assets/uploaded_file/uploaded_product/".$list->main_product_img;
+                }
+            }
+
+            $output .= '
+                <swiper-slide>
+                    <div class=" row products__row">
+                        <div class="col-lg-6 col-12 d-flex align-items-center justify-content-center">
+                            <div class="products__wrapper">
+                                <img class="products__product-img-1"
+                                    src="'.$img.'"
+                                    alt="Shantals Temptation Coffee">
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-12">
+                            <h1 class="products__product__title">'.ucwords($list->product_name).'</h1>
+                            <div class="product-category">NET WT. '.$list->net_weight.'</div>
+                            <div class="d-flex flex-column gap-5 mt-5">
+                                <p class="products__product_p" style="text-align:justify;">
+                                    '.$list->description.'
+                                </p>
+                                
+                            </div>
+                            <div class="products__btn__container">
+                                <button class="products__btn__buy-now" data-bs-toggle="modal"
+                                    data-bs-target="#platform">Buy Now</button>
+                                <div class="products__btn__price">₱ '.number_format($list->selling_price,2).'</div>
+                            </div>
+                        </div>
+                    </div>
+                </swiper-slide>
+            ';
+
+        }
+
+        $data['product_swiper'] = $output;
         echo json_encode($data);
     }
 

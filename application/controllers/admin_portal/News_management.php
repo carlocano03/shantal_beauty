@@ -42,24 +42,38 @@ class News_management extends MY_Controller
         $news_image = $this->upload_news_image();
         $news_content = $this->input->post('news_content', true);
 
-        $checkNews = $this->news_management->check_existing_news($news_title);
-        if($checkNews > 0) {
-            $error = 'News already exist.';
+        // $checkNews = $this->news_management->check_existing_news($news_title);
+        // if($checkNews > 0) {
+        //     $error = 'News already exist.';
+        // } else {
+        //     $insert_news = array(
+        //         'user_id'       => $this->session->userdata('adminIn')['user_id'],
+        //         'news_title'    => $news_title,
+        //         'news_link'     => $news_link,
+        //         'content'       => $news_content,
+        //         'news_image'    => $news_image,
+        //         'date_created'  => date('Y-m-d H:i:s')
+        //     );
+        //     $result = $this->news_management->insert_news($insert_news);
+        //     if ($result == TRUE) {
+        //         $success = 'News successfully added.';
+        //     } else {
+        //         $error = 'Failed to add a news.';
+        //     }
+        // }
+        $insert_news = array(
+            'user_id'       => $this->session->userdata('adminIn')['user_id'],
+            'news_title'    => $news_title,
+            'news_link'     => $news_link,
+            'content'       => $news_content,
+            'news_image'    => $news_image,
+            'date_created'  => date('Y-m-d H:i:s')
+        );
+        $result = $this->news_management->insert_news($insert_news);
+        if ($result == TRUE) {
+            $success = 'News successfully added.';
         } else {
-            $insert_news = array(
-                'user_id'       => $this->session->userdata('adminIn')['user_id'],
-                'news_title'    => $news_title,
-                'news_link'     => $news_link,
-                'content'       => $news_content,
-                'news_image'    => $news_image,
-                'date_created'  => date('Y-m-d H:i:s')
-            );
-            $result = $this->news_management->insert_news($insert_news);
-            if ($result == TRUE) {
-                $success = 'News successfully added.';
-            } else {
-                $error = 'Failed to add a news.';
-            }
+            $error = 'Failed to add a news.';
         }
         $output = array(
             'error' => $error,
