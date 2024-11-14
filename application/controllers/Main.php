@@ -22,6 +22,8 @@ class Main extends MY_Controller
         $this->load->library('form_validation');
         $this->load->helper('language');
         $this->lang->load('common','english');
+        $this->load->library('cipher');
+        $this->load->model('website/news_model');
 
         $this->output->set_header("X-Robots-Tag: noindex");
         $this->output->set_header('Cache-Control: no-store, no-cache');
@@ -52,6 +54,9 @@ class Main extends MY_Controller
     }
 	public function news_detail()
     {
+        $news_id = $this->cipher->decrypt($this->input->get('id'));
+
+        $data['news'] = $this->news_model->get_news_details($news_id);
         $data['title'] = 'Shantal`s Shop';
         $this->load->view('website/partial/_header', $data);
         $this->load->view('website/news-detail', $data);

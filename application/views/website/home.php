@@ -437,13 +437,17 @@
             </div>
             <div class="social-icons">
                 <div class="social-icon social-icon--active">
-                    <i class="fab fa-facebook-f"></i>
+                    <a href="https://www.facebook.com/ShantalsTemptationBS?mibextid=LQQJ4d" target="_blank">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
                 </div>
                 <div class="social-icon">
                     <i class="fab fa-twitter"></i>
                 </div>
                 <div class="social-icon">
-                    <i class="fab fa-instagram"></i>
+                    <a href="https://www.instagram.com/shantalsbeautyandwellnesscorp/?igsh=a2xpczhxb3Y0Mzhz" target="_blank">
+                        <i class="fab fa-instagram"></i>
+                    </a>
                 </div>
                 <div class="social-icon">
                     <i class="fab fa-linkedin-in"></i>

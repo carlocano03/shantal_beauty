@@ -202,6 +202,14 @@ body {
 .news__read-more:hover {
     opacity: 0.5;
 }
+
+.news-description {
+    display: -webkit-box;          /* Enables the box layout for ellipsis */
+    -webkit-line-clamp: 3;         /* Limits to 3 lines */
+    -webkit-box-orient: vertical;  /* Specifies vertical box orientation */
+    overflow: hidden;              /* Hides overflow content */
+    width: 400px;
+}
 </style>
 <!-- Header Section -->
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
@@ -234,26 +242,8 @@ body {
         <!-- Featured Post -->
         <section class="mb-5">
             <div class="featured-post shadow-sm">
-                <div class="row g-0">
-                    <div class="col-md-6">
-                        <img src="https://webmanager.raksotravel.com/Images/upload/event_manager/10041_banner.jpg"
-                            alt="Featured Post" class="w-100 h-100 object-fit-cover">
-                    </div>
-                    <div class="col-md-6 p-4 p-lg-5">
-                        <span class="tag mb-3 d-inline-block">Featured</span>
-                        <h1 class="h1 mb-3">New Collection Launch: Summer Radiance 2024</h1>
-                        <p class="text-muted fs-5 mb-4">Discover our latest collection of summer-ready beauty products
-                            designed to give you that perfect sun-kissed glow while protecting your skin.</p>
-                        <p class="text-muted fs-5 mb-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum
-                            ab animi reiciendis quod ipsam nulla, unde, eaque quo minima, enim maxime sit sapiente ipsum
-                            maiores neque laborum temporibus similique vero. Fugit vel aspernatur rerum ratione quod quo
-                            ducimus a cumque.</p>
-                        <p class="text-muted fs-5 mb-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum
-                            ab animi reiciendis quod ipsam nulla, unde, eaque quo minima, enim maxime sit sapiente ipsum
-                            maiores neque laborum temporibus similique vero. Fugit vel aspernatur rerum ratione quod quo
-                            ducimus a cumque.</p>
-                        <a href="#" class="btn btn-primary ">Read More</a>
-                    </div>
+                <div class="row g-0" id="latest-news">
+                    <!-- AJAX REQUEST -->
                 </div>
             </div>
         </section>
@@ -261,55 +251,48 @@ body {
         <!-- Latest News Grid -->
         <section class="mb-5">
             <h2 class="section-title mb-4">Latest News</h2>
-            <div class="row g-4 mt-4">
-                <div class="col-md-4">
-                    <div class="news-card card shadow-sm">
-                        <img src="https://www.calyxta.com/wp-content/uploads/2019/03/summerbody1280x720.jpg"
-                            alt="News 3" class="card-img-top">
-                        <div class="card-body py-4">
-                            <span class="tag mb-2 d-inline-block">Makeup</span>
-                            <h1 class="fs-4 mb-3 mt-2">Spring Makeup Trends 2024</h1>
-                            <p class="text-muted fs-5 mt-0 mb-3">Get ready for spring with these trending makeup looks
-                                and
-                                tips.
-                            </p>
-                            <a href="#" class="news__read-more text-decoration-none">Read More →</a>
-
-
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="news-card card shadow-sm">
-                        <img src="https://www.calyxta.com/wp-content/uploads/2019/03/summerbody1280x720.jpg"
-                            alt="News 3" class="card-img-top">
-                        <div class="card-body py-4">
-                            <span class="tag mb-2 d-inline-block">Makeup</span>
-                            <h1 class="fs-4 mb-3 mt-2">Spring Makeup Trends 2024</h1>
-                            <p class="text-muted fs-5 mt-0 mb-3">Get ready for spring with these trending makeup looks
-                                and
-                                tips.
-                            </p>
-                            <a href="#" class="text-decoration-none news__read-more">Read More →</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="news-card card shadow-sm">
-                        <img src="https://www.calyxta.com/wp-content/uploads/2019/03/summerbody1280x720.jpg"
-                            alt="News 3" class="card-img-top">
-                        <div class="card-body py-4">
-                            <span class="tag mb-2 d-inline-block">Makeup</span>
-                            <h1 class="fs-4 mb-3 mt-2">Spring Makeup Trends 2024</h1>
-                            <p class="text-muted fs-5 mt-0 mb-3">Get ready for spring with these trending makeup looks
-                                and
-                                tips.
-                            </p>
-                            <a href="#" class="news__read-more text-decoration-none">Read More →</a>
-
-                        </div>
-                    </div>
-                </div>
+            <div class="row g-4 mt-4" id="news_list">
+                <!-- AJAX REQUEST -->
             </div>
+            <div class="pagination_link mt-3"></div>
         </section>
-</main
+    <div>
+</main>
+
+<script>
+    function getLatestNews() {
+        $.ajax({
+            url: "<?= base_url('website/news/get_latest_news')?>",
+            method: "GET",
+            dataType: "json",
+            success: function(data) {
+                $('#latest-news').html(data.latest_news);
+            }
+        });
+    }
+
+    function newsList(page) {
+        $('.loading-screen').show();
+        $.ajax({
+            url: "<?= base_url('website/news/get_news_list/')?>" + page,
+            method: "GET",
+            dataType: "json",
+            success: function(data) {
+                $('#news_list').html(data.news_list);
+                $('.pagination_link').html(data.links);
+            }
+        });
+    }
+
+    $(document).ready(function() {
+        getLatestNews();
+        newsList(0);
+
+        $(document).on('click', '.pagination a', function(event) {
+            event.preventDefault();
+            var page = $(this).attr('href').split('/').pop();
+            newsList(page);
+        });
+    });
+</script>
+
