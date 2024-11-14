@@ -70,4 +70,11 @@ class Product_model extends MY_Model
         return $query;
     }
 
+    function get_product_swiper()
+    {
+        $this->db->where('status', 0);
+        $query = $this->db->get('product');
+        return $query->result();
+    }
+
 }

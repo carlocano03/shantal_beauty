@@ -57,8 +57,8 @@ class Product_management extends MY_Controller
         $success = '';
         $redirectLink = '';
 
-        $product_name = preg_replace('/[^A-Za-z0-9\s]/', '', $this->input->post('product_name', true));
-        $product_desc = preg_replace('/[^A-Za-z0-9\s,._-]/', '', $this->input->post('product_desc', true));
+        $product_name = $this->input->post('product_name', true);
+        $product_desc = $this->input->post('product_desc', true);
         $net_weight = $this->input->post('net_weight', true);
         $selling_price = str_replace(',','', $this->input->post('selling_price', true));
         $product_image = $this->upload_product_image();
@@ -101,8 +101,8 @@ class Product_management extends MY_Controller
         $success = '';
 
         $product_id = $this->input->post('product_id', true);
-        $product_name = preg_replace('/[^A-Za-z0-9\s]/', '', $this->input->post('product_name', true));
-        $product_desc = preg_replace('/[^A-Za-z0-9\s,._-]/', '', $this->input->post('product_desc', true));
+        $product_name = $this->input->post('product_name', true);
+        $product_desc = $this->input->post('product_desc', true);
         $net_weight = $this->input->post('net_weight', true);
         $selling_price = str_replace(',','', $this->input->post('selling_price', true));
         $options = $this->input->post('options', true);

@@ -91,7 +91,7 @@ body {
 
 .news-detail__hero-image {
     width: 100%;
-    height: 600px;
+    /* height: 600px; */
     object-fit: fit;
     border-radius: 15px;
     margin-bottom: 2rem;
